@@ -1,4 +1,4 @@
-# eacct-front
+# (Front-end) 일진 전자입찰 시스템
 
 ## 사전요건
 
