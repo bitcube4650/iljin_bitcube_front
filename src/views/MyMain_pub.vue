@@ -58,7 +58,7 @@
                             <h4>개인별 권한</h4>
                             <h5>개인별로 권한이 상이함</h5>
                         </li>
-                        <li class="ico06-07 card"><router-link to="/quickSetting">시스템관리</router-link></li>
+                        <li class="ico06-07 card"><router-link to="/codeMng">코드관리</router-link></li>
                     </ul>
                     <!--큌메뉴 설정 6개일 경우-->
                     <ul v-else class="quick-menu" >
