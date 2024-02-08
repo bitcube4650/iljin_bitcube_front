@@ -51,7 +51,7 @@
                             <a href="javascript:void(0)"><span><i class="fa-light fa-file-contract"></i></span>전자입찰</a>
                             <div class="depth2Lnb">
                                 <ul>
-                                    <li><a href="group_sub01_1.html">입찰계획</a></li>
+                                    <li><a href="bidProgress">입찰계획</a></li>
                                     <li><a href="group_sub01_2.html">입찰진행</a></li>
                                     <li><a href="group_sub01_3.html">입찰완료</a></li>
                                     <li><a href="group_sub01_4.html">입찰이력</a></li>
@@ -888,14 +888,15 @@
 import mixinSlip from '@/mixin/slip';
 import menual from '@/components/Menual.vue';
 import DhxGrid from '@/components/DhxGrid.vue';
-import router from '@/router';
+import router from '@/router.js';
 
 export default {
   name: 'MyMain',
   mixins: [ mixinSlip],
   components: {
     DhxGrid,
-    menual
+    menual,
+    router
   },
   data() {
     return {

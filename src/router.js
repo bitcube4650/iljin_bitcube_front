@@ -26,6 +26,13 @@ export default new Router({
             component: () =>
                 import ('./views/CodeMng.vue'),
         },
+
+        {
+            path: '/bidProgress',
+            name: 'bidProgress',
+            component: () =>
+                import ('./views/Bid_progress.vue'),
+        },
 //template[end]         
     ],
 });
