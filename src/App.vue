@@ -55,7 +55,7 @@
     import Menu from "@/components/Menu.vue";
     import Swiper from "@/components/Swiper.vue";
     import Login from "@/components/Login.vue";
-    import MyMain from "@/views/MyMain_pub.vue";
+    import MyMain from "@/views/Main.vue";
     import router from './router';
     // Import component
     import Loading from 'vue-loading-overlay';
@@ -196,6 +196,8 @@
             }
         },
         mounted() {
+
+            /* 기존소스
             // eslint-disable-next-line
             dhtmlx.image_path = "/dhtmlx/imgs/";
             // eslint-disable-next-line
@@ -263,6 +265,7 @@
             document.head.appendChild(link);
 
             this.$store.commit('finish');
+            */
         },
         watch: {
             '$route'(to, from) {

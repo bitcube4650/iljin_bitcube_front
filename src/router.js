@@ -18,7 +18,7 @@ export default new Router({
             path: '/',
             name: 'main',
             component: () =>
-                import ('./views/MyMain_pub.vue'),
+                import ('./views/Main.vue'),
         },
         {
             path: '/codeMng',

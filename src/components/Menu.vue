@@ -1,4 +1,82 @@
 <template>
+  <!-- conLeft -->
+  <div class="conLeftWrap">
+    <!-- 프로필 드롭다운2 -->
+    <div class="profileDropWrap2">
+        <a href="javascript:void(0)" class="profileDrop2">{{ this.$store.state.loginInfo.userName }} 님<i class="fa-solid fa-sort-down"></i></a>
+        <div class="profileDropMenu2">
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#piMody1" title="개인정보 수정"><i class="fa-light fa-gear"></i>개인정보 수정</a>
+            <a href="javascript:void(0)" data-toggle="modal" data-target="#pwMody1" title="비밀번호 변경"><i class="fa-light fa-lock-keyhole"></i>비밀번호 변경</a>
+            <a data-toggle="modal" data-target="#logout" title="로그아웃"><i class="fa-light fa-arrow-right-from-bracket"></i>로그아웃</a>
+        </div>
+    </div>
+    <!-- //프로필 드롭다운2 -->
+    <!-- 좌측 입찰상태 표시 -->
+    <div class="myState">
+        <div>진행중<a href="javascript:void(0)" class="myStateNum" title="전자입찰 페이지로 이동"><span>3</span>건</a></div>
+        <div>낙찰 (3개월)<a href="javascript:void(0)" class="myStateNum" title="전자입찰 페이지로 이동"><span>5</span>건</a></div>
+    </div>
+    <!-- //좌측 입찰상태 표시 -->
+    <!-- LNB -->
+    <ul class="conLeft">
+        <li class="depth2None active"><a href="javascript:void(0)"><span><i class="fa-light fa-desktop"></i></span>메인</a></li> <!-- 하위메뉴 없을 때 depth2None 추가 -->
+        <li>			
+            <a href="javascript:void(0)"><span><i class="fa-light fa-file-contract"></i></span>전자입찰</a>
+            <div class="depth2Lnb">
+                <ul>
+                    <li><a href="bidProgress">입찰계획</a></li>
+                    <li><a href="group_sub01_2.html">입찰진행</a></li>
+                    <li><a href="group_sub01_3.html">입찰완료</a></li>
+                    <li><a href="group_sub01_4.html">입찰이력</a></li>
+                </ul>
+            </div>
+        </li>
+        <li>			
+            <a href="javascript:void(0)"><span><i class="fa-light fa-bullhorn"></i></span>공지</a>
+            <div class="depth2Lnb">
+                <ul>
+                    <li><a href="group_sub02_1.html">공지사항</a></li>
+                    <li><a href="group_sub02_2.html">FAQ</a></li>
+                    <li><a href="">메뉴얼</a></li>
+                </ul>
+            </div>
+        </li>
+        <li>			
+            <a href="javascript:void(0)"><span><i class="fa-light fa-buildings"></i></span>업체정보</a>
+            <div class="depth2Lnb">
+                <ul>
+                    <li><a href="group_sub03_1.html">업체승인</a></li>
+                    <li><a href="group_sub03_2.html">업체관리</a></li>
+                </ul>
+            </div>
+        </li>
+        <li>			
+            <a href="javascript:void(0)"><span><i class="fa-light fa-chart-pie-simple"></i></span>통계</a>
+            <div class="depth2Lnb">
+                <ul>
+                    <li><a href="group_sub04_1.html">회사별 입찰실적</a></li>
+                    <li><a href="group_sub04_2.html">입찰실적 상세내역</a></li>
+                    <li><a href="group_sub04_3.html">입찰현황</a></li>
+                    <li><a href="group_sub04_4.html">입찰 상세내역</a></li>
+                </ul>
+            </div>
+        </li>
+        <li>			
+            <a href="javascript:void(0)"><span><i class="fa-light fa-memo-circle-info"></i></span>정보관리</a>
+            <div class="depth2Lnb">
+                <ul>
+                    <li><a href="group_sub05_1.html">사용자관리</a></li>
+                    <li><a href="group_sub05_2.html">품목정보관리</a></li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+    <!-- //LNB -->
+  </div>
+  <!-- //conLeft -->
+
+
+  <!-- 기존 소스
   <div class="lnb" style="z-index:7">
       <ul class="menu-depth01">
         <li v-for="(menuhead,i) in menuheads" :key="i">
@@ -22,6 +100,7 @@
         </li>
     </ul>
   </div>
+  -->
 </template>
 
 <script>
