@@ -489,6 +489,8 @@ export default {
         loginInfo.loginPw = 'Not Use';
         loginInfo.color = response.data.attribute2
 
+        console.log("user info");
+        console.log(response);
         if(!loginInfo.color){
           loginInfo.color = '/css/common.css'
         }

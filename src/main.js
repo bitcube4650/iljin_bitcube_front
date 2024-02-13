@@ -12,6 +12,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import VueZoomer from 'vue-zoomer'
+import commonJS from '../public/js/common.js'
 
 import './assets/common.scss'
 
@@ -31,6 +32,7 @@ Vue.use(VueSweetalert2);
 Vue.use(VueCookie);
 Vue.use(VueMomentJS, moment);
 Vue.use(VueZoomer);
+Vue.use(commonJS);
 
 /**
  * Regist global components

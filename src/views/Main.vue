@@ -3,30 +3,14 @@
     <div>
         <!-- wrap -->
         <div id="wrap">
-            <!-- header -->
-            <div class="header">
-                <div class="headerLeft">
-                    <a href="group_main.html" class="headerLogo" title="메인 페이지로 이동"><img src="/images/headerLogo.svg" class="img-responsive" alt="일진그룹 로고"><span>e-Bidding System</span></a>
-                    <p>편하고 빠른 전자입찰시스템</p>
-                </div>
-                <div class="headerRight">
-                    <!-- 프로필 드롭다운1 -->
-                    <div class="profileDropWrap">
-                        <a href="javascript:void(0)" class="profileDrop"><i class="fa-solid fa-circle-user"></i>{{ this.$store.state.loginInfo.userName }}님<i class="fa-solid fa-sort-down"></i></a><!--{{ this.$store.state.loginInfo.loginId }}-->
-                        <div class="profileDropMenu">
-                            <a href="javascript:void(0)" data-toggle="modal" data-target="#piMody1" title="개인정보 수정"><i class="fa-light fa-gear"></i>개인정보 수정</a>
-                            <a href="javascript:void(0)" data-toggle="modal" data-target="#pwMody1" title="비밀번호 변경"><i class="fa-light fa-lock-keyhole"></i>비밀번호 변경</a>
-                            <a data-toggle="modal" data-target="#logout" title="로그아웃"><i class="fa-light fa-arrow-right-from-bracket"></i>로그아웃</a>
-                        </div>
-                    </div>
-                    <!-- //프로필 드롭다운1 -->
-                </div> 
-            </div>
-            <!-- //header -->
-
+            <!--헤더-->
+            <Header />
+            <!--//헤더-->
             <!-- contentWrap -->
             <div class="contentWrap">
+                <!--메뉴-->
                 <Menu />
+                <!--//메뉴-->
                 <!-- conRightWrap -->
                 <div class="conRightWrap">
                     <!-- 본문 -->
@@ -119,14 +103,7 @@
                     <!-- //본문 -->
 
                     <!-- 서브 푸터 -->
-                    <div class="subFooter">
-                        © ILJIN ALL RIGHTS RESERVED.
-                        <div class="subFooterUtill">
-                            <a href="javascript:void(0)" title="공동인증서">공동인증서</a>
-                            <a href="javascript:void(0)" data-toggle="modal" data-target="#regProcess" title="업체등록절차">업체등록절차</a>
-                            <a href="javascript:void(0)" data-toggle="modal" data-target="#biddingInfo" title="입찰업무안내">입찰업무안내</a>
-                        </div>
-                    </div>
+                    <Footer />
                     <!-- //서브 푸터 -->
                 </div>
                 <!-- //conRightWrap -->
@@ -816,6 +793,8 @@ import menual from '@/components/Menual.vue';
 import DhxGrid from '@/components/DhxGrid.vue';
 import router from '@/router.js';
 import Menu from "@/components/Menu.vue";
+import Header from "@/components/Header.vue";
+import Footer from "@/components/Footer.vue";
 
 
 export default {
@@ -825,7 +804,9 @@ export default {
     DhxGrid,
     menual,
     router,
-    Menu
+    Menu,
+    Header,
+    Footer
   },
   data() {
     return {
@@ -872,8 +853,6 @@ export default {
       this.mainMenu();
       this.getStartDate();
 
-      this.applyPub();
-
   },
   methods: {
     getStartDate(){
@@ -902,12 +881,14 @@ export default {
     //로그아웃
     logout() {
 
+        $('#logout').modal('hide');//로그아웃 모달창 닫기
+
         this.$http
               .get('/logout')
               .then(() => {
                 this.$store.commit('logout');
-                this.$cookie.delete('loginInfo');
-                //this.$router.push({path: `/backOffice`});
+                this.$cookie.delete('loginInfo');//로그인 유저정보 삭제
+
               })
               .catch((e) => {
                 console.error(e);
@@ -1158,152 +1139,7 @@ export default {
         console.log("페이지이동", params)
         let targetName = (params.eaSlipNo === null || params.slipStatCd === '10') ? 'pExpense' : 'billSlipMng';
         this.$router.push({ name: targetName, params: params });
-    },
-    applyPub(){
-        //프로필 드롭다운 (헤더)
-        $('.profileDrop').click(function() {
-            $('.profileDropWrap').addClass('active');
-        });
-        $(document).mouseup(function (e){
-            var LayerPopup1 = $(".profileDropWrap");
-            if(LayerPopup1.has(e.target).length === 0){
-                LayerPopup1.removeClass("active");
-            }
-        });
-        //프로필 드롭다운 (LNB)
-        $('.profileDrop2').click(function() {
-            $('.profileDropWrap2').addClass('active');
-        });
-        $(document).mouseup(function (e){
-            var LayerPopup1 = $(".profileDropWrap2");
-            if(LayerPopup1.has(e.target).length === 0){
-                LayerPopup1.removeClass("active");
-            }
-        });
-
-        //LNB
-        $('.conLeft > li > a').click(function() {
-            $('.depth2Lnb').hide();
-            $(this).next('.depth2Lnb').fadeToggle();
-            $('.conLeft > li').removeClass('active');
-            $(this).parent('li').addClass('active');
-        });
-
-        //select
-        const label = document.querySelectorAll('.selLabel');
-        label.forEach(function(lb){
-            lb.addEventListener('click', e => {
-                let optionList = lb.nextElementSibling;
-                let optionItems = optionList.querySelectorAll('.optionItem');
-                clickLabel(lb, optionItems);
-            })
-        });
-        const clickLabel = (lb, optionItems) => {
-            if(lb.parentNode.classList.contains('active')) {
-                lb.parentNode.classList.remove('active');
-                optionItems.forEach((opt) => {
-                    opt.removeEventListener('click', () => {
-                        handleSelect(lb, opt)
-                    })
-                })
-            } else {
-                lb.parentNode.classList.add('active');
-                optionItems.forEach((opt) => {
-                    opt.addEventListener('click', () => {
-                        handleSelect(lb, opt)
-                    })
-                })
-                
-            }
-        }
-        const handleSelect = (label, item) => {
-            label.innerHTML = item.textContent;
-            label.parentNode.classList.remove('active');		
-            $('.selLabel').addClass('selAct');
-        }
-
-
-        //datepicker
-        $( function() {
-            $( ".datepicker" ).datepicker();
-        } );
-
-        $(".datepicker").datepicker({
-            changeMonth: true, 
-            changeYear: true,
-            minDate: '-50y',
-            nextText: '다음 달',
-            prevText: '이전 달',
-            yearRange: 'c-50:c+20',
-            currentText: '오늘 날짜',
-            closeText: '닫기',
-            dateFormat: "yy-mm-dd",
-            showAnim: "slide",
-            showMonthAfterYear: true, 
-            dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
-            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
-        });
-
-
-        //faq
-        $('.faq1').show();
-        $(".faqList > a").on("click", function (e) {
-            $('.faq1').hide();
-            e.preventDefault();
-            var filterValue = $(this).data("filter");
-            $(".faq_item_wrap div").removeClass("show");
-            $(filterValue).addClass("show");
-        });
-        //faq
-        $('.faq_item_wrap > div').click(function() {
-            $('.faq_item_wrap > div').removeClass('active');
-            $(this).addClass('active');
-        });
-
-        //tabStyle
-        $('.tabStyle > a').click(function() {
-            $('.tabStyle > a').removeClass("active");
-            $(this).addClass("active");
-        });
-
-
-
-        //modal
-        $(document).on('show.bs.modal', '.modal', function () {
-            // 현재 열린 모달의 개수
-            var visibleModals = $('.modal:visible');
-            
-            // 모달이 열릴 때마다 현재 열린 모달의 z-index를 가장 높게 조정
-            var zIndex = 1040 + (10 * visibleModals.length);
-            $(this).css('z-index', zIndex);
-            $('.modal-backdrop').not('.modal-stack').css('z-index', zIndex - 1);
-            $('.modal-dialog').css('z-index', zIndex + 1);
-
-            // 이전에 열린 모달에는 modal-stack 클래스 추가
-            visibleModals.not(this).addClass('modal-stack');
-        });
-
-        $(document).on('hidden.bs.modal', '.modal', function () {
-            // 모달이 닫힐 때 modal-stack 클래스를 제거
-            $('.modal:visible').removeClass('modal-stack');
-            
-            // 현재 열린 모달의 개수를 기준으로 z-index 값을 설정
-            var zIndex = 1040 + (10 * $('.modal:visible').length);
-            
-            // 최상위에 있는 모달의 z-index 값을 다시 설정
-            $('.modal:visible').last().css('z-index', zIndex);
-            
-            // 최상위에 있는 모달의 modal-backdrop과 modal-dialog의 z-index도 다시 설정
-            $('.modal-backdrop:visible').last().css('z-index', zIndex - 1);
-            $('.modal-dialog:visible').last().css('z-index', zIndex + 1);
-        });
-
-
-        //이미지맵 반응형
-        $('img[usemap]').rwdImageMaps();
-
     }
-    //////////////////////////////////////////////////////////////////
 
   },
 };
