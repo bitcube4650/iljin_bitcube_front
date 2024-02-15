@@ -17,17 +17,17 @@
           <div>낙찰 (3개월)<a href="javascript:void(0)" class="myStateNum" title="전자입찰 페이지로 이동"><span>5</span>건</a></div>
       </div>
       <!-- //좌측 입찰상태 표시 -->
-      <!-- 그룹사 -->
-      <ul v-if="company == 'group'" class="conLeft">
+      <!-- LNB -->
+      <ul class="conLeft">
           <li class="depth2None active"><a href="javascript:void(0)"><span><i class="fa-light fa-desktop"></i></span>메인</a></li> <!-- 하위메뉴 없을 때 depth2None 추가 -->
           <li>         
               <a href="javascript:void(0)"><span><i class="fa-light fa-file-contract"></i></span>전자입찰</a>
               <div class="depth2Lnb">
                   <ul>
-                      <li><a @click="routing">입찰계획</a></li>
-                      <li><a href="group_sub01_2.html">입찰진행</a></li>
-                      <li><a href="group_sub01_3.html">입찰완료</a></li>
-                      <li><a href="group_sub01_4.html">입찰이력</a></li>
+                      <li v-if="company == 'group'" ><a @click="routing">입찰계획</a></li>
+                      <li><a>입찰진행</a></li>
+                      <li><a >입찰완료</a></li>
+                      <li v-if="company == 'group'"><a>입찰이력</a></li>
                   </ul>
               </div>
           </li>
@@ -35,9 +35,9 @@
               <a href="javascript:void(0)"><span><i class="fa-light fa-bullhorn"></i></span>공지</a>
               <div class="depth2Lnb">
                   <ul>
-                      <li><a href="group_sub02_1.html">공지사항</a></li>
-                      <li><a href="group_sub02_2.html">FAQ</a></li>
-                      <li><a href="">메뉴얼</a></li>
+                      <li><a>공지사항</a></li>
+                      <li><a>FAQ</a></li>
+                      <li><a>메뉴얼</a></li>
                   </ul>
               </div>
           </li>
@@ -45,67 +45,36 @@
               <a href="javascript:void(0)"><span><i class="fa-light fa-buildings"></i></span>업체정보</a>
               <div class="depth2Lnb">
                   <ul>
-                      <li><a href="group_sub03_1.html">업체승인</a></li>
-                      <li><a href="group_sub03_2.html">업체관리</a></li>
+                      <li v-if="company == 'group'"><a>업체승인</a></li>
+                      <li v-if="company == 'group'"><a>업체관리</a></li>
+                      <li v-if="company == 'partner'"><a>업체승인</a></li>
+                      <li v-if="company == 'partner'"><a>업체관리</a></li>
                   </ul>
               </div>
           </li>
-          <li>         
+          <li v-if="company == 'group'">         
               <a href="javascript:void(0)"><span><i class="fa-light fa-chart-pie-simple"></i></span>통계</a>
               <div class="depth2Lnb">
                   <ul>
-                      <li><a href="group_sub04_1.html">회사별 입찰실적</a></li>
-                      <li><a href="group_sub04_2.html">입찰실적 상세내역</a></li>
-                      <li><a href="group_sub04_3.html">입찰현황</a></li>
-                      <li><a href="group_sub04_4.html">입찰 상세내역</a></li>
+                      <li><a>회사별 입찰실적</a></li>
+                      <li><a>입찰실적 상세내역</a></li>
+                      <li><a>입찰현황</a></li>
+                      <li><a>입찰 상세내역</a></li>
                   </ul>
               </div>
           </li>
-          <li>         
+          <li v-if="company == 'group'">         
               <a href="javascript:void(0)"><span><i class="fa-light fa-memo-circle-info"></i></span>정보관리</a>
               <div class="depth2Lnb">
                   <ul>
-                      <li><a href="group_sub05_1.html">사용자관리</a></li>
-                      <li><a href="group_sub05_2.html">품목정보관리</a></li>
+                      <li><a>사용자관리</a></li>
+                      <li><a>품목정보관리</a></li>
                   </ul>
               </div>
           </li>
       </ul>
-      <!-- //그룹사 -->
+      <!-- //LNB -->
 
-      <!--협력사-->
-      <ul v-else class="conLeft">
-        <li class="depth2None active"><a href="javascript:void(0)"><span><i class="fa-light fa-desktop"></i></span>메인</a></li> <!-- 하위메뉴 없을 때 depth2None 추가 -->
-        <li>			
-            <a href="javascript:void(0)"><span><i class="fa-light fa-file-contract"></i></span>전자입찰</a>
-            <div class="depth2Lnb">
-                <ul>
-                    <li><a href="partner_sub01_1.html">입찰진행</a></li>
-                    <li><a href="partner_sub01_2.html">입찰완료</a></li>
-                </ul>
-            </div>
-        </li>
-        <li>			
-            <a href="javascript:void(0)"><span><i class="fa-light fa-bullhorn"></i></span>공지</a>
-            <div class="depth2Lnb">
-                <ul>
-                    <li><a href="partner_sub02_1.html">공지사항</a></li>
-                    <li><a href="partner_sub02_2.html">FAQ</a></li>
-                    <li><a href="partner_sub02_3.html">메뉴얼</a></li>
-                </ul>
-            </div>
-        </li>
-        <li>			
-            <a href="javascript:void(0)"><span><i class="fa-light fa-buildings"></i></span>업체정보</a>
-            <div class="depth2Lnb">
-                <ul>
-                    <li><a href="partner_sub03_1.html">자사정보</a></li>
-                    <li><a href="partner_sub03_2.html">이용자관리</a></li>
-                </ul>
-            </div>
-        </li>
-    </ul>
-    <!--//협력사-->
     </div>
     <!-- //conLeft -->
   
