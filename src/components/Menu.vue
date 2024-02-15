@@ -24,7 +24,7 @@
             <a href="javascript:void(0)"><span><i class="fa-light fa-file-contract"></i></span>전자입찰</a>
             <div class="depth2Lnb">
                 <ul>
-                    <li><a href="bid/bidProgress">입찰계획</a></li>
+                    <li><a @click="routing">입찰계획</a></li>
                     <li><a href="group_sub01_2.html">입찰진행</a></li>
                     <li><a href="group_sub01_3.html">입찰완료</a></li>
                     <li><a href="group_sub01_4.html">입찰이력</a></li>
@@ -104,6 +104,7 @@
 </template>
 
 <script>
+import Vue from 'vue';
 
 export default {
   name: 'Menu',
@@ -135,6 +136,11 @@ export default {
                     return a.menuOrder < b.menuOrder ? -1 : a.menuOrder > b.smenuOrdereq ? 1 : 0;  
                 });
             });
+    },
+
+    routing(){
+        this.$router.push({name:"bidProgress"})
+        
     }
   },
   created() {

@@ -292,14 +292,13 @@
           </div>
           <!-- //contents -->
           <!-- 서브 푸터 -->
-                        <div class="footer">
+          <div class="footer">
             <Footer />
           </div>
         </div>
 
-          <!-- //서브 푸터 -->
+        <!-- //서브 푸터 -->
       </div>
-
     </div>
   </div>
 </template>

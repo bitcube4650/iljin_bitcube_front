@@ -29,7 +29,7 @@ export default new Router({
         },
         
         {
-            path: '/bid/bidProgress',
+            path: '/bid',
             name: 'bidProgress',
             component: () =>
                 import ('./modules/bid/views/Bid_progress.vue'),

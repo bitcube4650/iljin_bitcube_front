@@ -13,7 +13,7 @@
             <!--<Menu/>-->
             <!-- //lnb -->
             <!-- contents -->
-            <div class="contents">
+            <!-- <div class="contents"> -->
                 <!-- swiper-container -->
                 <!-- <Swiper/> -->
                 <!-- //swiper-container -->
@@ -27,7 +27,7 @@
                 <!-- <div class="footer">
                     © ILJIN ALL RIGHTS RESERVED.
                 </div> -->
-            </div>
+            <!-- </div> -->
         </div>
         <div class="vld-parent">
             <loading :active.sync="this.$store.state.isLoading" 
