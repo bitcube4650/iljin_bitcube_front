@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
+import bidRoutes from './modules/bid/router/router';
 
 Vue.use(Router);
 
@@ -26,13 +27,19 @@ export default new Router({
             component: () =>
                 import ('./views/CodeMng.vue'),
         },
-
+        
         {
-            path: '/bidProgress',
+            path: '/bid/bidProgress',
             name: 'bidProgress',
             component: () =>
-                import ('./views/Bid_progress.vue'),
+                import ('./modules/bid/views/Bid_progress.vue'),
+            // children: [
+            //     ...bidRoutes,
+            // ]
         },
+
+        
 //template[end]         
     ],
 });
+
