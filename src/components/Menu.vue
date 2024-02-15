@@ -5,8 +5,8 @@
     <div class="profileDropWrap2">
         <a href="javascript:void(0)" class="profileDrop2">{{ this.$store.state.loginInfo.userName }} 님<i class="fa-solid fa-sort-down"></i></a>
         <div class="profileDropMenu2">
-            <a href="javascript:void(0)" data-toggle="modal" data-target="#mody1" title="개인정보 수정"><i class="fa-light fa-gear"></i>개인정보 수정</a>
-            <a href="javascript:void(0)" data-toggle="modal" data-target="#mody1" title="비밀번호 변경"><i class="fa-light fa-lock-keyhole"></i>비밀번호 변경</a>
+            <a href="javascript:void(0)" data-toggle="modal" @click="infoOrPwd('info')" title="개인정보 수정"><i class="fa-light fa-gear"></i>개인정보 수정</a>
+            <a href="javascript:void(0)" data-toggle="modal" @click="infoOrPwd('pwd')" title="비밀번호 변경"><i class="fa-light fa-lock-keyhole"></i>비밀번호 변경</a>
             <a data-toggle="modal" data-target="#logout" title="로그아웃"><i class="fa-light fa-arrow-right-from-bracket"></i>로그아웃</a>
         </div>
     </div>
@@ -24,7 +24,7 @@
             <a href="javascript:void(0)"><span><i class="fa-light fa-file-contract"></i></span>전자입찰</a>
             <div class="depth2Lnb">
                 <ul>
-                    <li><a @click="routing">입찰계획</a></li>
+                    <li><a href="bid/bidProgress">입찰계획</a></li>
                     <li><a href="group_sub01_2.html">입찰진행</a></li>
                     <li><a href="group_sub01_3.html">입찰완료</a></li>
                     <li><a href="group_sub01_4.html">입찰이력</a></li>
@@ -104,7 +104,6 @@
 </template>
 
 <script>
-import Vue from 'vue';
 
 export default {
   name: 'Menu',
@@ -116,6 +115,10 @@ export default {
     };
   },
   methods: {
+    infoOrPwd(keyword){
+        this.$emit('infoOrPwd', keyword);
+    },
+
     //1. 메인메뉴
     getMainMenu() {
       this.$http.get(`/api/dashboard/${this.$store.state.loginInfo.compCd}/${this.$store.state.loginInfo.loginId}`)
@@ -136,11 +139,6 @@ export default {
                     return a.menuOrder < b.menuOrder ? -1 : a.menuOrder > b.smenuOrdereq ? 1 : 0;  
                 });
             });
-    },
-
-    routing(){
-        this.$router.push({name:"bidProgress"})
-        
     }
   },
   created() {

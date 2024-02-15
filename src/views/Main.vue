@@ -4,12 +4,12 @@
         <!-- wrap -->
         <div id="wrap">
             <!--헤더-->
-            <Header />
+            <Header @infoOrPwd="clickMenu" />
             <!--//헤더-->
             <!-- contentWrap -->
             <div class="contentWrap">
                 <!--메뉴-->
-                <Menu />
+                <Menu @infoOrPwd="clickMenu" />
                 <!--//메뉴-->
                 <!-- conRightWrap -->
                 <div class="conRightWrap">
@@ -135,7 +135,7 @@
         <PersonalInfo />
 
         <!-- 비밀번호 확인 -->
-        <CheckPwd />
+        <CheckPwd :infoOrPwd="infoOrPwd" />
 
         <!-- 비밀번호 변경 -->
         <ChangePwd />
@@ -455,6 +455,7 @@ export default {
   },
   data() {
     return {
+        infoOrPwd: '',
         
         //메인화면 전체데이터
         mymains: [],
@@ -500,6 +501,10 @@ export default {
 
   },
   methods: {
+    clickMenu(menu){//개인정보 수정 눌렀는지 비밀번호 변경 눌렀는지 update
+        this.infoOrPwd = menu;
+        $('#mody1').modal('show');
+    },
     getStartDate(){
       //22.5.10 open 회계일자 조회
       let openDt = ''

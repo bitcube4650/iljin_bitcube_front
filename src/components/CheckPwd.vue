@@ -16,7 +16,7 @@
 
                     <div class="modalFooter">
                         <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-                        <a href="javascript:void(0)" class="modalBtnCheck" data-toggle="modal" data-target="#pwMody2" title="확인">확인</a>
+                        <a href="javascript:void(0)" class="modalBtnCheck" data-toggle="modal" @click="popup" title="확인">확인</a>
                     </div>
                 </div>				
             </div>
@@ -27,14 +27,21 @@
 <script>
 export default {
     name: 'CheckPwd',
-
+    props: ['infoOrPwd'],
   data() {
     return {
  
     };
   },
   methods: {
-
+    popup(){
+        $('#mody1').modal('hide');
+        if(this.infoOrPwd == 'info'){
+            $('#piMody2').modal('show');
+        }else{
+            $('#pwMody2').modal('show');
+        }
+    }
   },
   created() {
    
