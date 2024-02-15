@@ -15,8 +15,8 @@
             <div class="profileDropWrap">
                 <a href="javascript:void(0)" class="profileDrop"><i class="fa-solid fa-circle-user"></i>{{ this.$store.state.loginInfo.userName }}님<i class="fa-solid fa-sort-down"></i></a><!--{{ this.$store.state.loginInfo.loginId }}-->
                 <div class="profileDropMenu">
-                    <a href="javascript:void(0)" data-toggle="modal" data-target="#piMody1" title="개인정보 수정"><i class="fa-light fa-gear"></i>개인정보 수정</a>
-                    <a href="javascript:void(0)" data-toggle="modal" data-target="#pwMody1" title="비밀번호 변경"><i class="fa-light fa-lock-keyhole"></i>비밀번호 변경</a>
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#mody1" title="개인정보 수정"><i class="fa-light fa-gear"></i>개인정보 수정</a>
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#mody1" title="비밀번호 변경"><i class="fa-light fa-lock-keyhole"></i>비밀번호 변경</a>
                     <a data-toggle="modal" data-target="#logout" title="로그아웃"><i class="fa-light fa-arrow-right-from-bracket"></i>로그아웃</a>
                 </div>
             </div>

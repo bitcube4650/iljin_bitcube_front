@@ -1,7 +1,7 @@
 <template>
     <div v-if="this.$store.state.loginInfo !== null && this.$store.state.token !== ''" class="wrap">
         <!-- header -->
-        <Navbar v-show="$route.path.substr(0,7)!=='/mobile' && $route.path!=='/' && $route.path.substr(0,20)!=='/evidAtchPopModeless'"/>
+        <!--<Navbar v-show="$route.path.substr(0,7)!=='/mobile' && $route.path!=='/' && $route.path.substr(0,20)!=='/evidAtchPopModeless'"/>-->
         <!-- //header -->
 
         <div id=app v-if="$route.path.substr(0,7)=='/mobile' || $route.path=='/' || $route.path.substr(0,20)=='/evidAtchPopModeless'">
@@ -10,7 +10,7 @@
 
         <div id=app v-else>
             <!-- lnb -->
-            <Menu/>
+            <!--<Menu/>-->
             <!-- //lnb -->
             <!-- contents -->
             <div class="contents">

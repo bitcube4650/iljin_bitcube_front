@@ -25,6 +25,8 @@
                         <!-- contents -->
                         <div class="contents">
                             <div class="mainBanner"><img src="/images/mainBanner01.jpg" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>
+                            <!--<div class="mainBanner"><img src="/images/mainBanner01_lotte.jpg" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>-->
+                            <!--<div class="mainBanner"><img src="/images/mainBanner01_jtv.jpg" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>-->
 
                             <div class="mainConLayout">
                                 <div class="mcl_left mainConBox">
@@ -112,182 +114,6 @@
         </div>
         <!-- //wrap -->
 
-        <!-- 개인정보 비밀번호 확인 -->
-        <div class="modal fade modalStyle" id="piMody1" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" style="width:100%; max-width:510px">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-                        <h2 class="modalTitle">비밀번호 확인</h2>
-                        <div class="flex align-items-center">
-                            <div class="formTit flex-shrink0 width100px">비밀번호</div>
-                            <div class="width100">
-                                <input type="password" name="" id="" class="inputStyle" placeholder="">
-                            </div>
-                        </div>
-                        <p class="text-center mt20"><i class="fa-light fa-circle-info"></i> 안전을 위해서 비밀번호를 입력해 주십시오</p>
-
-                        <div class="modalFooter">
-                            <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-                            <a href="javascript:void(0)" class="modalBtnCheck" data-toggle="modal" data-target="#piMody2" title="확인">확인</a>
-                        </div>
-                    </div>				
-                </div>
-            </div>
-        </div>
-        <!-- 개인정보 비밀번호 확인 -->
-
-        <!-- 개인정보 -->
-        <div class="modal fade modalStyle" id="piMody2" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" style="width:100%; max-width:510px">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-                        <h2 class="modalTitle">개인정보</h2>
-                        <div class="flex align-items-center">
-                            <div class="formTit flex-shrink0 width120px">로그인</div>
-                            <div class="width100">{{ this.$store.state.loginInfo.userName }}</div>
-                        </div>
-                        <div class="flex align-items-center mt20">
-                            <div class="formTit flex-shrink0 width120px">이름</div>
-                            <div class="width100">이순신</div>
-                        </div>
-                        <div class="flex align-items-center mt20">
-                            <div class="formTit flex-shrink0 width120px">소속 계열사</div>
-                            <div class="width100">일신전기</div>
-                        </div>
-                        <div class="flex align-items-center mt20">
-                            <div class="formTit flex-shrink0 width120px">사용자 권한</div>
-                            <div class="width100">각사관리자</div>
-                        </div>
-                        <div class="flex align-items-center mt20">
-                            <div class="formTit flex-shrink0 width120px">개찰권한</div>
-                            <div class="width100">아니오</div>
-                        </div>
-                        <div class="flex align-items-center mt10">
-                            <div class="formTit flex-shrink0 width120px">비밀번호</div>
-                            <div class="flex align-items-center width100">
-                                <div class="width100">최종변경일 : 2024-01-30</div>
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#pwMody2" class="btnStyle btnSecondary btnSm flex-shrink0 ml10" title="비밀번호 변경">비밀번호 변경</a>
-                            </div>
-                        </div>
-                        <div class="flex align-items-center mt10">
-                            <div class="formTit flex-shrink0 width120px">휴대폰 <span class="star">*</span></div>
-                            <div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" value="010-1234-1234"></div>
-                        </div>
-                        <div class="flex align-items-center mt10">
-                            <div class="formTit flex-shrink0 width120px">유선전화 <span class="star">*</span></div>
-                            <div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" value="02-123-1234"></div>
-                        </div>
-                        <div class="flex align-items-center mt10">
-                            <div class="formTit flex-shrink0 width120px">이메일 <span class="star">*</span></div>
-                            <div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" value="james@iljin.co.kr"></div>
-                        </div>
-                        <div class="flex align-items-center mt10">
-                            <div class="formTit flex-shrink0 width120px">직급</div>
-                            <div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" value="과장"></div>
-                        </div>
-                        <div class="flex align-items-center mt10">
-                            <div class="formTit flex-shrink0 width120px">부서</div>
-                            <div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" value="경영지원"></div>
-                        </div>
-
-                        <div class="modalFooter">
-                            <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
-                            <a href="javascript:void(0)" class="modalBtnCheck" data-toggle="modal" data-target="#piMody3" title="저장">저장</a>
-                        </div>
-                    </div>				
-                </div>
-            </div>
-        </div>
-        <!-- //개인정보 -->
-
-        <!-- 개인정보 저장 얼럿 -->
-        <div class="modal fade modalStyle" id="piMody3" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" style="width:100%; max-width:420px">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-                        <div class="alertText2">개인정보를 수정하였습니다.</div>
-                        <div class="modalFooter">
-                            <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-                        </div>
-                    </div>				
-                </div>
-            </div>
-        </div>
-        <!-- //개인정보 저장 얼럿 -->
-
-        <!-- 비밀번호 확인 -->
-        <div class="modal fade modalStyle" id="pwMody1" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" style="width:100%; max-width:510px">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-                        <h2 class="modalTitle">비밀번호 확인</h2>
-                        <div class="flex align-items-center">
-                            <div class="formTit flex-shrink0 width100px">비밀번호</div>
-                            <div class="width100">
-                                <input type="password" name="" id="" class="inputStyle" placeholder="">
-                            </div>
-                        </div>
-                        <p class="text-center mt20"><i class="fa-light fa-circle-info"></i> 안전을 위해서 비밀번호를 입력해 주십시오</p>
-
-                        <div class="modalFooter">
-                            <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-                            <a href="javascript:void(0)" class="modalBtnCheck" data-toggle="modal" data-target="#pwMody2" title="확인">확인</a>
-                        </div>
-                    </div>				
-                </div>
-            </div>
-        </div>
-        <!-- //비밀번호 확인 -->
-
-        <!-- 비밀번호 변경 -->
-        <div class="modal fade modalStyle" id="pwMody2" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" style="width:100%; max-width:510px">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-                        <h2 class="modalTitle">비밀번호 변경</h2>
-                        <div class="flex align-items-center">
-                            <div class="formTit flex-shrink0 width120px">비밀번호</div>
-                            <div class="width100">
-                                <input type="password" name="" id="" class="inputStyle" placeholder="대/소문자, 숫자, 특수문자 2 이상 조합(길이 8~16자리)">
-                            </div>
-                        </div>
-                        <div class="flex align-items-center mt10">
-                            <div class="formTit flex-shrink0 width120px">비밀번호 확인</div>
-                            <div class="width100">
-                                <input type="password" name="" id="" class="inputStyle" placeholder="비밀번호와 동일해야 합니다.">
-                            </div>
-                        </div>
-
-                        <div class="modalFooter">
-                            <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
-                            <a href="javascript:void(0)" class="modalBtnCheck" data-toggle="modal" data-target="#pwMody3" title="저장">저장</a>
-                        </div>
-                    </div>				
-                </div>
-            </div>
-        </div>
-        <!-- //비밀번호 변경 -->
-
-        <!-- 비밀번호 저장 얼럿 -->
-        <div class="modal fade modalStyle" id="pwMody3" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" style="width:100%; max-width:420px">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-                        <div class="alertText2">비밀번호를 저장하였습니다.</div>
-                        <div class="modalFooter">
-                            <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-                        </div>
-                    </div>				
-                </div>
-            </div>
-        </div>
-        <!-- //비밀번호 저장 얼럿 -->
 
         <!-- 로그아웃 -->
         <div class="modal fade modalStyle" id="logout" tabindex="-1" role="dialog" aria-hidden="true">
@@ -304,210 +130,19 @@
                 </div>
             </div>
         </div>
-        <!-- //로그아웃 -->
+
+        <!-- 개인정보 -->
+        <PersonalInfo />
+
+        <!-- 비밀번호 확인 -->
+        <CheckPwd />
+
+        <!-- 비밀번호 변경 -->
+        <ChangePwd />
 
         <!-- 공지사항 자세히 보기 -->
-        <div class="modal fade modalStyle" id="notiModal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" style="width:100%; max-width:600px">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-                        <h2 class="modalTitle">공지사항</h2>
-                        <div class="flex align-items-center">
-                            <div class="formTit flex-shrink0 width100px">제목</div>
-                            <div class="width100 line140">[공통] Edge에서 Internet Explore(IE) 호환 설정 방법</div>
-                        </div>
-                        <div class="flex align-items-center mt20">
-                            <div class="formTit flex-shrink0 width100px">작성자</div>
-                            <div class="width100">관리자</div>
-                        </div>
-                        <div class="flex align-items-center mt20">
-                            <div class="formTit flex-shrink0 width100px">공지일시</div>
-                            <div class="width100">2023-12-31 13:21</div>
-                        </div>
-                        <div class="flex align-items-center mt20">
-                            <div class="formTit flex-shrink0 width100px">조회수</div>
-                            <div class="width100">2342</div>
-                        </div>
-                        <div class="modalBoxSt overflow-y-scroll height250px mt30">
-                            <p>Edge로 전자입찰을 사용하실 때 오류가 나는 경우<br>(※ [ 설치파일#1 ] [ 설치파일#2 ] 두 개의 설치 파일을 전부 설치 하셨다는 전제 하에 오류입니다. )<br><br>1. 팝업창의 정보가 보이지 않는다.<br>2. 입찰에 파일을 첨부 후 입찰하기 버튼을 클릭했을 때 105 또는 138 오류가 나타난다.<br><br>해당 오류가 나타난 경우 첨부된 파일을 참고하시어 설정 바랍니다.<br><br>테스트<br><br>테스트</p>
-                        </div>
-                        <div class="flex align-items-center mt20">
-                            <div class="formTit flex-shrink0 width100px">첨부파일</div>
-                            <div class="width100">
-                                <a href="javascript:void(0)" class="textUnderline">전자입찰 Edge 사용 설정안내.pptx</a>
-                            </div>
-                        </div>
+        <NoticeDetailPopup />
 
-                        <div class="modalFooter">
-                            <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-                        </div>
-                    </div>				
-                </div>
-            </div>
-        </div>
-        <!-- 공지사항 자세히 보기 -->
-
-        <!-- 업체등록절차 -->
-        <div class="modal fade modalStyle" id="regProcess" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" style="width:100%; max-width:700px">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-                        <h2 class="modalTitle">업체등록 절차</h2>
-                        <div class="modalTopBox">
-                            <ul>
-                                <li><div>업체 등록신청 후 서류심사로 인해 최대 3일 소요할 수 있습니다.</div></li>
-                                <li><div>서류심사 결과는 작성된 담당자 이메일로 전달됩니다.</div></li>
-                            </ul>
-                        </div>
-                        <dl class="regProList mt20">
-                            <dt><i class="fa-light fa-message-pen"></i></dt>
-                            <dd>
-                                <h3>Step.1  <span class="textMainColor">[업체등록신청]</span></h3>
-                                <ul class="dList mt10">
-                                    <li><div>로그인 페이지에서 [회원가입] 버튼을 이용, 약관동의 및 회원가입을 신청합니다.</div></li>
-                                </ul>
-                            </dd>
-                        </dl>
-                        <dl class="regProList mt10">
-                            <dt><i class="fa-light fa-ballot-check"></i></dt>
-                            <dd>
-                                <h3>Step.2  <span class="textMainColor">[업체심사(서류,실사)]</span></h3>
-                                <ul class="dList mt10">
-                                    <li><div>계열사 업체관리 담당자는 신청 정보를 확인합니다.</div></li>
-                                    <li><div>업체 규모, 납품실적, 품질인증, 신용평가자료 등 서류 검토</div></li>
-                                    <li><div>필요시 실사 병행합니다.</div></li>
-                                </ul>
-                            </dd>
-                        </dl>
-                        <dl class="regProList mt10">
-                            <dt><i class="fa-light fa-file-check"></i></dt>
-                            <dd>
-                                <h3>Step.3  <span class="textMainColor">[업체등록]</span></h3>
-                                <ul class="dList mt10">
-                                    <li><div>심사 후 요구조건에 적합한 업체 등록을 확정합니다.</div></li>
-                                    <li><div>등록된 이메일로 심사결과를 통보합니다.</div></li>
-                                </ul>
-                            </dd>
-                        </dl>
-                        <dl class="regProList mt10">
-                            <dt><i class="fa-light fa-rectangle-history-circle-user"></i></dt>
-                            <dd>
-                                <h3>Step.4  <span class="textMainColor">[업체평가(사후관리)]</span></h3>
-                                <ul class="dList mt10">
-                                    <li><div>연간 거래실적을 바탕으로 업체를 평가합니다.</div></li>
-                                    <li><div>계열사 간 협력업체 등록 시 평가자료로 반영됩니다.</div></li>
-                                </ul>
-                            </dd>
-                        </dl>
-                        <div class="modalFooter">
-                            <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-                        </div>
-                    </div>				
-                </div>
-            </div>
-        </div>
-        <!-- //업체등록절차 -->
-
-        <!-- 업무(입찰)안내 -->
-        <div class="modal fade modalStyle" id="biddingInfo" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" style="width:100%; max-width:800px">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-                        <h2 class="modalTitle">업무(입찰)안내</h2>
-                        <div class="modalTopBox">
-                            <ul>
-                                <li><div>그룹사(당사)에서 전자입찰을 공고/개찰/낙찰 처리 합니다.</div></li>
-                                <li><div>협력업체는 공고된 입찰을 확인하고 개찰 및 입찰 결과를 확인할 수 있습니다.</div></li>
-                                <li><div>입찰 진행중 그룹사 개찰담당자는 입찰을 유찰할 수 있습니다.<br>(입찰에 참여한 업체에게 메일 발송)</div></li>
-                            </ul>
-                        </div>
-                        <table class="biddingInfoTbl mt20">						
-                            <caption>업무(입찰)안내의 절차(그룹사,협력업체), 주요내용을 나타내는 표</caption>
-                            <colgroup>
-                                <col style="width:23%">
-                                <col style="width:23%">
-                                <col style="width:64%">
-                                <col>
-                            </colgroup>
-                            <thead>
-                                <tr>
-                                    <th colspan="2">절차</th>
-                                    <th rowspan="2" class="end">주요내용</th>
-                                </tr>
-                                <tr>
-                                    <th>그룹사</th>
-                                    <th>협력업체</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td colspan="2" style="position:relative"><img src="/images/biddingInfo.png" class="img-responsive" alt="절차" style="position:absolute; top:0; left:0"></td>
-                                    <td class="text-left end">
-                                        <ul class="dList">
-                                            <li><div>입찰 담당자는 입찰 계획을 등록합니다.</div></li>
-                                            <li><div>입찰 공고자는 입찰 계획을 확인하고 입찰을 공고합니다.</div></li>
-                                            <li><div>공고 시 지정업체 담당자에게 메일 발송됩니다.</div></li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"></td>
-                                    <td class="text-left end">
-                                        <ul class="dList">
-                                            <li><div>공고된 입찰을 조회합니다.</div></li>
-                                            <li><div>지명입찰 일 경우 담당자는 메일을 통해 확인할 수 있습니다.</div></li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"></td>
-                                    <td class="text-left end">
-                                        <ul class="dList">
-                                            <li><div>입찰 세부내역을 확인하고 견적서를 제출합니다.</div></li>
-                                            <li><div>투찰(견적서 제출) 시 공동인증서를 통해 인증을 합니다.</div></li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"></td>
-                                    <td class="text-left end">
-                                        <ul class="dList">
-                                            <li><div>입찰의 제출마감일시가 지나면 개찰자는 업체의 투찰 내역을<br>확인할 수 있습니다.</div></li>
-                                            <li><div>개찰 시 공동인증서 암호를 입력해야 합니다.</div></li>
-                                            <li><div>진행 중인 입찰에 대해서 공고자는 입찰을 유찰 할 수 있습니다.</div></li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"></td>
-                                    <td class="text-left end">
-                                        <ul class="dList">
-                                            <li><div>개찰자는 낙찰업체를 선정할 수 있습니다.<br>(선정된 업체에게는 낙찰 메일 발송)</div></li>
-                                            <li><div>개찰자는 개찰 된 입찰에 유찰 또는 재입찰 할 수 있습니다.</div></li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2"></td>
-                                    <td class="text-left end">
-                                        <ul class="dList">
-                                            <li><div>낙찰된 내역을 확인할 수 있습니다.</div></li>
-                                        </ul>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="modalFooter">
-                            <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-                        </div>
-                    </div>				
-                </div>
-            </div>
-        </div>
-        <!-- //업무(입찰)안내 -->
     </div>
 
 
@@ -795,6 +430,12 @@ import router from '@/router.js';
 import Menu from "@/components/Menu.vue";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
+import NoticeDetailPopup from "@/components/NoticeDetailPopup.vue";
+import CheckPwd from "@/components/CheckPwd.vue";
+import ChangePwd from "@/components/ChangePwd.vue";
+import PersonalInfo from "@/components/PersonalInfo.vue";
+
+
 
 
 export default {
@@ -806,7 +447,11 @@ export default {
     router,
     Menu,
     Header,
-    Footer
+    Footer,
+    NoticeDetailPopup,
+    CheckPwd,
+    ChangePwd,
+    PersonalInfo
   },
   data() {
     return {

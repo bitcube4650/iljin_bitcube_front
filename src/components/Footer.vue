@@ -1,4 +1,5 @@
 <template>
+  <div>
     <!-- 서브 푸터 -->
     <div class="subFooter">
         © ILJIN ALL RIGHTS RESERVED.
@@ -9,10 +10,26 @@
         </div>
     </div>
     <!-- //서브 푸터 -->
+
+    <!-- 업체등록절차 -->
+    <EnrollmentProcess />
+
+    <!-- 업무안내 -->
+    <BiddingGuide />
+
+    
+  </div>
 </template>
 <script>
+import EnrollmentProcess from "./EnrollmentProcess.vue";
+import BiddingGuide from "./BiddingGuide.vue";
 export default {
     name: 'Footer',
+    components: {
+
+      EnrollmentProcess,
+      BiddingGuide
+    },
 
   data() {
     return {
