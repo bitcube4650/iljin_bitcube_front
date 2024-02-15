@@ -1,5 +1,10 @@
 @charset "utf-8";
 
+/* GmarketSans */
+@font-face {font-family:'GmarketSansLight'; src:url('/site/common/fonts/GmarketSansLight.woff') format('woff'); font-weight:normal; font-style:normal}
+@font-face {font-family:'GmarketSansMedium'; src:url('/site/common/fonts/GmarketSansMedium.woff') format('woff'); font-weight:normal; font-style:normal}
+@font-face {font-family:'GmarketSansBold'; src:url('/site/common/fonts/GmarketSansBold.woff') format('woff'); font-weight:normal; font-style:normal}
+
 /* reset css*/
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed,  figure, figcaption, footer, header, hgroup,  menu, nav, output, ruby, section, summary, time, mark, audio, video, input, button {margin:0; padding:0; border:0; font-size:100%; font-family:'Noto Sans KR', sans-serif; vertical-align:baseline}
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display:block}
@@ -70,16 +75,20 @@ input, select {vertical-align:top; margin-top:0 !important}
 .textHighlight {color:#b70b2e !important}
 .star {color:red}
 .h2Tit {font-size:26px; font-weight:700; color:#333}
-.h3Tit {font-size:22px; font-weight:700; color:#333}
-.h4Tit {font-size:18px; font-weight:700; color:#333}
-.sbTit {font-size:16px; font-weight:500; color:#333}
+.h3Tit {font-size:23px; font-weight:700; color:#333}
+.h4Tit {font-size:19px; font-weight:700; color:#333}
+.sbTit {font-size:17px; font-weight:500; color:#333}
 .textUnderline {text-decoration:underline; text-underline-position:under}
 /*.textUnderline > i {text-decoration:underline; text-underline-position:under}*/
 .overflow-y-scroll {overflow-y:scroll}
+.overflow-y-auto {overflow-y:auto}
+.boxOverflowY {overflow-y:auto; max-height:100px}
+.textareaStyle.boxOverflowY {max-height:100px !important; height:100px !important}
 .text-overflow {overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
 .tblScroll {overflow-x:auto}
 .tblScroll table {width:max-content; min-width:100%; border-collapse:collapse}
 .formWidth {max-width:1040px}
+.fontweight-400 {font-weight:400}
 
 
 /* flex */
@@ -121,10 +130,10 @@ input, select {vertical-align:top; margin-top:0 !important}
 .loginCheckStyle + label {display:inline-flex; align-items:center; position:relative; cursor:pointer; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; font-size:18px; font-weight:400; color:#333}
 .loginCheckStyle + label:hover {color:#004B9E}
 .loginCheckStyle + label:before {flex-shrink:0; content:''; width:30px; height:30px; text-align:center; background:#fff; border:1px solid #D8DBDE; border-radius:100%; margin-right:8px}
-.loginCheckStyle:checked + label:before {border-color:#004B9E; background:url('/images/loginCheck.svg') center center #004B9E no-repeat}
+.loginCheckStyle:checked + label:before {border-color:#004B9E; background:url('../images/loginCheck.svg') center center #004B9E no-repeat}
 
 .loginSelectStyle {border:1px solid #0F264E; background:#fff; border-radius:4px; padding:0; width:100%; height:40px; line-height:40px; box-sizing:border-box; position:relative; cursor:pointer}
-.loginSelectStyle .selLabel {display:flex; align-items:center; width:inherit; height:inherit; border:0 none; border-radius:4px; outline:0 none; padding-left:20px; background:transparent; cursor:pointer; color:#0F264E; font-size:15px; font-weight:400; background:url('/images/selLabel_arr.svg') top calc(50% + 2px) right 20px no-repeat}
+.loginSelectStyle .selLabel {display:flex; align-items:center; width:inherit; height:inherit; border:0 none; border-radius:4px; outline:0 none; padding-left:20px; background:transparent; cursor:pointer; color:#0F264E; font-size:15px; font-weight:400; background:url('../images/selLabel_arr.svg') top calc(50% + 2px) right 20px no-repeat}
 .loginSelectStyle .selLabel.selAct {font-weight:400; color:#191919}
 .loginSelectStyle .optionList {position:absolute; bottom:calc(100% + 1px); right:0; min-width:max-content; width:100%; background:#fff; color:#fff; list-style-type:none; padding:0; overflow:hidden; max-height:0}
 .loginSelectStyle .optionList::-webkit-scrollbar {width:6px}
@@ -134,18 +143,18 @@ input, select {vertical-align:top; margin-top:0 !important}
 .loginSelectStyle .optionList .optionItem {display:flex; align-items:center; height:30px; font-size:15px; font-weight:400; color:#575B60; padding:0 15px}
 .loginSelectStyle .optionList .optionItem:hover {background:#004B9E12; font-weight:500; color:#191919}
 .loginSelectStyle.active {z-index:10}
-.loginSelectStyle.active .selLabel {background:url('/images/selLabel_active_arr.svg') top calc(50% + 2px) right 20px no-repeat; font-weight:400px; color:#191919}
+.loginSelectStyle.active .selLabel {background:url('../images/selLabel_active_arr.svg') top calc(50% + 2px) right 20px no-repeat; font-weight:400px; color:#191919}
 .loginSelectStyle.active .optionList {overflow-y:auto; max-height:500px; padding:10px 0; border:1px solid #D8DBDE; border-radius:4px}
 
-.inputStyle {border:1px solid #D5D5D5; border-radius:4px; color:#333; padding:0 15px; width:100%; height:50px; line-height:50px; box-sizing:border-box; font-size:14px; font-weight:500; vertical-align:middle; -webkit-appearance:none; -moz-appearance:none; appearance:none; letter-spacing:-0.75px}
+.inputStyle {border:1px solid #D5D5D5; border-radius:4px; color:#333; padding:0 15px; width:100%; height:50px; line-height:50px; box-sizing:border-box; font-size:15px; font-weight:500; vertical-align:middle; -webkit-appearance:none; -moz-appearance:none; appearance:none; letter-spacing:-0.75px}
 .inputStyle.inputSm {height:40px; line-height:40px}
 .inputStyle.inputXs {height:30px; line-height:30px}
 .inputStyle.readonly {border-color:#D8DBDE; background:#F6F8FA; color:#333}
 .inputStyle::placeholder {color:#B2B2B2; font-size:15px; font-weight:400}
 .inputStyle:focus-visible {border:2px solid #0F264E; background:#fff; outline:none}
 .inputStyle.readonly:focus-visible {border:1px solid #D8DBDE; background:#F6F8FA; outline:none}
-.datepicker {background:url('/images/datepicker_input.png') no-repeat right 15px center}
-.selectStyle {border:1px solid #D5D5D5; border-radius:4px; color:#333; padding:0 15px; width:100%; height:50px; line-height:50px; box-sizing:border-box; font-size:15px; font-weight:500; vertical-align:middle; background:url('/images/selectArw.png') #F1F3F4 no-repeat right 15px center; -webkit-appearance:none; -moz-appearance:none; appearance:none; outline:none}
+.datepicker {background:url('../images/datepicker_input.png') no-repeat right 15px center}
+.selectStyle {border:1px solid #D5D5D5; border-radius:4px; color:#333; padding:0 15px; width:100%; height:50px; line-height:50px; box-sizing:border-box; font-size:15px; font-weight:500; vertical-align:middle; background:url('../images/selectArw.png') #F1F3F4 no-repeat right 15px center; -webkit-appearance:none; -moz-appearance:none; appearance:none; outline:none}
 .selectStyle::-ms-expand {display:none}
 .textareaStyle {resize:vertical; border:1px solid #D5D5D5; background:#fff; border-radius:4px; color:#333; padding:15px; width:100%; max-height:200px; line-height:140%; box-sizing:border-box; font-size:15px; font-weight:500; vertical-align:middle; -webkit-appearance:none; -moz-appearance:none; appearance:none}
 .radioStyle {display:inline-flex !important; align-items:center; justify-content:center; -webkit-appearance:none; -moz-appearance:none; -ms-appearance:none; -o-appearance:none; appearance:none; border-radius:100% !important; height:22px; width:22px; background:#fff; border:1px solid #D8DBDE; color:#fff; cursor:pointer; display:inline-block; outline:none; position:relative; margin:0 !important; margin-top:1px !important}
@@ -160,8 +169,8 @@ input, select {vertical-align:top; margin-top:0 !important}
 .checkStyle.checkOnly + label {vertical-align:middle}
 .checkStyle + label:before {flex-shrink:0; content:''; width:25px; height:25px; text-align:center; background:#fff; border:1px solid #D8DBDE; border-radius:4px; margin-right:8px}
 .checkStyle.checkOnly + label:before {margin-right:0}
-.checkStyle:checked + label:before {border-color:#0C184D; background:url('/images/checkStyle.svg') center center #0C184D no-repeat}
-.formTit {font-size:16px; font-weight:500; color:#333}
+.checkStyle:checked + label:before {border-color:#0C184D; background:url('../images/checkStyle.svg') center center #0C184D no-repeat}
+.formTit {font-size:17px; font-weight:500; color:#333}
 
 
 /* Tooltip */
@@ -184,7 +193,7 @@ input, select {vertical-align:top; margin-top:0 !important}
 .btnLoginOutline:active {color:#004B9E !important; background:#004B9E26}
 .btnLoginOutline.dimmed {color:#fff !important; border-color:#D0D0D0; background:#D0D0D0; cursor:no-drop}
 
-.btnStyle {display:inline-flex; align-items:center; justify-content:center; height:50px; padding:0 25px; box-sizing:border-box; border-radius:4px; font-size:14px; font-weight:500; transition:.3s}
+.btnStyle {display:inline-flex; align-items:center; justify-content:center; height:50px; padding:0 25px; box-sizing:border-box; border-radius:4px; font-size:15px; font-weight:500; transition:.3s}
 .btnStyle.btnMd {height:60px; font-size:15px}
 .btnStyle.btnSm {height:40px}
 .btnStyle.btnXs {height:30px}
@@ -229,10 +238,10 @@ input, select {vertical-align:top; margin-top:0 !important}
 .biddingInfoTbl tbody tr:last-child th, .tblSkin1 tbody tr:last-child td {border-bottom:none}
 
 .tblSkin1 {width:100%; background:#fff; text-align:center; border-top: 1px solid #222; border-bottom: 1px solid #222}
-.tblSkin1 thead th {border-bottom:1px solid #d5d5d5; background-color:#F1F1F1; font-size:15px; color:#000; padding:15px 10px; border-right:1px solid #D5D5D5; border-bottom:1px solid #d5d5d5; border-top:#222; vertical-align:middle; font-weight:500; letter-spacing:-0.75px; text-align:center}
-.tblSkin1 tbody th {font-size:15px; color:#707070; padding:15px 10px !important; border-right:1px solid #D5D5D5; border-bottom:1px solid #D5D5D5; letter-spacing:-0.75px; vertical-align:middle; background-color:#F1F1F1}
-.tblSkin1 tbody td {font-size:15px; color:#707070; padding:15px 10px !important; border-right:1px solid #D5D5D5; border-bottom:1px solid #D5D5D5; letter-spacing:-0.75px; vertical-align:middle}
-.tblSkin1 tfoot th {border-bottom:1px solid #d5d5d5; background-color:#edf2f8; font-size:15px; color:#000; padding:15px 10px; border-right:1px solid #D5D5D5; border-bottom:1px solid #d5d5d5; border-top:#222; vertical-align:middle; font-weight:500; letter-spacing:-0.75px}
+.tblSkin1 thead th {border-bottom:1px solid #d5d5d5; background-color:#F1F1F1; font-size:16px; color:#000; padding:15px 10px; border-right:1px solid #D5D5D5; border-bottom:1px solid #d5d5d5; border-top:#222; vertical-align:middle; font-weight:500; letter-spacing:-0.75px; text-align:center}
+.tblSkin1 tbody th {font-size:16px; color:#707070; padding:15px 10px !important; border-right:1px solid #D5D5D5; border-bottom:1px solid #D5D5D5; letter-spacing:-0.75px; vertical-align:middle; background-color:#F1F1F1}
+.tblSkin1 tbody td {font-size:16px; color:#707070; padding:15px 10px !important; border-right:1px solid #D5D5D5; border-bottom:1px solid #D5D5D5; letter-spacing:-0.75px; vertical-align:middle}
+.tblSkin1 tfoot th {border-bottom:1px solid #d5d5d5; background-color:#edf2f8; font-size:16px; color:#000; padding:15px 10px; border-right:1px solid #D5D5D5; border-bottom:1px solid #d5d5d5; border-top:#222; vertical-align:middle; font-weight:500; letter-spacing:-0.75px}
 .tblSkin1 a {color:#707070}
 .tblSkin1 tr:hover td {background-color:#f7f7f7}
 .tblSkin1 .end {border-right:0}
@@ -244,10 +253,10 @@ input, select {vertical-align:top; margin-top:0 !important}
 .modalStyle .tblSkin1 td {padding:10px !important}
 
 /* login */
-.loginBg {background:url('/images/login_bg.jpg') center center no-repeat; background-size:cover; min-width:1480px; min-height:800px; height:100vh}
+.loginBg {background:url('../images/login_bg.jpg') center center no-repeat; background-size:cover; min-width:1480px; min-height:800px; height:100vh}
 .loginBg > .inner {min-width:1480px; max-width:1480px; padding:0 20px; margin:0 auto; box-sizing:border-box}
 .loginWrap {display:flex; align-items:center; min-height:800px; height:100vh}
-.loginLeft {width:670px; background:#fff; border-radius:15px; padding:80px 60px; box-sizing:border-box}
+.loginLeft {width:670px; background:#fff; border-radius:15px; padding:100px 60px 60px 60px; box-sizing:border-box; position:relative}
 .loginLeft > h1 {text-align:center; margin-bottom:45px}
 .loginLeft > h1 > img {height:84px; margin:0 auto}
 .loginRight {flex-shrink:0; width:770px}
@@ -270,15 +279,16 @@ input, select {vertical-align:top; margin-top:0 !important}
 .loginFootCenter > a:last-child:after {display:none}
 .loginFootRight {flex-shrink:0; width:180px}
 .footAddr {font-size:16px; font-weight:400; color:#333; text-align:center; opacity:0.7; line-height:140%; margin-top:10px}
+.loginLogo {position:absolute; top:40px; right:60px}
 
 
 /* 회원가입 */
-.joinWrap {width:740px; margin:30px auto 50px auto}
+.joinWrap {width:900px; margin:30px auto 50px auto}
 .joinWrap > .inner {width:100%; background:#fff; border-radius:15px; padding:50px; box-sizing:border-box}
 .joinTop {border-bottom:1px solid #ddd; padding-bottom:30px; margin-bottom:30px}
-.provisionBox {border:1px solid rgba(0,75,158,0.15); padding:30px; box-sizing:border-box; height:560px; overflow-y:auto; font-size:13px; color:#333; line-height:130%}
-.provisionTit1 {font-size:15px; font-weight:700}
-.provisionTit2 {font-size:14px; font-weight:500}
+.provisionBox {border:1px solid rgba(0,75,158,0.15); padding:30px; box-sizing:border-box; height:560px; overflow-y:auto; font-size:14px; color:#333; line-height:140%}
+.provisionTit1 {font-size:18px; font-weight:700}
+.provisionTit2 {font-size:16px; font-weight:500}
 .listHangul {margin-left:18px}
 .listHangul > li {list-style:hangul}
 .provisionAgree {display:flex; align-items:center; justify-content:space-between; margin-top:30px}
@@ -288,8 +298,8 @@ input, select {vertical-align:top; margin-top:0 !important}
 .header {display:flex; align-items:center; justify-content:space-between; height:90px; padding:0 30px; background:#004B9E; box-sizing:border-box}
 .headerLeft {display:flex; align-items:center}
 .headerLogo {display:flex; align-items:center}
-.headerLogo img {margin-top:-5px}
-.headerLogo > span {font-size:18px; font-weight:500; color:#fff; margin-left:15px}
+/*.headerLogo img {margin-top:-5px}*/
+.headerLogo > span {font-size:20px; font-weight:500; color:#fff; margin-left:15px}
 .headerLeft p {font-size:18px; font-weight:500; color:rgba(255,255,255,0.7); margin-left:25px}
 
 
@@ -330,9 +340,9 @@ input, select {vertical-align:top; margin-top:0 !important}
 .conLeft > li {border-bottom:1px solid rgba(0,0,0,0.1)}
 .conLeft > li:first-child {border-top:1px solid rgba(0,0,0,0.1)}
 .conLeft > li:last-child {border-bottom:none}
-.conLeft > li > a {width:100%; height:80px; padding:0 20px; box-sizing:border-box; display:flex; align-items:center; font-size:22px; font-weight:500; color:#555; transition:.3s; background:url('/images/conLeftDown.svg') center right 30px no-repeat}
+.conLeft > li > a {width:100%; height:80px; padding:0 20px; box-sizing:border-box; display:flex; align-items:center; font-size:20px; font-weight:500; color:#555; transition:.3s; background:url('../images/conLeftDown.svg') center right 30px no-repeat}
 .conLeft > li > a > span {width:42px; text-align:center}
-.conLeft > li.active > a, .conLeft > li > a:hover {background:url('/images/conLeftUp.svg') #004B9E center right 30px no-repeat; color:#fff}
+.conLeft > li.active > a, .conLeft > li > a:hover {background:url('../images/conLeftUp.svg') #004B9E center right 30px no-repeat; color:#fff}
 .conLeft > li.depth2None > a {background:#fff}
 .conLeft > li.depth2None.active > a, .conLeft > li.depth2None > a:hover {background:#004B9E; color:#fff}
 .depth2Lnb {display:none; background:#004B9E12; padding:15px 0}
@@ -350,7 +360,7 @@ input, select {vertical-align:top; margin-top:0 !important}
 .conHeaderCate > li:after {content:'\f054'; font-family:'Font Awesome 6 Pro'; font-size:14px; font-weight:400; color:#B6B6B6; display:inline-block; margin:3px 20px 0 20px}
 .conHeaderCate > li:last-child {color:#004B9E}
 .conHeaderCate > li:last-child:after {display:none}
-.contents {padding:30px; box-sizing:border-box; min-height:700px}
+.contents {padding:30px; box-sizing:border-box; min-height:700px; font-size:17px}
 .mainBanner {overflow:hidden; border-radius:15px}
 .subFooter {display:flex; align-items:center; justify-content:space-between; width:100%; height:80px; background:#fff; border-radius:15px; padding:0 40px; margin-top:20px}
 .subFooterUtill {font-size:16px; font-weight:400; color:#0F264E; margin-left:60px}
@@ -449,12 +459,13 @@ input, select {vertical-align:top; margin-top:0 !important}
 
 
 /* upload-box */
-.upload-box {background:#fff; border:1px solid #D5D5D5; border-radius:4px; width:100%; height:80px; display:flex; align-items:center; justify-content:center; position:relative}
+.upload-boxWrap {border:1px solid #D5D5D5; border-radius:4px; overflow:hidden}
+.upload-box {background:#fff; width:100%; height:80px; display:flex; align-items:center; justify-content:center; position:relative}
 .upload-box input[type=file] {opacity:0; position:absolute; top:0; left:0; width:100%; height:100%; cursor:pointer}
 .uploadTxt {display:flex; align-items:center}
 .uploadTxt > i {font-size:28px; margin-right:10px}
-.uploadPreview {margin-top:5px}
-.uploadPreview > p {display:flex; align-items:center; justify-content:space-between; transition:.3s; padding:0 0 0 10px; margin-bottom:2px}
+.uploadPreview {}
+.uploadPreview > p {display:flex; align-items:center; justify-content:space-between; transition:.3s; padding:4px 15px}
 .uploadPreview > p:hover {background:#eee}
 .file-remove {display:inline-flex; align-items:center; justify-content:center; height:30px; padding:0 25px; box-sizing:border-box; border-radius:4px; font-size:14px; font-weight:500; transition:.3s}
 .file-remove {color:#b70b2e !important; background:#fff; border:1px solid #b70b2e}

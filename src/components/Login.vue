@@ -4,6 +4,11 @@
       <div class="inner">
         <div class="loginWrap">
           <div class="loginLeft">
+            <div class="loginLogo">
+              <img src="/images/loginLogo_iljin.svg" class="img-responsive" alt="일진그룹 로고">
+              <!--<img src="/images/loginLogo_lotte.svg" class="img-responsive" alt="롯데에너지머트리얼즈 로고">-->
+              <!--<img src="/images/loginLogo_jtv.svg" class="img-responsive" alt="전주방송 로고">-->
+            </div>
             <h1><img src="/images/loginLogo.svg" class="img-responsive" alt="일진그룹 로고"></h1>
             <input type="text" v-model="loginInfo.loginId" autocomplete="name" name="username" placeholder="사번" autofocus="" class="loginInputStyle">
             <input type="password" v-model="loginInfo.loginPw" autocomplete="new-password" name="password" @keypress="caps_lock" @keypress.enter="login" class="loginInputStyle mt10" placeholder="비밀번호">
