@@ -21,7 +21,7 @@
             </div>
             <div class="loginBtnWrap">
               <a  @click="login" data-target="#loginAlert" class="btnLoginPrimary" title="로그인">로그인</a>
-              <a href="join01_1.html" class="btnLoginOutline mt10" title="회원가입">회원가입</a>
+              <a :href="'/signup'" class="btnLoginOutline mt10" title="회원가입">회원가입</a>
             </div>
           </div>
           <div class="loginRight">
@@ -475,12 +475,10 @@ export default {
       */
     },
     async login() {  
-       
       try {
         this.$store.commit('loading');
         const response = await this.$http.post('/login', this.loginInfo);
         const loginInfo = {};
-        
         loginInfo.userName = response.data.userName;
         loginInfo.loginId = response.data.loginId;
         loginInfo.compCd = response.data.loginCompCd;
@@ -494,54 +492,16 @@ export default {
         loginInfo.menu = response.data.menu;
         loginInfo.authorities = response.data.authorities;
         loginInfo.loginPw = 'Not Use';
-        loginInfo.color = response.data.attribute2
-
-        console.log("user info");
-        console.log(response);
-        if(!loginInfo.color){
-          loginInfo.color = '/css/common.css'
-        }
         
         this.$store.commit('login', loginInfo);
         this.$cookie.set('loginInfo', JSON.stringify(loginInfo));
         this.$http.defaults.headers['x-auth-token'] = loginInfo.token;
-
-        //21.03.29 컬러테마
-        var link = document.createElement('link');
-        link.rel ='stylesheet';
-        link.href = this.$store.state.loginInfo.color;
-        document.head.appendChild(link);
-
-        //21.9.13 로그인 erp계정
-        const loginCctr = {}
-        this.$http.get(`/api/emp/${loginInfo.loginId}`)
-        .then(response => {
-          if(response.data.length > 0){
-            let data = response.data[0]
-       
-            loginCctr.cctrCd = data.liabilityDeptCode
-            loginCctr.cctrNm = data.liabilityDeptName
-
-            this.$store.commit('updateLoginCctr', loginCctr)
-          }else{
-            this.$store.commit('updateLoginCctr', null)
-          }
-        })
-        .catch((e) => {
-          this.$store.commit('updateLoginCctr', null)
-          this.$swal({
-            type: 'error',
-            text: e
-          })
-        })       
         this.$store.commit('finish');
       } catch(err) {
         console.log(err)
         this.$store.commit('finish');
         this.loginFail();
       }
-
-       
     },
     async ssoLogIn() {
       console.log("Now Loged in!!!!")

@@ -2,7 +2,7 @@
     <!-- header -->
     <div class="header">
         <div class="headerLeft">
-            <a href="group_main.html" class="headerLogo" title="메인 페이지로 이동">
+            <a href="/" class="headerLogo" title="메인 페이지로 이동">
                 <img src="/images/headerLogo.svg" class="img-responsive" alt="일진그룹 로고">
                 <!--<img src="/images/headerLogo_lotte.svg" class="img-responsive" alt="롯데에너지머트리얼즈 로고">-->
 				<!--<img src="/images/headerLogo_jtv.svg" class="img-responsive" alt="전주방송 로고">-->
@@ -10,7 +10,7 @@
             </a>
             <p>편하고 빠른 전자입찰시스템</p>
         </div>
-        <div class="headerRight">
+        <div v-if="this.$store.state.loginInfo !== null && this.$store.state.token !== ''" class="headerRight">
             <!-- 프로필 드롭다운1 -->
             <div class="profileDropWrap">
                 <a href="javascript:void(0)" class="profileDrop"><i class="fa-solid fa-circle-user"></i>{{ this.$store.state.loginInfo.userName }}님<i class="fa-solid fa-sort-down"></i></a><!--{{ this.$store.state.loginInfo.loginId }}-->

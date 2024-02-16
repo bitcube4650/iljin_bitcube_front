@@ -5,27 +5,29 @@ const handler1 = {
     const fileInput = document.querySelector('#file-input');
     const preview = document.querySelector('#preview');
 
-    fileInput.addEventListener('change', () => {
-      const files = Array.from(fileInput.files);
+    if (fileInput) {
+      fileInput.addEventListener('change', () => {
+        const files = Array.from(fileInput.files);
 
-      if (files.length > this.maxFileCount) {
-        alert(`최대 ${this.maxFileCount}개의 파일만 업로드할 수 있습니다.`);
-        fileInput.value = ''; // 파일 입력 초기화
-        return;
-      }
+        if (files.length > this.maxFileCount) {
+          alert(`최대 ${this.maxFileCount}개의 파일만 업로드할 수 있습니다.`);
+          fileInput.value = ''; // 파일 입력 초기화
+          return;
+        }
 
-      preview.innerHTML = ''; // 이전 미리보기 내용 지우기
+        preview.innerHTML = ''; // 이전 미리보기 내용 지우기
 
-      files.forEach(file => {
-        preview.innerHTML += `
-          <p id="${file.lastModified}">
-            ${file.name}
-            <button data-index='${file.lastModified}' class='file-remove'>삭제</button>
-          </p>`;
+        files.forEach(file => {
+          preview.innerHTML += `
+            <p id="${file.lastModified}">
+              ${file.name}
+              <button data-index='${file.lastModified}' class='file-remove'>삭제</button>
+            </p>`;
+        });
       });
-    });
 
-    this.removeFile();
+      this.removeFile();
+    }
   },
 
   removeFile() {
@@ -58,17 +60,19 @@ const handler2 = {
 	init() {
 		const fileInput = document.querySelector('#file-input2');
 		const preview = document.querySelector('#preview2');
-		fileInput.addEventListener('change', () => {  
-			console.dir(fileInput)                  
-			const files = Array.from(fileInput.files)
-			files.forEach(file => {
-				preview.innerHTML += `
-				<p id="${file.lastModified}">
-					${file.name}
-					<button data-index='${file.lastModified}' class='file-remove'>삭제</button>
-				</p>`;
-			});
-		});
+    if (fileInput) {
+      fileInput.addEventListener('change', () => {  
+        console.dir(fileInput)                  
+        const files = Array.from(fileInput.files)
+        files.forEach(file => {
+          preview.innerHTML += `
+          <p id="${file.lastModified}">
+            ${file.name}
+            <button data-index='${file.lastModified}' class='file-remove'>삭제</button>
+          </p>`;
+        });
+      });
+    }
 	},
 
 	removeFile: () => {
@@ -107,17 +111,19 @@ const handler3 = {
 	init() {
 		const fileInput = document.querySelector('#file-input3');
 		const preview = document.querySelector('#preview3');
-		fileInput.addEventListener('change', () => {  
-			console.dir(fileInput)                  
-			const files = Array.from(fileInput.files)
-			files.forEach(file => {
-				preview.innerHTML += `
-				<p id="${file.lastModified}">
-					${file.name}
-					<button data-index='${file.lastModified}' class='file-remove'>삭제</button>
-				</p>`;
-			});
-		});
+    if (fileInput) {
+      fileInput.addEventListener('change', () => {  
+        console.dir(fileInput)                  
+        const files = Array.from(fileInput.files)
+        files.forEach(file => {
+          preview.innerHTML += `
+          <p id="${file.lastModified}">
+            ${file.name}
+            <button data-index='${file.lastModified}' class='file-remove'>삭제</button>
+          </p>`;
+        });
+      });
+    }
 	},
 
 	removeFile: () => {
@@ -159,27 +165,29 @@ const handler4 = {
         const fileInput = document.querySelector('#file-input4');
         const preview = document.querySelector('#preview4');
 
-        fileInput.addEventListener('change', () => {
-            const files = Array.from(fileInput.files);
+        if (fileInput) {
+          fileInput.addEventListener('change', () => {
+              const files = Array.from(fileInput.files);
 
-            if (files.length > this.maxFileCount) {
-                alert(`최대 ${this.maxFileCount}개의 파일만 업로드할 수 있습니다.`);
-                fileInput.value = ''; // 파일 입력 초기화
-                return;
-            }
+              if (files.length > this.maxFileCount) {
+                  alert(`최대 ${this.maxFileCount}개의 파일만 업로드할 수 있습니다.`);
+                  fileInput.value = ''; // 파일 입력 초기화
+                  return;
+              }
 
-            preview.innerHTML = ''; // 이전 미리보기 내용 지우기
+              preview.innerHTML = ''; // 이전 미리보기 내용 지우기
 
-            files.forEach(file => {
-                preview.innerHTML += `
-                    <p id="${file.lastModified}">
-                        ${file.name}
-                        <button data-index='${file.lastModified}' class='file-remove'>삭제</button>
-                    </p>`;
-            });
-        });
+              files.forEach(file => {
+                  preview.innerHTML += `
+                      <p id="${file.lastModified}">
+                          ${file.name}
+                          <button data-index='${file.lastModified}' class='file-remove'>삭제</button>
+                      </p>`;
+              });
+          });
 
-        this.removeFile(fileInput, preview);
+          this.removeFile(fileInput, preview);
+        }
     },
 
     removeFile(fileInput, preview) {

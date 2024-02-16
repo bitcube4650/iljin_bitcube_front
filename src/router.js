@@ -25,6 +25,18 @@ export default new Router({
                 import ('./views/Main.vue'),
         },
         {
+            path: '/signup',
+            name: 'Signup',
+            component: () =>
+                import ('./views/Signup.vue'),
+        },
+        {
+            path: '/signup2',
+            name: 'Signup2',
+            component: () =>
+                import ('./views/Signup2.vue'),
+        },
+        {
             path: '/codeMng',
             name: 'codeMng',
             component: () =>
