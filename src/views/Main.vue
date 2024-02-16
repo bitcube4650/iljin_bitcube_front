@@ -1,149 +1,95 @@
 <template>
 
-    <div>
-        <!-- wrap -->
-        <div id="wrap">
-            <!--헤더-->
-            <Header @infoOrPwd="clickMenu" />
-            <!--//헤더-->
-            <!-- contentWrap -->
-            <div class="contentWrap">
-                <!--메뉴-->
-                <Menu @infoOrPwd="clickMenu" />
-                <!--//메뉴-->
-                <!-- conRightWrap -->
-                <div class="conRightWrap">
-                    <!-- 본문 -->
-                    <div class="conRight">
-                        <!-- conHeader -->
-                        <div class="conHeader">
-                            <ul class="conHeaderCate">
-                                <li>메인</li>
-                            </ul>
-                        </div>
-                        <!-- //conHeader -->
-                        <!-- contents -->
-                        <div class="contents">
-                            <div class="mainBanner"><img src="/images/mainBanner01.jpg" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>
-                            <!--<div class="mainBanner"><img src="/images/mainBanner01_lotte.jpg" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>-->
-                            <!--<div class="mainBanner"><img src="/images/mainBanner01_jtv.jpg" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>-->
+    <!-- 본문 -->
+    <div class="conRight">
+        <!-- conHeader -->
+        <div class="conHeader">
+            <ul class="conHeaderCate">
+                <li>메인</li>
+            </ul>
+        </div>
+        <!-- //conHeader -->
+        <!-- contents -->
+        <div class="contents">
+            <div class="mainBanner"><img src="/images/mainBanner01.jpg" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>
+            <!--<div class="mainBanner"><img src="/images/mainBanner01_lotte.jpg" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>-->
+            <!--<div class="mainBanner"><img src="/images/mainBanner01_jtv.jpg" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>-->
 
-                            <div class="mainConLayout">
-                                <div class="mcl_left mainConBox">
-                                    <h2 class="h2Tit">전자입찰</h2>
-                                    <div class="biddingList">
-                                        <a href="javascript:void(0)" class="biddingStep1">
-                                            <div class="biddingListLeft"><i class="fa-light fa-flag"></i>입찰계획</div>
-                                            <div class="biddingListRight"><span>3</span>건<i class="fa-light fa-angle-right"></i></div>
-                                        </a>
-                                        <a href="javascript:void(0)" class="biddingStep2">
-                                            <div class="biddingListLeft"><i class="fa-light fa-comments"></i>진행중</div>
-                                            <div class="biddingListRight"><span>3</span>건<i class="fa-light fa-angle-right"></i></div>
-                                        </a>
-                                        <a href="javascript:void(0)" class="biddingStep3">
-                                            <div class="biddingListLeft"><i class="fa-light fa-files"></i>개찰대상</div>
-                                            <div class="biddingListRight"><span>1</span>건<i class="fa-light fa-angle-right"></i></div>
-                                        </a>
-                                        <a href="javascript:void(0)" class="biddingStep4">
-                                            <div class="biddingListLeft"><i class="fa-light fa-file-check"></i>낙찰 (3개월)</div>
-                                            <div class="biddingListRight"><span>5</span>건<i class="fa-light fa-angle-right"></i></div>
-                                        </a>
-                                        <a href="javascript:void(0)" class="biddingStep5">
-                                            <div class="biddingListLeft"><i class="fa-light fa-puzzle-piece"></i>유찰 (3개월)</div>
-                                            <div class="biddingListRight"><span>7</span>건<i class="fa-light fa-angle-right"></i></div>
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="mcl_right">
-                                    <div class="mainConBox">
-                                        <h2 class="h2Tit">협력업체<a href="javascript:void(0)" title="협력업체 페이지로 이동" class="mainConBoxMore">더보기<i class="fa-solid fa-circle-plus"></i></a></h2>
-                                        <div class="cooperativ">
-                                            <a href="javascript:void(0)" title="미승인 업체 페이지로 이동">
-                                                <span class="cooperativ_tit">미승인 업체</span>
-                                                <span class="cooperativ_num">0</span>
-                                            </a>
-                                            <a href="javascript:void(0)" title="승인 업체 (인증서 제출) 페이지로 이동">
-                                                <span class="cooperativ_tit">승인 업체 (인증서 제출)</span>
-                                                <span class="cooperativ_num">55</span>
-                                            </a>
-                                            <a href="javascript:void(0)" title="승인 업체 (인증서 미제출) 페이지로 이동">
-                                                <span class="cooperativ_tit">승인 업체 (인증서 미제출)</span>
-                                                <span class="cooperativ_num">7</span>
-                                            </a>
-                                            <a href="javascript:void(0)" title="삭제 업체 페이지로 이동">
-                                                <span class="cooperativ_tit">삭제 업체</span>
-                                                <span class="cooperativ_num">18</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                    <div class="mainConBox">
-                                        <h2 class="h2Tit">공지사항<a href="javascript:void(0)" title="공지사항 페이지로 이동" class="mainConBoxMore">더보기<i class="fa-solid fa-circle-plus"></i></a></h2>
-                                        <div class="notiList">
-                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#notiModal" title="해당 게시글 자세히 보기">
-                                                <span class="notiTit">[시스템 OPEN공지] e-BIDDING SYSTEM(전자입찰시스템)이 오픈했습니다 e-BIDDING SYSTEM(전자입찰시스템)이 오픈했습니다</span>
-                                                <span class="notiDate">2024-01-15</span>
-                                            </a>
-                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#notiModal" title="해당 게시글 자세히 보기">
-                                                <span class="notiTit">[공통] 문자 발송 오류 안내</span>
-                                                <span class="notiDate">2024-01-15</span>
-                                            </a>
-                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#notiModal" title="해당 게시글 자세히 보기">
-                                                <span class="notiTit">[일진전기] 01월 협력사 등록 안내 01월 협력사 등록 안내</span>
-                                                <span class="notiDate">2024-01-15</span>
-                                            </a>
-                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#notiModal" title="해당 게시글 자세히 보기">
-                                                <span class="notiTit">[일진전기] 12월 협력사 등록 안내 12월 협력사 등록 안내</span>
-                                                <span class="notiDate">2024-01-15</span>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- //contents -->
+            <div class="mainConLayout">
+                <div class="mcl_left mainConBox">
+                    <h2 class="h2Tit">전자입찰</h2>
+                    <div class="biddingList">
+                        <a href="javascript:void(0)" class="biddingStep1">
+                            <div class="biddingListLeft"><i class="fa-light fa-flag"></i>입찰계획</div>
+                            <div class="biddingListRight"><span>3</span>건<i class="fa-light fa-angle-right"></i></div>
+                        </a>
+                        <a href="javascript:void(0)" class="biddingStep2">
+                            <div class="biddingListLeft"><i class="fa-light fa-comments"></i>진행중</div>
+                            <div class="biddingListRight"><span>3</span>건<i class="fa-light fa-angle-right"></i></div>
+                        </a>
+                        <a href="javascript:void(0)" class="biddingStep3">
+                            <div class="biddingListLeft"><i class="fa-light fa-files"></i>개찰대상</div>
+                            <div class="biddingListRight"><span>1</span>건<i class="fa-light fa-angle-right"></i></div>
+                        </a>
+                        <a href="javascript:void(0)" class="biddingStep4">
+                            <div class="biddingListLeft"><i class="fa-light fa-file-check"></i>낙찰 (3개월)</div>
+                            <div class="biddingListRight"><span>5</span>건<i class="fa-light fa-angle-right"></i></div>
+                        </a>
+                        <a href="javascript:void(0)" class="biddingStep5">
+                            <div class="biddingListLeft"><i class="fa-light fa-puzzle-piece"></i>유찰 (3개월)</div>
+                            <div class="biddingListRight"><span>7</span>건<i class="fa-light fa-angle-right"></i></div>
+                        </a>
                     </div>
-                    <!-- //본문 -->
-
-                    <!-- 서브 푸터 -->
-                    <Footer />
-                    <!-- //서브 푸터 -->
                 </div>
-                <!-- //conRightWrap -->
-            </div>
-
-        </div>
-        <!-- //wrap -->
-
-
-        <!-- 로그아웃 -->
-        <div class="modal fade modalStyle" id="logout" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" style="width:100%; max-width:420px">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-                        <div class="alertText1">로그아웃 하시겠습니까?</div>
-                        <div class="modalFooter">
-                            <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
-                            <a @click="logout" class="modalBtnCheck" data-toggle="modal" title="확인">확인</a>
+                <div class="mcl_right">
+                    <div class="mainConBox">
+                        <h2 class="h2Tit">협력업체<a href="javascript:void(0)" title="협력업체 페이지로 이동" class="mainConBoxMore">더보기<i class="fa-solid fa-circle-plus"></i></a></h2>
+                        <div class="cooperativ">
+                            <a href="javascript:void(0)" title="미승인 업체 페이지로 이동">
+                                <span class="cooperativ_tit">미승인 업체</span>
+                                <span class="cooperativ_num">0</span>
+                            </a>
+                            <a href="javascript:void(0)" title="승인 업체 (인증서 제출) 페이지로 이동">
+                                <span class="cooperativ_tit">승인 업체 (인증서 제출)</span>
+                                <span class="cooperativ_num">55</span>
+                            </a>
+                            <a href="javascript:void(0)" title="승인 업체 (인증서 미제출) 페이지로 이동">
+                                <span class="cooperativ_tit">승인 업체 (인증서 미제출)</span>
+                                <span class="cooperativ_num">7</span>
+                            </a>
+                            <a href="javascript:void(0)" title="삭제 업체 페이지로 이동">
+                                <span class="cooperativ_tit">삭제 업체</span>
+                                <span class="cooperativ_num">18</span>
+                            </a>
                         </div>
-                    </div>				
+                    </div>
+                    <div class="mainConBox">
+                        <h2 class="h2Tit">공지사항<a href="javascript:void(0)" title="공지사항 페이지로 이동" class="mainConBoxMore">더보기<i class="fa-solid fa-circle-plus"></i></a></h2>
+                        <div class="notiList">
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#notiModal" title="해당 게시글 자세히 보기">
+                                <span class="notiTit">[시스템 OPEN공지] e-BIDDING SYSTEM(전자입찰시스템)이 오픈했습니다 e-BIDDING SYSTEM(전자입찰시스템)이 오픈했습니다</span>
+                                <span class="notiDate">2024-01-15</span>
+                            </a>
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#notiModal" title="해당 게시글 자세히 보기">
+                                <span class="notiTit">[공통] 문자 발송 오류 안내</span>
+                                <span class="notiDate">2024-01-15</span>
+                            </a>
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#notiModal" title="해당 게시글 자세히 보기">
+                                <span class="notiTit">[일진전기] 01월 협력사 등록 안내 01월 협력사 등록 안내</span>
+                                <span class="notiDate">2024-01-15</span>
+                            </a>
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#notiModal" title="해당 게시글 자세히 보기">
+                                <span class="notiTit">[일진전기] 12월 협력사 등록 안내 12월 협력사 등록 안내</span>
+                                <span class="notiDate">2024-01-15</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <!-- 개인정보 -->
-        <PersonalInfo />
-
-        <!-- 비밀번호 확인 -->
-        <CheckPwd :infoOrPwd="infoOrPwd" />
-
-        <!-- 비밀번호 변경 -->
-        <ChangePwd />
-
-        <!-- 공지사항 자세히 보기 -->
-        <NoticeDetailPopup />
-
+        <!-- //contents -->
     </div>
+    <!-- //본문 -->
 
 
     <!--//////////////////////////////////////////////////////////////////////////////////////////-->
@@ -506,7 +452,6 @@ export default {
         this.infoOrPwd = menu;
         $('#mody1').modal('show');
     },
-
     /* 기존소스
     getStartDate(){
       //22.5.10 open 회계일자 조회
@@ -531,47 +476,6 @@ export default {
       });
     },
     */
-    //로그아웃
-    logout() {
-
-        $('#logout').modal('hide');//로그아웃 모달창 닫기
-
-        this.$http
-              .get('/logout')
-              .then(() => {
-                this.$store.commit('logout');
-                this.$cookie.delete('loginInfo');//로그인 유저정보 삭제
-
-              })
-              .catch((e) => {
-                console.error(e);
-              })
-
-    //------------------------------------------------------
-    //기존 소스
-    /* 
-      this.$swal({
-        type: 'info',
-        html: `그룹웨어 로그아웃이 선행되야 로그아웃이 됩니다.<br>아닌경우 다시 자동 로그인 처리됩니다.<br>로그아웃을 진행하시겠습니까?`,
-        showCancelButton: true,
-        confirmButtonText: '예',
-        cancelButtonText: '아니오',
-      }).then((result) => {
-        if (result.value) {
-          this.$http
-              .get('/logout')
-              .then(() => {
-                this.$store.commit('logout');
-                this.$cookie.delete('loginInfo');
-                this.$router.push({path: `/backOffice`});
-              })
-              .catch((e) => {
-                console.error(e);
-              })
-        }
-      })
-    */
-    },
 
     /* 기존소스
     //메인화면 데이터 불러오기

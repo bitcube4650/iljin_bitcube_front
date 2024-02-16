@@ -4,7 +4,7 @@
         <div class="modal-dialog" style="width:100%; max-width:800px">
             <div class="modal-content">
                 <div class="modal-body">
-                    <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+                    <a  class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
                     <h2 class="modalTitle">업무(입찰)안내</h2>
                     <div class="modalTopBox">
                         <ul>
@@ -90,7 +90,7 @@
                         </tbody>
                     </table>
                     <div class="modalFooter">
-                        <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
+                        <a class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
                     </div>
                 </div>				
             </div>

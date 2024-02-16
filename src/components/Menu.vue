@@ -75,6 +75,23 @@
       </ul>
       <!-- //LNB -->
 
+        <!-- 로그아웃 -->
+        <div class="modal fade modalStyle" id="logout" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" style="width:100%; max-width:420px">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+                        <div class="alertText1">로그아웃 하시겠습니까?</div>
+                        <div class="modalFooter">
+                            <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
+                            <a @click="logout" class="modalBtnCheck" data-toggle="modal" title="확인">확인</a>
+                        </div>
+                    </div>				
+                </div>
+            </div>
+        </div>
+        <!-- //로그아웃 -->
+
     </div>
     <!-- //conLeft -->
   
@@ -120,6 +137,47 @@
       };
     },
     methods: {
+        //로그아웃
+        logout() {
+
+            $('#logout').modal('hide');//로그아웃 모달창 닫기
+
+            this.$http
+                .get('/logout')
+                .then(() => {
+                    this.$store.commit('logout');
+                    this.$cookie.delete('loginInfo');//로그인 유저정보 삭제
+
+                })
+                .catch((e) => {
+                    console.error(e);
+                })
+
+            //------------------------------------------------------
+            //기존 소스
+            /* 
+            this.$swal({
+            type: 'info',
+            html: `그룹웨어 로그아웃이 선행되야 로그아웃이 됩니다.<br>아닌경우 다시 자동 로그인 처리됩니다.<br>로그아웃을 진행하시겠습니까?`,
+            showCancelButton: true,
+            confirmButtonText: '예',
+            cancelButtonText: '아니오',
+            }).then((result) => {
+            if (result.value) {
+            this.$http
+                .get('/logout')
+                .then(() => {
+                    this.$store.commit('logout');
+                    this.$cookie.delete('loginInfo');
+                    this.$router.push({path: `/backOffice`});
+                })
+                .catch((e) => {
+                    console.error(e);
+                })
+            }
+            })
+            */
+        },
     /* 기존소스
       //1. 메인메뉴
       getMainMenu() {

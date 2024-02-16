@@ -5,7 +5,18 @@
         <!-- //header -->
 
         <div id=app v-if="$route.path.substr(0,7)=='/mobile' || $route.path=='/' || $route.path.substr(0,20)=='/evidAtchPopModeless'">
-            <router-view :key="$route.fullPath"/>
+            <div id="wrap">
+                <Header />
+                <div class="contentWrap">
+                    <Menu />
+                    <div class="conRightWrap">
+                        <router-view :key="$route.fullPath"/>
+                        <div class="footer">
+                            <Footer />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div id=app v-else>
@@ -18,11 +29,23 @@
                 <!-- <Swiper/> -->
                 <!-- //swiper-container -->
                 <!-- back button S -->
-                <button class="back_auto" v-if="showBackBtn" @click="back">
-                    <span class="btn-icon"><i class="fas fa-arrow-left"></i></span>뒤로가기</button>
+                <!--<button class="back_auto" v-if="showBackBtn" @click="back">-->
+                <!--    <span class="btn-icon"><i class="fas fa-arrow-left"></i></span>뒤로가기</button>-->
                 <!-- back button E -->
                 <!-- Main -->
-                <router-view :key="$route.fullPath"/>
+                <div id="wrap">
+                    <Header />
+                    <div class="contentWrap">
+                        <Menu />
+                        <div class="conRightWrap">
+                            <router-view :key="$route.fullPath"/>
+                            <div class="footer">
+                                <Footer />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        
                 <!-- Main -->
                 <!-- <div class="footer">
                     © ILJIN ALL RIGHTS RESERVED.
@@ -52,11 +75,13 @@
 
 <script>
     import Navbar from "@/components/Navbar.vue";
-    import Menu from "@/components/Menu.vue";
     import Swiper from "@/components/Swiper.vue";
     import Login from "@/views/Login.vue";
     import MyMain from "@/views/Main.vue";
-    import router from './router';
+    import Menu from "@/components/Menu.vue";
+    import Header from "@/components/Header.vue";
+    import Footer from "@/components/Footer.vue";
+   // import router from './router';
     // Import component
     import Loading from 'vue-loading-overlay';
     // Import stylesheet
@@ -67,8 +92,9 @@
     
     export default {
         name: "App",
-        components: {Navbar, Menu, Swiper, Login, MyMain, Loading},
+        components: {Navbar, Menu, Swiper, Login, MyMain, Loading, Header, Footer},
         methods: {
+            /* 기존소스
             isShowBackBtn(){
               var routeName = this.$route.name
               var routeValue = this.routeHistory[this.routeHistory.length -2]
@@ -117,20 +143,24 @@
             serverSessionCheck() {
 
             },
+            */
         },
         data() {
             return {
+                /* 기존소스
                 isOpen: true,
                 route: router,
                 isLoading: false,
                 prevRoute: null,
                 routeHistory:[],
                 showBackBtn:false
+                */
             };
 
         },
 
         created() {
+            /* 기존소스
             if (!Array.prototype.filter) {
                 Array.prototype.filter = function (func, thisArg) {
                     'use strict';
@@ -194,6 +224,7 @@
                 document.head.appendChild(link);
 
             }
+            */
         },
         mounted() {
 
@@ -268,6 +299,7 @@
             */
         },
         watch: {
+            /* 기존소스
             '$route'(to, from) {
               if(to.name && from.name){
                 this.prevRoute = from
@@ -275,6 +307,7 @@
                 this.isShowBackBtn()
               }
             }
+            */
         }
     };
 </script>

@@ -1,24 +1,22 @@
 <template>
-  <div>
-    <!-- 서브 푸터 -->
-    <div class="subFooter">
-        © ILJIN ALL RIGHTS RESERVED.
-        <div class="subFooterUtill">
-            <a href="javascript:void(0)" title="공동인증서">공동인증서</a>
-            <a href="javascript:void(0)" data-toggle="modal" data-target="#regProcess" title="업체등록절차">업체등록절차</a>
-            <a href="javascript:void(0)" data-toggle="modal" data-target="#biddingInfo" title="입찰업무안내">입찰업무안내</a>
-        </div>
-    </div>
-    <!-- //서브 푸터 -->
 
-    <!-- 업체등록절차 -->
-    <EnrollmentProcess />
+  <!-- 서브 푸터 -->
+  <div class="subFooter">
+      © ILJIN ALL RIGHTS RESERVED.
+      <div class="subFooterUtill">
+          <a title="공동인증서">공동인증서</a>
+          <a @click="clickRegProcess" title="업체등록절차">업체등록절차</a>
+          <a @click="clickBiddingInfo" title="입찰업무안내">입찰업무안내</a>
+      </div>
+      <!-- 업체등록절차 -->
+      <EnrollmentProcess />
 
-    <!-- 업무안내 -->
-    <BiddingGuide />
-
-    
+      <!-- 업무안내 -->
+      <BiddingGuide />
   </div>
+  <!-- //서브 푸터 -->
+
+
 </template>
 <script>
 import EnrollmentProcess from "./EnrollmentProcess.vue";
@@ -33,7 +31,12 @@ export default {
 
   data() {
     return {
- 
+      clickRegProcess(){//업체등록절차 클릭
+        $("#regProcess").modal("show");
+      },
+      clickBiddingInfo(){//입찰업무안내 클릭
+        $("#biddingInfo").modal("show");
+      },
     };
   },
   methods: {
