@@ -54,7 +54,7 @@
     import Navbar from "@/components/Navbar.vue";
     import Menu from "@/components/Menu.vue";
     import Swiper from "@/components/Swiper.vue";
-    import Login from "@/components/Login.vue";
+    import Login from "@/views/Login.vue";
     import MyMain from "@/views/Main.vue";
     import router from './router';
     // Import component

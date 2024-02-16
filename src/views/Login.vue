@@ -11,7 +11,7 @@
             </div>
             <h1><img src="/images/loginLogo.svg" class="img-responsive" alt="일진그룹 로고"></h1>
             <input type="text" v-model="loginInfo.loginId" autocomplete="name" name="username" placeholder="사번" autofocus="" class="loginInputStyle">
-            <input type="password" v-model="loginInfo.loginPw" autocomplete="new-password" name="password" @keypress="caps_lock" @keypress.enter="login" class="loginInputStyle mt10" placeholder="비밀번호">
+            <input type="password" v-model="loginInfo.loginPw" autocomplete="new-password" name="password" @keypress.enter="login" class="loginInputStyle mt10" placeholder="비밀번호">
             <div class="loginFindWrap">
               <input type="checkbox" id="chkID" name="chkID" class="loginCheckStyle"><label for="chkID">아이디 저장</label>
               <ul class="loginFind">
@@ -447,6 +447,7 @@ export default {
     }
   },
   methods: {
+    /* 기존 소스
     // 2020.08.31 'CapsLock'알림
     caps_lock() {
       var input = document.getElementById("myInput");
@@ -460,6 +461,7 @@ export default {
         }
       });
     },
+    */
     loginFail() {
       //아이디 또는 비밀번호를 확인해 주십시오 Alert 창 띄우기
       $("#loginAlert").modal("show"); 

@@ -306,8 +306,8 @@
 import _ from "lodash";
 import router from "@/router.js";
 import Menu from "@/components/Menu.vue";
-import Header from "../../../components/Header.vue";
-import Footer from "../../../components/Footer.vue";
+import Header from "@/components/Header.vue";
+import Footer from "@/components/Footer.vue";
 
 /**
  * Url JOIN

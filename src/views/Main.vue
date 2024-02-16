@@ -495,16 +495,19 @@ export default {
      
 
 
+    /* 기존소스
       this.getMyMain();
       this.mainMenu();
       this.getStartDate();
-
+    */
   },
   methods: {
     clickMenu(menu){//개인정보 수정 눌렀는지 비밀번호 변경 눌렀는지 update
         this.infoOrPwd = menu;
         $('#mody1').modal('show');
     },
+
+    /* 기존소스
     getStartDate(){
       //22.5.10 open 회계일자 조회
       let openDt = ''
@@ -527,7 +530,7 @@ export default {
         component: menual,
       });
     },
-
+    */
     //로그아웃
     logout() {
 
@@ -569,6 +572,8 @@ export default {
       })
     */
     },
+
+    /* 기존소스
     //메인화면 데이터 불러오기
     getMyMain() {
         this.$http.get(`/api/dashboard/${this.$store.state.loginInfo.compCd}/${this.$store.state.loginInfo.loginId}`)
@@ -790,6 +795,7 @@ export default {
         let targetName = (params.eaSlipNo === null || params.slipStatCd === '10') ? 'pExpense' : 'billSlipMng';
         this.$router.push({ name: targetName, params: params });
     }
+    */
 
   },
 };

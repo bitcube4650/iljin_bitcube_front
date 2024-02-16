@@ -1,6 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import bidRoutes from './modules/bid/router/router';
+import bidRoutes from './modules/bid/router/index.js';
+import noticeRoutes from './modules/notice/router/index.js';
+import companyRoutes from './modules/company/router/index.js';
+
 
 Vue.use(Router);
 
@@ -13,7 +16,7 @@ export default new Router({
             name: 'Login',
             props: true,
             component: () =>
-                import ('./components/Login.vue'),
+                import ('./views/Login.vue'),
         },
         {
             path: '/',
@@ -27,16 +30,9 @@ export default new Router({
             component: () =>
                 import ('./views/CodeMng.vue'),
         },
-        
-        {
-            path: '/bid',
-            name: 'bidProgress',
-            component: () =>
-                import ('./modules/bid/views/BidProgress.vue'),
-            // children: [
-            //     ...bidRoutes,
-            // ]
-        },
+        ...bidRoutes,
+        ...noticeRoutes,
+        ...companyRoutes
 
         
 //template[end]         

@@ -24,9 +24,9 @@
               <a href="javascript:void(0)"><span><i class="fa-light fa-file-contract"></i></span>전자입찰</a>
               <div class="depth2Lnb">
                   <ul>
-                      <li v-if="company == 'group'" ><a @click="routing">입찰계획</a></li>
-                      <li><a>입찰진행</a></li>
-                      <li><a >입찰완료</a></li>
+                      <li v-if="company == 'group'" ><a @click="clickBidProgress">입찰계획</a></li>
+                      <li><a @click="clickBidStatus">입찰진행</a></li>
+                      <li><a @click="clickBidComplete">입찰완료</a></li>
                       <li v-if="company == 'group'"><a>입찰이력</a></li>
                   </ul>
               </div>
@@ -35,9 +35,9 @@
               <a href="javascript:void(0)"><span><i class="fa-light fa-bullhorn"></i></span>공지</a>
               <div class="depth2Lnb">
                   <ul>
-                      <li><a>공지사항</a></li>
-                      <li><a>FAQ</a></li>
-                      <li><a>메뉴얼</a></li>
+                      <li><a @click="clickNotice">공지사항</a></li>
+                      <li><a @click="clickFaq">FAQ</a></li>
+                      <li><a >메뉴얼</a></li>
                   </ul>
               </div>
           </li>
@@ -47,8 +47,8 @@
                   <ul>
                       <li v-if="company == 'group'"><a>업체승인</a></li>
                       <li v-if="company == 'group'"><a>업체관리</a></li>
-                      <li v-if="company == 'partner'"><a>업체승인</a></li>
-                      <li v-if="company == 'partner'"><a>업체관리</a></li>
+                      <li v-if="company == 'partner'"><a @click="clickPartnerCompInfo">자사정보</a></li>
+                      <li v-if="company == 'partner'"><a @click="clickPartnerUser">사용자관리</a></li>
                   </ul>
               </div>
           </li>
@@ -107,13 +107,12 @@
   </template>
   
   <script>
-  import Vue from 'vue';
-  
+
   export default {
     name: 'Menu',
     data() {
       return {
-        company: 'group',
+        company: 'partner',
 
           //menu
           mainmenus:[],
@@ -121,6 +120,7 @@
       };
     },
     methods: {
+    /* 기존소스
       //1. 메인메뉴
       getMainMenu() {
         this.$http.get(`/api/dashboard/${this.$store.state.loginInfo.compCd}/${this.$store.state.loginInfo.loginId}`)
@@ -142,17 +142,49 @@
                   });
               });
       },
-  
-      routing(){
-          this.$router.push({name:"bidProgress"})
-          
+  */
+      clickBidProgress(){//입찰계획 클릭
+        this.$router.push({name:"bidProgress"});
+      },
+      clickBidStatus(){//입찰진행 클릭
+        if(this.company == 'group'){//그룹사인 경우
+
+        }else{//협력사인 경우
+            this.$router.push({name:"partnerBidStatus"});
+        }
+      },
+      clickBidComplete(){//입찰완료 클릭
+        if(this.company == 'group'){//그룹사인 경우
+
+        }else{//협력사인 경우
+            this.$router.push({name:"partnerBidComplete"});
+        }
+
+      },
+      clickNotice(){//공지사항 클릭
+        this.$router.push({name:"notice"});
+      },
+      clickFaq(){//faq 클릭
+        if(this.company == 'group'){//그룹사인 경우
+
+        }else{//협력사인 경우
+            this.$router.push({name:"userFaq"});
+        }
+      },
+      clickPartnerCompInfo(){//자사정보 클릭
+        this.$router.push({name:"partnerCompInfo"});
+      },
+      clickPartnerUser(){//협력사 사용자관리 클릭
+        this.$router.push({name:"partnerUser"});
       }
     },
     created() {
      
     },
     mounted(){
-      if(this.$store.state.loginInfo.compCd && this.$store.state.loginInfo.loginId) this.getMainMenu();
+        /* 기존소스
+        if(this.$store.state.loginInfo.compCd && this.$store.state.loginInfo.loginId) this.getMainMenu();
+        */
     }
   };
   </script>
