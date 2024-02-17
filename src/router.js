@@ -20,9 +20,11 @@ export default new Router({
         },
         {
             path: '/',
-            name: 'main',
-            component: () =>
-                import ('./views/Main.vue'),
+            name: 'Main',
+            components: {
+                inter : () => import ('./views/Main.vue'),
+                cust : () => import ('./views/Main.vue')
+            }
         },
         {
             path: '/signup',

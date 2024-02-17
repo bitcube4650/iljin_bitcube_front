@@ -19,7 +19,7 @@
       <!-- //좌측 입찰상태 표시 -->
       <!-- LNB -->
       <ul class="conLeft">
-          <li class="depth2None active"><a href="javascript:void(0)"><span><i class="fa-light fa-desktop"></i></span>메인</a></li> <!-- 하위메뉴 없을 때 depth2None 추가 -->
+          <li class="depth2None active"><router-link to="/"><span><i class="fa-light fa-desktop"></i></span>메인</router-link></li> <!-- 하위메뉴 없을 때 depth2None 추가 -->
           <li>         
               <a href="javascript:void(0)"><span><i class="fa-light fa-file-contract"></i></span>전자입찰</a>
               <div class="depth2Lnb">

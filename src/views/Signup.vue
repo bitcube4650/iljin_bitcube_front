@@ -166,7 +166,7 @@
             </div>
             <div class="provisionAgree">
                 <input type="checkbox" id="pa2" name="pa2" class="loginCheckStyle"><label for="pa2">약관에 동의</label>
-                <a :href="'/signup2'" class="btnStyle btnOutlineBlue btnMd" title="동의하고 계속하기">동의하고 계속하기</a>
+                <router-link to="/signup2" replace class="btnStyle btnOutlineBlue btnMd" title="동의하고 계속하기">동의하고 계속하기</router-link>
             </div>
         </div>
         <div class="subFooter mt50">

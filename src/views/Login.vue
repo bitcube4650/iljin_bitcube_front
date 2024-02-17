@@ -21,7 +21,7 @@
             </div>
             <div class="loginBtnWrap">
               <a  @click="login" data-target="#loginAlert" class="btnLoginPrimary" title="로그인">로그인</a>
-              <a :href="'/signup'" class="btnLoginOutline mt10" title="회원가입">회원가입</a>
+              <router-link to="/signup" class="btnLoginOutline mt10" title="회원가입">회원가입</router-link>
             </div>
           </div>
           <div class="loginRight">
@@ -368,51 +368,6 @@
     </div>
     <!-- //비밀번호 이메일 발송 얼럿 -->
   </div>
-  <!--///////////////////////////////////////////////////////////////////////-->
-  <!--기존 소스-->
-  <!--    
-    <section class="hero is-fullheight login">
-        <div class="hero-body">
-            <div class="container">
-                <div class="columns is-centered">
-                    <article class="card is-rounded">
-                        <div class="card-content">
-                            <h1 class="title">
-                                <img src="img/bg_login_title.png" alt="">
-                            </h1>
-                            <p class="control has-icon">
-                                <input v-model="loginInfo.loginId"
-                                autocomplete="name"
-                                class="input" type="text" name="username"
-                                placeholder="사번" autofocus="">
-                                <i class="fa fa-envelope"></i>
-                            </p>
-                            <p class="control has-icon">
-                                <input v-model="loginInfo.loginPw"
-                                autocomplete="new-password"
-                                class="input" type="password" name="password"
-                                placeholder="비밀번호" id="myInput" @keypress="caps_lock" @keypress.enter="login">
-                                <i class="fa fa-lock"></i>
-                            </p>
-
-                            
-                            <p id="text" class="ly_box">'<strong>Caps Lock</strong>'이 켜져 있습니다.</p>
-                            
-                            <p class="control">
-                                <button class="button is-fullwidth btn-login" @click="login">Login</button>
-                            </p>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </div>
-
-        <div class="footer-login">
-            <span class="copyright">COPYRIGHT © ILJIN ALL RIGHTS RESERVED.</span>
-        </div>
-
-    </section>
-  -->
 </template>
 
 <script>
@@ -431,37 +386,17 @@ export default {
   data() {
     return {
       loginInfo: {
-        loginId: '',
-        loginPw: '',
-        compCd: '',
-        loginDeptNm: '',
-        loginDeptCd: '',
-        loginDutCd: '',
-        loginDutNm: '',
-        loginJobCd: '',
-        loginJobNm: '',
-        token: '',
-        menu: [],
-        authorities: [],
+        custType: '',
+        custCode: '',
+        custName: '',
+        userId: '',
+        userName: '',
+        userAuth: '',
+        token: ''
       },
     }
   },
   methods: {
-    /* 기존 소스
-    // 2020.08.31 'CapsLock'알림
-    caps_lock() {
-      var input = document.getElementById("myInput");
-      var text = document.getElementById("text");
-      input.addEventListener("keyup", function(event) {
-
-      if (event.getModifierState("CapsLock")) {
-          text.style.display = "block";
-        } else {
-          text.style.display = "none"
-        }
-      });
-    },
-    */
     loginFail() {
       //아이디 또는 비밀번호를 확인해 주십시오 Alert 창 띄우기
       $("#loginAlert").modal("show"); 
@@ -478,19 +413,7 @@ export default {
       try {
         this.$store.commit('loading');
         const response = await this.$http.post('/login', this.loginInfo);
-        const loginInfo = {};
-        loginInfo.userName = response.data.userName;
-        loginInfo.loginId = response.data.loginId;
-        loginInfo.compCd = response.data.loginCompCd;
-        loginInfo.loginDeptNm = response.data.loginDeptNm;
-        loginInfo.loginDeptCd = response.data.loginDeptCd;
-        loginInfo.loginDutCd = response.data.loginDutCd;
-        loginInfo.loginDutNm = response.data.loginDutNm;
-        loginInfo.loginJobCd = response.data.loginJobCd;
-        loginInfo.loginJobNm = response.data.loginJobNm;
-        loginInfo.token = response.data.token;
-        loginInfo.menu = response.data.menu;
-        loginInfo.authorities = response.data.authorities;
+        const loginInfo = Object.assign({}, response.data);
         loginInfo.loginPw = 'Not Use';
         
         this.$store.commit('login', loginInfo);

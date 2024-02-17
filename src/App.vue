@@ -8,7 +8,21 @@
         </div>
     </div>
     <div v-else-if="this.$store.state.loginInfo !== null && this.$store.state.token !== ''" class="wrap">
-        <div id="app" v-if="$route.path=='/' || $route.path.substr(0,20)=='/evidAtchPopModeless'">
+        <div id="app" v-if="$route.path=='/'">
+            <div id="wrap">
+                <Header />
+                <div class="contentWrap">
+                    <Menu />
+                    <div class="conRightWrap">
+                        <router-view :key="$route.fullPath" :name="this.$store.state.loginInfo.custType"/>
+                        <div class="footer">
+                            <Footer /> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="app" v-else-if="$route.path.substr(0,20)=='/evidAtchPopModeless'">
             <div id="wrap">
                 <Header />
                 <div class="contentWrap">
@@ -16,7 +30,7 @@
                     <div class="conRightWrap">
                         <router-view :key="$route.fullPath"/>
                         <div class="footer">
-                            <Footer />
+                            <Footer /> 
                         </div>
                     </div>
                 </div>
@@ -60,6 +74,7 @@
 <script>
     import Navbar from "@/components/Navbar.vue";
     import Swiper from "@/components/Swiper.vue";
+    import router from '@/router.js';
     import Login from "@/views/Login.vue";
     import MyMain from "@/views/Main.vue";
     import Menu from "@/components/Menu.vue";

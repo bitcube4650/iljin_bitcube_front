@@ -9,14 +9,13 @@ export default new Vuex.Store({
     plugins: [createPersistedState()],
     state: {
         loginInfo: {
+            custType: '',
+            custCode: '',
+            custName: '',
+            userId: '',
             userName: '',
-            loginId: '',
-            loginPw: '',
-            loginCompCd: '',
-            token: '',
-            authorities: [],
-            menus: [],
-            color: '',
+            userAuth: '',
+            token: ''
         },
         loginCctr: {
             cctrCd: '',
