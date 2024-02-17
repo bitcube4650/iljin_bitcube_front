@@ -105,7 +105,9 @@
 
         },
         created() {
-            this.$http.defaults.headers['x-auth-token'] = this.$store.state.loginInfo.token;
+            if (this.$store.state.loginInfo) {
+                this.$http.defaults.headers['x-auth-token'] = this.$store.state.loginInfo.token;
+            }
             // server session check
             this.$http.get('/')
             .catch((ex) => {

@@ -15,8 +15,8 @@
             <div class="loginFindWrap">
               <input type="checkbox" id="chkID" name="chkID" class="loginCheckStyle"><label for="chkID">아이디 저장</label>
               <ul class="loginFind">
-                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#idSearch" title="아이디 찾기">아이디 찾기</a></li>
-                <li><a href="javascript:void(0)" data-toggle="modal" data-target="#pwSearch" title="비밀번호 찾기">비밀번호 찾기</a></li>
+                <li><a href="#" @click="$refs.idSearchPop.initModal()" data-toggle="modal" data-target="#idSearch" title="아이디 찾기">아이디 찾기</a></li>
+                <li><a href="#" @click="$refs.pwSearchPop.initModal()" data-toggle="modal" data-target="#pwSearch" title="비밀번호 찾기">비밀번호 찾기</a></li>
               </ul>
             </div>
             <div class="loginBtnWrap">
@@ -35,9 +35,9 @@
           <div class="inner">
             <div class="loginFootLeft"><img src="/images/footerLogo.svg" class="img-responsive" alt="일진그룹 로고"></div>
             <div class="loginFootCenter">
-              <a href="javascript:void(0)" title="공동인증서">공동인증서</a>
-              <a href="javascript:void(0)" data-toggle="modal" data-target="#regProcess" title="업체등록절차">업체등록절차</a>
-              <a href="javascript:void(0)" data-toggle="modal" data-target="#biddingInfo" title="입찰업무안내">입찰업무안내</a>
+              <a href="#" title="공동인증서">공동인증서</a>
+              <a href="#" data-toggle="modal" data-target="#regProcess" title="업체등록절차">업체등록절차</a>
+              <a href="#" data-toggle="modal" data-target="#biddingInfo" title="입찰업무안내">입찰업무안내</a>
             </div>
             <div class="loginFootRight">
               <div class="loginSelectStyle">
@@ -63,158 +63,23 @@
       </div>
     </div>
 
-    <!-- 아이디 or 비밀번호 확인 -->
-    <div class="modal fade modalStyle" id="loginAlert" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog" style="width:100%; max-width:420px">
-        <div class="modal-content">
-          <div class="modal-body">
-            <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-            <div class="alertText1">아이디 또는 비밀번호를 확인해 주십시오</div>
-            <div class="modalFooter">
-              <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-            </div>
-          </div>				
-        </div>
-      </div>
-    </div>
+    <!-- 아이디 찾기 팝업 -->
+    <id-search ref="idSearchPop"/>
+
+    <!-- 비밀번호 찾기 팝업 -->
+    <pw-search ref="pwSearchPop"/>
 
     <!-- 업체등록절차 -->
-    <EnrollmentProcess />
+    <enrollment-process />
 
     <!-- 업무안내 -->
-    <BiddingGuide />
-
-    <!-- 아이디찾기 -->
-    <div class="modal fade modalStyle" id="idSearch" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog" style="width:100%; max-width:510px">
-        <div class="modal-content">
-          <div class="modal-body">
-            <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-            <h2 class="modalTitle">아이디 찾기</h2>
-            <div class="modalTopBox">
-              <ul>
-                <li><div>아래 사업자등록번호, 찾고자 하는 로그인 사용자명 그리고 등록된 이메일을 정확인 입력하셔야 이메일로 아이디를 발송합니다.</div></li>
-              </ul>
-            </div>
-            <div class="flex align-items-center mt30">
-              <div class="formTit flex-shrink0 width150px">사업자등록번호 <span class="star">*</span></div>
-              <div class="flex align-items-center width100">
-                <input type="text" name="" id="" class="inputStyle" placeholder="">
-                <span style="margin:0 10px">-</span>
-                <input type="text" name="" id="" class="inputStyle" placeholder="">
-                <span style="margin:0 10px">-</span>
-                <input type="text" name="" id="" class="inputStyle" placeholder="">
-              </div>
-            </div>
-            <div class="flex align-items-center mt10">
-              <div class="formTit flex-shrink0 width150px">로그인 사용자명 <span class="star">*</span></div>
-              <div class="flex align-items-center width100">
-                <input type="text" name="" id="" class="inputStyle" placeholder="">
-              </div>
-            </div>
-            <div class="flex align-items-center mt10">
-              <div class="formTit flex-shrink0 width150px">등록된 이메일 <span class="star">*</span></div>
-              <div class="flex align-items-center width100">
-                <input type="text" name="" id="" class="inputStyle" placeholder="ex) sample@iljin.co.kr">
-              </div>
-            </div>
-            <div class="modalFooter">
-              <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-              <a href="javascript:void(0)" class="modalBtnCheck" data-toggle="modal" data-target="#idSearchAlert" title="아이디 이메일 발송">아이디 이메일 발송</a>
-            </div>
-          </div>				
-        </div>
-      </div>
-    </div>
-    <!-- //아이디찾기 -->
-
-    <!-- 아이디 이메일 발송 얼럿 -->
-    <div class="modal fade modalStyle" id="idSearchAlert" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog" style="width:100%; max-width:420px">
-        <div class="modal-content">
-          <div class="modal-body">
-            <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-            <div class="alertText2">아이디를 찾기 위해서는 필수 정보[<span class="star">*</span>]를 입력해야 합니다.</div>
-            <div class="modalFooter">
-              <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-            </div>
-          </div>				
-        </div>
-      </div>
-    </div>
-    <!-- //아이디 이메일 발송 얼럿 -->
-
-    <!-- 비밀번호 찾기 -->
-    <div class="modal fade modalStyle" id="pwSearch" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog" style="width:100%; max-width:510px">
-        <div class="modal-content">
-          <div class="modal-body">
-            <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-            <h2 class="modalTitle">비밀번호 찾기</h2>
-            <div class="modalTopBox">
-              <ul>
-                <li><div>아래 사업자등록번호, 찾고자 하는 로그인 사용자명, 로그인 아이디 그리고 등록된 이메일을 정확인 입력하셔야 이메일로 비밀번호를 발송합니다.</div></li>
-                <li><div>비밀번호는 초기화되어 발송 하므로 로그인 후 암호를 변경하시고 사용하십시오.</div></li>
-              </ul>
-            </div>
-            <div class="flex align-items-center mt30">
-              <div class="formTit flex-shrink0 width150px">사업자등록번호 <span class="star">*</span></div>
-              <div class="flex align-items-center width100">
-                <input type="text" name="" id="" class="inputStyle" placeholder="">
-                <span style="margin:0 10px">-</span>
-                <input type="text" name="" id="" class="inputStyle" placeholder="">
-                <span style="margin:0 10px">-</span>
-                <input type="text" name="" id="" class="inputStyle" placeholder="">
-              </div>
-            </div>
-            <div class="flex align-items-center mt10">
-              <div class="formTit flex-shrink0 width150px">로그인 사용자명 <span class="star">*</span></div>
-              <div class="flex align-items-center width100">
-                <input type="text" name="" id="" class="inputStyle" placeholder="">
-              </div>
-            </div>
-            <div class="flex align-items-center mt10">
-              <div class="formTit flex-shrink0 width150px">로그인 아이디 <span class="star">*</span></div>
-              <div class="flex align-items-center width100">
-                <input type="text" name="" id="" class="inputStyle" placeholder="">
-              </div>
-            </div>
-            <div class="flex align-items-center mt10">
-              <div class="formTit flex-shrink0 width150px">등록된 이메일 <span class="star">*</span></div>
-              <div class="flex align-items-center width100">
-                <input type="text" name="" id="" class="inputStyle" placeholder="ex) sample@iljin.co.kr">
-              </div>
-            </div>
-            <div class="modalFooter">
-              <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-              <a href="javascript:void(0)" class="modalBtnCheck" data-toggle="modal" data-target="#pwSearchAlert" title="비밀번호 이메일 발송">비밀번호 이메일 발송</a>
-            </div>
-          </div>				
-        </div>
-      </div>
-    </div>
-    <!-- //비밀번호 찾기 -->
-
-    <!-- 비밀번호 이메일 발송 얼럿 -->
-    <div class="modal fade modalStyle" id="pwSearchAlert" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog" style="width:100%; max-width:420px">
-        <div class="modal-content">
-          <div class="modal-body">
-            <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-            <div class="alertText2">입력하신 이메일로 e-bidding 시스템에 접속하실 비밀번호를 전송합니다.<br>비밀번호는 초기화 되어 새로 생성됩니다.<br>이메일로 비밀번호를 전송하시겠습니까?</div>
-            <div class="modalFooter">
-              <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
-              <a href="javascript:void(0)" class="modalBtnCheck" data-toggle="modal" title="전송">전송</a>
-            </div>
-          </div>				
-        </div>
-      </div>
-    </div>
-    <!-- //비밀번호 이메일 발송 얼럿 -->
+    <bidding-guide />
   </div>
 </template>
 
 <script>
+import IdSearch from "@/views/IdSearch.vue";
+import PwSearch from "@/views/PwSearch.vue";
 import EnrollmentProcess from "@/components/EnrollmentProcess.vue";
 import BiddingGuide from "@/components/BiddingGuide.vue";
 
@@ -231,6 +96,8 @@ export default {
   },
   name: 'Login',
   components: {
+    IdSearch,
+    PwSearch,
     EnrollmentProcess,
     BiddingGuide
   },
@@ -244,21 +111,12 @@ export default {
         userName: '',
         userAuth: '',
         token: ''
-      },
+      }
     }
   },
   methods: {
     loginFail() {
-      //아이디 또는 비밀번호를 확인해 주십시오 Alert 창 띄우기
       $("#loginAlert").modal("show"); 
-      //기존소스
-      /*
-      this.$swal({
-        animation: false,
-        type: 'error',
-        text: `로그인 실패했습니다. ID 또는 비밀번호를 확인해 주세요.`,
-      });
-      */
     },
     async login() {  
       try {
@@ -276,144 +134,14 @@ export default {
         this.$store.commit('finish');
         this.loginFail();
       }
-    },
-    async ssoLogIn() {
-      console.log("Now Loged in!!!!")
-      try {
-        this.$store.commit('loading');
-        //const response = await this.$http.post('/login', this.loginInfo);
-        const response = await this.$http.post('/login/sso', this.loginInfo);
-        const loginInfo = {};
-        loginInfo.userName = response.data.userName;
-        loginInfo.loginId = response.data.loginId;
-        loginInfo.compCd = response.data.loginCompCd;
-        loginInfo.loginDeptNm = response.data.loginDeptNm;
-        loginInfo.loginDeptCd = response.data.loginDeptCd;
-        loginInfo.loginDutCd = response.data.loginDutCd;
-        loginInfo.loginDutNm = response.data.loginDutNm;
-        loginInfo.loginJobCd = response.data.loginJobCd;
-        loginInfo.loginJobNm = response.data.loginJobNm;
-        loginInfo.token = response.data.token;
-        loginInfo.menu = response.data.menu;
-        loginInfo.authorities = response.data.authorities;
-        loginInfo.color = response.data.attribute2
-        loginInfo.loginPw = 'Not Use';
-
-        if(!loginInfo.color){
-          loginInfo.color = '/css/common.css'
-        }
-
-        this.$store.commit('login', loginInfo);
-        this.$cookie.set('loginInfo', JSON.stringify(loginInfo));
-        this.$cookie.set('sessionAlive', true);
-        this.$http.defaults.headers['x-auth-token'] = loginInfo.token;
-        this.$store.commit('register', '');
-        this.$router.push({path: '/'});
-        
-        //21.03.29 컬러테마
-        var link = document.createElement('link');
-        link.rel ='stylesheet';
-        link.href = this.$store.state.loginInfo.color;
-        document.head.appendChild(link);
-
-        //21.11.24 로그인 erp계정
-        const loginCctr = {}
-        this.$http.get(`/api/emp/${loginInfo.loginId}`)
-        .then(response => {
-          if(response.data.length > 0){
-            let data = response.data[0]
-
-            loginCctr.cctrCd = data.liabilityDeptCode
-            loginCctr.cctrNm = data.liabilityDeptName
-
-            this.$store.commit('updateLoginCctr', loginCctr)
-          }else{
-            this.$store.commit('updateLoginCctr', null)
-          }
-        })
-        .catch((e) => {
-          this.$store.commit('updateLoginCctr', null)
-          this.$swal({
-            type: 'error',
-            text: e
-          })
-        })
-        this.$store.commit('finish');
-      } catch(err) {
-        this.$store.commit('finish');
-        this.loginFail();
-      }
     }
   },
   created() {
-    this.loginId = this.$route.query['loginId'];
-    this.token = this.$route.query['token'];
-    console.log("loginId : " + this.loginId);
-
-    if(this.loginId === undefined || this.loginId === '') {
-      // Step.1 - 초기화
-      rathonsso.init();
-
-      // Step.2 - SSO 인증 & 갱신
-      // true: Authentication Required
-      // false: Authentication Successful
-      let result = rathonsso.requestAuthentication()
-      console.log("requestAuthentication: " + result)
-      if(!result) {
-        // '/login/sso' 호출
-        this.ssoLogIn()
-      }
-    }
-
-    this.loginInfo.loginId = this.loginId;
-    this.loginInfo.token = this.token;
-
-    //모바일 iframe 메시지 수신을 통한 로그인 
-    window.addEventListener('message', async event => {
-      // console.log(event.data.id);
-      if(event.origin === process.env.VUE_APP_MO_URL) {
-        // console.log(`pc:event.origin : ${event.origin}`)
-        if(event.data.message === 'isPcLogin') {
-
-          const ret = this.$store.state.loginInfo !== null && this.$store.state.token !== '';
-          window.parent.postMessage({ 
-            message: 'pcLogin', 
-            value: ret
-          }, '*');
-          console.log('pc:isPcLogin 수신 후 pcLogin' + ret + '보냄');
-
-        } else if(event.data.message === 'login') {
-
-          console.log('pc:login 하라는 메시지 받음');
-
-          if(!this.$store.state.loginInfo) { //로그인 안되어있다면
-            this.loginInfo.loginId = event.data.loginId;
-            this.loginInfo.loginPw = event.data.loginPw;
-            await this.login();        
-            const ret = this.$store.state.loginInfo !== null && this.$store.state.token !== '';
-
-            window.parent.postMessage({ 
-              message: 'pcLogin', 
-              value: ret
-            }, '*');
-            console.log('pc:현재 로그인 안되어있어서 로그인 시키고 pcLogin:' + ret + ' 메시지 보냄');
-
-          } else {
-            window.parent.postMessage({ 
-              message: 'pcLogin', 
-              value: true
-            }, '*');
-            console.log('pc:현재 로그인 되어있어서 pcLogin true 메시지 보냄');
-          }
-        }
-      }
-    })
   },
   beforeMount() {
     // 페이지 리로드를 위해 localStorage에 vuex 제거
     localStorage.removeItem('vuex');
     
-    console.log("this.token : " + this.token);
     if(this.token) {
       if(this.token == "null") {
         this.$store.state.oauthNew = 'new';
@@ -427,28 +155,4 @@ export default {
   }
 };
 </script>
-<!-- 2020.08.31 'CapsLock'알림-->
-<style scoped>
-#text {display:none;color:black}
-
-.ly_box {
-  position:relative;
-  margin-bottom: 10px;
-  width:230px;
-  height:30px;
-  background:white;
-  border-radius: 10px;
-  text-align: center;
-}
-.ly_box:after {
- border-top:0px solid transparent;
- border-left: 10px solid transparent;
- border-right: 10px solid transparent;
- border-bottom: 10px solid white;
- content:"";
- position:absolute;
- top:-10px;
- left:100px;
-} 
-</style>
 
