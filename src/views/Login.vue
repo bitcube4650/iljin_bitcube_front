@@ -77,168 +77,12 @@
         </div>
       </div>
     </div>
-    <!-- //아이디 or 비밀번호 확인 -->
 
     <!-- 업체등록절차 -->
-    <div class="modal fade modalStyle" id="regProcess" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog" style="width:100%; max-width:700px">
-        <div class="modal-content">
-          <div class="modal-body">
-            <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-            <h2 class="modalTitle">업체등록 절차</h2>
-            <div class="modalTopBox">
-              <ul>
-                <li><div>업체 등록신청 후 서류심사로 인해 최대 3일 소요할 수 있습니다.</div></li>
-                <li><div>서류심사 결과는 작성된 담당자 이메일로 전달됩니다.</div></li>
-              </ul>
-            </div>
-            <dl class="regProList mt20">
-              <dt><i class="fa-light fa-message-pen"></i></dt>
-              <dd>
-                <h3>Step.1  <span class="textMainColor">[업체등록신청]</span></h3>
-                <ul class="dList mt10">
-                  <li><div>로그인 페이지에서 [회원가입] 버튼을 이용, 약관동의 및 회원가입을 신청합니다.</div></li>
-                </ul>
-              </dd>
-            </dl>
-            <dl class="regProList mt10">
-              <dt><i class="fa-light fa-ballot-check"></i></dt>
-              <dd>
-                <h3>Step.2  <span class="textMainColor">[업체심사(서류,실사)]</span></h3>
-                <ul class="dList mt10">
-                  <li><div>계열사 업체관리 담당자는 신청 정보를 확인합니다.</div></li>
-                  <li><div>업체 규모, 납품실적, 품질인증, 신용평가자료 등 서류 검토</div></li>
-                  <li><div>필요시 실사 병행합니다.</div></li>
-                </ul>
-              </dd>
-            </dl>
-            <dl class="regProList mt10">
-              <dt><i class="fa-light fa-file-check"></i></dt>
-              <dd>
-                <h3>Step.3  <span class="textMainColor">[업체등록]</span></h3>
-                <ul class="dList mt10">
-                  <li><div>심사 후 요구조건에 적합한 업체 등록을 확정합니다.</div></li>
-                  <li><div>등록된 이메일로 심사결과를 통보합니다.</div></li>
-                </ul>
-              </dd>
-            </dl>
-            <dl class="regProList mt10">
-              <dt><i class="fa-light fa-rectangle-history-circle-user"></i></dt>
-              <dd>
-                <h3>Step.4  <span class="textMainColor">[업체평가(사후관리)]</span></h3>
-                <ul class="dList mt10">
-                  <li><div>연간 거래실적을 바탕으로 업체를 평가합니다.</div></li>
-                  <li><div>계열사 간 협력업체 등록 시 평가자료로 반영됩니다.</div></li>
-                </ul>
-              </dd>
-            </dl>
-            <div class="modalFooter">
-              <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-            </div>
-          </div>				
-        </div>
-      </div>
-    </div>
-    <!-- //업체등록절차 -->
+    <EnrollmentProcess />
 
-    <!-- 업무(입찰)안내 -->
-    <div class="modal fade modalStyle" id="biddingInfo" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog" style="width:100%; max-width:800px">
-        <div class="modal-content">
-          <div class="modal-body">
-            <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-            <h2 class="modalTitle">업무(입찰)안내</h2>
-            <div class="modalTopBox">
-              <ul>
-                <li><div>그룹사(당사)에서 전자입찰을 공고/개찰/낙찰 처리 합니다.</div></li>
-                <li><div>협력업체는 공고된 입찰을 확인하고 개찰 및 입찰 결과를 확인할 수 있습니다.</div></li>
-                <li><div>입찰 진행중 그룹사 개찰담당자는 입찰을 유찰할 수 있습니다.<br>(입찰에 참여한 업체에게 메일 발송)</div></li>
-              </ul>
-            </div>
-            <table class="biddingInfoTbl mt20">						
-              <caption>업무(입찰)안내의 절차(그룹사,협력업체), 주요내용을 나타내는 표</caption>
-              <colgroup>
-                <col style="width:23%">
-                <col style="width:23%">
-                <col style="width:64%">
-                <col>
-              </colgroup>
-              <thead>
-                <tr>
-                  <th colspan="2">절차</th>
-                  <th rowspan="2" class="end">주요내용</th>
-                </tr>
-                <tr>
-                  <th>그룹사</th>
-                  <th>협력업체</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td colspan="2" style="position:relative"><img src="/images/biddingInfo.png" class="img-responsive" alt="절차" style="position:absolute; top:0; left:0"></td>
-                  <td class="text-left end">
-                    <ul class="dList">
-                      <li><div>입찰 담당자는 입찰 계획을 등록합니다.</div></li>
-                      <li><div>입찰 공고자는 입찰 계획을 확인하고 입찰을 공고합니다.</div></li>
-                      <li><div>공고 시 지정업체 담당자에게 메일 발송됩니다.</div></li>
-                    </ul>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2"></td>
-                  <td class="text-left end">
-                    <ul class="dList">
-                      <li><div>공고된 입찰을 조회합니다.</div></li>
-                      <li><div>지명입찰 일 경우 담당자는 메일을 통해 확인할 수 있습니다.</div></li>
-                    </ul>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2"></td>
-                  <td class="text-left end">
-                    <ul class="dList">
-                      <li><div>입찰 세부내역을 확인하고 견적서를 제출합니다.</div></li>
-                      <li><div>투찰(견적서 제출) 시 공동인증서를 통해 인증을 합니다.</div></li>
-                    </ul>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2"></td>
-                  <td class="text-left end">
-                    <ul class="dList">
-                      <li><div>입찰의 제출마감일시가 지나면 개찰자는 업체의 투찰 내역을<br>확인할 수 있습니다.</div></li>
-                      <li><div>개찰 시 공동인증서 암호를 입력해야 합니다.</div></li>
-                      <li><div>진행 중인 입찰에 대해서 공고자는 입찰을 유찰 할 수 있습니다.</div></li>
-                    </ul>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2"></td>
-                  <td class="text-left end">
-                    <ul class="dList">
-                      <li><div>개찰자는 낙찰업체를 선정할 수 있습니다.<br>(선정된 업체에게는 낙찰 메일 발송)</div></li>
-                      <li><div>개찰자는 개찰 된 입찰에 유찰 또는 재입찰 할 수 있습니다.</div></li>
-                    </ul>
-                  </td>
-                </tr>
-                <tr>
-                  <td colspan="2"></td>
-                  <td class="text-left end">
-                    <ul class="dList">
-                      <li><div>낙찰된 내역을 확인할 수 있습니다.</div></li>
-                    </ul>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="modalFooter">
-              <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-            </div>
-          </div>				
-        </div>
-      </div>
-    </div>
-    <!-- //업무(입찰)안내 -->
+    <!-- 업무안내 -->
+    <BiddingGuide />
 
     <!-- 아이디찾기 -->
     <div class="modal fade modalStyle" id="idSearch" tabindex="-1" role="dialog" aria-hidden="true">
@@ -371,6 +215,9 @@
 </template>
 
 <script>
+import EnrollmentProcess from "@/components/EnrollmentProcess.vue";
+import BiddingGuide from "@/components/BiddingGuide.vue";
+
 export default {
   props: {
     loginId: {
@@ -383,6 +230,10 @@ export default {
     },
   },
   name: 'Login',
+  components: {
+    EnrollmentProcess,
+    BiddingGuide
+  },
   data() {
     return {
       loginInfo: {
