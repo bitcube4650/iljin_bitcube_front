@@ -87,7 +87,7 @@
 <script>
 
 export default {
-  name: 'Login',
+  name: 'PwSearchPop',
   data() {
     return {
       pwSearch: {},

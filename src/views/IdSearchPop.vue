@@ -80,7 +80,7 @@
 <script>
 
 export default {
-  name: 'Login',
+  name: 'IdSearchPop',
   data() {
     return {
       idSearch: {},

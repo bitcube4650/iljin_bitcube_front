@@ -21,7 +21,7 @@
             </div>
             <div class="loginBtnWrap">
               <a  @click="login" data-target="#loginAlert" class="btnLoginPrimary" title="로그인">로그인</a>
-              <router-link to="/signup" class="btnLoginOutline mt10" title="회원가입">회원가입</router-link>
+              <router-link to="/signup"  class="btnLoginOutline mt10" title="회원가입">회원가입</router-link>
             </div>
           </div>
           <div class="loginRight">
@@ -64,10 +64,10 @@
     </div>
 
     <!-- 아이디 찾기 팝업 -->
-    <id-search ref="idSearchPop"/>
+    <id-search-pop ref="idSearchPop"/>
 
     <!-- 비밀번호 찾기 팝업 -->
-    <pw-search ref="pwSearchPop"/>
+    <pw-search-pop ref="pwSearchPop"/>
 
     <!-- 업체등록절차 -->
     <enrollment-process />
@@ -78,8 +78,8 @@
 </template>
 
 <script>
-import IdSearch from "@/views/IdSearch.vue";
-import PwSearch from "@/views/PwSearch.vue";
+import IdSearchPop from "@/views/IdSearchPop.vue";
+import PwSearchPop from "@/views/PwSearchPop.vue";
 import EnrollmentProcess from "@/components/EnrollmentProcess.vue";
 import BiddingGuide from "@/components/BiddingGuide.vue";
 
@@ -96,8 +96,8 @@ export default {
   },
   name: 'Login',
   components: {
-    IdSearch,
-    PwSearch,
+    IdSearchPop,
+    PwSearchPop,
     EnrollmentProcess,
     BiddingGuide
   },

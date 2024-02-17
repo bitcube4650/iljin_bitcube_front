@@ -161,12 +161,9 @@
             </div>
 
             <div class="provisionAgree">
-                <input type="checkbox" id="pa1" name="pa1" class="loginCheckStyle"><label for="pa1">약관에 동의</label>
-                <a href="javascript:void(0)" class="btnStyle btnOutlineBlue btnMd dimmed" title="동의하고 계속하기">동의하고 계속하기</a>
-            </div>
-            <div class="provisionAgree">
-                <input type="checkbox" id="pa2" name="pa2" class="loginCheckStyle"><label for="pa2">약관에 동의</label>
-                <router-link to="/signup2" replace class="btnStyle btnOutlineBlue btnMd" title="동의하고 계속하기">동의하고 계속하기</router-link>
+                <input type="checkbox" id="isAgree" v-model="isAgree" class="loginCheckStyle"><label for="isAgree">약관에 동의</label>
+                <button v-if="isAgree == false" class="btnStyle btnOutlineBlue btnMd dimmed" title="동의하고 계속하기">동의하고 계속하기</button>
+                <router-link to="/signup2" replace v-if="isAgree == true" class="btnStyle btnOutlineBlue btnMd" title="동의하고 계속하기">동의하고 계속하기</router-link>
             </div>
         </div>
         <div class="subFooter mt50">
@@ -180,10 +177,10 @@
     </div>
 
     <!-- 업체등록절차 -->
-    <EnrollmentProcess />
+    <enrollment-process />
 
     <!-- 업무안내 -->
-    <BiddingGuide />
+    <bidding-guide />
 
 </div>
 </template>
@@ -198,7 +195,12 @@ export default {
     EnrollmentProcess,
     BiddingGuide
   },
-  data() {},
+  data() {
+    return {
+        isAgree: false
+    }
+  },
   mounted() {},
   methods: {}
 }
+</script>
