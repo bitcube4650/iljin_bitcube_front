@@ -13,6 +13,21 @@
 
       <!-- 업무안내 -->
       <BiddingGuide />
+
+      <div class="modal fade modalStyle" id="commonAlertPop" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" style="width:100%; max-width:420px">
+          <div class="modal-content">
+            <div class="modal-body">
+              <a href="#" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+              <div id="commonAlertMsg" class="alertText2"></div>
+              <div class="modalFooter">
+                <a href="#" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
+              </div>
+            </div>				
+          </div>
+        </div>
+      </div>
+
   </div>
   <!-- //서브 푸터 -->
 

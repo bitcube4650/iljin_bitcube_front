@@ -25,7 +25,8 @@ export default {
   },
   methods: {
 	callbackAddr(zipcode, addr, addrDetail) {
-      this.$emit('callbackFunc', zipcode, addr, addrDetail);
+	  let data = {zipcode:zipcode, addr:addr, addrDetail: addrDetail}
+      this.$emit('callbackFunc', data);
 	},
     initModal() {
 	// 우편번호 찾기 화면을 넣을 element
@@ -69,7 +70,6 @@ export default {
 			} else {
 				// document.getElementById("sample2_extraAddress").value = '';
 			}
-
 			$this.callbackAddr(data.zonecode, addr, extraAddr);
       		$("#addrPop").modal("hide"); 
 			// 우편번호와 주소 정보를 해당 필드에 넣는다.

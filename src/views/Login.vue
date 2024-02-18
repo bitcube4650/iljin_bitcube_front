@@ -62,6 +62,22 @@
         </div>
       </div>
     </div>
+    
+    <!-- 아이디 or 비밀번호 확인 -->
+    <div class="modal fade modalStyle" id="loginAlert" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog" style="width:100%; max-width:420px">
+        <div class="modal-content">
+          <div class="modal-body">
+            <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+            <div class="alertText1">아이디 또는 비밀번호를 확인해 주십시오</div>
+            <div class="modalFooter">
+              <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
+            </div>
+          </div>				
+        </div>
+      </div>
+    </div>
+    <!-- //아이디 or 비밀번호 확인 -->
 
     <!-- 아이디 찾기 팝업 -->
     <id-search-pop ref="idSearchPop"/>
@@ -78,8 +94,8 @@
 </template>
 
 <script>
-import IdSearchPop from "@/views/IdSearchPop.vue";
-import PwSearchPop from "@/views/PwSearchPop.vue";
+import IdSearchPop from "@/components/IdSearchPop.vue";
+import PwSearchPop from "@/components/PwSearchPop.vue";
 import EnrollmentProcess from "@/components/EnrollmentProcess.vue";
 import BiddingGuide from "@/components/BiddingGuide.vue";
 

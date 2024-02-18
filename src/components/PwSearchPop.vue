@@ -42,7 +42,7 @@
           </div>
           <div class="modalFooter">
             <a href="#" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-            <a href="#" @click="validate" class="modalBtnCheck" itle="비밀번호 이메일 발송">비밀번호 이메일 발송</a>
+            <a href="#" @click.prevent="validate" class="modalBtnCheck" itle="비밀번호 이메일 발송">비밀번호 이메일 발송</a>
           </div>
         </div>				
       </div>
@@ -74,7 +74,7 @@
 					<div class="alertText2">입력하신 이메일로 e-bidding 시스템에 접속하실 비밀번호를 전송합니다.<br>비밀번호는 초기화 되어 새로 생성됩니다.<br>이메일로 비밀번호를 전송하시겠습니까?</div>
           <div class="modalFooter">
             <a href="#" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
-            <a href="#" @click="send" class="modalBtnCheck" title="전송">전송</a>
+            <a href="#" @click.prevent="send" class="modalBtnCheck" title="전송">전송</a>
           </div>
         </div>				
       </div>
@@ -100,16 +100,14 @@ export default {
     onlyNumber(event) {
       if (!/\d/.test(event.key) && event.key !== '.') return event.preventDefault();
     },
-    validate(e) {  
-      e.preventDefault(); 
+    validate() {  
       if (this.pwSearch.regnum1 == null || this.pwSearch.regnum2 == null || this.pwSearch.regnum3 == null || this.pwSearch.userName == null || this.pwSearch.userEmail == null) {
         $("#pwSearchAlert").modal("show"); 
         return;
       }
       $("#pwSearchConfirm").modal("show"); 
     },
-    send(e) {  
-      e.preventDefault();  
+    send() {  
       this.$store.commit("loading");
       this.$http
       .post('/login/pwSearch', this.pwSearch)

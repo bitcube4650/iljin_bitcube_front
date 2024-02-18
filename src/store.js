@@ -17,19 +17,15 @@ export default new Vuex.Store({
             userAuth: '',
             token: ''
         },
-        loginCctr: {
-            cctrCd: '',
-            cctrNm: '',
-        },
-        searchForm: {},
+        searchParams: {},
         isLoading: false,
         oauthNew: '',
         constants: constants,
         openDt:''
     },
     mutations: {
-        searchForm(state, search) {
-            state.searchForm = search
+        searchParams(state, params) {
+            state.searchParams = params
         },
         login(state, loginInfo) {
             state.loginInfo = loginInfo;
@@ -43,15 +39,6 @@ export default new Vuex.Store({
         },
         finish(state) {
             state.isLoading = false;
-        },
-        register(state, oauthNew) {
-            state.oauthNew = oauthNew;
-        },
-        updateLoginCctr(state, loginCctr) {
-            state.loginCctr = loginCctr
-        },
-        updateOpenDt(state, openDt){
-            this.state.openDt = openDt
         }
     },
     getters: {

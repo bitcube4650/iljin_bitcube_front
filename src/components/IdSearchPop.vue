@@ -35,7 +35,7 @@
           </div>
           <div class="modalFooter">
             <a href="#" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-            <a href="#" @click="validate" class="modalBtnCheck" title="아이디 이메일 발송">아이디 이메일 발송</a>
+            <a href="#" @click.prevent="validate" class="modalBtnCheck" title="아이디 이메일 발송">아이디 이메일 발송</a>
           </div>
         </div>				
       </div>
@@ -67,7 +67,7 @@
           <div class="alertText2">입력하신 이메일로 e-bidding 시스템에 접속하실 아이디를 전송합니다.<br>이메일로 아이디를 전송하시겠습니까?</div>
           <div class="modalFooter">
             <a href="#" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
-            <a href="#" @click="send" class="modalBtnCheck" title="전송">전송</a>
+            <a href="#" @click.prevent="send" class="modalBtnCheck" title="전송">전송</a>
           </div>
         </div>				
       </div>
@@ -93,8 +93,7 @@ export default {
     onlyNumber(e) {
       if (!/\d/.test(event.key) && event.key !== '.') return e.preventDefault();
     },
-    validate(e) {  
-      e.preventDefault();
+    validate() {  
       if (this.idSearch.regnum1 == null || this.idSearch.regnum2 == null || this.idSearch.regnum3 == null || this.idSearch.userName == null || this.idSearch.userEmail == null) {
         $("#idSearchAlert").modal("show"); 
         return;
@@ -102,7 +101,6 @@ export default {
       $("#idSearchConfirm").modal("show"); 
     },
     send(e) {  
-      e.preventDefault(); 
       this.$store.commit("loading");
       this.$http
       .post('/login/idSearch', this.idSearch)

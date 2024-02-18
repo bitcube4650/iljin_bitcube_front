@@ -32,7 +32,7 @@
                     <div class="flex align-items-center width100">
                         <input type="text" v-model="custUser.custTypeNm1" class="inputStyle readonly" placeholder="우측 검색 버튼을 클릭해 주세요" readonly>
                         <input type="hidden" v-model="custUser.custTypeCode1"/>
-                        <a href="#" @click="$refs.custTypePop.initModal('code1')" data-toggle="modal" data-target="#itemSelect" class="btnStyle btnSecondary ml10" title="조회">조회</a>
+                        <a href="#" @click="itemPop='custType1';$refs.itemPop.initModal()" data-toggle="modal" data-target="#itemPop" class="btnStyle btnSecondary ml10" title="조회">조회</a>
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
@@ -40,7 +40,7 @@
                     <div class="flex align-items-center width100">
                         <input type="text" v-model="custUser.custTypeNm2" class="inputStyle readonly" placeholder="우측 검색 버튼을 클릭해 주세요" readonly>
                         <input type="hidden" v-model="custUser.custTypeCode2"/>
-                        <a hhref="#" @click="$refs.custTypePop.initModal('code2')" data-toggle="modal" data-target="#itemSelect" class="btnStyle btnSecondary ml10" title="조회">조회</a>
+                        <a hhref="#" @click="itemPop='custType2';$refs.itemPop.initModal()" data-toggle="modal" data-target="#itemSelect" class="btnStyle btnSecondary ml10" title="조회">조회</a>
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
@@ -58,19 +58,19 @@
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">사업자등록번호 <span class="star">*</span></div>
                     <div class="flex align-items-center width100">
-                        <input type="text" v-model="custUser.regnum1" class="inputStyle" placeholder="">
+                        <input type="text" v-model="custUser.regnum1" @keypress="onlyNumber" maxlength="3" class="inputStyle" placeholder="">
                         <span style="margin:0 10px">-</span>
-                        <input type="text" v-model="custUser.regnum2" class="inputStyle" placeholder="">
+                        <input type="text" v-model="custUser.regnum2" @keypress="onlyNumber" maxlength="2" class="inputStyle" placeholder="">
                         <span style="margin:0 10px">-</span>
-                        <input type="text" v-model="custUser.regnum2" class="inputStyle" placeholder="">
+                        <input type="text" v-model="custUser.regnum2" @keypress="onlyNumber" maxlength="5" class="inputStyle" placeholder="">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">법인번호 <span class="star">*</span></div>
                     <div class="flex align-items-center width100">
-                        <input type="text" v-model="custUser.presJumnNo1" class="inputStyle" placeholder="">
+                        <input type="text" v-model="custUser.presJumnNo1" @keypress="onlyNumber" maxlength="6" class="inputStyle" placeholder="">
                         <span style="margin:0 10px">-</span>
-                        <input type="text" v-model="custUser.presJumnNo2" class="inputStyle" placeholder="">
+                        <input type="text" v-model="custUser.presJumnNo2" @keypress="onlyNumber" maxlength="7" class="inputStyle" placeholder="">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
@@ -222,7 +222,7 @@
             </div>
 
             <div class="text-center mt50">
-                <a href="#" @click="validate" class="btnStyle btnPrimary btnMd" title="회원가입 신청">회원가입 신청</a>
+                <a href="#" @click.prevent="validate" class="btnStyle btnPrimary btnMd" title="회원가입 신청">회원가입 신청</a>
             </div>
 
             
@@ -237,12 +237,6 @@
         </div>
     </div>
 
-    <!-- 업체등록절차 -->
-    <enrollment-process />
-
-    <!-- 업무안내 -->
-    <bidding-guide />
-
 
 	<!-- 회원가입 신청 -->
 	<div class="modal fade modalStyle" id="joinBtn" tabindex="-1" role="dialog" aria-hidden="true">
@@ -253,7 +247,7 @@
 					<div class="alertText2">입력하신 정보로 회원가입을 신청합니다.<br>신정 후 승인까지 최대 3일 소요됩니다.<br><br>회원가입을 신청하시겠습니까?</div>
 					<div class="modalFooter">
 						<a href="#" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
-						<a href="#" @click="save" class="modalBtnCheck" title="신청">신청</a>
+						<a href="#" @click.prevent="save" class="modalBtnCheck" title="신청">신청</a>
 					</div>
 				</div>				
 			</div>
@@ -266,10 +260,10 @@
 		<div class="modal-dialog" style="width:100%; max-width:420px">
 			<div class="modal-content">
 				<div class="modal-body">
-					<a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+					<a href="#" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
 					<div class="alertText2">회원가입을 신청하였습니다.</div>
 					<div class="modalFooter">
-						<a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
+						<a href="#" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
 					</div>
 				</div>				
 			</div>
@@ -277,8 +271,8 @@
 	</div>
 	<!-- //회원가입 신청 후 -->
 
-    <!-- 비밀번호 찾기 팝업 -->
-    <cust-type-pop ref="custTypePop"/>
+    <!-- 품목 조회 팝업 -->
+    <item-pop ref="itemPop" @callbackFunc="callbackItem"/>
 
     <!-- 주소 찾기 팝업 -->
     <addr-pop ref="addrPop" @callbackFunc="callbackAddr"/>
@@ -293,15 +287,15 @@
 </template>
 
 <script>
-import CustTypePop from "@/views/CustTypePop.vue";
-import AddrPop from "@/views/AddrPop.vue";
+import ItemPop from "@/components/ItemPop.vue";
+import AddrPop from "@/components/AddrPop.vue";
 import EnrollmentProcess from "@/components/EnrollmentProcess.vue";
 import BiddingGuide from "@/components/BiddingGuide.vue";
 
 export default {
   name: 'Signup',
   components: {
-    CustTypePop,
+    ItemPop,
     AddrPop,
     EnrollmentProcess,
     BiddingGuide
@@ -312,6 +306,7 @@ export default {
             interrelatedCustCode: '',
             zipcode: ''
         },
+        itemPop: null,
         interrelatedList: []
     }
   },
@@ -319,15 +314,22 @@ export default {
     this.init();
   },
   methods: {
+    onlyNumber(e) {
+      if (!/\d/.test(event.key) && event.key !== '.') return e.preventDefault();
+    },
     async init() {
+      try {
         this.$store.commit('loading');
-        const response = await this.$http.post('/login/interrelatedList', this.loginInfo);
+        const response = await this.$http.post('/login/interrelatedList');
         this.interrelatedList = response.data;
         this.$store.commit('finish');
+      } catch(err) {
+        console.log(err)
+        this.$store.commit('finish');
+      }
     },
-    validate(e) {  
-      e.preventDefault();
-      if (this.custUser.interrelatedCustCode == '') {
+    validate() {  
+      if (this.custUser.interrelatedCustCode == null || this.custUser.interrelatedCustCode == '') {
         this.$swal({type: "warning",text: "가입희망 계열사를 선택해주세요."});
         return;
       }
@@ -341,14 +343,13 @@ export default {
         return;
       }
       */
-      if (this.custUser.custName == '') {
+      if (this.custUser.custName == null || this.custUser.custName == '') {
         this.$swal({type: "warning",text: "회사명을 입력해주세요."});
         return;
       }
       $("#joinBtn").modal("show"); 
     },
-    save(e) {  
-      e.preventDefault(); 
+    save() {  
       this.$store.commit("loading");
       this.$http
       .post('/login/custSave', this.custUser)
@@ -367,10 +368,21 @@ export default {
         this.$store.commit("finish");
       });
     },
-    callbackAddr(zipcode, addr, addrDetail) {
-        this.custUser.zipcode = zipcode;
-        this.custUser.addr = addr;
-        this.custUser.addrDetail = addrDetail;
+    callbackItem(data) {
+        if (this.itemPop == 'custType1') {
+            this.custUser.custTypeCode1 = data.itemCode;
+            this.custUser.custTypeNm1 = data.itemName;
+        } else {
+            this.custUser.custTypeCode2 = data.itemCode;
+            this.custUser.custTypeNm2 = data.itemName;
+        }
+        this.$forceUpdate()
+    },
+    callbackAddr(data) {
+        this.custUser.zipcode = data.zipcode;
+        this.custUser.addr = data.addr;
+        this.custUser.addrDetail = data.addrDetail;
+        this.$forceUpdate()
     }
   }
 }

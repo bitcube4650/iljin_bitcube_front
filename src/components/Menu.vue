@@ -45,8 +45,8 @@
               <a href="javascript:void(0)"><span><i class="fa-light fa-buildings"></i></span>업체정보</a>
               <div class="depth2Lnb">
                   <ul>
-                      <li v-if="company == 'group'"><a>업체승인</a></li>
-                      <li v-if="company == 'group'"><a>업체관리</a></li>
+                      <li><router-link to="/company/partner/approval">업체승인</router-link></li>
+                      <li><router-link to="/company/partner/management">업체관리</router-link></li>
                       <li v-if="company == 'partner'"><a @click="clickPartnerCompInfo">자사정보</a></li>
                       <li v-if="company == 'partner'"><a @click="clickPartnerUser">사용자관리</a></li>
                   </ul>
