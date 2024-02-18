@@ -40,16 +40,16 @@
 					<div v-if="this.$route.params.id == null" class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">업체유형 1</div>
 						<div class="flex align-items-center width100">
-                        <input type="text" v-model="custUser.custTypeNm1" class="inputStyle readonly" placeholder="우측 검색 버튼을 클릭해 주세요" readonly>
-                        <input type="hidden" v-model="custUser.custTypeCode1"/>
+                        <input type="text" v-model="detail.custTypeNm1" class="inputStyle readonly" placeholder="우측 검색 버튼을 클릭해 주세요" readonly>
+                        <input type="hidden" v-model="detail.custTypeCode1"/>
 							<a hhref="#" @click="itemPop='custType1';$refs.itemPop.initModal()" data-toggle="modal" data-target="#itemPop" class="btnStyle btnSecondary ml10" title="조회">조회</a>
 						</div>
 					</div>
 					<div v-if="this.$route.params.id == null" class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">업체유형 2</div>
 						<div class="flex align-items-center width100">
-                        <input type="text" v-model="custUser.custTypeNm2" class="inputStyle readonly" placeholder="우측 검색 버튼을 클릭해 주세요" readonly>
-                        <input type="hidden" v-model="custUser.custTypeCode1"/>
+                        <input type="text" v-model="detail.custTypeNm2" class="inputStyle readonly" placeholder="우측 검색 버튼을 클릭해 주세요" readonly>
+                        <input type="hidden" v-model="detail.custTypeCode1"/>
 							<a hhref="#" @click="itemPop='custType2';$refs.itemPop.initModal()" data-toggle="modal" data-target="#itemPop" class="btnStyle btnSecondary ml10" title="조회">조회</a>
 						</div>
 					</div>
@@ -67,65 +67,65 @@
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">회사명 <span class="star">*</span></div>
-						<div class="width100"><input type="text" v-model="custUser.custName" class="inputStyle maxWidth-max-content" placeholder=""></div>
+						<div class="width100"><input type="text" v-model="detail.custName" class="inputStyle maxWidth-max-content" placeholder=""></div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">대표자명 <span class="star">*</span></div>
-						<div class="width100"><input type="text" v-model="custUser.presName" class="inputStyle maxWidth-max-content" placeholder=""></div>
+						<div class="width100"><input type="text" v-model="detail.presName" class="inputStyle maxWidth-max-content" placeholder=""></div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">사업자등록번호 <span class="star">*</span></div>
 						<div class="flex align-items-center width100">
-							<input type="text" v-model="custUser.regnum1" @keypress="onlyNumber" maxlength="3" class="inputStyle maxWidth-max-content" placeholder="">
+							<input type="text" v-model="detail.regnum1" @keypress="onlyNumber" maxlength="3" class="inputStyle maxWidth-max-content" placeholder="">
 							<span style="margin:0 10px">-</span>
-							<input type="text" v-model="custUser.regnum2" @keypress="onlyNumber" maxlength="2" class="inputStyle maxWidth-max-content" placeholder="">
+							<input type="text" v-model="detail.regnum2" @keypress="onlyNumber" maxlength="2" class="inputStyle maxWidth-max-content" placeholder="">
 							<span style="margin:0 10px">-</span>
-							<input type="text" v-model="custUser.regnum2" @keypress="onlyNumber" maxlength="5" class="inputStyle maxWidth-max-content" placeholder="">
+							<input type="text" v-model="detail.regnum2" @keypress="onlyNumber" maxlength="5" class="inputStyle maxWidth-max-content" placeholder="">
 						</div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">법인번호 <span class="star">*</span></div>
 						<div class="flex align-items-center width100">
-							<input type="text" v-model="custUser.presJumnNo1" @keypress="onlyNumber" maxlength="6" class="inputStyle maxWidth-max-content" placeholder="">
+							<input type="text" v-model="detail.presJumnNo1" @keypress="onlyNumber" maxlength="6" class="inputStyle maxWidth-max-content" placeholder="">
 							<span style="margin:0 10px">-</span>
-							<input type="text" v-model="custUser.presJumnNo2" @keypress="onlyNumber" maxlength="7" class="inputStyle maxWidth-max-content" placeholder="">
+							<input type="text" v-model="detail.presJumnNo2" @keypress="onlyNumber" maxlength="7" class="inputStyle maxWidth-max-content" placeholder="">
 						</div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">자본금 <span class="star">*</span></div>
 						<div class="flex align-items-center width100">
-							<input type="text" v-model="custUser.capital" class="inputStyle maxWidth-max-content" placeholder="ex) 10,000,000">
+							<input type="text" v-model="detail.capital" class="inputStyle maxWidth-max-content" placeholder="ex) 10,000,000">
 							<div class="ml10">원</div>
 						</div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">설립년도 <span class="star">*</span></div>
 						<div class="flex align-items-center width100">
-							<input type="text" v-model="custUser.foundYear" class="inputStyle maxWidth-max-content" placeholder="ex) 2021">
+							<input type="text" v-model="detail.foundYear" class="inputStyle maxWidth-max-content" placeholder="ex) 2021">
 							<div class="ml10">년</div>
 						</div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">대표전화 <span class="star">*</span></div>
 						<div class="width100">
-							<input type="text" v-model="custUser.tel" class="inputStyle maxWidth-max-content"  placeholder="">
+							<input type="text" v-model="detail.tel" class="inputStyle maxWidth-max-content"  placeholder="">
 						</div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">팩스</div>
 						<div class="width100">
-							<input type="text" v-model="custUser.fax" class="inputStyle maxWidth-max-content" placeholder="">
+							<input type="text" v-model="detail.fax" class="inputStyle maxWidth-max-content" placeholder="">
 						</div>
 					</div>
 					<div class="flex mt10">
 						<div class="formTit flex-shrink0 width170px">회사주소 <span class="star">*</span></div>
 						<div class="width100">
 							<div class="flex align-items-center width100">
-								<input type="text" v-model="custUser.zipcode" class="inputStyle maxWidth-max-content readonly" placeholder="주소 조회 클릭" readonly>
+								<input type="text" v-model="detail.zipcode" class="inputStyle maxWidth-max-content readonly" placeholder="주소 조회 클릭" readonly>
 								<a href="#" @click="$refs.addrPop.initModal()" data-toggle="modal" data-target="#addrPop" class="btnStyle btnSecondary flex-shrink0 ml10" title="주소 조회">주소 조회</a>
 							</div>
-							<div class="mt5"><input type="text" v-model="custUser.addr" class="inputStyle readonly" placeholder="" readonly></div>
-							<div class="mt5"><input type="text" v-model="custUser.addrDetail" class="inputStyle" placeholder="상세 주소 입력"></div>
+							<div class="mt5"><input type="text" v-model="detail.addr" class="inputStyle readonly" placeholder="" readonly></div>
+							<div class="mt5"><input type="text" v-model="detail.addrDetail" class="inputStyle" placeholder="상세 주소 입력"></div>
 						</div>
 					</div>
 					<div class="flex mt10">
@@ -211,32 +211,32 @@
                 <div class="flex align-items-center">
                     <div class="formTit flex-shrink0 width170px">이름 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" v-model="custUser.userName" class="inputStyle maxWidth-max-content" placeholder="">
+                        <input type="text" v-model="detail.userName" class="inputStyle maxWidth-max-content" placeholder="">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">이메일 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" v-model="custUser.userEmail" class="inputStyle maxWidth-max-content" placeholder="ex) sample@iljin.co.kr">
+                        <input type="text" v-model="detail.userEmail" class="inputStyle maxWidth-max-content" placeholder="ex) sample@iljin.co.kr">
                     </div>
                 </div>
                 <div v-if="this.$route.params.id == null" class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">아이디 <span class="star">*</span></div>
                     <div class="flex align-items-center width100">
-                        <input type="text" v-model="custUser.userId" class="inputStyle maxWidth-max-content" placeholder="영문, 숫자 입력(8자 이내) 후 중복확인">
+                        <input type="text" v-model="detail.userId" class="inputStyle maxWidth-max-content" placeholder="영문, 숫자 입력(8자 이내) 후 중복확인">
                         <a href="javascript:void(0)" class="btnStyle btnSecondary flex-shrink0 ml10" title="중복 확인">중복 확인</a>
                     </div>
                 </div>
                 <div v-if="this.$route.params.id == null" class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">비밀번호 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="password" v-model="custUser.userPwd" class="inputStyle maxWidth-max-content" placeholder="대/소문자, 숫자, 특수문자 2 이상 조합(길이 8~16자리)">
+                        <input type="password" v-model="detail.userPwd" class="inputStyle maxWidth-max-content" placeholder="대/소문자, 숫자, 특수문자 2 이상 조합(길이 8~16자리)">
                     </div>
                 </div>
                 <div v-if="this.$route.params.id == null" class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">비밀번호 확인 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="password" v-model="custUser.userPwdConfirm" class="inputStyle maxWidth-max-content" placeholder="비밀번호와 동일해야 합니다.">
+                        <input type="password" v-model="detail.userPwdConfirm" class="inputStyle maxWidth-max-content" placeholder="비밀번호와 동일해야 합니다.">
                     </div>
                 </div>
 				<div v-if="this.$route.params.id != null" class="flex align-items-center mt10">
@@ -246,25 +246,25 @@
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">휴대폰 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" v-model="custUser.userHp" class="inputStyle maxWidth-max-content" placeholder="">
+                        <input type="text" v-model="detail.userHp" class="inputStyle maxWidth-max-content" placeholder="">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">유선전화 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" v-model="custUser.userTel" class="inputStyle maxWidth-max-content" placeholder="">
+                        <input type="text" v-model="detail.userTel" class="inputStyle maxWidth-max-content" placeholder="">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">직급</div>
                     <div class="width100">
-                        <input type="text" v-model="custUser.userPositic" class="inputStyle maxWidth-max-content" placeholder="">
+                        <input type="text" v-model="detail.userPositic" class="inputStyle maxWidth-max-content" placeholder="">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">부서</div>
                     <div class="width100">
-                        <input type="text" nv-model="custUser.buseo" class="inputStyle maxWidth-max-content" placeholder="">
+                        <input type="text" nv-model="detail.buseo" class="inputStyle maxWidth-max-content" placeholder="">
                     </div>
                 </div>
             </div>
@@ -341,7 +341,7 @@ export default {
 	},
 	data() {
 		return {
-			custUser: {},
+			detail: {},
         	itemPop: null,
 		};
 	},
@@ -353,7 +353,7 @@ export default {
 			try {
 				this.$store.commit('loading');
 				const response = await this.$http.post('/api/v1/cust/management/'+this.$route.params.id);
-				this.custUser = response.data;
+				this.detail = response.data;
 				this.$store.commit('finish');
 			} catch(err) {
 				console.log(err)
@@ -362,16 +362,16 @@ export default {
 		},
 		validate() {  
 			/*
-			if (this.custUser.custTypeCode1 == '') {
+			if (this.detail.custTypeCode1 == '') {
 				this.$swal({type: "warning",text: "업체유형 1을 선택해주세요."});
 				return;
 			}
-			if (this.custUser.custTypeCode2 == '') {
+			if (this.detail.custTypeCode2 == '') {
 				this.$swal({type: "warning",text: "업체유형 2을 선택해주세요."});
 				return;
 			}
 			*/
-			if (this.custUser.custName == null || this.custUser.custName == '') {
+			if (this.detail.custName == null || this.detail.custName == '') {
 				this.$swal({type: "warning",text: "회사명을 입력해주세요."});
 				return;
 			}
@@ -380,7 +380,7 @@ export default {
 		save() {  
 			this.$store.commit("loading");
 			this.$http
-			.post('/api/v1/cust/save', this.custUser)
+			.post('/api/v1/cust/save', this.detail)
 			.then((response) => {
 				$("#joinBtn").modal("hide"); 
 				if (response.data.code == 'OK') {
@@ -405,18 +405,18 @@ export default {
 		},
 		callbackItem(data) {
 			if (this.itemPop == 'custType1') {
-				this.custUser.custTypeCode1 = data.itemCode;
-				this.custUser.custTypeNm1 = data.itemName;
+				this.detail.custTypeCode1 = data.itemCode;
+				this.detail.custTypeNm1 = data.itemName;
 			} else {
-				this.custUser.custTypeCode2 = data.itemCode;
-				this.custUser.custTypeNm2 = data.itemName;
+				this.detail.custTypeCode2 = data.itemCode;
+				this.detail.custTypeNm2 = data.itemName;
 			}
 			this.$forceUpdate()
 		},
 		callbackAddr(data) {
-			this.custUser.zipcode = data.zipcode;
-			this.custUser.addr = data.addr;
-			this.custUser.addrDetail = data.addrDetail;
+			this.detail.zipcode = data.zipcode;
+			this.detail.addr = data.addr;
+			this.detail.addrDetail = data.addrDetail;
 			this.$forceUpdate()
 		}
 	}

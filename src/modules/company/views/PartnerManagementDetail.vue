@@ -28,7 +28,7 @@
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">회사명</div>
-					<div class="width100">{{ custUser.custName }}</div>
+					<div class="width100">{{ detail.custName }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">대표자명</div>
@@ -170,7 +170,7 @@
 							<li><div>삭제사유를 작성되어야 삭제할 수 있습니다.<br>삭제 후 다시 정상으로 되 돌릴 수 없습니다.<br>삭제 하시겠습니까</div></li>
 						</ul>
 					</div>
-					<textarea class="textareaStyle height150px mt20" v-model="custUser.etc" placeholder="삭제사유 필수 입력"></textarea>
+					<textarea class="textareaStyle height150px mt20" v-model="detail.etc" placeholder="삭제사유 필수 입력"></textarea>
 					<div class="modalFooter">
 						<a href="#" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
 						<a href="#" @click.prevent="del" class="modalBtnCheck" title="삭제">삭제</a>
@@ -188,7 +188,7 @@ export default {
 	name: "PartnerManagementDetail",
 	data() {
 		return {
-			custUser: {}
+			detail: {}
 		};
 	},
 	mounted() {
@@ -207,13 +207,13 @@ export default {
 			}
 		},
 		del() {
-			if (this.custUser.etc == null || this.custUser.etc == '') {
+			if (this.detail.etc == null || this.detail.etc == '') {
 				this.$swal({type: "warning",text: "삭제사유를 입력해주세요."});
 				return;
 			}
 			this.$store.commit("loading");
 			this.$http
-			.post('/api/v1/cust/delete', this.custUser)
+			.post('/api/v1/cust/delete', this.detail)
 			.then((response) => {
 				if (response.data.code == 'OK') {
 					$("#commonAlertMsg").html('삭제되었습니다.');

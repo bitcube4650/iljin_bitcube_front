@@ -28,7 +28,7 @@
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">회사명</div>
-					<div class="width100">{{ cust.custName }}</div>
+					<div class="width100">{{ detail.detailName }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">대표자명</div>
@@ -171,7 +171,7 @@ export default {
 	name: "PartnerApprovalDetail",
 	data() {
 		return {
-			cust: {}
+			detail: {}
 		};
 	},
 	mounted() {
@@ -182,7 +182,7 @@ export default {
 			try {
 				this.$store.commit('loading');
 				const response = await this.$http.post('/api/v1/cust/approval/'+this.$route.params.id);
-				this.cust = response.data;
+				this.detail = response.data;
 				this.$store.commit('finish');
 			} catch(err) {
 				console.log(err)
