@@ -117,7 +117,7 @@
                     <div class="flex align-items-center mt20">
                         <div class="formTit flex-shrink0 width170px">세부내역</div>
                         <div class="width100">
-                            <a href="javascript:void(0)" class="textUnderline">일진입찰_세부파일_첨부.docx</a>
+                            <a href="#" class="textUnderline">일진입찰_세부파일_첨부.docx</a>
                         </div>
                     </div>
                     <div class="flex mt20">
@@ -155,8 +155,8 @@
                     <div class="flex align-items-center mt20">
                         <div class="formTit flex-shrink0 width170px">첨부파일</div>
                         <div class="width100">
-                            <a href="javascript:void(0)" class="textUnderline">일진입찰_첨부2.docx</a><br>
-                            <a href="javascript:void(0)" class="textUnderline">일진입찰_첨부3.docx</a>
+                            <a href="#" class="textUnderline">일진입찰_첨부2.docx</a><br>
+                            <a href="#" class="textUnderline">일진입찰_첨부3.docx</a>
                         </div>
                     </div>
                 </div>
@@ -269,14 +269,17 @@
                 </div>
 
                 <div class="text-center mt50">
-                    <a href="javascript:void(0)" class="btnStyle btnOutline" title="목록">목록</a>
-                    <a href="javascript:void(0)" data-toggle="modal" data-target="#biddingPreview" class="btnStyle btnOutline" title="공고문 미리보기">공고문 미리보기</a>
-                    <a href="javascript:void(0)" class="btnStyle btnSecondary" title="수정">견적금액 임시저장</a>
-                    <a href="javascript:void(0)" class="btnStyle btnPrimary" title="견적서 제출">견적서 제출</a>
+                    <a href="#" class="btnStyle btnOutline" title="목록">목록</a>
+                    <a href="#" data-toggle="modal" data-target="#biddingPreview" class="btnStyle btnOutline" title="공고문 미리보기">공고문 미리보기</a>
+                    <a href="#" class="btnStyle btnSecondary" title="수정">견적금액 임시저장</a>
+                    <a href="#" class="btnStyle btnPrimary" title="견적서 제출">견적서 제출</a>
                 </div>
             </div>
         </div>
         <!-- //contents -->
+
+        <!--공고문 미리보기 팝업-->
+        <BidAdvertisement />
     </div>
     <!-- //본문 -->
 </template>
@@ -285,6 +288,7 @@
   import Menu from "@/components/Menu.vue";
   import Header from "@/components/Header.vue";
   import Footer from "@/components/Footer.vue";
+  import BidAdvertisement from "@/modules/bid/components/BidAdvertisement.vue";
 
   export default {
     name: "partnerBidStatusDetail",
@@ -292,6 +296,7 @@
       Menu,
       Header,
       Footer,
+      BidAdvertisement
     },
     data() {
       return {

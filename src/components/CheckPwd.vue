@@ -17,7 +17,7 @@
 
                     <div class="modalFooter">
                         <a href="#" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-                        <a href="#" class="modalBtnCheck" data-toggle="modal" @click="popup1" title="확인">확인</a>
+                        <a href="#" class="modalBtnCheck" data-toggle="modal" @click="popup" data-target="#piMody2" title="확인">확인</a>
                     </div>
                 </div>				
             </div>
@@ -42,7 +42,7 @@
 
                     <div class="modalFooter">
                         <a href="#" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-                        <a href="#" class="modalBtnCheck" data-toggle="modal" @click="popup2" title="확인">확인</a>
+                        <a href="#" class="modalBtnCheck" data-toggle="modal" @click="popup" data-target="#pwMody2" title="확인">확인</a>
                     </div>
                 </div>				
             </div>
@@ -60,13 +60,9 @@ export default {
     };
   },
   methods: {
-    popup1(){//개인정보 수정
+    popup(){//개인정보 수정
         $('#mody1').modal('hide');
-        $('#piMody2').modal('show');
-    },
-    popup2(){//비밀번호 변경
         $('#mody2').modal('hide');
-        $('#pwMody2').modal('show');
     }
   },
   created() {

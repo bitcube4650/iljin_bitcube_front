@@ -192,6 +192,40 @@
 			</div>
 		</div>
 		<!-- //contents -->
+
+		<!-- 저장 -->
+		<div class="modal fade modalStyle" id="companySave" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" style="width:100%; max-width:420px">
+				<div class="modal-content">
+					<div class="modal-body">
+						<a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+						<div class="alertText2">수정하신 정보로 저장됩니다.<br>저장 시 수정이력도 저장됩니다.<br><br>저장 하시겠습니까?</div>
+						<div class="modalFooter">
+							<a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
+							<a href="javascript:void(0)" class="modalBtnCheck" data-toggle="modal" data-target="#companySave2" title="저장">저장</a>
+						</div>
+					</div>				
+				</div>
+			</div>
+		</div>
+		<!-- //저장 -->
+
+		<!-- 저장 후 -->
+		<div class="modal fade modalStyle" id="companySave2" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" style="width:100%; max-width:420px">
+				<div class="modal-content">
+					<div class="modal-body">
+						<a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+						<div class="alertText2">업체정보를 수정하였습니다.</div>
+						<div class="modalFooter">
+							<a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
+						</div>
+					</div>				
+				</div>
+			</div>
+		</div>
+		<!-- //저장 후 -->
+
 	</div>
 	<!-- //본문 -->
 </template>

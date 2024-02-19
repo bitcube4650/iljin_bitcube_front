@@ -42,7 +42,7 @@
                         <input type="checkbox" id="s1-2" name="" class="checkStyle"><label for="s1-2" class="ml50">투찰</label>
                         <input type="checkbox" id="s1-3" name="" class="checkStyle"><label for="s1-3" class="ml50">재입찰</label>
                     </div>
-                    <a href="javascript:void(0)" class="btnStyle btnSearch">검색</a>
+                    <a href="#" class="btnStyle btnSearch">검색</a>
                 </div>
             </div>
             <!-- //searchBox -->
@@ -124,15 +124,15 @@
             <div class="row mt40">
                 <div class="col-xs-12">
                     <div class="pagination1 text-center">
-                        <a href="javascript:void(0)" title="10페이지 이전 페이지로 이동"><i class="fa-light fa-chevrons-left"></i></a>
-                        <a href="javascript:void(0)" title="이전 페이지로 이동"><i class="fa-light fa-chevron-left"></i></a>
-                        <a href="javascript:void(0)" title="1페이지로 이동" class="number active">1</a>
-                        <a href="javascript:void(0)" title="2페이지로 이동" class="number">2</a>
-                        <a href="javascript:void(0)" title="3페이지로 이동" class="number">3</a>
-                        <a href="javascript:void(0)" title="4페이지로 이동" class="number">4</a>
-                        <a href="javascript:void(0)" title="5페이지로 이동" class="number">5</a>
-                        <a href="javascript:void(0)" title="다음 페이지로 이동"><i class="fa-light fa-chevron-right"></i></a>
-                        <a href="javascript:void(0)" title="10페이지 다음 페이지로 이동"><i class="fa-light fa-chevrons-right"></i></a>
+                        <a href="#" title="10페이지 이전 페이지로 이동"><i class="fa-light fa-chevrons-left"></i></a>
+                        <a href="#" title="이전 페이지로 이동"><i class="fa-light fa-chevron-left"></i></a>
+                        <a href="#" title="1페이지로 이동" class="number active">1</a>
+                        <a href="#" title="2페이지로 이동" class="number">2</a>
+                        <a href="#" title="3페이지로 이동" class="number">3</a>
+                        <a href="#" title="4페이지로 이동" class="number">4</a>
+                        <a href="#" title="5페이지로 이동" class="number">5</a>
+                        <a href="#" title="다음 페이지로 이동"><i class="fa-light fa-chevron-right"></i></a>
+                        <a href="#" title="10페이지 다음 페이지로 이동"><i class="fa-light fa-chevrons-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -140,6 +140,8 @@
 
         </div>
         <!-- //contents -->
+
+        <!-- 입찰공고 상세팝업-->
     </div>
     <!-- //본문 -->
 </template>

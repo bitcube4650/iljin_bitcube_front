@@ -26,7 +26,7 @@
     <!-- //header -->
 </template>
 <script>
-import cmmn from "../../public/js/common.js"
+
 
 export default {
     name: 'Header',
@@ -36,12 +36,13 @@ export default {
     };
   },
   methods: {
+    
   },
   created() {
    
   },
   mounted(){
-    cmmn.applyPub();//퍼블리싱 js 파일 적용
+    
   }   
 }
 </script>

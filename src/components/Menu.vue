@@ -92,15 +92,33 @@
         </div>
         <!-- //로그아웃 -->
 
+        <!--비밀번호 확인 팝업-->
+        <CheckPwd />
+
+        <!--비밀번호 변경 팝업-->
+        <ChangePwd />
+
+        <!--개인정보 수정 팝업-->
+        <PersonalInfo />
+
     </div>
     <!-- //conLeft -->
   
   </template>
   
   <script>
+import CheckPwd from "@/components/CheckPwd.vue";
+import ChangePwd from "@/components/ChangePwd.vue";
+import PersonalInfo from "@/components/PersonalInfo.vue";
+import cmmn from "../../public/js/common.js"
 
   export default {
     name: 'Menu',
+    components: {
+        CheckPwd,
+        ChangePwd,
+        PersonalInfo
+    },
     data() {
       return {
         company: '',
@@ -160,7 +178,10 @@
      
     },
     mounted(){
+        //계열사인지 협력사인지
         this.company = this.$store.state.loginInfo.custType; 
+
+        cmmn.applyPub();//퍼블리싱 js 파일 적용
     }
   };
   </script>

@@ -84,20 +84,20 @@
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">사업자등록증</div>
 						<div class="width100">
-							<a href="javascript:void(0)" class="textUnderline">비트큐브_사업자등록증.jpg</a>
+							<a href="#" class="textUnderline">비트큐브_사업자등록증.jpg</a>
 						</div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">첨부파일</div>
 						<div class="width100">
-							<a href="javascript:void(0)" class="textUnderline">비트큐브_회사소개서.pptx</a>
+							<a href="#" class="textUnderline">비트큐브_회사소개서.pptx</a>
 						</div>
 					</div>
 				</div>
 
 				<div class="text-center mt30">
-					<a href="javascript:void(0)" data-toggle="modal" data-target="#withdrawal1" class="btnStyle btnOutlineRed" title="회원탈퇴">회원탈퇴</a>
-					<a @click="clickPartnerCompUpdate" data-toggle="modal" data-target="#withdrawal1" class="btnStyle btnPrimary" title="수정">수정</a>
+					<a href="#" data-toggle="modal" data-target="#withdrawal1" class="btnStyle btnOutlineRed" title="회원탈퇴">회원탈퇴</a>
+					<a href="#" @click="clickPartnerCompUpdate" data-toggle="modal" class="btnStyle btnPrimary" title="수정">수정</a>
 				</div>
 
 				<h3 class="h3Tit mt50">관리자 정보</h3>
@@ -135,6 +135,54 @@
 			</div>
 		</div>
 		<!-- //contents -->
+
+		<!-- 회원탈퇴 비밀번호 확인 -->
+		<div class="modal fade modalStyle" id="withdrawal1" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" style="width:100%; max-width:510px">
+				<div class="modal-content">
+					<div class="modal-body">
+						<a href="#" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+						<h2 class="modalTitle">비밀번호 확인</h2>
+						<div class="flex align-items-center">
+							<div class="formTit flex-shrink0 width100px">비밀번호</div>
+							<div class="width100">
+								<input type="password" name="" id="" class="inputStyle" placeholder="">
+							</div>
+						</div>
+						<p class="text-center mt20"><i class="fa-light fa-circle-info"></i> 안전을 위해서 비밀번호를 입력해 주십시오</p>
+
+						<div class="modalFooter">
+							<a href="#" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
+							<a href="#" class="modalBtnCheck" data-toggle="modal" data-target="#withdrawal2" title="확인">확인</a>
+						</div>
+					</div>				
+				</div>
+			</div>
+		</div>
+		<!-- 회원탈퇴 비밀번호 확인 -->
+
+		<!-- 회원탈퇴 -->
+		<div class="modal fade modalStyle" id="withdrawal2" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" style="width:100%; max-width:550px">
+				<div class="modal-content">
+					<div class="modal-body">
+						<a href="#" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+						<h2 class="modalTitle">회원 탈퇴</h2>
+						<div class="modalTopBox">
+							<ul>
+								<li><div>탈퇴사유를 입력해 주십시오.<br>탈퇴처리 시 로그아웃 처리 되고 다시 로그인 할 수 없습니다.<br>탈퇴 하시겠습니까</div></li>
+							</ul>
+						</div>
+						<textarea class="textareaStyle height150px mt20" onkeydown="resize(this)" onkeyup="resize(this)" placeholder="탈퇴사유 필수 입력"></textarea>
+						<div class="modalFooter">
+							<a href="#" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
+							<a href="#" class="modalBtnCheck" data-toggle="modal" title="회원탈퇴">회원탈퇴</a>
+						</div>
+					</div>				
+				</div>
+			</div>
+		</div>
+		<!-- //회원탈퇴 -->
 	</div>
 	<!-- //본문 -->
 </template>

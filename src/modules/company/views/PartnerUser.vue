@@ -105,6 +105,197 @@
 
 		</div>
 		<!-- //contents -->
+
+
+<!--/////////////////////////////////////////////////////////////////////////////////////////////////////-->
+		<!-- 모달창 -->	
+
+
+		<!-- 사용자 등록 -->
+		<div class="modal fade modalStyle" id="userReg2" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" style="width:100%; max-width:600px">
+				<div class="modal-content">
+					<div class="modal-body">
+						<a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+						<h2 class="modalTitle">사용자 등록</h2>
+						<div class="flex align-items-center">
+							<div class="formTit flex-shrink0 width120px">이름 <span class="star">*</span></div>
+							<div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder=""></div>
+						</div>
+						<div class="flex align-items-center mt10">
+							<div class="formTit flex-shrink0 width120px">이메일 <span class="star">*</span></div>
+							<div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="ex) sample@iljin.co.kr"></div>
+						</div>
+						<div class="flex align-items-center mt10">
+							<div class="formTit flex-shrink0 width120px">아이디 <span class="star">*</span></div>
+							<div class="flex align-items-center width100">
+								<div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="영문, 숫자 입력(8자 이내) 후 중복확인"></div>
+								<a href="javascript:void(0)" class="btnStyle btnSecondary flex-shrink0 ml10" title="중복 확인">중복 확인</a>
+							</div>
+						</div>
+						<div class="flex align-items-center mt10">
+							<div class="formTit flex-shrink0 width120px">비밀번호</div>
+							<div class="width100">
+								<input type="password" name="" id="" class="inputStyle" placeholder="대/소문자, 숫자, 특수문자 2 이상 조합(길이 8~16자리)">
+							</div>
+						</div>
+						<div class="flex align-items-center mt10">
+							<div class="formTit flex-shrink0 width120px">비밀번호 확인</div>
+							<div class="width100">
+								<input type="password" name="" id="" class="inputStyle" placeholder="비밀번호와 동일해야 합니다.">
+							</div>
+						</div>
+						<div class="flex align-items-center mt10">
+							<div class="formTit flex-shrink0 width120px">휴대폰 <span class="star">*</span></div>
+							<div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder=""></div>
+						</div>
+						<div class="flex align-items-center mt10">
+							<div class="formTit flex-shrink0 width120px">유선전화 <span class="star">*</span></div>
+							<div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder=""></div>
+						</div>					
+						<div class="flex align-items-center mt10">
+							<div class="formTit flex-shrink0 width120px">직급</div>
+							<div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder=""></div>
+						</div>
+						<div class="flex align-items-center mt10">
+							<div class="formTit flex-shrink0 width120px">부서</div>
+							<div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder=""></div>
+						</div>
+
+						<div class="modalFooter">
+							<a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
+							<a href="javascript:void(0)" class="modalBtnCheck" data-toggle="modal" data-target="#userModi1-1-save" title="저장">저장</a>
+						</div>
+					</div>				
+				</div>
+			</div>
+		</div>
+		<!-- //사용자 등록 -->
+
+		<!-- 사용자수정 -->
+		<div class="modal fade modalStyle" id="userModi1-1" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" style="width:100%; max-width:600px">
+				<div class="modal-content">
+					<div class="modal-body">
+						<a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+						<h2 class="modalTitle">사용자 수정</h2>
+						<div class="flex align-items-center">
+							<div class="formTit flex-shrink0 width120px">이름 <span class="star">*</span></div>
+							<div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" value="이순신"></div>
+						</div>
+						<div class="flex align-items-center mt10">
+							<div class="formTit flex-shrink0 width120px">이메일 <span class="star">*</span></div>
+							<div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" value="james@iljin.co.kr"></div>
+						</div>
+						<div class="flex align-items-center mt20">
+							<div class="formTit flex-shrink0 width120px">아이디</div>
+							<div class="width100">jameskang</div>
+						</div>
+						<div class="flex align-items-center mt20">
+							<div class="formTit flex-shrink0 width120px">비밀번호</div>
+							<div class="width100">
+								<input type="password" name="" id="" class="inputStyle" placeholder="대/소문자, 숫자, 특수문자 2 이상 조합(길이 8~16자리)">
+							</div>
+						</div>
+						<div class="flex align-items-center mt10">
+							<div class="formTit flex-shrink0 width120px">비밀번호 확인</div>
+							<div class="width100">
+								<input type="password" name="" id="" class="inputStyle" placeholder="비밀번호와 동일해야 합니다.">
+							</div>
+						</div>
+						<div class="flex align-items-center mt10">
+							<div class="formTit flex-shrink0 width120px">휴대폰 <span class="star">*</span></div>
+							<div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" value="010-1234-1234"></div>
+						</div>
+						<div class="flex align-items-center mt10">
+							<div class="formTit flex-shrink0 width120px">유선전화 <span class="star">*</span></div>
+							<div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" value="02-123-1234"></div>
+						</div>					
+						<div class="flex align-items-center mt10">
+							<div class="formTit flex-shrink0 width120px">직급</div>
+							<div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" value="과장"></div>
+						</div>
+						<div class="flex align-items-center mt10">
+							<div class="formTit flex-shrink0 width120px">부서</div>
+							<div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" value="경영지원"></div>
+						</div>
+
+						<div class="modalFooter">
+							<a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
+							<a href="javascript:void(0)" class="btnStyle btnOutlineRed" data-toggle="modal" data-target="#userModi1-1-del" title="삭제">삭제</a>
+							<a href="javascript:void(0)" class="modalBtnCheck" data-toggle="modal" data-target="#userModi1-1-save" title="저장">저장</a>
+						</div>
+					</div>				
+				</div>
+			</div>
+		</div>
+		<!-- //사용자수정 -->
+
+		<!-- 사용자수정 삭제 -->
+		<div class="modal fade modalStyle" id="userModi1-1-del" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" style="width:100%; max-width:420px">
+				<div class="modal-content">
+					<div class="modal-body">
+						<a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+						<div class="alertText2">삭제된 사용자는 로그인 하실 수 없습니다.<br>사용자를 삭제 하시겠습니까?</div>
+						<div class="modalFooter">
+							<a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
+							<a href="javascript:void(0)" class="modalBtnCheck" data-toggle="modal" data-target="#userModi1-1-del-ok" title="삭제">삭제</a>
+						</div>
+					</div>				
+				</div>
+			</div>
+		</div>
+		<!-- //사용자수정 삭제 -->
+
+		<!-- 사용자수정 삭제 완료 -->
+		<div class="modal fade modalStyle" id="userModi1-1-del-ok" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" style="width:100%; max-width:420px">
+				<div class="modal-content">
+					<div class="modal-body">
+						<a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+						<div class="alertText2">사용자를 삭제하였습니다.</div>
+						<div class="modalFooter">
+							<a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
+						</div>
+					</div>				
+				</div>
+			</div>
+		</div>
+		<!-- //사용자수정 삭제 완료 -->
+
+		<!-- 사용자수정 저장 -->
+		<div class="modal fade modalStyle" id="userModi1-1-save" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" style="width:100%; max-width:420px">
+				<div class="modal-content">
+					<div class="modal-body">
+						<a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+						<div class="alertText2">입력하신 회원정보로 저장됩니다.<br>저장 하시겠습니까?</div>
+						<div class="modalFooter">
+							<a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
+							<a href="javascript:void(0)" class="modalBtnCheck" data-toggle="modal" data-target="#userModi1-1-save-ok" title="저장">저장</a>
+						</div>
+					</div>				
+				</div>
+			</div>
+		</div>
+		<!-- //사용자수정 저장 -->
+
+		<!-- 사용자수정 저장 완료 -->
+		<div class="modal fade modalStyle" id="userModi1-1-save-ok" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" style="width:100%; max-width:420px">
+				<div class="modal-content">
+					<div class="modal-body">
+						<a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+						<div class="alertText2">저장되었습니다.</div>
+						<div class="modalFooter">
+							<a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
+						</div>
+					</div>				
+				</div>
+			</div>
+		</div>
+		<!-- //사용자수정 저장 완료 -->
 	</div>
 	<!-- //본문 -->
   </template>

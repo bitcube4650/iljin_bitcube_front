@@ -167,32 +167,35 @@
       };
     },
     methods: {
-     
+		applyPub(){
+			//가입관련 faq 보이기
+			$('.faq1').show();
+
+			//faq 메뉴 클릭시 해당 질문 보이기
+			$(".faqList > a").on("click", function (e) {
+				$('.faq1').hide();
+				e.preventDefault();
+				var filterValue = $(this).data("filter");
+				$(".faq_item_wrap div").removeClass("show");
+				$(filterValue).addClass("show");
+			});
+
+			//faq 질문 클릭시 답변 보이기
+			$('.faq_item_wrap > div').click(function() {
+				$('.faq_item_wrap > div').removeClass('active');
+				$(this).addClass('active');
+			});
+
+			//faq 메뉴 클릭시 클릭한 메뉴 색깔 적용
+			$('.tabStyle > a').click(function() {
+				$('.tabStyle > a').removeClass("active");
+				$(this).addClass("active");
+			});
+		}
     },
     beforeMount() {},
     mounted() {
-
-		//faq
-        $('.faq1').show();
-        $(".faqList > a").on("click", function (e) {
-            $('.faq1').hide();
-            e.preventDefault();
-            var filterValue = $(this).data("filter");
-            $(".faq_item_wrap div").removeClass("show");
-            $(filterValue).addClass("show");
-        });
-        //faq
-        $('.faq_item_wrap > div').click(function() {
-            $('.faq_item_wrap > div').removeClass('active');
-            $(this).addClass('active');
-        });
-
-		//tabStyle
-        $('.tabStyle > a').click(function() {
-            $('.tabStyle > a').removeClass("active");
-            $(this).addClass("active");
-        });
-
+		this.applyPub();
     },
   };
   </script>
