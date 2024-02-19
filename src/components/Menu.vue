@@ -7,7 +7,7 @@
           <div class="profileDropMenu2">
               <a href="#" data-toggle="modal" data-target="#mody1" title="개인정보 수정"><i class="fa-light fa-gear"></i>개인정보 수정</a>
               <a href="#" data-toggle="modal" data-target="#mody2" title="비밀번호 변경"><i class="fa-light fa-lock-keyhole"></i>비밀번호 변경</a>
-              <a data-toggle="modal" data-target="#logout" title="로그아웃"><i class="fa-light fa-arrow-right-from-bracket"></i>로그아웃</a>
+              <a href="#" data-toggle="modal" data-target="#logout" title="로그아웃"><i class="fa-light fa-arrow-right-from-bracket"></i>로그아웃</a>
           </div>
       </div>
       <!-- //프로필 드롭다운2 -->
@@ -48,7 +48,7 @@
                       <li v-if="company == 'inter'"><router-link to="/company/partner/approval">업체승인</router-link></li>
                       <li v-if="company == 'inter'"><router-link to="/company/partner/management">업체관리</router-link></li>
                       <li v-if="company == 'cust'"><router-link to="/company/partner">자사정보</router-link></li>
-                      <li v-if="company == 'cust'"><router-link to="/company/partner/user">사용자관리</router-link><</li>
+                      <li v-if="company == 'cust'"><router-link to="/company/partner/user">사용자관리</router-link></li>
                   </ul>
               </div>
           </li>
@@ -56,10 +56,10 @@
               <a href="#"><span><i class="fa-light fa-chart-pie-simple"></i></span>통계</a>
               <div class="depth2Lnb">
                   <ul>
-                      <li><a>회사별 입찰실적</a></li>
-                      <li><a>입찰실적 상세내역</a></li>
-                      <li><a>입찰현황</a></li>
-                      <li><a>입찰 상세내역</a></li>
+                      <li><a href="#">회사별 입찰실적</a></li>
+                      <li><a href="#">입찰실적 상세내역</a></li>
+                      <li><a href="#">입찰현황</a></li>
+                      <li><a href="#">입찰 상세내역</a></li>
                   </ul>
               </div>
           </li>
@@ -67,8 +67,8 @@
               <a href="#"><span><i class="fa-light fa-memo-circle-info"></i></span>정보관리</a>
               <div class="depth2Lnb">
                   <ul>
-                      <li><a>사용자관리</a></li>
-                      <li><a>품목정보관리</a></li>
+                      <li><a href="#">사용자관리</a></li>
+                      <li><a href="#">품목정보관리</a></li>
                   </ul>
               </div>
           </li>
@@ -84,7 +84,7 @@
                         <div class="alertText1">로그아웃 하시겠습니까?</div>
                         <div class="modalFooter">
                             <a href="#" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
-                            <a @click="logout" class="modalBtnCheck" data-toggle="modal" title="확인">확인</a>
+                            <a href="#" @click="logout" class="modalBtnCheck" data-toggle="modal" title="확인">확인</a>
                         </div>
                     </div>				
                 </div>
