@@ -23,7 +23,7 @@ export default new Router({
             name: 'Main',
             components: {
                 inter : () => import ('./views/Main.vue'),
-                cust : () => import ('./views/Main.vue')
+                cust : () => import ('./views/PartnerMain.vue')
             }
         },
         {

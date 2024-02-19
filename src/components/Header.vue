@@ -13,10 +13,10 @@
         <div v-if="this.$store.state.loginInfo !== null && this.$store.state.token !== ''" class="headerRight">
             <!-- 프로필 드롭다운1 -->
             <div class="profileDropWrap">
-                <a href="javascript:void(0)" class="profileDrop"><i class="fa-solid fa-circle-user"></i>{{ this.$store.state.loginInfo.userName }}님<i class="fa-solid fa-sort-down"></i></a><!--{{ this.$store.state.loginInfo.loginId }}-->
+                <a href="#" class="profileDrop"><i class="fa-solid fa-circle-user"></i>{{ this.$store.state.loginInfo.userName }}님<i class="fa-solid fa-sort-down"></i></a><!--{{ this.$store.state.loginInfo.loginId }}-->
                 <div class="profileDropMenu">
-                    <a href="javascript:void(0)" data-toggle="modal" @click="infoOrPwd('info')" title="개인정보 수정"><i class="fa-light fa-gear"></i>개인정보 수정</a>
-                    <a href="javascript:void(0)" data-toggle="modal" @click="infoOrPwd('pwd')" title="비밀번호 변경"><i class="fa-light fa-lock-keyhole"></i>비밀번호 변경</a>
+                    <a href="#" data-toggle="modal" data-target="#mody1" title="개인정보 수정"><i class="fa-light fa-gear"></i>개인정보 수정</a>
+                    <a href="#" data-toggle="modal" data-target="#mody2" title="비밀번호 변경"><i class="fa-light fa-lock-keyhole"></i>비밀번호 변경</a>
                     <a data-toggle="modal" data-target="#logout" title="로그아웃"><i class="fa-light fa-arrow-right-from-bracket"></i>로그아웃</a>
                 </div>
             </div>
@@ -36,9 +36,6 @@ export default {
     };
   },
   methods: {
-    infoOrPwd(keyword){
-        this.$emit('infoOrPwd', keyword);
-    }
   },
   created() {
    

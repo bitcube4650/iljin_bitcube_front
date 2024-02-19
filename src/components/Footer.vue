@@ -4,9 +4,9 @@
   <div class="subFooter">
       © ILJIN ALL RIGHTS RESERVED.
       <div class="subFooterUtill">
-          <a title="공동인증서">공동인증서</a>
-          <a @click="clickRegProcess" title="업체등록절차">업체등록절차</a>
-          <a @click="clickBiddingInfo" title="입찰업무안내">입찰업무안내</a>
+          <a href="#" title="공동인증서">공동인증서</a>
+          <a href="#" @click="clickRegProcess" title="업체등록절차">업체등록절차</a>
+          <a href="#" @click="clickBiddingInfo" title="입찰업무안내">입찰업무안내</a>
       </div>
       <!-- 업체등록절차 -->
       <EnrollmentProcess />

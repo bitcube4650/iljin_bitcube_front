@@ -100,11 +100,8 @@
 
         <!--공지사항 상세 팝업-->
         <NoticeDetailPopup />
-
     </div>
     <!-- //본문 -->
-
-
 
 
 </template>
@@ -143,19 +140,18 @@ export default {
   data() {
     return {
 
-        
     }
   },
   filters:{
 
   },
   mounted() {
-
+   
   },
   methods: {
-    
 
   },
 };
 
 </script>
+
