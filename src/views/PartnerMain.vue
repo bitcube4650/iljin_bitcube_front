@@ -88,6 +88,9 @@
             </div>
         </div>
         <!-- //contents -->
+
+        <!--공지사항 상세 팝업-->
+        <NoticeDetailPopup />
     </div>
     <!-- //본문 -->
 
@@ -104,6 +107,7 @@ import router from '@/router.js';
 import Menu from "@/components/Menu.vue";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
+import NoticeDetailPopup from "@/components/NoticeDetailPopup.vue";
 
 
 
@@ -118,7 +122,8 @@ export default {
     router,
     Menu,
     Header,
-    Footer
+    Footer,
+    NoticeDetailPopup
   },
   data() {
     return {
