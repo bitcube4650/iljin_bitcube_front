@@ -65,12 +65,7 @@
           </select>
         </div>
         <div>
-          <a
-            href="group_sub01_1_3.html"
-            class="btnStyle btnPrimary"
-            title="입찰계획등록"
-            >입찰계획등록</a
-          >
+          <router-link to="/bid/progressInsert" class="btnStyle btnPrimary" title="입찰계획등록">입찰계획등록</router-link>
         </div>
       </div>
       <table class="tblSkin1 mt10">
@@ -96,20 +91,14 @@
         <tbody>
           <tr>
             <td>
-              <a
-                href="group_sub01_1_1.html"
-                class="textUnderline"
-                title="C202401005"
-                >C202401005</a
-              >
+              <router-link to="/bid/progressDetail" class="textUnderline" title="C202401005">
+                C202401005
+              </router-link>
             </td>
             <td class="text-left">
-              <a
-                href="group_sub01_1_1.html"
-                class="textUnderline"
-                title="직물재배업 품목류"
-                >직물재배업 품목류</a
-              >
+              <router-link to="/bid/progressDetail" class="textUnderline" title="직물재배업 품목류">
+                직물재배업 품목류
+              </router-link>
             </td>
             <td>2024-01-09 13:00</td>
             <td>2024-01-10 13:00</td>
@@ -136,20 +125,14 @@
           </tr>
           <tr>
             <td>
-              <a
-                href="group_sub01_1_1.html"
-                class="textUnderline"
-                title="C202401005"
-                >C202401004</a
-              >
+              <router-link to="/bid/progressDetail" class="textUnderline" title="C202401004">
+                C202401004
+              </router-link>
             </td>
             <td class="text-left">
-              <a
-                href="group_sub01_1_1.html"
-                class="textUnderline"
-                title="축산업 품목류"
-                >축산업 품목류</a
-              >
+              <router-link to="/bid/progressDetail" class="textUnderline" title="축산업 품목류">
+                축산업 품목류
+              </router-link>
             </td>
             <td class="textHighlight">
               <i class="fa-regular fa-timer"></i> 2024-01-09 13:00
@@ -159,39 +142,27 @@
             <td>직접입력</td>
             <td>
               <i class="fa-light fa-paper-plane-top"></i>
-              <a
-                href="mailto:james@iljin.co.kr"
-                class="textUnderline"
-                title="이순신"
-                >이순신</a
-              >
+              <router-link to="/bid/progressDetail" class="textUnderline" title="이순신">
+                이순신
+              </router-link>
             </td>
             <td class="end">
               <i class="fa-light fa-paper-plane-top"></i>
-              <a
-                href="mailto:james@iljin.co.kr"
-                class="textUnderline"
-                title="강감찬"
-                >강감찬</a
-              >
+              <router-link to="/bid/progressDetail" class="textUnderline" title="강감찬">
+                강감찬
+              </router-link>
             </td>
           </tr>
           <tr>
             <td>
-              <a
-                href="group_sub01_1_1.html"
-                class="textUnderline"
-                title="C202401003"
-                >C202401003</a
-              >
+              <router-link to="/bid/progressDetail" class="textUnderline" title="C202401003">
+                C202401003
+              </router-link>
             </td>
             <td class="text-left">
-              <a
-                href="group_sub01_1_1.html"
-                class="textUnderline"
-                title="직물재배"
-                >직물재배</a
-              >
+              <router-link to="/bid/progressDetail" class="textUnderline" title="직물재배">
+                직물재배
+              </router-link>
             </td>
             <td class="textHighlight">
               <i class="fa-regular fa-timer"></i> 2024-01-09 13:00
@@ -201,21 +172,15 @@
             <td>파일</td>
             <td>
               <i class="fa-light fa-paper-plane-top"></i>
-              <a
-                href="mailto:james@iljin.co.kr"
-                class="textUnderline"
-                title="이순신"
-                >이성계</a
-              >
+              <router-link to="/bid/progressDetail" class="textUnderline" title="이순신">
+                이순신
+              </router-link>
             </td>
             <td class="end">
               <i class="fa-light fa-paper-plane-top"></i>
-              <a
-                href="mailto:james@iljin.co.kr"
-                class="textUnderline"
-                title="강감찬"
-                >이성계</a
-              >
+              <router-link to="/bid/progressDetail" class="textUnderline" title="이성계">
+                이성계
+              </router-link>
             </td>
           </tr>
         </tbody>
@@ -369,7 +334,7 @@ export default {
   mounted() {
     console.log(this.$store.state.loginInfo);
     document.title = this.title + " - IJEAS";
-    this.goOpen();
+    //this.goOpen();
   },
 };
 </script>

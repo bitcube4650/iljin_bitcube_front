@@ -3,6 +3,7 @@ import Router from 'vue-router';
 import bidRoutes from './modules/bid/router/index.js';
 import noticeRoutes from './modules/notice/router/index.js';
 import companyRoutes from './modules/company/router/index.js';
+import statisticsRoutes from './modules/statistics/router/index.js'
 
 
 Vue.use(Router);
@@ -46,7 +47,8 @@ export default new Router({
         },
         ...bidRoutes,
         ...noticeRoutes,
-        ...companyRoutes
+        ...companyRoutes,
+        ...statisticsRoutes
 
         
 //template[end]         

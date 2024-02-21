@@ -63,52 +63,6 @@ export default {
             $('.selLabel').addClass('selAct');
         }
 
-
-        //datepicker
-        $( function() {
-            $( ".datepicker" ).datepicker();
-        } );
-
-        $(".datepicker").datepicker({
-            changeMonth: true, 
-            changeYear: true,
-            minDate: '-50y',
-            nextText: '다음 달',
-            prevText: '이전 달',
-            yearRange: 'c-50:c+20',
-            currentText: '오늘 날짜',
-            closeText: '닫기',
-            dateFormat: "yy-mm-dd",
-            showAnim: "slide",
-            showMonthAfterYear: true, 
-            dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
-            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
-        });
-
-
-        //faq
-        $('.faq1').show();
-        $(".faqList > a").on("click", function (e) {
-            $('.faq1').hide();
-            e.preventDefault();
-            var filterValue = $(this).data("filter");
-            $(".faq_item_wrap div").removeClass("show");
-            $(filterValue).addClass("show");
-        });
-        //faq
-        $('.faq_item_wrap > div').click(function() {
-            $('.faq_item_wrap > div').removeClass('active');
-            $(this).addClass('active');
-        });
-
-        //tabStyle
-        $('.tabStyle > a').click(function() {
-            $('.tabStyle > a').removeClass("active");
-            $(this).addClass("active");
-        });
-
-
-
         //modal
         $(document).on('show.bs.modal', '.modal', function () {
             // 현재 열린 모달의 개수
@@ -143,7 +97,55 @@ export default {
         //이미지맵 반응형
         $('img[usemap]').rwdImageMaps();
 
-	}
+	},
+
+    //달력
+    applyCal(){
+        //datepicker
+        $( function() {
+            $( ".datepicker" ).datepicker();
+        } );
+
+        $(".datepicker").datepicker({
+            changeMonth: true, 
+            changeYear: true,
+            minDate: '-50y',
+            nextText: '다음 달',
+            prevText: '이전 달',
+            yearRange: 'c-50:c+20',
+            currentText: '오늘 날짜',
+            closeText: '닫기',
+            dateFormat: "yy-mm-dd",
+            showAnim: "slide",
+            showMonthAfterYear: true, 
+            dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+            monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
+        });
+    },
+
+    //faq화면
+    applyFaq(){
+        //faq
+        $('.faq1').show();
+        $(".faqList > a").on("click", function (e) {
+            $('.faq1').hide();
+            e.preventDefault();
+            var filterValue = $(this).data("filter");
+            $(".faq_item_wrap div").removeClass("show");
+            $(filterValue).addClass("show");
+        });
+        //faq
+        $('.faq_item_wrap > div').click(function() {
+            $('.faq_item_wrap > div').removeClass('active');
+            $(this).addClass('active');
+        });
+
+        //tabStyle
+        $('.tabStyle > a').click(function() {
+            $('.tabStyle > a').removeClass("active");
+            $(this).addClass("active");
+        });
+    }
 }
 
 
