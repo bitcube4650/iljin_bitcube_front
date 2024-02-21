@@ -75,37 +75,6 @@ new Vue({
   store,
   render: h => h(App),
   created() {
-    /**
-     * HTTP Request Interceptor
-     */
-    this.$http.interceptors.request.use((config) => {
-
-      /**
-       * Session auto-injection
-       */
-      if (this.$store && this.$store.state && this.$store.state.loginInfo) {
-        var session = this.$store.state.loginInfo
-        /**
-         * compCd가 없는 경우, 자동으로 Injection
-         */
-        switch (String(config.method || '').toLowerCase()) {
-          case 'get':
-          case 'delete':
-            if (config.params !== undefined && typeof config.params === 'object' && !config.params.compCd) {
-              config.params.compCd = session.compCd
-            }
-            break
-          case 'post':
-          case 'put':
-            if (config.data !== undefined && typeof config.data === 'object' && !config.data.compCd) {
-              config.data.compCd = session.compCd
-            }
-            break
-        }
-      }
-      return config
-    })
-
     this.$http.interceptors.response.use(response => {
       return response
     }, error => {

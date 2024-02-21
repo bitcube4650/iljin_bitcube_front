@@ -16,15 +16,15 @@
 			<div class="boxSt mt20">
 				<div class="flex align-items-center">
 					<div class="formTit flex-shrink0 width170px">승인 계열사</div>
-					<div class="width100">일진건설</div>
+					<div class="width100">{{ detail.custName }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">업체유형 1</div>
-					<div class="width100">공공장소 청소 및 유사 서비스업 품목류</div>
+					<div class="width100">{{ detail.custName }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">업체유형 2</div>
-					<div class="width100">사업 시설 유지관리 및 고용 서비스업 품목류</div>
+					<div class="width100">사{{ detail.custName }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">회사명</div>
@@ -199,7 +199,7 @@ export default {
 			try {
 				this.$store.commit('loading');
 				const response = await this.$http.post('/api/v1/cust/management/'+this.$route.params.id);
-				this.cust = response.data;
+				this.detail = response.data;
 				this.$store.commit('finish');
 			} catch(err) {
 				console.log(err)

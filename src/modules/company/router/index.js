@@ -7,37 +7,37 @@ export default [
     {
         path: '/company/partner/approval',
         name: 'PartnerApproval',
-        desc: '그룹사>업체정보>업체승인',
+        desc: '계열사>업체정보>업체승인',
         component: () => import ('../views/PartnerApproval.vue')
     },
     {
         path: '/company/partner/approval/:id',
         name: 'PartnerApprovalDetail',
-        desc: '그룹사>업체정보>업체승인상세',
+        desc: '계열사>업체정보>업체승인상세',
         component: () => import ('../views/PartnerApprovalDetail.vue')
     },
     {
         path: '/company/partner/management',
         name: 'PartnerManagement',
-        desc: '그룹사>업체정보>업체관리',
+        desc: '계열사>업체정보>업체관리',
         component: () => import ('../views/PartnerManagement.vue')
     },
     {
         path: '/company/partner/management/create',
         name: 'PartnerManagementCreate',
-        desc: '그룹사>업체정보>업체관리>업체등록',
+        desc: '계열사>업체정보>업체관리>업체등록',
         component: () => import ('../views/PartnerManagementForm.vue')
     },
     {
         path: '/company/partner/management/:id/update',
         name: 'PartnerManagementUpdate',
-        desc: '그룹사>업체정보>업체관리>업체수정',
+        desc: '계열사>업체정보>업체관리>업체수정',
         component: () => import ('../views/PartnerManagementForm.vue')
     },
     {
         path: '/company/partner/management/:id',
         name: 'PartnerManagementDetail',
-        desc: '그룹사>업체정보>업체관리>업체상세',
+        desc: '계열사>업체정보>업체관리>업체상세',
         component: () => import ('../views/PartnerManagementDetail.vue')
     },
     {

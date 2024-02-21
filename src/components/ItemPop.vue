@@ -38,7 +38,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="(val, idx) in itemPage.content">
+							<tr v-for="(val, idx) in listPage.content">
 								<td>{{ val.itemCode }}</td>
 								<td class="text-left">{{ val.itemName }}</td>
 								<td class="end"><a href="#" @click.prevent="select(val)" class="btnStyle btnSecondary btnSm" title="선택">선택</a></td>
@@ -48,7 +48,7 @@
 					<!-- pagination -->
 					<div class="row mt30">
 						<div class="col-xs-12">
-							<pagination @searchFunc="search" :page="itemPage"/>
+							<pagination @searchFunc="search" :page="listPage"/>
 						</div>
 					</div>
 					<!-- //pagination -->
@@ -75,7 +75,7 @@ export default {
     return {
 		searchParams: {},
 		itemGrpList: [],		
-		itemPage: {}
+		listPage: {}
     }
   },
   methods: {
@@ -110,7 +110,7 @@ export default {
       try {
         this.$store.commit('loading');
 		const response = await this.$http.post('/login/itemList', this.searchParams);
-        this.itemPage = response.data;
+        this.listPage = response.data;
         this.$store.commit('finish');
       } catch(err) {
         console.log(err)

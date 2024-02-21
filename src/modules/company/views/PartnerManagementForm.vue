@@ -80,7 +80,7 @@
 							<span style="margin:0 10px">-</span>
 							<input type="text" v-model="detail.regnum2" @keypress="onlyNumber" maxlength="2" class="inputStyle maxWidth-max-content" placeholder="">
 							<span style="margin:0 10px">-</span>
-							<input type="text" v-model="detail.regnum2" @keypress="onlyNumber" maxlength="5" class="inputStyle maxWidth-max-content" placeholder="">
+							<input type="text" v-model="detail.regnum3" @keypress="onlyNumber" maxlength="5" class="inputStyle maxWidth-max-content" placeholder="">
 						</div>
 					</div>
 					<div class="flex align-items-center mt10">
@@ -264,7 +264,7 @@
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">부서</div>
                     <div class="width100">
-                        <input type="text" nv-model="detail.buseo" class="inputStyle maxWidth-max-content" placeholder="">
+                        <input type="text" v-model="detail.buseo" class="inputStyle maxWidth-max-content" placeholder="">
                     </div>
                 </div>
             </div>
@@ -295,22 +295,6 @@
 	</div>
 	<!-- //회원가입 신청 -->
 
-	<!-- 회원가입 신청 후 -->
-	<div class="modal fade modalStyle" id="joinBtn2" tabindex="-1" role="dialog" aria-hidden="true">
-		<div class="modal-dialog" style="width:100%; max-width:420px">
-			<div class="modal-content">
-				<div class="modal-body">
-					<a href="#" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-					<div class="alertText2">회원가입을 신청하였습니다.</div>
-					<div class="modalFooter">
-						<a href="#" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-					</div>
-				</div>				
-			</div>
-		</div>
-	</div>
-	<!-- //회원가입 신청 후 -->
-
     <!-- 타 계열사 업체 팝업 -->
     <other-cust-pop ref="otherCustPop" @callbackFunc="callbackOtherCust"/>
 
@@ -332,7 +316,7 @@ export default {
 	components: {
 		ItemPop,
     	AddrPop,
-		OtherCustPop
+		OtherCustPop,
 	},
 	mounted() {
 		if (this.$route.params.id) {
@@ -386,14 +370,14 @@ export default {
 				if (response.data.code == 'OK') {
 					if (this.$route.params.id == null) {
 						$("#commonAlertMsg").html('회원가입 완료하였습니다..');
-        				this.$store.commit('searchParams',{}); 
+        				this.$store.commit('searchParams',{});  // 페이징 처리를 1로 초기화 
 					} else {
 						$("#commonAlertMsg").html('업체정보를 수정하였습니다.');
 					}
       				$("#commonAlertPop").modal("show"); 
         			this.$router.push('/company/partner/management');
 				} else {
-				this.$swal({type: "warning",text: "회원가입 신청 중 오류가 발생했습니다."});
+					this.$swal({type: "warning",text: "회원가입 신청 중 오류가 발생했습니다."});
 				}
 			})
 			.finally(() => {
