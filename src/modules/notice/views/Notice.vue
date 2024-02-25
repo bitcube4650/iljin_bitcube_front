@@ -17,17 +17,17 @@
                 <div class="flex align-items-center">
                     <div class="sbTit mr30">제목</div>
                     <div class="width200px">
-                        <input type="text" name="" id="" class="inputStyle" placeholder="">
+                        <input type="text" v-model="searchParams.title" class="inputStyle" placeholder="">
                     </div>
                     <div class="sbTit mr30 ml50">내용</div>
                     <div class="width200px">
-                        <input type="text" name="" id="" class="inputStyle" placeholder="">
+                        <input type="text" v-model="searchParams.content" class="inputStyle" placeholder="">
                     </div>
                     <div class="sbTit mr30 ml50">등록자</div>
                     <div class="width200px">
-                        <input type="text" name="" id="" class="inputStyle" placeholder="">
+                        <input type="text" v-model="searchParams.userId" class="inputStyle" placeholder="">
                     </div>
-                    <a href="javascript:void(0)" class="btnStyle btnSearch">검색</a>
+                    <a href="javascript:" @click="search" class="btnStyle btnSearch">검색</a>
                 </div>
             </div>
             <!-- //searchBox -->
@@ -64,21 +64,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1234</td>
-                        <td class="text-left"><a @click="clickNoticeDetail" class="textUnderline notiTitle" title="공지사항 자세히 보기">[공통] 공지사항 테스트</a></td>
+                    <tr v-for="(val, idx) in listPage.content">
+                        <td>{{ val.rowNo }}</td>
+                        <td class="text-left"><a href="javascript:" @click="clickNoticeDetail" class="textUnderline notiTitle" title="공지사항 자세히 보기">{{ val.btitle }}</a></td>
                         <td><i class="fa-regular fa-file-lines notiFile"></i></td>
-                        <td>홍길동</td>
-                        <td>2024-01-10 13:00</td>
-                        <td class="end">2,000</td>
-                    </tr>
-                    <tr>
-                        <td>1234</td>
-                        <td class="text-left"><a @click="clickNoticeDetail" class="textUnderline notiTitle" title="공지사항 자세히 보기">[일진전기] 2024년 협력사 등록안내</a></td>
-                        <td><i class="fa-regular fa-file-lines notiFile"></i></td>
-                        <td>홍길동</td>
-                        <td>2024-01-10 13:00</td>
-                        <td class="end">2,000</td>
+                        <td>{{ val.buserName }}</td>
+                        <td>{{ val.bdate }}</td>
+                        <td class="end">{{ val.bcount }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -86,17 +78,7 @@
             <!-- pagination -->
             <div class="row mt40">
                 <div class="col-xs-12">
-                    <div class="pagination1 text-center">
-                        <a href="javascript:void(0)" title="10페이지 이전 페이지로 이동"><i class="fa-light fa-chevrons-left"></i></a>
-                        <a href="javascript:void(0)" title="이전 페이지로 이동"><i class="fa-light fa-chevron-left"></i></a>
-                        <a href="javascript:void(0)" title="1페이지로 이동" class="number active">1</a>
-                        <a href="javascript:void(0)" title="2페이지로 이동" class="number">2</a>
-                        <a href="javascript:void(0)" title="3페이지로 이동" class="number">3</a>
-                        <a href="javascript:void(0)" title="4페이지로 이동" class="number">4</a>
-                        <a href="javascript:void(0)" title="5페이지로 이동" class="number">5</a>
-                        <a href="javascript:void(0)" title="다음 페이지로 이동"><i class="fa-light fa-chevron-right"></i></a>
-                        <a href="javascript:void(0)" title="10페이지 다음 페이지로 이동"><i class="fa-light fa-chevrons-right"></i></a>
-                    </div>
+                    <pagination @searchFunc="search" :page="listPage"/>
                 </div>
             </div>
             <!-- //pagination -->
@@ -108,32 +90,63 @@
   </template>
   <script>
   import _ from "lodash";
-  import Menu from "@/components/Menu.vue";
-  import Header from "@/components/Header.vue";
-  import Footer from "@/components/Footer.vue";
-  
+  import Pagination from "@/components/Pagination.vue";
 
   
   export default {
     name: "notice",
     components: {
-      Menu,
-      Header,
-      Footer
+        Pagination
     },
     data() {
-      return {
+		return {
+			itemGrpList: [],	
+			searchParams: {},	
+			listPage: {}
+		};
+	},
+	mounted() {
+        
+		const params = {id: this.$options.name , title: '', content: '', userId: '', custCode: '', size: '10'};
+        const custType = this.$store.state.loginInfo.custType; 
+        if(custType == 'inter'){//계열사인 경우
+            params.custCode = this.$store.state.loginInfo.custCode;//무슨 계열사인지
+        }
 
-      };
-    },
-    methods: {
-        clickNoticeDetail(){
+        //파라미터 초기값 세팅
+		if (this.$store.state.searchParams.id == params.id) {
+			this.searchParams = Object.assign(params, this.$store.state.searchParams);
+		} else {
+			this.searchParams = params;
+		}
+		//this.init();
+
+		this.retrieve();
+	},
+	methods: {
+		search(page) {
+			if (page >= 0) this.searchParams.page = page;
+			this.retrieve();
+		},
+		async retrieve() {//공지사항 조회
+			try {
+				this.$store.commit('loading');
+        		this.$store.commit('searchParams', this.searchParams);
+				const response = await this.$http.post('/api/v1/notice/noticeList', this.searchParams);
+				this.listPage = response.data;
+                console.log('결과 데이터', response);
+				this.$store.commit('finish');
+			} catch(err) {
+				console.log(err)
+				this.$store.commit('finish');
+			}
+		},
+		callbackItem() {
+			
+		},
+        clickNoticeDetail(){//공지사항 상세 이동
             this.$router.push({name:"noticeDetail"});
         }
-    },
-    beforeMount() {},
-    mounted() {
-
-    },
+    }
   };
   </script>
