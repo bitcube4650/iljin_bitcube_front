@@ -36,7 +36,7 @@
               id=""
               class="inputStyle"
               placeholder=""
-              v-model="form.bidNo"
+              v-model="searchParams.bidNo"
             />
           </div>
           <div class="sbTit mr30 ml50">입찰명</div>
@@ -47,25 +47,32 @@
               id=""
               class="inputStyle"
               placeholder=""
-              v-model="form.bidName"
+              v-model="searchParams.bidName"
             />
           </div>
-          <a class="btnStyle btnSearch" @click="goOpen">검색</a>
+          <a class="btnStyle btnSearch" href="#" @click.prevent="search(0)"
+            >검색</a
+          >
         </div>
       </div>
       <!-- //searchBox -->
 
       <div class="flex align-items-center justify-space-between mt40">
         <div class="width100">
-          전체 : <span class="textMainColor"><strong>100</strong></span
+          전체 : <span class="textMainColor"><strong>{{ listPage.totalElements ? listPage.totalElements.toLocaleString() : 0 }}</strong></span
           >건
-          <select name="" class="selectStyle maxWidth140px ml20">
-            <option value="">10개씩 보기</option>
-            <option value="">20개씩 보기</option>
+          <select v-model="searchParams.size" @change="search(0)" class="selectStyle maxWidth140px ml20">
+            <option value="10">10개씩 보기</option>
+            <option value="20">20개씩 보기</option>
           </select>
         </div>
         <div>
-          <router-link to="/bid/progressInsert" class="btnStyle btnPrimary" title="입찰계획등록">입찰계획등록</router-link>
+          <router-link
+            to="/bid/progressInsert"
+            class="btnStyle btnPrimary"
+            title="입찰계획등록"
+            >입찰계획등록</router-link
+          >
         </div>
       </div>
       <table class="tblSkin1 mt10">
@@ -89,154 +96,56 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr v-for="(val, idx) in listPage.content">
             <td>
-              <router-link to="/bid/progressDetail" class="textUnderline" title="C202401005">
-                C202401005
+              <router-link
+                :to="{ name: 'bidProgressDetail', query: { biNo: val.biNo } }"
+                class="textUnderline"
+                title= "입찰상세페이지 이동"
+              >
+                {{val.biNo}}
               </router-link>
             </td>
             <td class="text-left">
-              <router-link to="/bid/progressDetail" class="textUnderline" title="직물재배업 품목류">
-                직물재배업 품목류
+              <router-link
+                :to="{ name: 'bidProgressDetail', query: { biNo: val.biNo } }"
+                class="textUnderline"
+                title= "입찰상세페이지 이동"
+              >
+                {{val.biName}}
               </router-link>
+            </td >
+            <td :class="{ 'textHighlight': isPastDate(val.estCloseDate) }">
+              <i class="fa-regular fa-timer"></i>{{val.estStartDate}}
+              </td>
+            <td>
+              <i class="fa-regular fa-timer"></i>{{val.estCloseDate}}
             </td>
-            <td>2024-01-09 13:00</td>
-            <td>2024-01-10 13:00</td>
-            <td>지명</td>
-            <td>파일</td>
+            <td>{{val.biMode}}</td>
+            <td>{{val.insMode}}</td>
             <td>
               <i class="fa-light fa-paper-plane-top"></i>
               <a
-                href="mailto:james@iljin.co.kr"
+                :href="'mailto:' + val.estOpenerEmail"
                 class="textUnderline"
-                title="홍길동"
-                >홍길동</a
-              >
+                title="담당자 메일">{{val.estOpener}}</a>
             </td>
             <td class="end">
               <i class="fa-light fa-paper-plane-top"></i>
               <a
-                href="mailto:james@iljin.co.kr"
+                :href="'mailto:' + val.gongoEmail"
                 class="textUnderline"
-                title="홍길동"
-                >홍길동</a
+                title="공고자 메일"
+                >{{val.gongoId}}</a
               >
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <router-link to="/bid/progressDetail" class="textUnderline" title="C202401004">
-                C202401004
-              </router-link>
-            </td>
-            <td class="text-left">
-              <router-link to="/bid/progressDetail" class="textUnderline" title="축산업 품목류">
-                축산업 품목류
-              </router-link>
-            </td>
-            <td class="textHighlight">
-              <i class="fa-regular fa-timer"></i> 2024-01-09 13:00
-            </td>
-            <td>2024-01-10 13:00</td>
-            <td>일반</td>
-            <td>직접입력</td>
-            <td>
-              <i class="fa-light fa-paper-plane-top"></i>
-              <router-link to="/bid/progressDetail" class="textUnderline" title="이순신">
-                이순신
-              </router-link>
-            </td>
-            <td class="end">
-              <i class="fa-light fa-paper-plane-top"></i>
-              <router-link to="/bid/progressDetail" class="textUnderline" title="강감찬">
-                강감찬
-              </router-link>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <router-link to="/bid/progressDetail" class="textUnderline" title="C202401003">
-                C202401003
-              </router-link>
-            </td>
-            <td class="text-left">
-              <router-link to="/bid/progressDetail" class="textUnderline" title="직물재배">
-                직물재배
-              </router-link>
-            </td>
-            <td class="textHighlight">
-              <i class="fa-regular fa-timer"></i> 2024-01-09 13:00
-            </td>
-            <td>2024-01-10 13:00</td>
-            <td>일반(관리)</td>
-            <td>파일</td>
-            <td>
-              <i class="fa-light fa-paper-plane-top"></i>
-              <router-link to="/bid/progressDetail" class="textUnderline" title="이순신">
-                이순신
-              </router-link>
-            </td>
-            <td class="end">
-              <i class="fa-light fa-paper-plane-top"></i>
-              <router-link to="/bid/progressDetail" class="textUnderline" title="이성계">
-                이성계
-              </router-link>
             </td>
           </tr>
         </tbody>
       </table>
-
       <!-- pagination -->
       <div class="row mt40">
         <div class="col-xs-12">
-          <div class="pagination1 text-center">
-            <a
-              href="javascript:void(0)"
-              title="10페이지 이전 페이지로 이동"
-              ><i class="fa-light fa-chevrons-left"></i
-            ></a>
-            <a href="javascript:void(0)" title="이전 페이지로 이동"
-              ><i class="fa-light fa-chevron-left"></i
-            ></a>
-            <a
-              href="javascript:void(0)"
-              title="1페이지로 이동"
-              class="number active"
-              >1</a
-            >
-            <a
-              href="javascript:void(0)"
-              title="2페이지로 이동"
-              class="number"
-              >2</a
-            >
-            <a
-              href="javascript:void(0)"
-              title="3페이지로 이동"
-              class="number"
-              >3</a
-            >
-            <a
-              href="javascript:void(0)"
-              title="4페이지로 이동"
-              class="number"
-              >4</a
-            >
-            <a
-              href="javascript:void(0)"
-              title="5페이지로 이동"
-              class="number"
-              >5</a
-            >
-            <a href="javascript:void(0)" title="다음 페이지로 이동"
-              ><i class="fa-light fa-chevron-right"></i
-            ></a>
-            <a
-              href="javascript:void(0)"
-              title="10페이지 다음 페이지로 이동"
-              ><i class="fa-light fa-chevrons-right"></i
-            ></a>
-          </div>
+          <pagination @searchFunc="search" :page="listPage" />
         </div>
       </div>
       <!-- //pagination -->
@@ -245,96 +154,64 @@
   <!-- //contents -->
 </template>
 <script>
-import _ from "lodash";
-import router from "@/router.js";
-import Menu from "@/components/Menu.vue";
-import Header from "@/components/Header.vue";
-import Footer from "@/components/Footer.vue";
-
-/**
- * Url JOIN
- */
-function _url(...args) {
-  args = args.map((x) =>
-    String(x || "")
-      .trim()
-      .replace(/^\/*|\/*$/g, "")
-  );
-  return args.filter((x) => x).join("/");
-}
+import Pagination from "@/components/Pagination.vue";
 
 export default {
   name: "bidProgress",
   components: {
-    Menu,
-    Header,
-    Footer,
+    Pagination,
   },
   data() {
     return {
-      title: "전자입찰 > 입찰진행",
       findComment: {
         line1:
-          "입찰담당자가 생성한 입찰목록입니다. 입찰 공고자는 입찰계획 내용을 상세히 확인하시고 공고 하십시오.(입찰번호 또는 입찰명을 클릭하시면 상세내용을 확인할 수 있습니다)",
+          "입찰담당자가 생성한 입찰목록입니다. 입찰 공고자는 입찰계획 내용을 상세히 확인하시고 공고 하십시오.(입찰번호 또는 입찰명을 클릭하시면 상세내용을 확인할 수 있습니다) \n",
         line2:
           "입찰공고자는 제출마감일시 전에 입찰공고 하지 않으면 해당 입찰은 자동으로 삭제됩니다.",
         line3:
           "담당자 또는 공고자를 클릭하면 해당인에게 메일을 보낼 수 있습니다.",
       },
-      deleteid: "",
-      deleteList: [],
-      form: {
-        bidNo: "",
-        bidName: "",
-      },
-
-      data: [],
-      subData: [],
-
-      defaultColDef: {
-        resizable: true,
-        filter: true,
-        sortable: true,
-      },
-      gridApi: null,
-      columnApi: null,
-      columnDefs: [],
-      gridApiSub: null,
-      columnApiSub: null,
-      columnDefsSub: [],
-      frameworkComponents: null,
+      //bidProgressList: [],
+      searchParams: {},
+      listPage: {},
     };
   },
-  methods: {
-    goOpen() {
-      // code list 조회
-      this.$store.commit("loading");
-      this.$http
-        .post(_url("/api/bid/progresslist"), {
-          bidNo: this.form.bidNo,
-          bidName: this.form.bidName,
-          loginId: this.$store.state.loginInfo.loginId,
-        })
-        .then((response) => {
-          this.data = response.data;
 
-          if (response.data.length == 0) {
-            this.$swal({
-              type: "warning",
-              text: "조회내역이 존재하지 않습니다.",
-            });
-          }
-        })
-        .finally(() => {
-          this.$store.commit("finish");
-        });
-    },
-  },
   beforeMount() {},
   mounted() {
-    console.log(this.$store.state.loginInfo);
-    document.title = this.title + " - IJEAS";
-    //this.goOpen();
+    const params = { id: this.$options.name, size: "10" };
+    if (this.$store.state.searchParams.id == params.id) {
+      this.searchParams = Object.assign(params, this.$store.state.searchParams);
+    } else {
+      this.searchParams = params;
+    }
+    this.retrieve();
+  },
+
+  methods: {
+    search(page) {
+      if (page >= 0) this.searchParams.page = page;
+      this.retrieve();
+    },
+
+    async retrieve() {
+      try {
+        this.$store.commit("loading");
+        const response = await this.$http.post("/api/v1/bid/progresslist",this.searchParams);
+        this.listPage = response.data;
+        this.$store.commit("searchParams", this.searchParams);
+        this.$store.commit("finish");
+      } catch (err) {
+        console.log(err);
+        this.$store.commit("finish");
+      }
+    },
+
+    isPastDate(dateString) {
+        const currentDate = new Date(); 
+        const targetDate = new Date(dateString); 
+        return targetDate < currentDate; 
+    }
   },
 };
 </script>

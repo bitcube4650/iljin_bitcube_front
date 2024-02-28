@@ -4,21 +4,21 @@
 		<div class="modal-dialog" style="width:100%; max-width:800px">
 			<div class="modal-content">
 				<div class="modal-body">
-					<a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+					<a href="#" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
 					<h2 class="modalTitle">입찰공고</h2>
 					<h4 class="h4Tit mt20">가. 입찰에 부치는 사항</h4>
 					<div class="modalBoxSt mt10">
 						<div class="flex align-items-center">
 							<div class="formTit flex-shrink0 width170px">입찰번호</div>
-							<div class="width100">C202401005</div>
+							<div class="width100">{{props[0].biNo}}</div>
 						</div>
 						<div class="flex align-items-center mt10">
 							<div class="formTit flex-shrink0 width170px">입찰명</div>
-							<div class="width100">A동 절단 제품 보관 다이 제작(SHEET/ROLL)</div>
+							<div class="width100">{{props[0].biName}}</div>
 						</div>
 						<div class="flex align-items-center mt10">
 							<div class="formTit flex-shrink0 width170px">품명</div>
-							<div class="width100">가공공작기계 제조업 품목류</div>
+							<div class="width100">{{props[0].itemCode}}</div>
 						</div>
 					</div>
 
@@ -26,11 +26,11 @@
 					<div class="modalBoxSt mt10">
 						<div class="flex align-items-center">
 							<div class="formTit flex-shrink0 width170px">입찰방식</div>
-							<div class="width100">지명경쟁입찰</div>
+							<div class="width100">{{props[0].biMode}}</div>
 						</div>
 						<div class="flex align-items-center mt10">
 							<div class="formTit flex-shrink0 width170px">낙찰자결정방법</div>
-							<div class="width100">최저가&내부적격심사</div>
+							<div class="width100">{{props[0].succDeciMeth}}</div>
 						</div>
 					</div>
 
@@ -38,31 +38,31 @@
 					<div class="modalBoxSt mt10">
 						<div class="flex align-items-center">
 							<div class="formTit flex-shrink0 width170px">입찰참가자격</div>
-							<div class="width100">장치 가공 및 제작업체</div>
+							<div class="width100">{{props[0].bidJoinSpec}}</div>
 						</div>
 						<div class="flex align-items-center mt10">
 							<div class="formTit flex-shrink0 width170px">현장설명일시</div>
-							<div class="width100">2014-01-11 13:00</div>
+							<div class="width100">{{props[0].spotDate}}</div>
 						</div>
 						<div class="flex align-items-center mt10">
 							<div class="formTit flex-shrink0 width170px">현장설명장소</div>
-							<div class="width100">A동 잘단</div>
+							<div class="width100">{{props[0].spotArea}}</div>
 						</div>
 						<div class="flex align-items-center mt10">
 							<div class="formTit flex-shrink0 width170px">특수조건</div>
-							<div class="width100"></div>
+							<div class="width100">{{props[0].specialCond}}</div>
 						</div>
 						<div class="flex align-items-center mt10">
 							<div class="formTit flex-shrink0 width170px">납품조건</div>
-							<div class="width100">현장도착</div>
+							<div class="width100">{{props[0].supplyCond}}</div>
 						</div>
 						<div class="flex align-items-center mt10">
 							<div class="formTit flex-shrink0 width170px">금액기준</div>
-							<div class="width100">VAT 별도</div>
+							<div class="width100">{{props[0].amtBasis}}</div>
 						</div>
 						<div class="flex align-items-center mt10">
-							<div class="formTit flex-shrink0 width170px">결재조건</div>
-							<div class="width100">당사 정기대금 결제조건</div>
+							<div class="formTit flex-shrink0 width170px">결제조건</div>
+							<div class="width100">{{props[0].payCond}}</div>
 						</div>
 					</div>
 
@@ -82,11 +82,11 @@
 					<div class="modalBoxSt mt10">
 						<div class="flex align-items-center">
 							<div class="formTit flex-shrink0 width170px">제출시작일시</div>
-							<div class="width100">2014-01-11 13:00</div>
+							<div class="width100">{{props[0].estStartDate}}</div>
 						</div>
 						<div class="flex align-items-center mt10">
 							<div class="formTit flex-shrink0 width170px">제출마감일시</div>
-							<div class="width100">2014-01-12 13:00</div>
+							<div class="width100">{{props[0].estCloseDate}}</div>
 						</div>
 						<div class="flex mt10">
 							<div class="formTit flex-shrink0 width170px">세부내역</div>
@@ -140,6 +140,7 @@
 <script>
     export default {
         name: 'BidAdvertisement',
+		props: ["props"],
       data() {
         return {
      
