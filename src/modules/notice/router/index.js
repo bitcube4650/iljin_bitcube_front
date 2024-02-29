@@ -2,6 +2,7 @@ import notice from '../views/Notice.vue';
 import userFaq from '../views/UserFaq.vue';
 import noticeDetail from '../views/NoticeDetail.vue';
 import adminFaq from '../views/AdminFaq.vue';
+import noticeUpdateInsert from '../views/NoticeUpdateInsert.vue';
 
 export default [
     {
@@ -14,6 +15,12 @@ export default [
         path: '/notice/detail',
         name: 'noticeDetail',
         component: noticeDetail
+        //meta: { bid: true }
+    },
+    {
+        path: '/notice/noticeUpdateInsert',
+        name: 'noticeUpdateInsert',
+        component: noticeUpdateInsert
         //meta: { bid: true }
     },
     {

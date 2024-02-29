@@ -21,7 +21,8 @@ export default new Vuex.Store({
         isLoading: false,
         oauthNew: '',
         constants: constants,
-        openDt:''
+        openDt:'',
+        noticeDetailData: null
     },
     mutations: {
         searchParams(state, params) {
@@ -39,6 +40,9 @@ export default new Vuex.Store({
         },
         finish(state) {
             state.isLoading = false;
+        },
+        setNoticeDetailData(state, data) {
+            state.noticeDetailData = data;
         }
     },
     getters: {

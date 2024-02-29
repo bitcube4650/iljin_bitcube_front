@@ -4,9 +4,9 @@
   <div class="subFooter">
       © ILJIN ALL RIGHTS RESERVED.
       <div class="subFooterUtill">
-          <a href="#" title="공동인증서">공동인증서</a>
-          <a href="#" @click="clickRegProcess" title="업체등록절차">업체등록절차</a>
-          <a href="#" @click="clickBiddingInfo" title="입찰업무안내">입찰업무안내</a>
+          <a  title="공동인증서">공동인증서</a>
+          <a  @click="clickRegProcess" title="업체등록절차">업체등록절차</a>
+          <a  @click="clickBiddingInfo" title="입찰업무안내">입찰업무안내</a>
       </div>
       <!-- 업체등록절차 -->
       <EnrollmentProcess />
@@ -18,10 +18,10 @@
         <div class="modal-dialog" style="width:100%; max-width:420px">
           <div class="modal-content">
             <div class="modal-body">
-              <a href="#" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+              <a class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
               <div id="commonAlertMsg" class="alertText2"></div>
               <div class="modalFooter">
-                <a href="#" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
+                <a class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
               </div>
             </div>				
           </div>

@@ -17,31 +17,31 @@
                 <div class="flex align-items-center">
                     <div class="sbTit mr30">제목</div>
                     <div class="width200px">
-                        <input type="text" v-model="searchParams.title" class="inputStyle" placeholder="">
+                        <input type="text" @keydown.enter="handleEnterKey" v-model="searchParams.title" class="inputStyle" placeholder="">
                     </div>
                     <div class="sbTit mr30 ml50">내용</div>
                     <div class="width200px">
-                        <input type="text" v-model="searchParams.content" class="inputStyle" placeholder="">
+                        <input type="text" @keydown.enter="handleEnterKey" v-model="searchParams.content" class="inputStyle" placeholder="">
                     </div>
                     <div class="sbTit mr30 ml50">등록자</div>
                     <div class="width200px">
-                        <input type="text" v-model="searchParams.userId" class="inputStyle" placeholder="">
+                        <input type="text" @keydown.enter="handleEnterKey" v-model="searchParams.userName" class="inputStyle" placeholder="">
                     </div>
-                    <a href="javascript:" @click="search" class="btnStyle btnSearch">검색</a>
+                    <a href="javascript:" @click="handleEnterKey" class="btnStyle btnSearch">검색</a>
                 </div>
             </div>
             <!-- //searchBox -->
 
             <div class="flex align-items-center justify-space-between mt40">
                 <div class="width100">
-                    전체 : <span class="textMainColor"><strong>100</strong></span>건
-                    <select name="" class="selectStyle maxWidth140px ml20">
-                        <option value="">10개씩 보기</option>
-                        <option value="">20개씩 보기</option>
+                    전체 : <span class="textMainColor"><strong>{{ listPage.totalElements ? listPage.totalElements.toLocaleString() : 0 }}</strong></span>건
+                    <select name="" @change="search(0)" v-model="searchParams.size" class="selectStyle maxWidth140px ml20">
+                        <option value="10">10개씩 보기</option>
+                        <option value="20">20개씩 보기</option>
                     </select>
                 </div>
                 <div >
-                    <a href="group_sub02_1_1.html" class="btnStyle btnPrimary" title="공지등록">공지등록</a>
+                    <router-link :to="{ path: '/notice/noticeUpdateInsert', query: { updateInsert: 'insert' } }" class="btnStyle btnPrimary" title="공지등록">공지등록</router-link>
                 </div>
             </div>
             <table class="tblSkin1 mt10">
@@ -66,8 +66,8 @@
                 <tbody>
                     <tr v-for="(val, idx) in listPage.content">
                         <td>{{ val.rowNo }}</td>
-                        <td class="text-left"><a href="javascript:" @click="clickNoticeDetail" class="textUnderline notiTitle" title="공지사항 자세히 보기">{{ val.btitle }}</a></td>
-                        <td><i class="fa-regular fa-file-lines notiFile"></i></td>
+                        <td class="text-left"><a href="javascript:" @click="clickNoticeDetail(val)" class="textUnderline notiTitle" title="공지사항 자세히 보기">{{ val.btitle }}</a></td>
+                        <td><i v-if="val.bfile" class="fa-regular fa-file-lines notiFile"></i></td>
                         <td>{{ val.buserName }}</td>
                         <td>{{ val.bdate }}</td>
                         <td class="end">{{ val.bcount }}</td>
@@ -102,16 +102,21 @@
 		return {
 			itemGrpList: [],	
 			searchParams: {},	
-			listPage: {}
+			listPage: {},
+            custType: ''
 		};
 	},
-	mounted() {
+	mounted() {     
+
+		const params = {id: this.$options.name , title: '', content: '', userName: '', custCode: '', size: '10'};
+
+        this.custType = this.$store.state.loginInfo.custType; 
         
-		const params = {id: this.$options.name , title: '', content: '', userId: '', custCode: '', size: '10'};
-        const custType = this.$store.state.loginInfo.custType; 
-        if(custType == 'inter'){//계열사인 경우
+        if(this.custType == 'inter'){//계열사인 경우
             params.custCode = this.$store.state.loginInfo.custCode;//무슨 계열사인지
-        }
+        }else{//협력사인 경우
+            params.custCode = '';
+        }   
 
         //파라미터 초기값 세팅
 		if (this.$store.state.searchParams.id == params.id) {
@@ -124,17 +129,29 @@
 		this.retrieve();
 	},
 	methods: {
-		search(page) {
+		search(page) {//파라미터로 들어온 페이지로 데이터 검색
+
 			if (page >= 0) this.searchParams.page = page;
 			this.retrieve();
+
 		},
 		async retrieve() {//공지사항 조회
+
+            this.custType = this.$store.state.loginInfo.custType; 
+        
+            //계열사의 경우 계열사 회원에게 공개되는 공지사항을 위해 custCode 데이터 입력
+            if(this.custType == 'inter'){//계열사인 경우
+                this.searchParams.custCode = this.$store.state.loginInfo.custCode;//무슨 계열사인지
+            }else{//협력사인 경우
+                this.searchParams.custCode = '';
+            } 
+
 			try {
 				this.$store.commit('loading');
         		this.$store.commit('searchParams', this.searchParams);
 				const response = await this.$http.post('/api/v1/notice/noticeList', this.searchParams);
 				this.listPage = response.data;
-                console.log('결과 데이터', response);
+                console.log(this.listPage);
 				this.$store.commit('finish');
 			} catch(err) {
 				console.log(err)
@@ -144,8 +161,20 @@
 		callbackItem() {
 			
 		},
-        clickNoticeDetail(){//공지사항 상세 이동
-            this.$router.push({name:"noticeDetail"});
+        clickNoticeDetail(data){//공지사항 상세 이동
+
+            console.log(data.bno);
+            this.plusClickNum(data.bno);// 조회수 +1
+            this.$store.commit('setNoticeDetailData', data);
+            this.$router.push({name:"noticeDetail"});//상세 페이지 이동
+        },
+        plusClickNum(bno){// 조회수 +1
+            this.$http.post('/api/v1/notice/updateClickNum', { 'bno': bno});
+        },
+        handleEnterKey(){//엔터키 검색
+
+            //첫페이지로 검색
+            this.search(0);
         }
     }
   };
