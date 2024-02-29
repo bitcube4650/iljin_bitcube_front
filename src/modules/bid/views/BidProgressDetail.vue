@@ -63,181 +63,45 @@
             <div class="formTit flex-shrink0 width170px">낙찰자결정방법</div>
             <div class="width100">{{ this.result.succDeciMeth }}</div>
           </div>
-          <div class="flex align-items-center mt20">
+          <div
+            class="flex align-items-center mt20"
+            v-if="this.result.biMode === '지명경쟁입찰'"
+          >
             <div class="formTit flex-shrink0 width170px">입찰참가업체</div>
             <div class="width100">
               <div class="boxStSm width100 boxOverflowY">
-                <a
-                  href="javascript:return false;"
-                  data-toggle="modal"
-                  data-target="#custUserPop"
-                  class="textUnderline"
-                  >동서산업㈜</a
-                >,
-                <a
-                  href="javascript:return false;"
-                  data-toggle="modal"
-                  data-target="#custUserPop"
-                  class="textUnderline"
-                  >비트큐브</a
-                >,
-                <a
-                  href="javascript:return false;"
-                  data-toggle="modal"
-                  data-target="#custUserPop"
-                  class="textUnderline"
-                  >신양금속공업㈜</a
-                >,
-                <a
-                  href="javascript:return false;"
-                  data-toggle="modal"
-                  data-target="#custUserPop"
-                  class="textUnderline"
-                  >테스트협력업체1</a
-                >,
-                <a
-                  href="javascript:return false;"
-                  data-toggle="modal"
-                  data-target="#custUserPop"
-                  class="textUnderline"
-                  >테스트협력업체2</a
-                >,
-                <a
-                  href="javascript:return false;"
-                  data-toggle="modal"
-                  data-target="#custUserPop"
-                  class="textUnderline"
-                  >테스트협력업체3</a
-                >,
-                <a
-                  href="javascript:return false;"
-                  data-toggle="modal"
-                  data-target="#custUserPop"
-                  class="textUnderline"
-                  >테스트협력업체4</a
-                >,
-                <a
-                  href="javascript:return false;"
-                  data-toggle="modal"
-                  data-target="#custUserPop"
-                  class="textUnderline"
-                  >테스트협력업체5</a
-                >,
-                <a
-                  href="javascript:return false;"
-                  data-toggle="modal"
-                  data-target="#custUserPop"
-                  class="textUnderline"
-                  >테스트협력업체6</a
-                >,
-                <a
-                  href="javascript:return false;"
-                  data-toggle="modal"
-                  data-target="#custUserPop"
-                  class="textUnderline"
-                  >테스트협력업체7</a
-                >,
-                <a
-                  href="javascript:return false;"
-                  data-toggle="modal"
-                  data-target="#custUserPop"
-                  class="textUnderline"
-                  >테스트협력업체8</a
-                >,
-                <a
-                  href="javascript:return false;"
-                  data-toggle="modal"
-                  data-target="#custUserPop"
-                  class="textUnderline"
-                  >테스트협력업체9</a
-                >,
-                <a
-                  href="javascript:return false;"
-                  data-toggle="modal"
-                  data-target="#custUserPop"
-                  class="textUnderline"
-                  >테스트협력업체10</a
-                >,
-                <a
-                  href="javascript:return false;"
-                  data-toggle="modal"
-                  data-target="#custUserPop"
-                  class="textUnderline"
-                  >테스트협력업체11</a
-                >,
-                <a
-                  href="javascript:return false;"
-                  data-toggle="modal"
-                  data-target="#custUserPop"
-                  class="textUnderline"
-                  >테스트협력업체12</a
-                >,
-                <a
-                  href="javascript:return false;"
-                  data-toggle="modal"
-                  data-target="#custUserPop"
-                  class="textUnderline"
-                  >테스트협력업체13</a
-                >,
-                <a
-                  href="javascript:return false;"
-                  data-toggle="modal"
-                  data-target="#custUserPop"
-                  class="textUnderline"
-                  >테스트협력업체14</a
-                >,
-                <a
-                  href="javascript:return false;"
-                  data-toggle="modal"
-                  data-target="#custUserPop"
-                  class="textUnderline"
-                  >테스트협력업체15</a
-                >,
-                <a
-                  href="javascript:return false;"
-                  data-toggle="modal"
-                  data-target="#custUserPop"
-                  class="textUnderline"
-                  >테스트협력업체16</a
-                >,
-                <a
-                  href="javascript:return false;"
-                  data-toggle="modal"
-                  data-target="#custUserPop"
-                  class="textUnderline"
-                  >테스트협력업체17</a
-                >,
-                <a
-                  href="javascript:return false;"
-                  data-toggle="modal"
-                  data-target="#custUserPop"
-                  class="textUnderline"
-                  >테스트협력업체18</a
-                >,
-                <a
-                  href="javascript:return false;"
-                  data-toggle="modal"
-                  data-target="#custUserPop"
-                  class="textUnderline"
-                  >테스트협력업체19</a
-                >,
-                <a
-                  href="javascript:return false;"
-                  data-toggle="modal"
-                  data-target="#custUserPop"
-                  class="textUnderline"
-                  >테스트협력업체20</a
-                >,
+                <div v-for="(val, idx) in custContent" style="display: inline">
+                  <a
+                    v-if="val.custName !== null"
+                    href="#"
+                    @click.prevent="$refs.custUserPop.initModal(val.custCode)"
+                    data-toggle="modal"
+                    data-target="#custUserPop"
+                    class="textUnderline"
+                    >{{ val.custName }}</a
+                  >
+                  <a
+                    href="#"
+                    @click.prevent="$refs.custUserPop.initModal(val.custCode)"
+                    data-toggle="modal"
+                    data-target="#custUserPop"
+                    class="textUnderline"
+                    v-else
+                    >미등록업체</a
+                  >
+                  <span v-if="idx !== custContent.length - 1">, </span>
+                </div>
               </div>
             </div>
           </div>
-          <div class="flex align-items-center mt20">
+          <div
+            class="flex align-items-center mt20"
+            v-if="this.result.biMode === '일반경쟁입찰'"
+          >
             <div class="formTit flex-shrink0 width170px">입찰참가업체</div>
             <div class="flex align-items-center width100">
               <div class="boxStSm width100 boxOverflowY">
-                <a href="javascript:return false;" class="textUnderline"
-                  >동서산업㈜</a
-                >
+                <a>가입회원사 전체</a>
               </div>
             </div>
           </div>
@@ -255,7 +119,7 @@
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">입찰담당자</div>
-            <div class="width100">강입찰</div>
+            <div class="width100">{{ this.result.gongoId }}</div>
           </div>
         </div>
 
@@ -345,16 +209,28 @@
             </div>
           </div>
           <div class="flex align-items-center mt20">
-            <div class="formTit flex-shrink0 width170px" v-if="this.result.insMode === '파일등록'">세부내역</div>
+            <div
+              class="formTit flex-shrink0 width170px"
+              v-if="this.result.insMode === '파일등록'"
+            >
+              세부내역
+            </div>
             <div class="width100" v-if="this.result.insMode === '파일등록'">
-              <a :href="val.filePath" class="textUnderline"
-                v-for="(val, idx) in fileContent">{{val.fileNm}}</a
+              <a
+                :href="val.filePath"
+                class="textUnderline"
+                v-for="(val, idx) in fileContent"
+                >{{ val.fileNm }}</a
               >
             </div>
           </div>
           <div class="flex mt20">
-            <div class="formTit flex-shrink0 width170px"
-            v-if="this.result.insMode === '직접입력'">세부내역</div>
+            <div
+              class="formTit flex-shrink0 width170px"
+              v-if="this.result.insMode === '직접입력'"
+            >
+              세부내역
+            </div>
             <div class="width100" v-if="this.result.insMode === '직접입력'">
               <table class="tblSkin1">
                 <colgroup>
@@ -391,25 +267,26 @@
           <div class="flex mt20">
             <div class="formTit flex-shrink0 width170px">첨부파일</div>
             <div class="width100">
-                <div v-for="(val, idx) in fileContent" v-if="val.fileFlgKo === '대외용' || val.fileFlgKo === '대내용'">
-                    <div :class="val.fileFlagKo === '대외용' ? 'textHighlight' : 'mt5'">
-                        <span class="mr20">{{val.fileFlagKo}}</span>
-                        <a href="javascript:return false;" class="textUnderline">{{val.fileNm}}</a>
-                    </div>
-                </div>    
+              <div
+                v-for="(val, idx) in fileContent"
+                v-if="val.fileFlgKo === '대외용' || val.fileFlgKo === '대내용'"
+              >
+                <div
+                  :class="val.fileFlagKo === '대외용' ? 'textHighlight' : 'mt5'"
+                >
+                  <span class="mr20">{{ val.fileFlagKo }}</span>
+                  <a href="javascript:return false;" class="textUnderline">{{
+                    val.fileNm
+                  }}</a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         <div class="text-center mt50">
-          <a
-            href="#"
-            class="btnStyle btnOutline"
-            title="목록"
-            ><router-link
-                :to="{ name: 'bidProgress'}"
-              >목록
-              </router-link></a
+          <a href="#" class="btnStyle btnOutline" title="목록"
+            ><router-link :to="{ name: 'bidProgress' }">목록 </router-link></a
           >
           <a
             href="javascript:return false;"
@@ -462,11 +339,7 @@
       <div class="modal-dialog" style="width: 100%; max-width: 420px">
         <div class="modal-content">
           <div class="modal-body">
-            <a
-              href="javascript:return false;"
-              class="ModalClose"
-              data-dismiss="modal"
-              title="닫기"
+            <a href="#" class="ModalClose" data-dismiss="modal" title="닫기"
               ><i class="fa-solid fa-xmark"></i
             ></a>
             <div class="alertText2">
@@ -475,17 +348,18 @@
             </div>
             <div class="modalFooter">
               <a
-                href="javascript:return false;"
+                href="#"
                 class="modalBtnClose"
                 data-dismiss="modal"
                 title="취소"
                 >취소</a
               >
               <a
-                href="javascript:return false;"
+                href="#"
                 class="modalBtnCheck"
                 data-toggle="modal"
                 title="입찰공고"
+                @click="openBid()"
                 >입찰공고</a
               >
             </div>
@@ -530,20 +404,22 @@
               onkeydown="resize(this)"
               onkeyup="resize(this)"
               placeholder="삭제사유 필수 입력"
+              v-model="detail.etc"
             ></textarea>
             <div class="modalFooter">
               <a
-                href="javascript:return false;"
+                href="#"
                 class="modalBtnClose"
                 data-dismiss="modal"
                 title="취소"
                 >취소</a
               >
               <a
-                href="javascript:return false;"
+                href="#"
                 class="modalBtnCheck"
                 data-toggle="modal"
                 title="삭제"
+                @click="del()"
                 >삭제</a
               >
             </div>
@@ -554,11 +430,13 @@
     <!-- //입찰공고 삭제 -->
 
     <!-- 공고문 미리보기 -->
-    <BidAdvertisement :props="[this.result, this.tableContent, this.fileContent]"/>
+    <BidAdvertisement
+      :props="[this.result, this.tableContent, this.fileContent]"
+    />
     <!-- //공고문 미리보기 -->
 
     <!-- 협력사 사용자-->
-    <CustUserPop />
+    <CustUserPop ref="custUserPop" />
     <!-- //협력사 사용자-->
   </div>
   <!-- //본문 -->
@@ -566,6 +444,7 @@
   <script>
 import BidAdvertisement from "@/modules/bid/components/BidAdvertisement.vue";
 import CustUserPop from "@/modules/company/components/CustUserPop.vue";
+
 export default {
   name: "bidProgressDetail",
   components: {
@@ -576,19 +455,19 @@ export default {
   data() {
     return {
       total: 0,
+      detail: {},
 
       searchParams: {},
       result: [],
       tableContent: [],
       fileContent: [],
+      custContent: [],
     };
   },
   beforeMount() {
     this.retrieve();
   },
-  mounted() {
-
-  },
+  mounted() {},
 
   methods: {
     async retrieve() {
@@ -602,11 +481,58 @@ export default {
         this.tableContent = response.data[1];
         this.total = this.calculateTotal();
         this.fileContent = response.data[2];
+        this.custContent = response.data[3];
         this.$store.commit("finish");
       } catch (err) {
         console.log(err);
         this.$store.commit("finish");
       }
+    },
+
+    del() {
+      if (this.detail.etc == null || this.detail.etc == "") {
+        this.$swal({ type: "warning", text: "삭제사유를 입력해주세요." });
+        return;
+      }
+      this.detail.param = this.biNo;
+      this.$store.commit("loading");
+      this.$http
+        .post("/api/v1/bid/delete", this.detail)
+        .then((response) => {
+          if (response.data.code == "OK") {
+            this.$store.commit("searchParams", {});
+            this.$router.push({name:"bidProgress"});
+          } else {
+            this.$swal({
+              type: "warning",
+              text: "삭제 중 오류가 발생했습니다.",
+            });
+          }
+        })
+        .finally(() => {
+          this.$store.commit("finish");
+        });
+    },
+
+    openBid() {
+      this.detail.param = this.biNo;
+      this.$store.commit("loading");
+      this.$http
+        .post("/api/v1/bid/openBid", this.detail)
+        .then((response) => {
+          if (response.data.code == "OK") {
+            this.$store.commit("searchParams", {});
+            this.$router.push({name:"bidProgress"});
+          } else {
+            this.$swal({
+              type: "warning",
+              text: "개찰 중 오류가 발생했습니다.",
+            });
+          }
+        })
+        .finally(() => {
+          this.$store.commit("finish");
+        });
     },
 
     calculateTotal() {
