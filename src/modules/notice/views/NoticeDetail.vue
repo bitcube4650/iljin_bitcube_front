@@ -45,6 +45,9 @@
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">첨부파일</div>
+					<div class="width100" v-if="dataFromList.bfilePath != null && dataFromList.bfilePath != ''">
+						<a @click="downloadFile" id="file-download" class="textUnderline">{{ dataFromList.bfile }}</a>
+					</div>
 				</div>
 				<div class="flex mt20">
 					<div class="formTit flex-shrink0 width170px">공지내용</div>
@@ -57,8 +60,8 @@
 
 			<div class="text-center mt50">
 				<router-link to="/notice" class="btnStyle btnOutline" title="목록">목록</router-link>
-				<a href="javascript:" @click="clickUpdate" class="btnStyle btnOutline" title="수정 이동">수정 이동</a>
-				<a href="javascript:" data-toggle="modal" data-target="#notiDel" class="btnStyle btnOutlineRed" title="삭제">삭제</a>
+				<a v-if="(custType == 'inter' && userAuth == '1') || (dataFromList.buserid == userId)" @click="clickUpdate" class="btnStyle btnOutline" title="수정 이동">수정 이동</a>
+				<a data-toggle="modal" data-target="#notiDel" class="btnStyle btnOutlineRed" title="삭제">삭제</a>
 			</div>
 		</div>
 		<!-- //contents -->
@@ -68,11 +71,11 @@
 			<div class="modal-dialog" style="width:100%; max-width:420px">
 				<div class="modal-content">
 					<div class="modal-body">
-						<a href="javascript:" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+						<a  class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
 						<div class="alertText2">공지를 삭제합니다.<br>삭제 하시겠습니까?</div>
 						<div class="modalFooter">
-							<a href="javascript:" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
-							<a href="javascript:" @click="deleteNotice" class="modalBtnCheck" data-toggle="modal" title="삭제">삭제</a>
+							<a class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
+							<a @click="deleteNotice" class="modalBtnCheck" data-toggle="modal" title="삭제">삭제</a>
 						</div>
 					</div>				
 				</div>
@@ -93,9 +96,10 @@
 
     },
     mounted() {
+	
 		//공지사항 내용 set
 		this.dataFromList = Object.assign({}, this.$store.state.noticeDetailData);
-
+		console.log('check >>> ', this.dataFromList);
 		//공지사항 내용 줄바꿈 처리
 		this.content = this.dataFromList.bcontent.replace(/(?:\r\n|\r|\n)/g, '<br />');
 
@@ -108,9 +112,12 @@
     },
     data() {
       return {
-		dataFromList : {},
-		content : '',
-		groupList : []
+		dataFromList : {},//목록에서 받아온 데이터
+		content : '',//공지사항 내용
+		groupList : [],//해당 공지사항 공개되는 계열사 리스트
+		custType : this.$store.state.loginInfo.custType,//계열사, 협력사 정보
+		userAuth : this.$store.state.loginInfo.userAuth,//권한
+		userId : this.$store.state.loginInfo.userId//유저 id
       };
     },
     methods: {
@@ -120,7 +127,6 @@
 				this.$store.commit('loading');
 				var response = await this.$http.post('/api/v1/notice/selectGroupList', { 'bno': this.dataFromList.bno });
 				this.groupList = response.data;
-				console.log(">>>>>>> ", this.groupList);
 				this.dataFromList.groupList = this.groupList;
 				this.$store.commit('finish');
 			} catch(err) {
@@ -150,6 +156,28 @@
 			this.dataFromList.groupList = this.groupList;
 			this.$store.commit('setNoticeDetailData', this.dataFromList);
 			this.$router.push({name:"noticeUpdateInsert" , query: { updateInsert: 'update' }});//수정 페이지 이동
+		},
+		async downloadFile(){//파일 다운로드
+
+			try {
+				const response = await this.$http.post(
+					"/api/v1/notice/downloadFile",
+					{ fileId: this.dataFromList.bfilePath }, // 서버에서 파일을 식별할 수 있는 고유한 ID 또는 다른 필요한 데이터
+					{ responseType: "blob" } // 응답 데이터를 Blob 형식으로 받기
+				);
+
+				// 파일 다운로드를 위한 처리
+				const url = window.URL.createObjectURL(new Blob([response.data]));
+				const link = document.createElement("a");
+				link.href = url;
+				link.setAttribute("download", this.dataFromList.bfile); // 다운로드될 파일명 설정
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+				
+			} catch (error) {
+				console.error("Error downloading file:", error);
+			}
 		}
     }
   };

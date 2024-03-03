@@ -20,7 +20,7 @@
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">공지대상</div>
 					<div class="flex width100">
-						<input type="radio" name="bm2"  v-model="detailData.bco" value="ALL" id="bm2_1" class="radioStyle"><label for="bm2_1">공통</label>
+						<input type="radio" name="bm2"  v-model="detailData.bco" value="ALL" id="bm2_1" class="radioStyle" :disabled="userAuth != '1' ? true : false"><label for="bm2_1">공통</label>
 						<div>
 							<input type="radio" name="bm2"  v-model="detailData.bco" value="CUST" id="bm2_2" class="radioStyle"><label for="bm2_2" data-toggle="modal" data-target="#AffiliateSelect">계열사</label>
 							<p class="mt5 ml30" v-if="detailData.bco == 'CUST'">
@@ -49,7 +49,7 @@
 						<!-- 다중파일 업로드 -->
 						<div class="upload-boxWrap">
 							<div class="upload-box">
-								<input type="file" id="file-input">
+								<input type="file" ref="uploadedFile" id="file-input" @change="chageFile">
 								<div class="uploadTxt">
 									<i class="fa-regular fa-upload"></i>
 									<div>클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br>파일 최대 10MB (등록 파일 개수 최대 1개)</div>
@@ -148,15 +148,36 @@
 
     },
     mounted() {
-		
+		console.log('ddd' , this.$store.state.loginInfo.userAuth);
 		//등록 및 수정 초기 세팅
 		this.applyInsertOrUpdate();
 
 		//파일첨부
 		fileInput.applyFile();
+		console.log('gogo',this.custCode);
+		console.log(this.userAuth);
+		console.log(this.custType);
+		
+		if(this.custType == 'inter' && this.userAuth == '1'){//계열사 시스템관리자인 경우
+			
+			//db에 있는 모든 계열사 가져오기
+			this.selectGroupCompany();
 
-		//db에 있는 모든 계열사 가져오기
-		this.selectGroupCompany();
+		}else if(this.custType == 'inter' && this.userAuth == '2'){//각사 관리자인 경우
+			//자신이 속한 계열사만 선택 가능
+			this.allGroupList =[{
+									interrelatedCustCode : this.custCode,
+									interrelated: {
+										interrelatedNm: this.custName
+									}
+								}]
+
+			this.detailData.bco = 'CUST';//계열사 공지만 가능함
+		}else{
+
+			this.$router.push({name:"notice"});//목록으로 이동
+
+		}
     },
     data() {
       return {
@@ -164,7 +185,12 @@
 		detailData : {},//공지사항 상세 데이터
 		groupList : [],//화면에 표시되는 계열사
 		allGroupList : [],//db에 있는 모든 계열사
-		selectedGroupList : []//선택된 계열사
+		selectedGroupList : [],//선택된 계열사
+		custType : this.$store.state.loginInfo.custType,//계열사, 협력사 정보
+		userAuth : this.$store.state.loginInfo.userAuth,//권한
+		custCode : this.$store.state.loginInfo.custCode,//계열사코드
+		custName : this.$store.state.loginInfo.custName,//계열사명
+		selectedFile : null
       };
     },
     methods: {
@@ -177,7 +203,6 @@
 				//상세페이지에서 가져온 데이터 반영
 				this.detailData = Object.assign({}, this.$store.state.noticeDetailData);
 				this.groupList = this.detailData.groupList;
-				console.log('grouplist >> ' ,this.groupList);
 
 				var interrelatedCustCodeArr = [];//db에 넘길 interrelatedCustCode 정보
 				var initArr = this.groupList;
@@ -239,9 +264,20 @@
 		},
 		updateNotice(){//공지사항 수정
 
+			var formData = new FormData();
+			var fileCnt = $('.file-remove').length;
+
+			if(fileCnt == 0){//업로드 한 파일이 없는 경우
+				this.$refs.uploadedFile.value = null;
+				this.selectedFile = null;
+			}
+
+    		formData.append('file', this.selectedFile);
+			formData.append('data', JSON.stringify(this.detailData));
+
 			try {
 				this.$store.commit('loading');
-				this.$http.post('/api/v1/notice/updateNotice', this.detailData)
+				this.$http.post('/api/v1/notice/updateNotice', formData)
 					.then(response => {
 						alert('수정되었습니다.');
 						$('#notiSave').modal('hide');
@@ -251,6 +287,7 @@
 				console.log(err)
 				this.$store.commit('finish');
 			}
+			
 
 		},
 		async selectGroupCompany(){//모든 계열사 조회
@@ -289,6 +326,11 @@
 			this.detailData.interrelatedCustCodeArr = interrelatedCustCodeArr;
 
 			$('#AffiliateSelect').modal('hide');
+		},
+		chageFile(evnet){
+			alert("바뀜");
+			console.log(event.target.files[0]);
+			this.selectedFile = event.target.files[0];
 		}
     }
   };

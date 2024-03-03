@@ -40,7 +40,7 @@
                         <option value="20">20개씩 보기</option>
                     </select>
                 </div>
-                <div >
+                <div v-if="insertButton">
                     <router-link :to="{ path: '/notice/noticeUpdateInsert', query: { updateInsert: 'insert' } }" class="btnStyle btnPrimary" title="공지등록">공지등록</router-link>
                 </div>
             </div>
@@ -103,7 +103,8 @@
 			itemGrpList: [],	
 			searchParams: {},	
 			listPage: {},
-            custType: ''
+            custType: '',
+            insertButton: false
 		};
 	},
 	mounted() {     
@@ -111,9 +112,15 @@
 		const params = {id: this.$options.name , title: '', content: '', userName: '', custCode: '', size: '10'};
 
         this.custType = this.$store.state.loginInfo.custType; 
-        
+
         if(this.custType == 'inter'){//계열사인 경우
+            var userAuth = this.$store.state.loginInfo.userAuth;
             params.custCode = this.$store.state.loginInfo.custCode;//무슨 계열사인지
+            if(userAuth == '1' || userAuth == '2'){//시스템관리자 또는 각사관리자인 경우
+
+                //공지사항 등록가능
+                this.insertButton = true;
+            }
         }else{//협력사인 경우
             params.custCode = '';
         }   
@@ -163,7 +170,6 @@
 		},
         clickNoticeDetail(data){//공지사항 상세 이동
 
-            console.log(data.bno);
             this.plusClickNum(data.bno);// 조회수 +1
             this.$store.commit('setNoticeDetailData', data);
             this.$router.push({name:"noticeDetail"});//상세 페이지 이동
