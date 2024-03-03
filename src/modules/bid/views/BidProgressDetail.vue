@@ -289,9 +289,9 @@
             ><router-link :to="{ name: 'bidProgress' }">목록 </router-link></a
           >
           <a
-            href="javascript:return false;"
             class="btnStyle btnOutline"
             title="엑셀변환"
+            @click="excel"
             >엑셀변환</a
           >
           <a
@@ -519,6 +519,33 @@ export default {
       this.$store.commit("loading");
       this.$http
         .post("/api/v1/bid/openBid", this.detail)
+        .then((response) => {
+          if (response.data.code == "OK") {
+            this.$store.commit("searchParams", {});
+            this.$router.push({name:"bidProgress"});
+          } else {
+            this.$swal({
+              type: "warning",
+              text: "개찰 중 오류가 발생했습니다.",
+            });
+          }
+        })
+        .finally(() => {
+          this.$store.commit("finish");
+        });
+    },
+
+    excel(){
+      this.detail.fileName = this.biNo+'_전자입찰요청서';
+      this.detail.result = this.result;
+      this.detail.tableContent = this.tableContent;
+      this.detail.fileContent = this.fileContent;
+      this.detail.custContent = this.custContent;
+
+      console.log(this.detail.fileName)
+
+      this.$store.commit("loading");
+      this.$http.post("/api/v1/excel/downLoad", this.detail)
         .then((response) => {
           if (response.data.code == "OK") {
             this.$store.commit("searchParams", {});
