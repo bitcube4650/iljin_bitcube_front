@@ -22,7 +22,9 @@ export default new Vuex.Store({
         oauthNew: '',
         constants: constants,
         openDt:'',
-        noticeDetailData: null
+        noticeDetailData: null,
+        bidDetailData: null,
+        bidUpdateData: null,
     },
     mutations: {
         searchParams(state, params) {
@@ -43,7 +45,13 @@ export default new Vuex.Store({
         },
         setNoticeDetailData(state, data) {
             state.noticeDetailData = data;
-        }
+        },
+        setBidDetailData(state, data){
+            state.bidDetailData = data;
+        },
+        setBidUpdateData(state, data){
+            state.bidUpdateData = data;
+        },
     },
     getters: {
         CONSTANTS: state => {

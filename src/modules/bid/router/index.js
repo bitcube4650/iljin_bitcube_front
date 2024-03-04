@@ -24,7 +24,6 @@ export default [
         path: '/bid/progressDetail',
         name: 'bidProgressDetail',
         component: bidProgressDetail,
-        props: route => ({ biNo: route.query.biNo })
         //meta: { bid: true }
     },
     {

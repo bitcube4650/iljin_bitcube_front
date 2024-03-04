@@ -26,7 +26,7 @@
             </div>
             <div class="flex align-items-center mt10">
               <div class="formTit flex-shrink0 width170px">품명</div>
-              <div class="width100">{{ props[0].itemCode }}</div>
+              <div class="width100">{{ props[0].itemName }}</div>
             </div>
           </div>
 

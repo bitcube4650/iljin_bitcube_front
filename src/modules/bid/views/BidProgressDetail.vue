@@ -16,7 +16,7 @@
         <div class="boxSt mt20">
           <div class="flex align-items-center">
             <div class="formTit flex-shrink0 width170px">입찰번호</div>
-            <div class="width100">{{ this.biNo }}</div>
+            <div class="width100">{{ dataFromList.biNo }}</div>
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">입찰명</div>
@@ -25,7 +25,7 @@
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">품목</div>
             <div class="width100">
-              {{ this.result.itemCode }}
+              {{ this.result.itemName }}
             </div>
           </div>
           <div class="flex align-items-center mt20">
@@ -73,7 +73,6 @@
                 <div v-for="(val, idx) in custContent" style="display: inline">
                   <a
                     v-if="val.custName !== null"
-                    href="#"
                     @click.prevent="$refs.custUserPop.initModal(val.custCode)"
                     data-toggle="modal"
                     data-target="#custUserPop"
@@ -81,7 +80,6 @@
                     >{{ val.custName }}</a
                   >
                   <a
-                    href="#"
                     @click.prevent="$refs.custUserPop.initModal(val.custCode)"
                     data-toggle="modal"
                     data-target="#custUserPop"
@@ -133,14 +131,14 @@
           <div class="flex align-items-center">
             <div class="formTit flex-shrink0 width170px">분류군</div>
             <div class="flex align-items-center width100">
-              <select name="" class="selectStyle">
-                <option value="">일산E/F</option>
+              <select name="" class="selectStyle" disabled>
+                <option v-for="dept in lotteDeptList" :value="dept.value">{{ dept.label }}</option>
               </select>
-              <select name="" class="selectStyle" style="margin: 0 10px">
-                <option value="">용해</option>
+              <select name="" class="selectStyle" style="margin: 0 10px" disabled>
+                <option v-for="proc in lotteProcList" :value="proc.value">{{ proc.label }}</option>
               </select>
-              <select name="" class="selectStyle">
-                <option value="">변압기</option>
+              <select name="" class="selectStyle" disabled>
+                <option v-for="cls in lotteClsList" :value="cls.value">{{ cls.label }}</option>
               </select>
             </div>
           </div>
@@ -288,14 +286,10 @@
           <a href="#" class="btnStyle btnOutline" title="목록"
             ><router-link :to="{ name: 'bidProgress' }">목록 </router-link></a
           >
-          <a
-            class="btnStyle btnOutline"
-            title="엑셀변환"
-            @click="excel"
+          <a class="btnStyle btnOutline" title="엑셀변환" @click="excel"
             >엑셀변환</a
           >
           <a
-            href="javascript:return false;"
             data-toggle="modal"
             data-target="#biddingPreview"
             class="btnStyle btnOutline"
@@ -303,21 +297,19 @@
             >공고문 미리보기</a
           >
           <a
-            href="javascript:return false;"
             data-toggle="modal"
             data-target="#biddingDel"
             class="btnStyle btnSecondary"
             title="삭제"
             >삭제</a
           >
-          <router-link
-            to="/bid/progressUpdate"
+          <a
+            @click="updateDetail"
             class="btnStyle btnSecondary"
             title="수정"
-            >수정</router-link
+            >수정</a
           >
           <a
-            href="javascript:return false;"
             data-toggle="modal"
             data-target="#biddingModal"
             class="btnStyle btnPrimary"
@@ -348,14 +340,12 @@
             </div>
             <div class="modalFooter">
               <a
-                href="#"
                 class="modalBtnClose"
                 data-dismiss="modal"
                 title="취소"
                 >취소</a
               >
               <a
-                href="#"
                 class="modalBtnCheck"
                 data-toggle="modal"
                 title="입찰공고"
@@ -404,18 +394,13 @@
               onkeydown="resize(this)"
               onkeyup="resize(this)"
               placeholder="삭제사유 필수 입력"
-              v-model="detail.etc"
+              v-model="detail.reason"
             ></textarea>
             <div class="modalFooter">
-              <a
-                href="#"
-                class="modalBtnClose"
-                data-dismiss="modal"
-                title="취소"
+              <a class="modalBtnClose" data-dismiss="modal" title="취소"
                 >취소</a
               >
               <a
-                href="#"
                 class="modalBtnCheck"
                 data-toggle="modal"
                 title="삭제"
@@ -451,32 +436,77 @@ export default {
     BidAdvertisement,
     CustUserPop,
   },
-  props: ["biNo"],
   data() {
     return {
       total: 0,
       detail: {},
-
+      dataFromList: {}, //목록에서 받아온 데이터
       searchParams: {},
       result: [],
       tableContent: [],
       fileContent: [],
       custContent: [],
+
+      lotteDeptList:[
+        {value:"A1", label:"익산 E/F"},
+        {value:"A2", label:"말련 E/F"},
+        {value:"A3", label:"에너지"},
+        {value:"A4", label:"융복합"},
+        {value:"A5", label:"공통"},
+      ],
+
+      lotteProcList:[
+        {value:"B1", label:"용해"},
+        {value:"B2", label:"제박"},
+        {value:"B3", label:"후처리"},
+        {value:"B4", label:"슬리터"},
+        {value:"B5", label:"절단"},
+        {value:"B6", label:"환경"},
+        {value:"B7", label:"공통"},
+        {value:"B8", label:"기타"},
+      ],
+
+      lotteClsList:[
+        {value:"C1", label:"탱크"},
+        {value:"C2", label:"배관"},
+        {value:"C3", label:"열교환기"},
+        {value:"C4", label:"냉각탑"},
+        {value:"C5", label:"브로이"},
+        {value:"C6", label:"판넬"},
+        {value:"C7", label:"펌프"},
+        {value:"C8", label:"인버터"},
+        {value:"C9", label:"PLC/드라이브"},
+        {value:"C10", label:"정류기"},
+        {value:"C11", label:"단락기"},
+        {value:"C12", label:"변압기"},
+        {value:"C13", label:"전기/케이블"},
+        {value:"C14", label:"공조"},
+        {value:"C15", label:"드럼"},
+        {value:"C16", label:"전해조"},
+        {value:"C17", label:"방청조"},
+        {value:"C18", label:"구동부"},
+        {value:"C19", label:"스크라바"},
+        {value:"C20", label:"크레인"},
+        {value:"C21", label:"구동 Roll"},
+        {value:"C22", label:"슬리터기"},
+        {value:"C23", label:"절단기"},
+        {value:"C24", label:"검사설비"},
+        {value:"C25", label:"기타"},
+      ],
     };
   },
-  beforeMount() {
+  beforeMount() {},
+  mounted() {
+    this.dataFromList = this.$store.state.bidDetailData;
+    console.log(this.dataFromList);
     this.retrieve();
   },
-  mounted() {},
 
   methods: {
     async retrieve() {
       try {
         this.$store.commit("loading");
-        const response = await this.$http.post(
-          "/api/v1/bid/progresslistDetail",
-          this.biNo
-        );
+        const response = await this.$http.post("/api/v1/bid/progresslistDetail", this.dataFromList);
         this.result = response.data[0][0];
         this.tableContent = response.data[1];
         this.total = this.calculateTotal();
@@ -490,18 +520,20 @@ export default {
     },
 
     del() {
-      if (this.detail.etc == null || this.detail.etc == "") {
+      if (this.detail.reason == null || this.detail.reason == "") {
         this.$swal({ type: "warning", text: "삭제사유를 입력해주세요." });
         return;
       }
-      this.detail.param = this.biNo;
+      this.detail.biNo = this.dataFromList;
+      this.detail.type = "del";
+      this.detail.interNm = this.result.interrelatedNm;
       this.$store.commit("loading");
       this.$http
         .post("/api/v1/bid/delete", this.detail)
         .then((response) => {
           if (response.data.code == "OK") {
             this.$store.commit("searchParams", {});
-            this.$router.push({name:"bidProgress"});
+            this.$router.push({ name: "bidProgress" });
           } else {
             this.$swal({
               type: "warning",
@@ -514,15 +546,30 @@ export default {
         });
     },
 
+    updateDetail(){
+      this.detail.result = this.result;
+      this.detail.tableContent = this.tableContent;
+      this.detail.fileContent = this.fileContent;
+      this.detail.custContent = this.custContent;
+      this.detail.lotteDeptList = this.lotteDeptList;
+      this.detail.lotteProcList = this.lotteProcList;
+      this.detail.lotteClsList = this.lotteClsList;
+
+      this.$store.commit('setBidUpdateData', this.detail);
+      console.log(this.detail);
+      this.$router.push({name:"bidProgressUpdate"});
+
+    },
+
     openBid() {
-      this.detail.param = this.biNo;
+      this.detail.param = this.dataFromList;
       this.$store.commit("loading");
       this.$http
         .post("/api/v1/bid/openBid", this.detail)
         .then((response) => {
           if (response.data.code == "OK") {
             this.$store.commit("searchParams", {});
-            this.$router.push({name:"bidProgress"});
+            this.$router.push({ name: "bidProgress" });
           } else {
             this.$swal({
               type: "warning",
@@ -535,21 +582,22 @@ export default {
         });
     },
 
-    excel(){
-      this.detail.fileName = this.biNo+'_전자입찰요청서';
+    excel() {
+      this.detail.fileName = this.dataFromList + "_전자입찰요청서";
       this.detail.result = this.result;
       this.detail.tableContent = this.tableContent;
       this.detail.fileContent = this.fileContent;
       this.detail.custContent = this.custContent;
 
-      console.log(this.detail.fileName)
+      console.log(this.detail.fileName);
 
       this.$store.commit("loading");
-      this.$http.post("/api/v1/excel/downLoad", this.detail)
+      this.$http
+        .post("/api/v1/excel/downLoad", this.detail)
         .then((response) => {
           if (response.data.code == "OK") {
             this.$store.commit("searchParams", {});
-            this.$router.push({name:"bidProgress"});
+            this.$router.push({ name: "bidProgress" });
           } else {
             this.$swal({
               type: "warning",

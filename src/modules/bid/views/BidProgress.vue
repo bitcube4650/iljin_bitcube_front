@@ -97,23 +97,11 @@
         </thead>
         <tbody>
           <tr v-for="(val, idx) in listPage.content">
-            <td>
-              <router-link
-                :to="{ name: 'bidProgressDetail', query: { biNo: val.biNo } }"
-                class="textUnderline"
-                title= "입찰상세페이지 이동"
-              >
+            <td class="textUnderline" @click="clickBidDetail(val.biNo)" href="#">
                 {{val.biNo}}
-              </router-link>
             </td>
-            <td class="text-left">
-              <router-link
-                :to="{ name: 'bidProgressDetail', query: { biNo: val.biNo } }"
-                class="textUnderline"
-                title= "입찰상세페이지 이동"
-              >
+            <td class="textUnderline text-left" @click="clickBidDetail(val.biNo)" href="#">
                 {{val.biName}}
-              </router-link>
             </td >
             <td :class="{ 'textHighlight': isPastDate(val.estCloseDate) }">
               <i class="fa-regular fa-timer"></i>{{val.estStartDate}}
@@ -207,6 +195,11 @@ export default {
       }
     },
 
+    clickBidDetail(biNo){
+      this.$store.commit('setBidDetailData', biNo);
+      this.$router.push({name:"bidProgressDetail"});
+
+    },
     isPastDate(dateString) {
         const currentDate = new Date(); 
         const targetDate = new Date(dateString); 
