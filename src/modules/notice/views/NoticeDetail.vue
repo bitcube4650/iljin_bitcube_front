@@ -61,7 +61,7 @@
 			<div class="text-center mt50">
 				<router-link to="/notice" class="btnStyle btnOutline" title="목록">목록</router-link>
 				<a v-if="(custType == 'inter' && userAuth == '1') || (dataFromList.buserid == userId)" @click="clickUpdate" class="btnStyle btnOutline" title="수정 이동">수정 이동</a>
-				<a data-toggle="modal" data-target="#notiDel" class="btnStyle btnOutlineRed" title="삭제">삭제</a>
+				<a v-if="(custType == 'inter' && userAuth == '1') || (dataFromList.buserid == userId)" data-toggle="modal" data-target="#notiDel" class="btnStyle btnOutlineRed" title="삭제">삭제</a>
 			</div>
 		</div>
 		<!-- //contents -->
@@ -99,7 +99,9 @@
 	
 		//공지사항 내용 set
 		this.dataFromList = Object.assign({}, this.$store.state.noticeDetailData);
-		console.log('check >>> ', this.dataFromList);
+		console.log('check1 >>> ', this.dataFromList);
+		console.log('check2 >>> ', this.dataFromList.buserid);
+		console.log('check3 >>> ', this.userId);
 		//공지사항 내용 줄바꿈 처리
 		this.content = this.dataFromList.bcontent.replace(/(?:\r\n|\r|\n)/g, '<br />');
 
@@ -137,17 +139,14 @@
         },
 		deleteNotice(){//공지사항 삭제
 			try {
-				this.$store.commit('loading');
 				var response = this.$http.post('/api/v1/notice/deleteNotice', { 'bno': this.dataFromList.bno })
 								    .then(response => {
 										alert('삭제되었습니다.');
 										$('#notiDel').modal('hide');
 										this.$router.push({name:"notice"});//목록 페이지 이동
 									});
-				this.$store.commit('finish');
 			} catch(err) {
-				console.log(err)
-				this.$store.commit('finish');
+				console.log(err);
 			}
 		},
 		clickUpdate(){//수정하기 이동
@@ -160,6 +159,7 @@
 		async downloadFile(){//파일 다운로드
 
 			try {
+				this.$store.commit('loading');
 				const response = await this.$http.post(
 					"/api/v1/notice/downloadFile",
 					{ fileId: this.dataFromList.bfilePath }, // 서버에서 파일을 식별할 수 있는 고유한 ID 또는 다른 필요한 데이터
@@ -174,11 +174,13 @@
 				document.body.appendChild(link);
 				link.click();
 				document.body.removeChild(link);
-				
+				this.$store.commit('finish');
 			} catch (error) {
 				console.error("Error downloading file:", error);
+				this.$store.commit('finish');
 			}
 		}
+
     }
   };
   </script>

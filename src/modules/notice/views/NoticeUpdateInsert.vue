@@ -119,7 +119,7 @@
 							</thead>
 							<tbody>
 								<tr v-for="(val, index) in allGroupList" :key="index">
-									<td><input type="checkbox" :id="'ck' + index" :value="val" v-model="selectedGroupList" class="checkStyle"><label :for="'ck' + index"></label></td>
+									<td><input type="checkbox" :id="'ck' + index" :value="val" v-model="selectedGroupList" class="checkStyle" :disabled="custType == 'inter' && userAuth == '2'"><label :for="'ck' + index"></label></td>
 									<td class="text-left end"><label :for="'ck' + index" class="fontweight-400">{{ val.interrelated.interrelatedNm }}</label></td>
 								</tr>
 							</tbody>
@@ -148,21 +148,33 @@
 
     },
     mounted() {
-		console.log('ddd' , this.$store.state.loginInfo.userAuth);
+
 		//등록 및 수정 초기 세팅
 		this.applyInsertOrUpdate();
 
 		//파일첨부
 		fileInput.applyFile();
-		console.log('gogo',this.custCode);
-		console.log(this.userAuth);
-		console.log(this.custType);
 		
 		if(this.custType == 'inter' && this.userAuth == '1'){//계열사 시스템관리자인 경우
 			
 			//db에 있는 모든 계열사 가져오기
 			this.selectGroupCompany();
 
+
+			//기존에 선택했던 계열사들을 계열사 선택 모달창에 반영
+			this.groupList.map(item => {
+				var obj = {
+					interrelatedCustCode : item.interrelatedCustCode,
+					interrelated: {
+						interrelatedNm: item.interrelated.interrelatedNm
+					}
+				};
+
+				this.selectedGroupList.push(obj);
+			});
+
+			this.selectGroup();
+			
 		}else if(this.custType == 'inter' && this.userAuth == '2'){//각사 관리자인 경우
 			//자신이 속한 계열사만 선택 가능
 			this.allGroupList =[{
@@ -172,8 +184,11 @@
 									}
 								}]
 
-			this.detailData.bco = 'CUST';//계열사 공지만 가능함
-		}else{
+			//각사 관리자가 속한 계열사를 계열사 선택 모달창에 반영
+			this.detailData.bco = 'CUST';//각사 관리자는 계열사 공지만 가능함
+			this.selectedGroupList = this.allGroupList;
+			this.selectGroup();
+		}else{//권한이 없는 사용자의 경우
 
 			this.$router.push({name:"notice"});//목록으로 이동
 
@@ -190,7 +205,8 @@
 		userAuth : this.$store.state.loginInfo.userAuth,//권한
 		custCode : this.$store.state.loginInfo.custCode,//계열사코드
 		custName : this.$store.state.loginInfo.custName,//계열사명
-		selectedFile : null
+		selectedFile : null,//업로드한 파일
+		fileCnt : 0 //업로드한 파일 수
       };
     },
     methods: {
@@ -207,12 +223,35 @@
 				var interrelatedCustCodeArr = [];//db에 넘길 interrelatedCustCode 정보
 				var initArr = this.groupList;
 
-				//배열에 담기
+				//기존에 선택된 계열사 배열에 담기
 				for (const item of initArr) {
 					interrelatedCustCodeArr.push(item.interrelatedCustCode);
 				}
 
 				this.detailData.interrelatedCustCodeArr = interrelatedCustCodeArr;
+
+				//기존에 첨부되어있는 파일 나타내기
+				if(this.detailData.bfile != null && this.detailData.bfilePath != null){
+					var preview = document.querySelector('#preview');
+					var fileName = this.detailData.bfile;
+					
+					// 현재 시간의 타임스탬프 (13자리)
+  					var timestamp = Date.now();
+  
+					preview.innerHTML += `
+										<p id=${timestamp}>
+											${fileName}
+											<button data-index=${timestamp} id='removeFile' class='file-remove'>삭제</button>
+										</p>`;
+
+					//삭제 버튼 클릭시 기존 첨부된 파일 정보 삭제
+					$('#removeFile').click(function(){
+						
+						this.detailData.bfile = null;
+						this.detailData.bfilePath = null;
+
+					}.bind(this));
+				}
 
 			}else{//등록인 경우
 
@@ -226,48 +265,48 @@
 		initializeData() {//등록인 경우
 			// 초기화
 			this.detailData = {
-			bco: 'ALL',
-			bcontent: '',
-			bcount: 0,
-			bdate: '',
-			bfile: '',
-			bfilePath: '',
-			bno: null,
-			btitle: '',
-			buserName: this.$store.state.loginInfo.userName,
-			buserid: this.$store.state.loginInfo.userId,
-			groupList: []
+				bco: 'ALL',
+				bcontent: '',
+				bcount: 0,
+				bdate: '',
+				bfile: '',
+				bfilePath: '',
+				bno: null,
+				btitle: '',
+				buserName: this.$store.state.loginInfo.userName,
+				buserid: this.$store.state.loginInfo.userId,
+				groupList: []
 			};
 			this.groupList = [];
 		},
-		saveNotice(){
+		saveNotice(){//공지사항 저장
+
+			//값 체크
+			if(this.valueCheck()){
+				$('#notiSave').modal('hide');
+				return false;
+			}
+
 			if(this.updateInsert == 'update'){//수정인 경우
+
+				if(this.detailData.bco == 'ALL'){//공통으로 수정하는 경우 선택했던 계열사 초기화
+					this.selectedGroupList = [];
+					this.selectGroup();
+				}
+
 				this.updateNotice();
+
 			}else{//등록인 경우
+
 				this.insertNotice();
+
 			}
 		},
 		insertNotice(){//공지사항 등록
-			try {
-				this.$store.commit('loading');
-				this.$http.post('/api/v1/notice/insertNotice', this.detailData)
-					.then(response => {
-						alert('등록되었습니다.');
-						$('#notiSave').modal('hide');
-						this.$router.push({name:"notice"});//목록 페이지 이동
-					});
-				this.$store.commit('finish');
-			} catch(err) {
-				console.log(err)
-				this.$store.commit('finish');
-			}
-		},
-		updateNotice(){//공지사항 수정
-
 			var formData = new FormData();
-			var fileCnt = $('.file-remove').length;
+			var btnCnt = $('.file-remove').length;//올려진 파일을 삭제하는 버튼 개수
 
-			if(fileCnt == 0){//업로드 한 파일이 없는 경우
+			if(this.fileCnt == 0 || btnCnt == 0){//업로드 한 파일이 없는 경우
 				this.$refs.uploadedFile.value = null;
 				this.selectedFile = null;
 			}
@@ -276,16 +315,36 @@
 			formData.append('data', JSON.stringify(this.detailData));
 
 			try {
-				this.$store.commit('loading');
+				this.$http.post('/api/v1/notice/insertNotice', formData)
+					.then(response => {
+						alert('등록되었습니다.');
+						$('#notiSave').modal('hide');
+						this.$router.push({name:"notice"});//목록 페이지 이동
+					});
+			} catch(err) {
+				console.log(err);
+			}
+		},
+		updateNotice(){//공지사항 수정
+			var formData = new FormData();
+			var btnCnt = $('.file-remove').length;//올려진 파일을 삭제하는 버튼 개수
+
+			if(this.fileCnt == 0 || btnCnt == 0){//업로드 한 파일이 없는 경우
+				this.$refs.uploadedFile.value = null;
+				this.selectedFile = null;
+			}
+
+    		formData.append('file', this.selectedFile);
+			formData.append('data', JSON.stringify(this.detailData));
+
+			try {
 				this.$http.post('/api/v1/notice/updateNotice', formData)
 					.then(response => {
 						alert('수정되었습니다.');
 						$('#notiSave').modal('hide');
 					});
-				this.$store.commit('finish');
 			} catch(err) {
-				console.log(err)
-				this.$store.commit('finish');
+				console.log(err);
 			}
 			
 
@@ -307,7 +366,7 @@
 					};
 				});
 			} catch(err) {
-				console.log(err)
+				console.log(err);
 				this.$store.commit('finish');
 			}
 			
@@ -324,13 +383,35 @@
 			}
 
 			this.detailData.interrelatedCustCodeArr = interrelatedCustCodeArr;
-
 			$('#AffiliateSelect').modal('hide');
 		},
-		chageFile(evnet){
-			alert("바뀜");
-			console.log(event.target.files[0]);
+		chageFile(evnet){//바뀐 파일 selectedFile에 담기
+
 			this.selectedFile = event.target.files[0];
+			this.fileCnt = event.target.files.length;
+			
+			//파일 변경시 기존 처음에 첨부되었던 파일정보 사라짐
+			this.detailData.bfile = null;
+			this.detailData.bfilePath = null;
+
+		},
+		valueCheck(){//값 체크
+			var groupArr = this.detailData.interrelatedCustCodeArr;
+
+			if(this.detailData.btitle == '' || this.detailData.btitle == null){
+				alert('제목을 입력해주세요.');
+				return true;
+			}
+
+			if(this.detailData.bcontent == '' || this.detailData.bcontent == null){
+				alert('내용을 입력해주세요.');
+				return true;
+			}
+
+			if(this.detailData.bco == 'CUST' && groupArr.length == 0){
+				alert('공지할 계열사를 선택해주세요.');
+				return true;
+			}
 		}
     }
   };
