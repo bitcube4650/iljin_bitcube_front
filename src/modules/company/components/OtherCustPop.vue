@@ -9,7 +9,7 @@
 				<h2 class="modalTitle">타계열사 업체조회</h2>
 				<div class="modalTopBox">
 					<ul>
-						<li><div>계열사에 등록되어 잇는 업체리스트를 조회합니다</div></li>
+						<li><div>계열사에 등록되어 있는 업체리스트를 조회합니다</div></li>
 					</ul>
 				</div>
 				

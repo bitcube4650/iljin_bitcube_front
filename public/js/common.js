@@ -115,7 +115,7 @@ export default {
             yearRange: 'c-50:c+20',
             currentText: '오늘 날짜',
             closeText: '닫기',
-            dateFormat: "yy-mm-dd",
+            dateFormat: "yyyy-mm-dd",
             showAnim: "slide",
             showMonthAfterYear: true, 
             dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],

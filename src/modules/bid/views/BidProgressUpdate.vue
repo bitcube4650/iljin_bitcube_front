@@ -81,7 +81,7 @@
                 value="B"
                 id="bm1_2"
                 class="radioStyle"
-                checked=""
+                
                 v-model="dataFromList.result.biModeCode"
                 data-toggle="modal"
                 data-target="#bmGeneral"
@@ -166,86 +166,46 @@
             <div class="formTit flex-shrink0 width170px">입찰참가업체</div>
             <div class="flex align-items-center width100">
               <div class="boxStSm boxOverflowY">
-                <a href="javascript: return false;" class="textUnderline"
-                  >동서산업㈜ <i class="fa-regular fa-xmark"></i></a
-                >,
-                <a href="javascript: return false;" class="textUnderline"
-                  >비트큐브 <i class="fa-regular fa-xmark"></i></a
-                >,
-                <a href="javascript: return false;" class="textUnderline"
-                  >신양금속공업㈜ <i class="fa-regular fa-xmark"></i></a
-                >,
-                <a href="javascript: return false;" class="textUnderline"
-                  >테스트협력업체1 <i class="fa-regular fa-xmark"></i></a
-                >,
-                <a href="javascript: return false;" class="textUnderline"
-                  >테스트협력업체2 <i class="fa-regular fa-xmark"></i></a
-                >,
-                <a href="javascript: return false;" class="textUnderline"
-                  >테스트협력업체3 <i class="fa-regular fa-xmark"></i></a
-                >,
-                <a href="javascript: return false;" class="textUnderline"
-                  >테스트협력업체4 <i class="fa-regular fa-xmark"></i></a
-                >,
-                <a href="javascript: return false;" class="textUnderline"
-                  >테스트협력업체5 <i class="fa-regular fa-xmark"></i></a
-                >,
-                <a href="javascript: return false;" class="textUnderline"
-                  >테스트협력업체6 <i class="fa-regular fa-xmark"></i></a
-                >,
-                <a href="javascript: return false;" class="textUnderline"
-                  >테스트협력업체7 <i class="fa-regular fa-xmark"></i></a
-                >,
-                <a href="javascript: return false;" class="textUnderline"
-                  >테스트협력업체8 <i class="fa-regular fa-xmark"></i></a
-                >,
-                <a href="javascript: return false;" class="textUnderline"
-                  >테스트협력업체9 <i class="fa-regular fa-xmark"></i></a
-                >,
-                <a href="javascript: return false;" class="textUnderline"
-                  >테스트협력업체10 <i class="fa-regular fa-xmark"></i></a
-                >,
-                <a href="javascript: return false;" class="textUnderline"
-                  >테스트협력업체11 <i class="fa-regular fa-xmark"></i></a
-                >,
-                <a href="javascript: return false;" class="textUnderline"
-                  >테스트협력업체12 <i class="fa-regular fa-xmark"></i></a
-                >,
-                <a href="javascript: return false;" class="textUnderline"
-                  >테스트협력업체13 <i class="fa-regular fa-xmark"></i></a
-                >,
-                <a href="javascript: return false;" class="textUnderline"
-                  >테스트협력업체14 <i class="fa-regular fa-xmark"></i></a
-                >,
-                <a href="javascript: return false;" class="textUnderline"
-                  >테스트협력업체15 <i class="fa-regular fa-xmark"></i></a
-                >,
-                <a href="javascript: return false;" class="textUnderline"
-                  >테스트협력업체16 <i class="fa-regular fa-xmark"></i></a
-                >,
-                <a href="javascript: return false;" class="textUnderline"
-                  >테스트협력업체17 <i class="fa-regular fa-xmark"></i></a
-                >,
-                <a href="javascript: return false;" class="textUnderline"
-                  >테스트협력업체18 <i class="fa-regular fa-xmark"></i></a
-                >,
-                <a href="javascript: return false;" class="textUnderline"
-                  >테스트협력업체19 <i class="fa-regular fa-xmark"></i></a
-                >,
-                <a href="javascript: return false;" class="textUnderline"
-                  >테스트협력업체20 <i class="fa-regular fa-xmark"></i></a
-                >,
+                <div v-if="dataFromList.result.biModeCode==='A'" v-for="(val, idx) in dataFromList.custContent" style="display: inline">   
+                <div v-if="val.custName !== null">
+                <a
+                    
+                    @click.prevent="$refs.custUserPop.initModal(val.custCode)"
+                    data-toggle="modal"
+                    data-target="#custUserPop"
+                    class="textUnderline"
+                    >{{ val.custName }}</a
+                  ><i class="fa-regular fa-xmark" @click="removeCust(idx)"></i></a>
+                  <span v-if="idx !== dataFromList.custContent.length - 1">, </span>
+                  </div>
+                <div v-else-if="val.custName == null">
+                <a
+                    @click.prevent="$refs.custUserPop.initModal(val.custCode)"
+                    data-toggle="modal"
+                    data-target="#custUserPop"
+                    class="textUnderline"
+                    >미등록업체</a
+                  ><i class="fa-regular fa-xmark" @click="removeCust(idx)"></i></a>
+                  <span v-if="idx !== dataFromList.custContent.length - 1">, </span>
+                  </div>
+                  
+                </div>
+                <div v-if="dataFromList.result.biModeCode==='B'">
+                    <a>가입회원사 전체</a>
+                    </div>
               </div>
               <a
-                href="javascript: return false;"
                 data-toggle="modal"
-                data-target="#partnerUserSearch"
+                data-target="#custPop"
                 class="btnStyle btnSecondary ml10"
                 title="업체선택"
+                @click="$refs.custPop.initModal();"
+                v-show="dataFromList.result.biModeCode==='A'"
                 >업체선택</a
               >
             </div>
           </div>
+          
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">금액기준</div>
             <div class="width100">
@@ -255,7 +215,7 @@
                 id=""
                 class="inputStyle"
                 placeholder=""
-                value="VAT 별도"
+                v-model="dataFromList.result.amtBasis"
               />
             </div>
           </div>
@@ -268,7 +228,7 @@
                 id=""
                 class="inputStyle"
                 placeholder=""
-                value="당사 정기 결제 조건"
+                v-model="dataFromList.result.payCond"
               />
             </div>
           </div>
@@ -281,30 +241,34 @@
                 id=""
                 class="inputStyle maxWidth200px"
                 placeholder=""
-                value="231,232,400"
+                @input="formatInput"
+                v-model="dataFromList.result.bdAmt"
               />
               <div class="ml10">원</div>
             </div>
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">입찰담당자</div>
-            <div class="width100">강입찰</div>
+            <div class="width100">{{ dataFromList.result.gongoId }}</div>
           </div>
         </div>
 
-        <h3 class="h3Tit mt50">입찰분류</h3>
-        <div class="boxSt mt20">
-          <div class="flex align-items-center">
+        <h3 class="h3Tit mt50" v-if="dataFromList.result.interrelatedCustCode==='02'">입찰분류</h3>
+        <div class="boxSt mt20" v-if="dataFromList.result.interrelatedCustCode==='02'">
+          <div class="flex align-items-center" >
             <div class="formTit flex-shrink0 width170px">분류군</div>
             <div class="flex align-items-center width100">
-              <select name="" class="selectStyle">
-                <option value="">사업부</option>
+              <select name="" class="selectStyle" v-model="dataFromList.result.matDept">
+                <option value=null>사업부</option>
+                <option v-for="dept in dataFromList.lotteDeptList" :value="dept.value">{{ dept.label }}</option>
               </select>
-              <select name="" class="selectStyle" style="margin: 0 10px">
-                <option value="">공정</option>
+              <select name="" class="selectStyle" style="margin: 0 10px" v-model="dataFromList.result.matProc">
+                <option value=null>공정</option>
+                <option v-for="proc in dataFromList.lotteProcList" :value="proc.value">{{ proc.label }}</option>
               </select>
-              <select name="" class="selectStyle">
-                <option value="">분류</option>
+              <select name="" class="selectStyle" v-model="dataFromList.result.matCls">
+                <option value=null>분류</option>
+                <option v-for="cls in dataFromList.lotteClsList" :value="cls.value">{{ cls.label }}</option>
               </select>
             </div>
           </div>
@@ -317,6 +281,7 @@
                 id=""
                 class="inputStyle"
                 placeholder=""
+                v-model="dataFromList.result.matFactory"
               />
             </div>
           </div>
@@ -330,6 +295,7 @@
                   id=""
                   class="inputStyle"
                   placeholder=""
+                  v-model="dataFromList.result.matFactoryLine"
                 />
               </div>
             </div>
@@ -342,6 +308,7 @@
                   id=""
                   class="inputStyle"
                   placeholder=""
+                  v-model="dataFromList.result.matFactoryCnt"
                 />
               </div>
             </div>
@@ -360,8 +327,9 @@
                   type="text"
                   class="datepicker inputStyle"
                   title="월 입력란"
+                  v-model="datePart1"
                 />
-                <input type="time" class="inputStyle ml10" />
+                <input type="time" class="inputStyle ml10" v-model="timePart1"/>
               </div>
             </div>
             <div class="flex align-items-center width100 ml80">
@@ -373,8 +341,9 @@
                   type="text"
                   class="datepicker inputStyle"
                   title="월 입력란"
+                  v-model="datePart2"
                 />
-                <input type="time" class="inputStyle ml10" />
+                <input type="time" class="inputStyle ml10" v-model="timePart2"/>
               </div>
             </div>
           </div>
@@ -388,10 +357,10 @@
                   id=""
                   class="inputStyle"
                   placeholder=""
-                  value="강개찰"
+                  v-model="dataFromList.result.estOpener"
+                  disabled
                 />
                 <a
-                  href="javascript: return false;"
                   data-toggle="modal"
                   data-target="#userSearch1"
                   class="btnStyle btnSecondary ml10"
@@ -409,10 +378,10 @@
                   id=""
                   class="inputStyle"
                   placeholder=""
-                  value="강공고"
+                  v-model="dataFromList.result.gongoId"
+                  disabled
                 />
                 <a
-                  href="javascript: return false;"
                   data-toggle="modal"
                   data-target="#userSearch2"
                   class="btnStyle btnSecondary ml10"
@@ -432,9 +401,10 @@
                   id=""
                   class="inputStyle"
                   placeholder=""
+                  v-model="dataFromList.result.openAtt1"
+                  disabled
                 />
                 <a
-                  href="javascript: return false;"
                   data-toggle="modal"
                   data-target="#userSearch2"
                   class="btnStyle btnSecondary ml10"
@@ -452,9 +422,10 @@
                   id=""
                   class="inputStyle"
                   placeholder=""
+                  v-model="dataFromList.result.openAtt2"
+                  disabled
                 />
                 <a
-                  href="javascript: return false;"
                   data-toggle="modal"
                   data-target="#userSearch2"
                   class="btnStyle btnSecondary ml10"
@@ -769,13 +740,11 @@
 
         <div class="text-center mt50">
           <a
-            href="javascript: return false;"
             class="btnStyle btnOutline"
             title="목록"
             >목록</a
           >
           <a
-            href="javascript: return false;"
             data-toggle="modal"
             data-target="#biddingSave"
             class="btnStyle btnPrimary"
@@ -1130,7 +1099,6 @@
         <div class="modal-content">
           <div class="modal-body">
             <a
-              href="javascript:void(0)"
               class="ModalClose"
               data-dismiss="modal"
               title="닫기"
@@ -1143,17 +1111,17 @@
             </div>
             <div class="modalFooter">
               <a
-                href="javascript:void(0)"
                 class="modalBtnClose"
                 data-dismiss="modal"
                 title="취소"
+                @click="selectBid('named')"
                 >취소</a
               >
               <a
-                href="javascript:void(0)"
                 class="modalBtnCheck"
                 data-toggle="modal"
                 title="선택"
+                @click="selectBid('general')"
                 >선택</a
               >
             </div>
@@ -1163,173 +1131,13 @@
     </div>
     <!-- //일반경쟁입찰 -->
 
-    <!-- 업체 조회 -->
-    <div
-      class="modal fade modalStyle"
-      id="partnerUserSearch"
-      tabindex="-1"
-      role="dialog"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" style="width: 100%; max-width: 800px">
-        <div class="modal-content">
-          <div class="modal-body">
-            <a
-              href="javascript:void(0)"
-              class="ModalClose"
-              data-dismiss="modal"
-              title="닫기"
-              ><i class="fa-solid fa-xmark"></i
-            ></a>
-            <h2 class="modalTitle">업체 조회</h2>
-
-            <div class="modalSearchBox mt20">
-              <div class="flex align-items-center">
-                <div class="sbTit mr30">업체명</div>
-                <div class="width150px">
-                  <input
-                    type="text"
-                    name=""
-                    id=""
-                    class="inputStyle"
-                    placeholder=""
-                  />
-                </div>
-                <div class="sbTit mr30 ml50">대표자명</div>
-                <div class="width150px">
-                  <input
-                    type="text"
-                    name=""
-                    id=""
-                    class="inputStyle"
-                    placeholder=""
-                  />
-                </div>
-                <a href="javascript:void(0)" class="btnStyle btnSearch">검색</a>
-              </div>
-            </div>
-            <table class="tblSkin1 mt30">
-              <colgroup>
-                <col style="width: 250px" />
-                <col style="width: 250px" />
-              </colgroup>
-              <thead>
-                <tr>
-                  <th>업체명</th>
-                  <th>주소</th>
-                  <th>대표자명</th>
-                  <th class="end">선택</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="text-left">(사)한국아이티복지진흥원1</td>
-                  <td class="text-left">
-                    <div class="text-overflow maxWidth250px">
-                      063-373 서울 강남구 자곡로 174-10 (자곡동) 063-373 서울
-                      강남구 자곡로 174-10 (자곡동)
-                    </div>
-                  </td>
-                  <td>강대표</td>
-                  <td class="end">
-                    <a
-                      href="javascript:void(0)"
-                      class="btnStyle btnSecondary btnSm"
-                      title="선택"
-                      >선택</a
-                    >
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-left">(사)한국아이티복지진흥원2</td>
-                  <td class="text-left">
-                    <div class="text-overflow maxWidth250px">
-                      063-373 서울 강남구 자곡로 174-10 (자곡동) 063-373 서울
-                      강남구 자곡로 174-10 (자곡동)
-                    </div>
-                  </td>
-                  <td>홍길동</td>
-                  <td class="end">
-                    <a
-                      href="javascript:void(0)"
-                      class="btnStyle btnSecondary btnSm"
-                      title="선택"
-                      >선택</a
-                    >
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <!-- pagination -->
-            <div class="row mt30">
-              <div class="col-xs-12">
-                <div class="pagination1 text-center">
-                  <a
-                    href="javascript:void(0)"
-                    title="10페이지 이전 페이지로 이동"
-                    ><i class="fa-light fa-chevrons-left"></i
-                  ></a>
-                  <a href="javascript:void(0)" title="이전 페이지로 이동"
-                    ><i class="fa-light fa-chevron-left"></i
-                  ></a>
-                  <a
-                    href="javascript:void(0)"
-                    title="1페이지로 이동"
-                    class="number active"
-                    >1</a
-                  >
-                  <a
-                    href="javascript:void(0)"
-                    title="2페이지로 이동"
-                    class="number"
-                    >2</a
-                  >
-                  <a
-                    href="javascript:void(0)"
-                    title="3페이지로 이동"
-                    class="number"
-                    >3</a
-                  >
-                  <a
-                    href="javascript:void(0)"
-                    title="4페이지로 이동"
-                    class="number"
-                    >4</a
-                  >
-                  <a
-                    href="javascript:void(0)"
-                    title="5페이지로 이동"
-                    class="number"
-                    >5</a
-                  >
-                  <a href="javascript:void(0)" title="다음 페이지로 이동"
-                    ><i class="fa-light fa-chevron-right"></i
-                  ></a>
-                  <a
-                    href="javascript:void(0)"
-                    title="10페이지 다음 페이지로 이동"
-                    ><i class="fa-light fa-chevrons-right"></i
-                  ></a>
-                </div>
-              </div>
-            </div>
-            <!-- //pagination -->
-            <div class="modalFooter">
-              <a
-                href="javascript:void(0)"
-                class="modalBtnClose"
-                data-dismiss="modal"
-                title="닫기"
-                >닫기</a
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- //업체 조회 -->
     <!-- 품목 선택 팝업 -->
     <item-pop ref="itemPop" @callbackFunc="callbackItem" />
+    <!-- //업체 조회 -->
+    <cust-pop ref="custPop" @callbackFunc="callbackCust" />
+    <!-- 협력사 사용자-->
+    <cust-user-pop ref="custUserPop" />
+
   </div>
   <!-- //본문 -->
 </template>
@@ -1337,17 +1145,26 @@
 import fileInput from "../../../../public/js/fileInput.js";
 import cmmn from "../../../../public/js/common.js";
 import ItemPop from "@/components/ItemPop.vue";
+import CustPop from "@/modules/company/components/CustPop.vue";
+import CustUserPop from "@/modules/company/components/CustUserPop.vue";
 
 export default {
   name: "bidProgressUpdate",
   components: {
     ItemPop,
+    CustPop,
+    CustUserPop,
   },
   data() {
     return {
       dataFromList: {},
+      originCustData: null,
       datePart: "",
       timePart: "",
+      datePart1: "",
+      timePart1: "",
+      datePart2: "",
+      timePart2: "",
     };
   },
   methods: {
@@ -1357,21 +1174,65 @@ export default {
 
       this.$forceUpdate();
     },
+    callbackCust(data) {
+      this.dataFromList.custContent.push({
+        biNo: this.dataFromList.result.biNo,
+        custCode: data.custCode,
+        custName: data.custName,
+      });
+      //this.dataFromList.custContent.custName = data.custName;
+      console.log(1111111111111, this.dataFromList.custContent);
+      this.$forceUpdate();
+    },
     assignDataFromList() {
       this.datePart = this.dataFromList.result.spotDate.substring(0, 10);
       this.timePart = this.dataFromList.result.spotDate.substring(11, 16);
+
+      this.datePart1 = this.dataFromList.result.estStartDate.substring(0, 10);
+      this.timePart1 = this.dataFromList.result.estStartDate.substring(11, 16);
+
+      this.datePart2 = this.dataFromList.result.estCloseDate.substring(0, 10);
+      this.timePart2 = this.dataFromList.result.estCloseDate.substring(11, 16);
+    },
+    removeCust(index) {
+      this.dataFromList.custContent.splice(index, 1);
+    },
+
+    formatInput(event) {
+      const value = event.target.value.replace(/\D/g, ""); // 숫자만 추출
+      event.target.value = this.formatNumber(value);
+    },
+    formatNumber(value) {
+      const formattedValue = value
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      return formattedValue === "" ? "" : formattedValue; // 값이 비어있을 경우 처리
+    },
+    selectBid(mode) {
+      if (mode === "named") {
+        this.dataFromList.result.biModeCode = "A"; // 지명경쟁입찰 선택
+      } else if (mode === "general") {
+        this.dataFromList.result.biModeCode = "B"; // 일반경쟁입찰 선택
+        this.dataFromList.custContent = this.originCustData;
+        console.log(this.originCustData);
+        this.$forceUpdate();
+      }
+      $("#bmGeneral").modal("hide"); // 모달 닫기
     },
   },
   beforeMount() {},
   mounted() {
     this.dataFromList = Object.assign({}, this.$store.state.bidUpdateData);
-    console.log(this.dataFromList);
-    //달력
-    this.assignDataFromList();
-    cmmn.applyCal();
 
+    //달력
+    cmmn.applyCal();
+    this.assignDataFromList();
     //파일첨부
     fileInput.applyFile();
+    if (!this.originCustData) {
+      this.originCustData = this.dataFromList.custContent.slice();
+    }
+    console.log(this.dataFromList);
   },
 };
 </script>
