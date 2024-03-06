@@ -17,17 +17,17 @@
                 <div class="flex align-items-center">
                     <div class="sbTit mr30">제목</div>
                     <div class="width200px">
-                        <input type="text" @keydown.enter="handleEnterKey" v-model="searchParams.title" class="inputStyle" placeholder="">
+                        <input type="text" @keydown.enter="search(0)" v-model="searchParams.title" class="inputStyle" placeholder="">
                     </div>
                     <div class="sbTit mr30 ml50">내용</div>
                     <div class="width200px">
-                        <input type="text" @keydown.enter="handleEnterKey" v-model="searchParams.content" class="inputStyle" placeholder="">
+                        <input type="text" @keydown.enter="search(0)" v-model="searchParams.content" class="inputStyle" placeholder="">
                     </div>
                     <div class="sbTit mr30 ml50">등록자</div>
                     <div class="width200px">
-                        <input type="text" @keydown.enter="handleEnterKey" v-model="searchParams.userName" class="inputStyle" placeholder="">
+                        <input type="text" @keydown.enter="search(0)" v-model="searchParams.userName" class="inputStyle" placeholder="">
                     </div>
-                    <a href="javascript:" @click="handleEnterKey" class="btnStyle btnSearch">검색</a>
+                    <a href="javascript:" @click="search(0)" class="btnStyle btnSearch">검색</a>
                 </div>
             </div>
             <!-- //searchBox -->
@@ -165,9 +165,6 @@
 				this.$store.commit('finish');
 			}
 		},
-		callbackItem() {
-			
-		},
         clickNoticeDetail(data){//공지사항 상세 이동
 
             this.plusClickNum(data.bno);// 조회수 +1
@@ -176,11 +173,6 @@
         },
         plusClickNum(bno){// 조회수 +1
             this.$http.post('/api/v1/notice/updateClickNum', { 'bno': bno});
-        },
-        handleEnterKey(){//엔터키 검색
-
-            //첫페이지로 검색
-            this.search(0);
         }
     }
   };

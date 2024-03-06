@@ -37,7 +37,7 @@
                     <ul>
                         <li><router-link to="/notice">공지사항</router-link></li>
                         <li><a  @click="clickFaq">FAQ</a></li>
-                        <li><a >메뉴얼</a></li>
+                        <li><a  @click="downloadMenual">메뉴얼</a></li>
                     </ul>
                 </div>
             </li>
@@ -146,34 +146,58 @@ import cmmn from "../../public/js/common.js"
 
         },
 
-      clickBidProgress(){//입찰계획 클릭
-        this.$router.push({name:"bidProgress"});
-      },
-      clickBidStatus(){//입찰진행 클릭
-        if(this.company == 'inter'){//그룹사인 경우
-            this.$router.push({name:"bidStatus"});
-        }else{//협력사인 경우
-            this.$router.push({name:"partnerBidStatus"});
-        }
-      },
-      clickBidComplete(){//입찰완료 클릭
-        if(this.company == 'inter'){//그룹사인 경우
-            this.$router.push({name:"bidComplete"});
-        }else{//협력사인 경우
-            this.$router.push({name:"partnerBidComplete"});
-        }
+        clickBidProgress(){//입찰계획 클릭
+            this.$router.push({name:"bidProgress"});
+        },
+        clickBidStatus(){//입찰진행 클릭
+            if(this.company == 'inter'){//그룹사인 경우
+                this.$router.push({name:"bidStatus"});
+            }else{//협력사인 경우
+                this.$router.push({name:"partnerBidStatus"});
+            }
+        },
+        clickBidComplete(){//입찰완료 클릭
+            if(this.company == 'inter'){//그룹사인 경우
+                this.$router.push({name:"bidComplete"});
+            }else{//협력사인 경우
+                this.$router.push({name:"partnerBidComplete"});
+            }
 
-      },
-      clickNotice(){//공지사항 클릭
-        this.$router.push({name:"notice"});
-      },
-      clickFaq(){//faq 클릭
-        if(this.company == 'inter'){//그룹사인 경우 권한! this.company == 'inter' && this.userAuth == '1'
-            this.$router.push({name:"adminFaq"});
-        }else{//협력사인 경우
-            this.$router.push({name:"userFaq"});
+        },
+        clickNotice(){//공지사항 클릭
+            this.$router.push({name:"notice"});
+        },
+        clickFaq(){//faq 클릭
+            if(this.company == 'inter'){//그룹사인 경우 권한! this.company == 'inter' && this.userAuth == '1'
+                this.$router.push({name:"adminFaq"});
+            }else{//협력사인 경우
+                this.$router.push({name:"userFaq"});
+            }
+        },
+        async downloadMenual(){//메뉴얼 다운로드
+
+            try {
+                this.$store.commit('loading');
+                const response = await this.$http.post(
+                    "/api/v1/menual/downloadMenual",
+                    {},
+                    { responseType: "blob" } // 응답 데이터를 Blob 형식으로 받기
+                );
+                console.log('다운로드된 파일', response);
+                // 파일 다운로드를 위한 처리
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement("a");
+                link.href = url;
+                link.setAttribute("download", "전자입찰_매뉴얼.ppt"); // 다운로드될 파일명 설정
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                this.$store.commit('finish');
+            } catch (error) {
+                console.error("Error downloading file:", error);
+                this.$store.commit('finish');
+            }
         }
-      }
     },
     created() {
         //계열사인지 협력사인지

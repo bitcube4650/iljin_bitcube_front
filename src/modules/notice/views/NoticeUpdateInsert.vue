@@ -206,7 +206,8 @@
 		custCode : this.$store.state.loginInfo.custCode,//계열사코드
 		custName : this.$store.state.loginInfo.custName,//계열사명
 		selectedFile : null,//업로드한 파일
-		fileCnt : 0 //업로드한 파일 수
+		fileCnt : 0,//업로드한 파일 수
+		fileSize : 0//파일크기
       };
     },
     methods: {
@@ -387,12 +388,18 @@
 		},
 		chageFile(evnet){//바뀐 파일 selectedFile에 담기
 
-			this.selectedFile = event.target.files[0];
-			this.fileCnt = event.target.files.length;
-			
 			//파일 변경시 기존 처음에 첨부되었던 파일정보 사라짐
 			this.detailData.bfile = null;
 			this.detailData.bfilePath = null;
+			
+			//파일 사이즈 체크
+			if(this.checkFileSize()){
+				return false;
+			}
+
+			this.selectedFile = event.target.files[0];
+			this.fileCnt = event.target.files.length;
+			
 
 		},
 		valueCheck(){//값 체크
@@ -412,6 +419,31 @@
 				alert('공지할 계열사를 선택해주세요.');
 				return true;
 			}
+
+			return false;
+		},
+		checkFileSize() {//파일크기 확인
+			const input = this.$refs.uploadedFile;
+			if (input.files.length > 0) {
+				const file = input.files[0];
+				this.fileSize = file.size;
+				console.log(this.fileSize);
+				// 원하는 용량 제한 설정 (10MB)
+				const maxSize = 10 * 1024 * 1024;
+				if (this.fileSize > maxSize) {
+					alert('파일 크기가 10MB를 초과했습니다.');
+					// 파일 초기화 또는 다른 조치를 취할 수 있습니다.
+					this.$refs.uploadedFile.value = null;
+					this.fileSize = null;
+
+					var preview = document.querySelector('#preview');
+					preview.innerHTML = '';
+
+					return true;
+				}
+			}
+
+			return false;
 		}
     }
   };
