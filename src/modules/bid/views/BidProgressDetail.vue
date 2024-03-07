@@ -16,7 +16,7 @@
         <div class="boxSt mt20">
           <div class="flex align-items-center">
             <div class="formTit flex-shrink0 width170px">입찰번호</div>
-            <div class="width100">{{ dataFromList.biNo }}</div>
+            <div class="width100">{{ this.result.biNo }}</div>
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">입찰명</div>

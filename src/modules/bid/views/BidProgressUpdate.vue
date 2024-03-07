@@ -850,7 +850,7 @@ export default {
   },
   data() {
     return {
-      detail:{},
+      detail: {},
       dataFromList: {},
       originCustData: null,
       originFileData: null,
@@ -987,7 +987,7 @@ export default {
       const seq = this.dataFromList.tableContent.length + 1;
 
       this.dataFromList.tableContent.push({
-        biNo:this.dataFromList.result.biNo,
+        biNo: this.dataFromList.result.biNo,
         seq: seq,
         name: "",
         ssize: "",
@@ -1000,102 +1000,136 @@ export default {
       this.dataFromList.tableContent.splice(index, 1);
     },
     fileSetting() {
-      	if(this.dataFromList.fileContent.fileNm != null && this.dataFromList.fileContent.filePath != null){
-					var preview = document.querySelector('#preview');
-					var fileName = dataFromList.fileContent.fileNm;
-					
-  				var timestamp = Date.now();
-  
-					preview.innerHTML += `
+      if (
+        this.dataFromList.fileContent.fileNm != null &&
+        this.dataFromList.fileContent.filePath != null
+      ) {
+        var preview = document.querySelector("#preview");
+        var fileName = dataFromList.fileContent.fileNm;
+
+        var timestamp = Date.now();
+
+        preview.innerHTML += `
 										<p id=${timestamp}>
 											${fileName}
 											<button data-index=${timestamp} id='removeFile' class='file-remove'>삭제</button>
 										</p>`;
 
-					//삭제 버튼 클릭시 기존 첨부된 파일 정보 삭제
-					$('#removeFile').click(function(){
-						
-						this.dataFromList.fileContent.fileNm = null;
-						this.dataFromList.fileContent.filePath = null;
-
-					}.bind(this));
-				}
+        //삭제 버튼 클릭시 기존 첨부된 파일 정보 삭제
+        $("#removeFile").click(
+          function () {
+            this.dataFromList.fileContent.fileNm = null;
+            this.dataFromList.fileContent.filePath = null;
+          }.bind(this)
+        );
+      }
     },
-    chageFile(event){//바뀐 파일 selectedFile에 담기
+    chageFile(event) {
+      //바뀐 파일 selectedFile에 담기
 
-			this.selectedFile = event.target.files[0];
-			this.fileCnt = event.target.files.length;
-			
-			//파일 변경시 기존 처음에 첨부되었던 파일정보 사라짐
-			this.dataFromList.fileContent.fileNm = null;
-			this.dataFromList.fileContent.filePath = null;
+      this.selectedFile = event.target.files[0];
+      this.fileCnt = event.target.files.length;
 
-		},
-    validationCheck(){ //파일관련 추후 보강 필요
-      if(!this.dataFromList.result.biName || this.dataFromList.result.biName===''){
+      //파일 변경시 기존 처음에 첨부되었던 파일정보 사라짐
+      this.dataFromList.fileContent.fileNm = null;
+      this.dataFromList.fileContent.filePath = null;
+    },
+    validationCheck() {
+      //파일관련 추후 보강 필요
+      if (
+        !this.dataFromList.result.biName ||
+        this.dataFromList.result.biName === ""
+      ) {
         alert("입찰명을 입력해주세요.");
         return false;
       }
-      if(!this.dataFromList.result.itemCode || this.dataFromList.result.itemCode===''){
+      if (
+        !this.dataFromList.result.itemCode ||
+        this.dataFromList.result.itemCode === ""
+      ) {
         alert("품목을 선택해주세요.");
         return false;
       }
-      if(!this.dataFromList.result.biModeCode || this.dataFromList.result.biModeCode===''){
+      if (
+        !this.dataFromList.result.biModeCode ||
+        this.dataFromList.result.biModeCode === ""
+      ) {
         alert("입찰방식을 선택해주세요.");
         return false;
       }
 
       this.dataFromList.result.spotDate = this.datePart + " " + this.timePart;
-      this.dataFromList.result.estStartDate = this.datePart1 + " " + this.timePart1;
-      this.dataFromList.result.estCloseDate = this.datePart2 + " " + this.timePart2;
-      if(!this.dataFromList.result.spotDate || this.dataFromList.result.spotDate===''){
+      this.dataFromList.result.estStartDate =
+        this.datePart1 + " " + this.timePart1;
+      this.dataFromList.result.estCloseDate =
+        this.datePart2 + " " + this.timePart2;
+      if (
+        !this.dataFromList.result.spotDate ||
+        this.dataFromList.result.spotDate === ""
+      ) {
         alert("현장설명일시를 입력해주세요.");
         return false;
       }
-      if(!this.dataFromList.result.spotArea || this.dataFromList.result.spotArea===''){
+      if (
+        !this.dataFromList.result.spotArea ||
+        this.dataFromList.result.spotArea === ""
+      ) {
         alert("현장설명장소를 입력해주세요.");
         return false;
       }
-      if(!this.dataFromList.result.succDeciMethCode || this.dataFromList.result.succDeciMethCode===''){
+      if (
+        !this.dataFromList.result.succDeciMethCode ||
+        this.dataFromList.result.succDeciMethCode === ""
+      ) {
         alert("낙찰자 결정방법을 선택해주세요.");
         return false;
       }
-      if(!this.dataFromList.result.estStartDate || this.dataFromList.result.estStartDate===''){
+      if (
+        !this.dataFromList.result.estStartDate ||
+        this.dataFromList.result.estStartDate === ""
+      ) {
         alert("제출시작일시를 입력해주세요.");
         return false;
       }
-      if(!this.dataFromList.result.estCloseDate || this.dataFromList.result.estCloseDate===''){
+      if (
+        !this.dataFromList.result.estCloseDate ||
+        this.dataFromList.result.estCloseDate === ""
+      ) {
         alert("제출마감일시를 입력해주세요.");
         return false;
       }
 
-      if(this.dataFromList.result.insModeCode ==='2'){
-        if(this.dataFromList.tableContents.length === 0){
-            alert("세부내역을 작성해주세요.");
-            return false;
+      if (this.dataFromList.result.insModeCode === "2") {
+        if (this.dataFromList.tableContents.length === 0) {
+          alert("세부내역을 작성해주세요.");
+          return false;
         } else {
-            this.dataFromList.tableContents = 
-                this.dataFromList.tableContents.filter(item => item.name !== null);
-        } 
+          this.dataFromList.tableContents =
+            this.dataFromList.tableContents.filter(
+              (item) => item.name !== null
+            );
+        }
       }
 
       return true;
     },
-    save(){ //파일관련 추후 보강 필요
-			if(!this.validationCheck()){
-				$('#save').modal('hide');
-        console.log('false');
-				return false;
-			}
+    save() {
+      //파일관련 추후 보강 필요
+      if (!this.validationCheck()) {
+        $("#save").modal("hide");
+        console.log("false");
+        return false;
+      }
 
       this.detail.result = this.dataFromList.result;
-      this.detail.tableContent = this.dataFromList.tableContent;
-      this.detail.fileContent = this.dataFromList.fileContent;
-      this.detail.custContent = this.dataFromList.custContent;
+      // this.detail.tableContent = this.dataFromList.tableContent;
+      // this.detail.fileContent = this.dataFromList.fileContent;
+
       this.$store.commit("loading");
       this.$http
         .post("/api/v1/bid/updateBid", this.detail)
         .then((response) => {
+          this.$http.post("/api/v1/bid/updateBidCust",this.dataFromList.custContent);
           if (response.data.code == "OK") {
             this.$store.commit("searchParams", {});
             //this.$router.push({ name: "bidProgressDetail" }); //라우팅 추가 모달에 부착예정
@@ -1104,14 +1138,13 @@ export default {
               type: "warning",
               text: "수정 중 오류가 발생했습니다.",
             });
-            $('#save').modal('hide');
+            $("#save").modal("hide");
           }
         })
         .finally(() => {
           this.$store.commit("finish");
         });
     },
-
   },
   beforeMount() {},
   mounted() {
