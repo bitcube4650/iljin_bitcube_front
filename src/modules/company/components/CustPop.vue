@@ -80,7 +80,6 @@
               </tbody>
             </table>
             <!-- pagination -->
-            <!-- pagination -->
             <div class="row mt30">
               <div class="col-xs-12">
                 <pagination @searchFunc="search" :page="listPage" />

@@ -273,9 +273,7 @@
                   :class="val.fileFlagKo === '대외용' ? 'textHighlight' : 'mt5'"
                 >
                   <span class="mr20">{{ val.fileFlagKo }}</span>
-                  <a href="javascript:return false;" class="textUnderline">{{
-                    val.fileNm
-                  }}</a>
+                  <a @click="downloadFile" class="textUnderline">{{val.fileNm}}</a>
                 </div>
               </div>
             </div>
@@ -617,6 +615,31 @@ export default {
       });
       return total;
     },
+
+    async downloadFile(){//파일 다운로드
+
+			try {
+				this.$store.commit('loading');
+				const response = await this.$http.post(
+					"/api/v1/notice/downloadFile",
+					{ fileId: this.dataFromList.bfilePath }, // 서버에서 파일을 식별할 수 있는 고유한 ID 또는 다른 필요한 데이터
+					{ responseType: "blob" } // 응답 데이터를 Blob 형식으로 받기
+				);
+
+				// 파일 다운로드를 위한 처리
+				const url = window.URL.createObjectURL(new Blob([response.data]));
+				const link = document.createElement("a");
+				link.href = url;
+				link.setAttribute("download", this.dataFromList.bfile); // 다운로드될 파일명 설정
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+				this.$store.commit('finish');
+			} catch (error) {
+				console.error("Error downloading file:", error);
+				this.$store.commit('finish');
+			}
+		}
   },
 };
 </script>

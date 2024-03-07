@@ -74,17 +74,18 @@
                 class="radioStyle"
                 checked=""
                 v-model="dataFromList.result.biModeCode"
+                data-toggle="modal"
+                v-bind:data-target="dataFromList.result.biModeCode === 'B' ? '#bmGeneral' : ''"
               /><label for="bm1_1">지명경쟁입찰</label>
               <input
                 type="radio"
                 name="bm1"
                 value="B"
                 id="bm1_2"
-                class="radioStyle"
-                
+                class="radioStyle"     
                 v-model="dataFromList.result.biModeCode"
                 data-toggle="modal"
-                data-target="#bmGeneral"
+                v-bind:data-target="dataFromList.result.biModeCode === 'A' ? '#bmGeneral' : ''"
               /><label for="bm1_2">일반경쟁입찰</label>
             </div>
           </div>
@@ -362,9 +363,10 @@
                 />
                 <a
                   data-toggle="modal"
-                  data-target="#userSearch1"
+                  data-target="#bidOpenUserPop"
                   class="btnStyle btnSecondary ml10"
                   title="선택"
+                  @click="$refs.bidOpenUserPop.initModal(dataFromList.result.interrelatedCustCode);"
                   >선택</a
                 >
               </div>
@@ -382,10 +384,12 @@
                   disabled
                 />
                 <a
+                  id="gongoId"
                   data-toggle="modal"
-                  data-target="#userSearch2"
+                  data-target="#bidUserPop"
                   class="btnStyle btnSecondary ml10"
                   title="선택"
+                  @click="$refs.bidUserPop.initModal('gongoId', dataFromList.result.interrelatedCustCode);"
                   >선택</a
                 >
               </div>
@@ -405,10 +409,12 @@
                   disabled
                 />
                 <a
+                id="openAtt1"
                   data-toggle="modal"
-                  data-target="#userSearch2"
+                  data-target="#bidUserPop"
                   class="btnStyle btnSecondary ml10"
                   title="선택"
+                  @click="$refs.bidUserPop.initModal('openAtt1', dataFromList.result.interrelatedCustCode);"
                   >선택</a
                 >
               </div>
@@ -426,10 +432,12 @@
                   disabled
                 />
                 <a
+                id="openAtt2"
                   data-toggle="modal"
-                  data-target="#userSearch2"
+                  data-target="#bidUserPop"
                   class="btnStyle btnSecondary ml10"
                   title="선택"
+                  @click="$refs.bidUserPop.initModal('openAtt2', dataFromList.result.interrelatedCustCode);"
                   >선택</a
                 >
               </div>
@@ -442,19 +450,23 @@
                 <input
                   type="radio"
                   name="bm2"
-                  value=""
+                  value="1"
                   id="bm2_1"
                   class="radioStyle"
                   checked=""
+                  v-model="dataFromList.result.insModeCode"
+                  data-toggle="modal"
+                  v-bind:data-target="dataFromList.result.insModeCode === '2' ? '#bmFile' : ''"
                 /><label for="bm2_1">파일등록</label>
                 <input
                   type="radio"
                   name="bm2"
-                  value=""
+                  value="2"
                   id="bm2_2"
                   class="radioStyle"
+                  v-model="dataFromList.result.insModeCode"
                   data-toggle="modal"
-                  data-target="#bmGeneral2"
+                  v-bind:data-target="dataFromList.result.insModeCode === '1' ? '#bmFile' : ''"
                 /><label for="bm2_2">내역직접등록</label>
               </div>
             </div>
@@ -467,7 +479,7 @@
                   id=""
                   class="inputStyle"
                   placeholder=""
-                  value="현장납품"
+                  v-model="dataFromList.result.supplyCond"
                 />
               </div>
             </div>
@@ -497,7 +509,7 @@
               <!-- 다중파일 업로드 -->
               <div class="upload-boxWrap">
                 <div class="upload-box">
-                  <input type="file" id="file-input" />
+                  <input type="file" ref="uploadedFile" id="file-input" @change="chageFile"/>
                   <div class="uploadTxt">
                     <i class="fa-regular fa-upload"></i>
                     <div>
@@ -585,13 +597,13 @@
               <!-- //다중파일 업로드 -->
             </div>
           </div>
-          <div class="flex mt10">
+          <div class="flex mt10" v-if="dataFromList.result.insModeCode==='2'">
             <div class="formTit flex-shrink0 width170px">
               세부내역 <span class="star">*</span
               ><a
-                href="javascript: return false;"
                 class="btnStyle btnSecondary ml10"
                 title="추가"
+                @click="addEmptyRow"
                 >추가</a
               >
             </div>
@@ -612,7 +624,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
+                   <tr v-for="(val, idx) in dataFromList.tableContent">
                     <td>
                       <input
                         type="text"
@@ -620,7 +632,7 @@
                         id=""
                         class="inputStyle inputSm"
                         placeholder=""
-                        value="페수처리슬러지"
+                        v-model="val.name"
                       />
                     </td>
                     <td>
@@ -630,7 +642,7 @@
                         id=""
                         class="inputStyle inputSm"
                         placeholder=""
-                        value="ton"
+                        v-model="val.ssize"
                       />
                     </td>
                     <td>
@@ -640,7 +652,7 @@
                         id=""
                         class="inputStyle inputSm"
                         placeholder=""
-                        value="1"
+                        v-model="val.orderQty"
                       />
                     </td>
                     <td>
@@ -650,7 +662,7 @@
                         id=""
                         class="inputStyle inputSm"
                         placeholder=""
-                        value="ton"
+                        v-model="val.unitCode"
                       />
                     </td>
                     <td>
@@ -660,79 +672,23 @@
                         id=""
                         class="inputStyle inputSm text-right"
                         placeholder=""
-                        value="1,000"
+                        v-model="val.orderUc"
                       />
                     </td>
-                    <td class="text-right">1,000</td>
+                    <td class="text-right">{{ val.orderQty*val.orderUc }}</td>
                     <td class="text-right end">
                       <a
-                        href="javascript: return false;"
                         class="btnStyle btnSecondary btnSm"
                         title="삭제"
+                        @click="deleteRow(idx)"
                         >삭제</a
                       >
                     </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        class="inputStyle inputSm"
-                        placeholder="텍스트 입력"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        class="inputStyle inputSm"
-                        placeholder="200*200"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        class="inputStyle inputSm"
-                        placeholder="14"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        class="inputStyle inputSm"
-                        placeholder="ton"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        class="inputStyle inputSm text-right"
-                        placeholder="1,100,000"
-                      />
-                    </td>
-                    <td class="text-right">15,400,000</td>
-                    <td class="text-right end">
-                      <a
-                        href="javascript: return false;"
-                        class="btnStyle btnSecondary btnSm"
-                        title="삭제"
-                        >삭제</a
-                      >
-                    </td>
-                  </tr>
+                   </tr>
                 </tbody>
               </table>
               <p class="text-right mt10">
-                <strong>총합계 : 15,401,000</strong>
+                <strong>총합계 : {{ totalSum | numberWithCommas }}</strong>
               </p>
             </div>
           </div>
@@ -742,11 +698,10 @@
           <a
             class="btnStyle btnOutline"
             title="목록"
-            >목록</a
-          >
+            ><router-link :to="{ name: 'bidProgress' }">목록 </router-link></a>
           <a
             data-toggle="modal"
-            data-target="#biddingSave"
+            data-target="#save"
             class="btnStyle btnPrimary"
             title="저장"
             >저장</a
@@ -755,337 +710,6 @@
       </div>
     </div>
     <!-- //contents -->
-
-    <!-- 개찰자 조회 -->
-    <div
-      class="modal fade modalStyle"
-      id="userSearch1"
-      tabindex="-1"
-      role="dialog"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" style="width: 100%; max-width: 800px">
-        <div class="modal-content">
-          <div class="modal-body">
-            <a
-              href="javascript:void(0)"
-              class="ModalClose"
-              data-dismiss="modal"
-              title="닫기"
-              ><i class="fa-solid fa-xmark"></i
-            ></a>
-            <h2 class="modalTitle">개찰자 조회</h2>
-            <div class="modalTopBox">
-              <ul>
-                <li>
-                  <div>
-                    소속사의 개찰권한을 가진 사용자만 조회됩니다. (사용자 조회
-                    후 선택버튼을 누르십시오)
-                  </div>
-                </li>
-                <li>
-                  <div>
-                    개찰자가 조회되지 않을 경우 관리자에게 연락해 주십시오
-                  </div>
-                </li>
-              </ul>
-            </div>
-
-            <div class="modalSearchBox mt20">
-              <div class="flex align-items-center">
-                <div class="sbTit mr30">사원명</div>
-                <div class="width150px">
-                  <input
-                    type="text"
-                    name=""
-                    id=""
-                    class="inputStyle"
-                    placeholder=""
-                  />
-                </div>
-                <div class="sbTit mr30 ml50">부서명</div>
-                <div class="width150px">
-                  <input
-                    type="text"
-                    name=""
-                    id=""
-                    class="inputStyle"
-                    placeholder=""
-                  />
-                </div>
-                <a href="javascript:void(0)" class="btnStyle btnSearch">검색</a>
-              </div>
-            </div>
-            <table class="tblSkin1 mt30">
-              <colgroup>
-                <col style="width: 250px" />
-                <col style="width: 250px" />
-              </colgroup>
-              <thead>
-                <tr>
-                  <th>부서명</th>
-                  <th>사원명</th>
-                  <th class="end">선택</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="text-left">웹서비스 팀</td>
-                  <td class="text-left">강개발</td>
-                  <td class="end">
-                    <a
-                      href="javascript:void(0)"
-                      class="btnStyle btnSecondary btnSm"
-                      title="선택"
-                      >선택</a
-                    >
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-left">웹서비스 팀</td>
-                  <td class="text-left">강개발</td>
-                  <td class="end">
-                    <a
-                      href="javascript:void(0)"
-                      class="btnStyle btnSecondary btnSm"
-                      title="선택"
-                      >선택</a
-                    >
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <!-- pagination -->
-            <div class="row mt30">
-              <div class="col-xs-12">
-                <div class="pagination1 text-center">
-                  <a
-                    href="javascript:void(0)"
-                    title="10페이지 이전 페이지로 이동"
-                    ><i class="fa-light fa-chevrons-left"></i
-                  ></a>
-                  <a href="javascript:void(0)" title="이전 페이지로 이동"
-                    ><i class="fa-light fa-chevron-left"></i
-                  ></a>
-                  <a
-                    href="javascript:void(0)"
-                    title="1페이지로 이동"
-                    class="number active"
-                    >1</a
-                  >
-                  <a
-                    href="javascript:void(0)"
-                    title="2페이지로 이동"
-                    class="number"
-                    >2</a
-                  >
-                  <a
-                    href="javascript:void(0)"
-                    title="3페이지로 이동"
-                    class="number"
-                    >3</a
-                  >
-                  <a
-                    href="javascript:void(0)"
-                    title="4페이지로 이동"
-                    class="number"
-                    >4</a
-                  >
-                  <a
-                    href="javascript:void(0)"
-                    title="5페이지로 이동"
-                    class="number"
-                    >5</a
-                  >
-                  <a href="javascript:void(0)" title="다음 페이지로 이동"
-                    ><i class="fa-light fa-chevron-right"></i
-                  ></a>
-                  <a
-                    href="javascript:void(0)"
-                    title="10페이지 다음 페이지로 이동"
-                    ><i class="fa-light fa-chevrons-right"></i
-                  ></a>
-                </div>
-              </div>
-            </div>
-            <!-- //pagination -->
-            <div class="modalFooter">
-              <a
-                href="javascript:void(0)"
-                class="modalBtnClose"
-                data-dismiss="modal"
-                title="닫기"
-                >닫기</a
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- //개찰자 조회 -->
-
-    <!-- 사원 조회 -->
-    <div
-      class="modal fade modalStyle"
-      id="userSearch2"
-      tabindex="-1"
-      role="dialog"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" style="width: 100%; max-width: 800px">
-        <div class="modal-content">
-          <div class="modal-body">
-            <a
-              href="javascript:void(0)"
-              class="ModalClose"
-              data-dismiss="modal"
-              title="닫기"
-              ><i class="fa-solid fa-xmark"></i
-            ></a>
-            <h2 class="modalTitle">사원 조회</h2>
-            <div class="modalTopBox">
-              <ul>
-                <li>
-                  <div>
-                    소속사 사용자를 조회합니다. (사용자 조회 후 선택버튼을
-                    누르십시오)
-                  </div>
-                </li>
-              </ul>
-            </div>
-
-            <div class="modalSearchBox mt20">
-              <div class="flex align-items-center">
-                <div class="sbTit mr30">사원명</div>
-                <div class="width150px">
-                  <input
-                    type="text"
-                    name=""
-                    id=""
-                    class="inputStyle"
-                    placeholder=""
-                  />
-                </div>
-                <div class="sbTit mr30 ml50">부서명</div>
-                <div class="width150px">
-                  <input
-                    type="text"
-                    name=""
-                    id=""
-                    class="inputStyle"
-                    placeholder=""
-                  />
-                </div>
-                <a href="javascript:void(0)" class="btnStyle btnSearch">검색</a>
-              </div>
-            </div>
-            <table class="tblSkin1 mt30">
-              <colgroup>
-                <col style="width: 250px" />
-                <col style="width: 250px" />
-              </colgroup>
-              <thead>
-                <tr>
-                  <th>부서명</th>
-                  <th>사원명</th>
-                  <th class="end">선택</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="text-left">웹서비스 팀</td>
-                  <td class="text-left">김개발</td>
-                  <td class="end">
-                    <a
-                      href="javascript:void(0)"
-                      class="btnStyle btnSecondary btnSm"
-                      title="선택"
-                      >선택</a
-                    >
-                  </td>
-                </tr>
-                <tr>
-                  <td class="text-left">웹서비스 팀</td>
-                  <td class="text-left">김개발</td>
-                  <td class="end">
-                    <a
-                      href="javascript:void(0)"
-                      class="btnStyle btnSecondary btnSm"
-                      title="선택"
-                      >선택</a
-                    >
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <!-- pagination -->
-            <div class="row mt30">
-              <div class="col-xs-12">
-                <div class="pagination1 text-center">
-                  <a
-                    href="javascript:void(0)"
-                    title="10페이지 이전 페이지로 이동"
-                    ><i class="fa-light fa-chevrons-left"></i
-                  ></a>
-                  <a href="javascript:void(0)" title="이전 페이지로 이동"
-                    ><i class="fa-light fa-chevron-left"></i
-                  ></a>
-                  <a
-                    href="javascript:void(0)"
-                    title="1페이지로 이동"
-                    class="number active"
-                    >1</a
-                  >
-                  <a
-                    href="javascript:void(0)"
-                    title="2페이지로 이동"
-                    class="number"
-                    >2</a
-                  >
-                  <a
-                    href="javascript:void(0)"
-                    title="3페이지로 이동"
-                    class="number"
-                    >3</a
-                  >
-                  <a
-                    href="javascript:void(0)"
-                    title="4페이지로 이동"
-                    class="number"
-                    >4</a
-                  >
-                  <a
-                    href="javascript:void(0)"
-                    title="5페이지로 이동"
-                    class="number"
-                    >5</a
-                  >
-                  <a href="javascript:void(0)" title="다음 페이지로 이동"
-                    ><i class="fa-light fa-chevron-right"></i
-                  ></a>
-                  <a
-                    href="javascript:void(0)"
-                    title="10페이지 다음 페이지로 이동"
-                    ><i class="fa-light fa-chevrons-right"></i
-                  ></a>
-                </div>
-              </div>
-            </div>
-            <!-- //pagination -->
-            <div class="modalFooter">
-              <a
-                href="javascript:void(0)"
-                class="modalBtnClose"
-                data-dismiss="modal"
-                title="닫기"
-                >닫기</a
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- //사원 조회 -->
 
     <!-- 일반경쟁입찰 -->
     <div
@@ -1102,7 +726,7 @@
               class="ModalClose"
               data-dismiss="modal"
               title="닫기"
-              ><i class="fa-solid fa-xmark"></i
+              ><i class="fa-solid fa-xmark" @click="selectBid('named')"></i
             ></a>
             <div class="alertText2">
               일반경쟁입찰을 선택하면 입찰은 등록되어 있는 모든 협력업체를
@@ -1114,14 +738,58 @@
                 class="modalBtnClose"
                 data-dismiss="modal"
                 title="취소"
-                @click="selectBid('named')"
+                @click="selectBid('cancel')"
                 >취소</a
               >
               <a
                 class="modalBtnCheck"
                 data-toggle="modal"
                 title="선택"
-                @click="selectBid('general')"
+                @click="selectBid('ok')"
+                >선택</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- //일반경쟁입찰 -->
+    <!-- 파일등록 -->
+    <div
+      class="modal fade modalStyle"
+      id="bmFile"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+      
+    >
+      <div class="modal-dialog" style="width: 100%; max-width: 420px" >
+        <div class="modal-content" >
+          <div class="modal-body">
+            <a
+              class="ModalClose"
+              data-dismiss="modal"
+              title="닫기"
+              ><i class="fa-solid fa-xmark"></i
+            ></a>
+            <div class="alertText2">
+              내역방식을 변경하면 이전에 선택한
+              세부내역이 초기화됩니다.
+              변경 하시겠습니까?
+            </div>
+            <div class="modalFooter">
+              <a
+                class="modalBtnClose"
+                data-dismiss="modal"
+                title="취소"
+                @click="selectBidBottom('cancel')"
+                >취소</a
+              >
+              <a
+                class="modalBtnCheck"
+                data-toggle="modal"
+                title="선택"
+                @click="selectBidBottom('ok')"
                 >선택</a
               >
             </div>
@@ -1131,12 +799,33 @@
     </div>
     <!-- //일반경쟁입찰 -->
 
-    <!-- 품목 선택 팝업 -->
+    		<!-- 입찰계획 저장 -->
+		<div class="modal fade modalStyle" id="save" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" style="width:100%; max-width:420px">
+				<div class="modal-content">
+					<div class="modal-body">
+						<a  class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+						<div class="alertText2">입찰계획을 수정하면 수정 History에<br>수정이력이 남습니다.<br>저장 하시겠습니까?</div>
+						<div class="modalFooter">
+							<a  class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
+							<a  @click="save" class="modalBtnCheck" data-toggle="modal" title="저장">저장</a>
+						</div>
+					</div>				
+				</div>
+			</div>
+		</div>
+		<!-- //입찰계획 저장 -->
+
+    <!-- 품목 조회 -->
     <item-pop ref="itemPop" @callbackFunc="callbackItem" />
     <!-- //업체 조회 -->
     <cust-pop ref="custPop" @callbackFunc="callbackCust" />
-    <!-- 협력사 사용자-->
+    <!-- 협력사 사용자 조회-->
     <cust-user-pop ref="custUserPop" />
+    <!-- 개찰자 조회-->
+    <bid-open-user-pop ref="bidOpenUserPop" @callbackFunc="callbackOpenUser"/>
+    <!-- 입찰관련 일반사용자 조회-->
+    <bid-user-pop ref="bidUserPop" @callbackFunc="callbackUser"/>
 
   </div>
   <!-- //본문 -->
@@ -1147,6 +836,8 @@ import cmmn from "../../../../public/js/common.js";
 import ItemPop from "@/components/ItemPop.vue";
 import CustPop from "@/modules/company/components/CustPop.vue";
 import CustUserPop from "@/modules/company/components/CustUserPop.vue";
+import BidOpenUserPop from "@/modules/company/components/BidOpenUserPop.vue";
+import BidUserPop from "@/modules/company/components/BidUserPop.vue";
 
 export default {
   name: "bidProgressUpdate",
@@ -1154,24 +845,47 @@ export default {
     ItemPop,
     CustPop,
     CustUserPop,
+    BidOpenUserPop,
+    BidUserPop,
   },
   data() {
     return {
+      detail:{},
       dataFromList: {},
       originCustData: null,
+      originFileData: null,
+      originTableData: null,
       datePart: "",
       timePart: "",
       datePart1: "",
       timePart1: "",
       datePart2: "",
       timePart2: "",
+      selectedFile: null, //업로드한 파일
+      fileCnt: 0, //업로드한 파일 수
     };
   },
+  computed: {
+    totalSum() {
+      // 테이블 내 모든 행의 합계 계산
+      return this.dataFromList.tableContent.reduce(
+        (sum, val) => sum + (val.orderQty * val.orderUc || 0),
+        0
+      );
+    },
+  },
+
+  filters: {
+    numberWithCommas(value) {
+      // 숫자에 쉼표 추가하는 필터 정의
+      return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
+  },
+
   methods: {
     callbackItem(data) {
       this.dataFromList.result.itemCode = data.itemCode;
       this.dataFromList.result.itemName = data.itemName;
-
       this.$forceUpdate();
     },
     callbackCust(data) {
@@ -1180,8 +894,31 @@ export default {
         custCode: data.custCode,
         custName: data.custName,
       });
-      //this.dataFromList.custContent.custName = data.custName;
       console.log(1111111111111, this.dataFromList.custContent);
+      this.$forceUpdate();
+    },
+    callbackOpenUser(data) {
+      this.dataFromList.result.estOpener = data.userName;
+      this.dataFromList.result.estOpenerCode = data.userId;
+      this.$forceUpdate();
+    },
+    callbackUser({ data, buttonId }) {
+      console.log(buttonId);
+      switch (buttonId) {
+        case "gongoId":
+          this.dataFromList.result.gongoId = data.userName;
+          this.dataFromList.result.gongoIdCode = data.userId;
+          break;
+        case "openAtt1":
+          this.dataFromList.result.openAtt1 = data.userName;
+          this.dataFromList.result.openAtt1Code = data.userId;
+          break;
+        case "openAtt2":
+          this.dataFromList.result.openAtt2 = data.userName;
+          this.dataFromList.result.openAtt2Code = data.userId;
+          break;
+      }
+
       this.$forceUpdate();
     },
     assignDataFromList() {
@@ -1209,21 +946,177 @@ export default {
       return formattedValue === "" ? "" : formattedValue; // 값이 비어있을 경우 처리
     },
     selectBid(mode) {
-      if (mode === "named") {
-        this.dataFromList.result.biModeCode = "A"; // 지명경쟁입찰 선택
-      } else if (mode === "general") {
-        this.dataFromList.result.biModeCode = "B"; // 일반경쟁입찰 선택
-        this.dataFromList.custContent = this.originCustData;
-        console.log(this.originCustData);
-        this.$forceUpdate();
+      if (mode === "cancel") {
+        if (this.dataFromList.result.biModeCode === "A")
+          this.dataFromList.result.biModeCode = "B";
+        else this.dataFromList.result.biModeCode = "A";
+      } else if (mode === "ok") {
+        if (this.dataFromList.result.biModeCode === "A") {
+          this.dataFromList.result.biModeCode = "A";
+        } else {
+          this.dataFromList.custContent = this.originCustData;
+          console.log(this.originCustData);
+          this.$forceUpdate();
+        }
       }
-      $("#bmGeneral").modal("hide"); // 모달 닫기
+      this.$forceUpdate();
+      $("#bmGeneral").modal("hide");
     },
+
+    selectBidBottom(mode) {
+      if (mode === "cancel") {
+        if (this.dataFromList.result.insModeCode === "1")
+          this.dataFromList.result.insModeCode = "2";
+        else this.dataFromList.result.insModeCode = "1";
+      } else if (mode === "ok") {
+        if (this.dataFromList.result.insModeCode === "1") {
+          this.dataFromList.result.insModeCode = "1";
+          this.dataFromList.tableContent = this.originTableData;
+          this.$forceUpdate();
+        } else {
+          this.dataFromList.result.insModeCode = "2";
+          this.dataFromList.fileContent = this.originFileData;
+          this.$forceUpdate();
+        }
+      }
+      this.$forceUpdate();
+      $("#bmFile").modal("hide");
+    },
+
+    addEmptyRow() {
+      const seq = this.dataFromList.tableContent.length + 1;
+
+      this.dataFromList.tableContent.push({
+        biNo:this.dataFromList.result.biNo,
+        seq: seq,
+        name: "",
+        ssize: "",
+        orderQty: "",
+        unitCode: "",
+        orderUc: "",
+      });
+    },
+    deleteRow(index) {
+      this.dataFromList.tableContent.splice(index, 1);
+    },
+    fileSetting() {
+      	if(this.dataFromList.fileContent.fileNm != null && this.dataFromList.fileContent.filePath != null){
+					var preview = document.querySelector('#preview');
+					var fileName = dataFromList.fileContent.fileNm;
+					
+  				var timestamp = Date.now();
+  
+					preview.innerHTML += `
+										<p id=${timestamp}>
+											${fileName}
+											<button data-index=${timestamp} id='removeFile' class='file-remove'>삭제</button>
+										</p>`;
+
+					//삭제 버튼 클릭시 기존 첨부된 파일 정보 삭제
+					$('#removeFile').click(function(){
+						
+						this.dataFromList.fileContent.fileNm = null;
+						this.dataFromList.fileContent.filePath = null;
+
+					}.bind(this));
+				}
+    },
+    chageFile(event){//바뀐 파일 selectedFile에 담기
+
+			this.selectedFile = event.target.files[0];
+			this.fileCnt = event.target.files.length;
+			
+			//파일 변경시 기존 처음에 첨부되었던 파일정보 사라짐
+			this.dataFromList.fileContent.fileNm = null;
+			this.dataFromList.fileContent.filePath = null;
+
+		},
+    validationCheck(){ //파일관련 추후 보강 필요
+      if(!this.dataFromList.result.biName || this.dataFromList.result.biName===''){
+        alert("입찰명을 입력해주세요.");
+        return false;
+      }
+      if(!this.dataFromList.result.itemCode || this.dataFromList.result.itemCode===''){
+        alert("품목을 선택해주세요.");
+        return false;
+      }
+      if(!this.dataFromList.result.biModeCode || this.dataFromList.result.biModeCode===''){
+        alert("입찰방식을 선택해주세요.");
+        return false;
+      }
+
+      this.dataFromList.result.spotDate = this.datePart + " " + this.timePart;
+      this.dataFromList.result.estStartDate = this.datePart1 + " " + this.timePart1;
+      this.dataFromList.result.estCloseDate = this.datePart2 + " " + this.timePart2;
+      if(!this.dataFromList.result.spotDate || this.dataFromList.result.spotDate===''){
+        alert("현장설명일시를 입력해주세요.");
+        return false;
+      }
+      if(!this.dataFromList.result.spotArea || this.dataFromList.result.spotArea===''){
+        alert("현장설명장소를 입력해주세요.");
+        return false;
+      }
+      if(!this.dataFromList.result.succDeciMethCode || this.dataFromList.result.succDeciMethCode===''){
+        alert("낙찰자 결정방법을 선택해주세요.");
+        return false;
+      }
+      if(!this.dataFromList.result.estStartDate || this.dataFromList.result.estStartDate===''){
+        alert("제출시작일시를 입력해주세요.");
+        return false;
+      }
+      if(!this.dataFromList.result.estCloseDate || this.dataFromList.result.estCloseDate===''){
+        alert("제출마감일시를 입력해주세요.");
+        return false;
+      }
+
+      if(this.dataFromList.result.insModeCode ==='2'){
+        if(this.dataFromList.tableContents.length === 0){
+            alert("세부내역을 작성해주세요.");
+            return false;
+        } else {
+            this.dataFromList.tableContents = 
+                this.dataFromList.tableContents.filter(item => item.name !== null);
+        } 
+      }
+
+      return true;
+    },
+    save(){ //파일관련 추후 보강 필요
+			if(!this.validationCheck()){
+				$('#save').modal('hide');
+        console.log('false');
+				return false;
+			}
+
+      this.detail.result = this.dataFromList.result;
+      this.detail.tableContent = this.dataFromList.tableContent;
+      this.detail.fileContent = this.dataFromList.fileContent;
+      this.detail.custContent = this.dataFromList.custContent;
+      this.$store.commit("loading");
+      this.$http
+        .post("/api/v1/bid/updateBid", this.detail)
+        .then((response) => {
+          if (response.data.code == "OK") {
+            this.$store.commit("searchParams", {});
+            //this.$router.push({ name: "bidProgressDetail" }); //라우팅 추가 모달에 부착예정
+          } else {
+            this.$swal({
+              type: "warning",
+              text: "수정 중 오류가 발생했습니다.",
+            });
+            $('#save').modal('hide');
+          }
+        })
+        .finally(() => {
+          this.$store.commit("finish");
+        });
+    },
+
   },
   beforeMount() {},
   mounted() {
     this.dataFromList = Object.assign({}, this.$store.state.bidUpdateData);
-
+    this.fileSetting();
     //달력
     cmmn.applyCal();
     this.assignDataFromList();
@@ -1231,6 +1124,12 @@ export default {
     fileInput.applyFile();
     if (!this.originCustData) {
       this.originCustData = this.dataFromList.custContent.slice();
+    }
+    if (!this.originFileData) {
+      this.originFileData = this.dataFromList.fileContent.slice();
+    }
+    if (!this.originTableData) {
+      this.originTableData = this.dataFromList.tableContent.slice();
     }
     console.log(this.dataFromList);
   },
