@@ -14,128 +14,17 @@
 
 			<!-- 가입관련은 faq1, 입찰관련 faq2, 인증서관련 faq3으로 필터됌 -->
 			<div class="tabStyle tab3 faqList">
-				<a href="javascript:void(0)" data-filter=".faq1" class="active">가입관련</a>		
-				<a href="javascript:void(0)" data-filter=".faq2">입찰관련</a>
-				<a href="javascript:void(0)" data-filter=".faq3">인증서관련</a>
+				<a href="javascript:void(0)" id="faq1" data-filter=".faq1" class="active">가입관련</a>		
+				<a href="javascript:void(0)" id="faq2" data-filter=".faq2">입찰관련</a>
+				<a href="javascript:void(0)" id="faq3" data-filter=".faq3">인증서관련</a>
 			</div>
 			<div class="faq_item_wrap">
-				<div class="faq_item faq1">
-					<div class="faqTitle"><div><span class="faqQ">Q</span><p class="faqTit">가입관련 FAQ 1</p></div><i class="fal fa-chevron-down faqIcon"></i></div>
+				<div :class="{'faq_item': true, 'faq1': val.faqType === '1', 'faq2': val.faqType === '2', 'faq3': val.faqType === '3'}" v-for="(val, idx) in listPage.content">
+					<div class="faqTitle"><div><span class="faqQ">Q</span><p class="faqTit">{{ val.title }}</p></div><i class="fal fa-chevron-down faqIcon"></i></div>
 					<div class="faqAn">
 						<span class="faqA">A.</span>
 						<div class="faqTxt">
-							가입관련 FAQ 답변 내용 1 가입관련 FAQ 답변 내용 1 가입관련 FAQ 답변 내용 1 가입관련 FAQ 답변 내용 1 가입관련 FAQ 답변 내용 1 가입관련 FAQ 답변 내용 1<br>
-							가입관련 FAQ 답변 내용 1 가입관련 FAQ 답변 내용 1
-						</div>
-					</div>
-				</div>
-				<div class="faq_item faq2">
-					<div class="faqTitle"><div><span class="faqQ">Q</span><p class="faqTit">입찰관련 FAQ 1</p></div><i class="fal fa-chevron-down faqIcon"></i></div>
-					<div class="faqAn">
-						<span class="faqA">A.</span>
-						<div class="faqTxt">
-							입찰관련 FAQ 답변 내용 1 입찰관련 FAQ 답변 내용 1 입찰관련 FAQ 답변 내용 1<br>
-							입찰관련 FAQ 답변 내용 1 입찰관련 FAQ 답변 내용 1
-						</div>
-					</div>
-				</div>
-				<div class="faq_item faq3">
-					<div class="faqTitle"><div><span class="faqQ">Q</span><p class="faqTit">인증서관련 FAQ 1</p></div><i class="fal fa-chevron-down faqIcon"></i></div>
-					<div class="faqAn">
-						<span class="faqA">A.</span>
-						<div class="faqTxt">
-							인증서관련 FAQ 답변 내용 1 인증서관련 FAQ 답변 내용 1 인증서관련 FAQ 답변 내용 1<br>
-							인증서관련 FAQ 답변 내용 1 인증서관련 FAQ 답변 내용 1
-						</div>
-					</div>
-				</div>
-				<div class="faq_item faq1">
-					<div class="faqTitle"><div><span class="faqQ">Q</span><p class="faqTit">가입관련 FAQ 2</p></div><i class="fal fa-chevron-down faqIcon"></i></div>
-					<div class="faqAn">
-						<span class="faqA">A.</span>
-						<div class="faqTxt">
-							가입관련 FAQ 답변 내용 2 가입관련 FAQ 답변 내용 2 가입관련 FAQ 답변 내용 2<br>
-							가입관련 FAQ 답변 내용 2 가입관련 FAQ 답변 내용 2
-						</div>
-					</div>
-				</div>
-				<div class="faq_item faq2">
-					<div class="faqTitle"><div><span class="faqQ">Q</span><p class="faqTit">입찰관련 FAQ 2</p></div><i class="fal fa-chevron-down faqIcon"></i></div>
-					<div class="faqAn">
-						<span class="faqA">A.</span>
-						<div class="faqTxt">
-							입찰관련 FAQ 답변 내용 2 입찰관련 FAQ 답변 내용 2 입찰관련 FAQ 답변 내용 2<br>
-							입찰관련 FAQ 답변 내용 2 입찰관련 FAQ 답변 내용 2
-						</div>
-					</div>
-				</div>
-				<div class="faq_item faq3">
-					<div class="faqTitle"><div><span class="faqQ">Q</span><p class="faqTit">인증서관련 FAQ 2</p></div><i class="fal fa-chevron-down faqIcon"></i></div>
-					<div class="faqAn">
-						<span class="faqA">A.</span>
-						<div class="faqTxt">
-							인증서관련 FAQ 답변 내용 2 인증서관련 FAQ 답변 내용 2 인증서관련 FAQ 답변 내용 2<br>
-							인증서관련 FAQ 답변 내용 2 인증서관련 FAQ 답변 내용 2
-						</div>
-					</div>
-				</div>
-				<div class="faq_item faq1">
-					<div class="faqTitle"><div><span class="faqQ">Q</span><p class="faqTit">가입관련 FAQ 3</p></div><i class="fal fa-chevron-down faqIcon"></i></div>
-					<div class="faqAn">
-						<span class="faqA">A.</span>
-						<div class="faqTxt">
-							가입관련 FAQ 답변 내용 3 가입관련 FAQ 답변 내용 3 가입관련 FAQ 답변 내용 3<br>
-							가입관련 FAQ 답변 내용 3 가입관련 FAQ 답변 내용 3
-						</div>
-					</div>
-				</div>
-				<div class="faq_item faq2">
-					<div class="faqTitle"><div><span class="faqQ">Q</span><p class="faqTit">입찰관련 FAQ 3</p></div><i class="fal fa-chevron-down faqIcon"></i></div>
-					<div class="faqAn">
-						<span class="faqA">A.</span>
-						<div class="faqTxt">
-							입찰관련 FAQ 답변 내용 3 입찰관련 FAQ 답변 내용 3 입찰관련 FAQ 답변 내용 3<br>
-							입찰관련 FAQ 답변 내용 3 입찰관련 FAQ 답변 내용 3
-						</div>
-					</div>
-				</div>
-				<div class="faq_item faq3">
-					<div class="faqTitle"><div><span class="faqQ">Q</span><p class="faqTit">인증서관련 FAQ 3</p></div><i class="fal fa-chevron-down faqIcon"></i></div>
-					<div class="faqAn">
-						<span class="faqA">A.</span>
-						<div class="faqTxt">
-							인증서관련 FAQ 답변 내용 3 인증서관련 FAQ 답변 내용 3 인증서관련 FAQ 답변 내용 3<br>
-							인증서관련 FAQ 답변 내용 3 인증서관련 FAQ 답변 내용 3
-						</div>
-					</div>
-				</div>
-				<div class="faq_item faq1">
-					<div class="faqTitle"><div><span class="faqQ">Q</span><p class="faqTit">가입관련 FAQ 4</p></div><i class="fal fa-chevron-down faqIcon"></i></div>
-					<div class="faqAn">
-						<span class="faqA">A.</span>
-						<div class="faqTxt">
-							가입관련 FAQ 답변 내용 4 가입관련 FAQ 답변 내용 4 가입관련 FAQ 답변 내용 4<br>
-							가입관련 FAQ 답변 내용 4 가입관련 FAQ 답변 내용 4
-						</div>
-					</div>
-				</div>
-				<div class="faq_item faq2">
-					<div class="faqTitle"><div><span class="faqQ">Q</span><p class="faqTit">입찰관련 FAQ 4</p></div><i class="fal fa-chevron-down faqIcon"></i></div>
-					<div class="faqAn">
-						<span class="faqA">A.</span>
-						<div class="faqTxt">
-							입찰관련 FAQ 답변 내용 4 입찰관련 FAQ 답변 내용 4 입찰관련 FAQ 답변 내용 4<br>
-							입찰관련 FAQ 답변 내용 4 입찰관련 FAQ 답변 내용 4
-						</div>
-					</div>
-				</div>
-				<div class="faq_item faq3">
-					<div class="faqTitle"><div><span class="faqQ">Q</span><p class="faqTit">인증서관련 FAQ 4</p></div><i class="fal fa-chevron-down faqIcon"></i></div>
-					<div class="faqAn">
-						<span class="faqA">A.</span>
-						<div class="faqTxt">
-							인증서관련 FAQ 답변 내용 4 인증서관련 FAQ 답변 내용 4 인증서관련 FAQ 답변 내용 4<br>
-							인증서관련 FAQ 답변 내용 4 인증서관련 FAQ 답변 내용 4
+							{{ val.answer }}
 						</div>
 					</div>
 				</div>
@@ -156,19 +45,52 @@
     components: {
 
     },
-    data() {
-      return {
-
-      };
+	created() {
+		//this.retrieve();
+		
     },
-    methods: {
+    beforeMount() {
+		this.retrieve();
+	},
+    async mounted() {
 
-    },
-    beforeMount() {},
-    mounted() {
+		const params = {id: this.$options.name, title:'', faqType: '', useYn: '',updateInsert: '', admin: 'N' ,size: ''};
+		if (this.$store.state.searchParams.id == params.id) {
+			this.searchParams = Object.assign(params, this.$store.state.searchParams);
+		} else {
+			this.searchParams = params;
+		}
+
+		
+
+		await this.retrieve();
+
+		$("#faq1").trigger("click");
 
 		//faq 동작
 		cmmn.applyFaq();
+
     },
+    data() {
+      return {
+		searchParams: {},	
+		listPage: {}
+      };
+    },
+    methods: {
+		async retrieve() {
+			try {
+				this.$store.commit('loading');
+        		this.$store.commit('searchParams', this.searchParams);
+				const response = await this.$http.post('/api/v1/faq/faqList', this.searchParams);
+				this.listPage = response.data;
+				console.log('gogo', this.listPage);
+				this.$store.commit('finish');
+			} catch(err) {
+				console.log(err)
+				this.$store.commit('finish');
+			}
+		}
+    }
   };
   </script>

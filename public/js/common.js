@@ -127,13 +127,14 @@ export default {
     applyFaq(){
         //faq
         $('.faq1').show();
-        $(".faqList > a").on("click", function (e) {
+        $(".faqList > a").off("click").on("click", function (e) {
             $('.faq1').hide();
             e.preventDefault();
             var filterValue = $(this).data("filter");
             $(".faq_item_wrap div").removeClass("show");
             $(filterValue).addClass("show");
         });
+        
         //faq
         $('.faq_item_wrap > div').click(function() {
             $('.faq_item_wrap > div').removeClass('active');

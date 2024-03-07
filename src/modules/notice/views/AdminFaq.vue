@@ -140,14 +140,23 @@
 		};
 	},
 	mounted() {
-		const params = {id: this.$options.name, title:'', faqType: '', useYn: '',updateInsert: '' ,size: '10'};
-		if (this.$store.state.searchParams.id == params.id) {
-			this.searchParams = Object.assign(params, this.$store.state.searchParams);
-		} else {
-			this.searchParams = params;
+        if(this.custType == 'inter' && this.userAuth == '1'){//계열사 시스템관리자인 경우
+
+            const params = {id: this.$options.name, title:'', faqType: '', useYn: '',updateInsert: '', admin: 'Y' ,size: '10'};
+            if (this.$store.state.searchParams.id == params.id) {
+                this.searchParams = Object.assign(params, this.$store.state.searchParams);
+            } else {
+                this.searchParams = params;
+            }
+
+            this.retrieve();
+			
+		}else{//권한이 없는 사용자의 경우
+
+			this.$router.push({name:"Main"});//메인으로 이동
+
 		}
 
-		this.retrieve();
 	},
 	methods: {
 		search(page) {

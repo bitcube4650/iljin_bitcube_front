@@ -41,7 +41,7 @@
                     </ul>
                 </div>
             </li>
-            <li ><!--권한! v-if="(userAuth == '1' && company == 'cust') || ((userAuth == '1' || userAuth == '2' || userAuth == '4') && company == 'inter')"-->         
+            <li v-if="(userAuth == '1' && company == 'cust') || ((userAuth == '1' || userAuth == '2' || userAuth == '4') && company == 'inter')"><!--권한! v-if="(userAuth == '1' && company == 'cust') || ((userAuth == '1' || userAuth == '2' || userAuth == '4') && company == 'inter')"-->         
                 <a ><span><i class="fa-light fa-buildings"></i></span>업체정보</a>
                 <div class="depth2Lnb">
                     <ul>
@@ -52,7 +52,7 @@
                     </ul>
                 </div>
             </li>
-            <li ><!--권한! v-if="company == 'inter' && (userAuth == '1' || userAuth == '4' )"-->         
+            <li v-if="company == 'inter' && (userAuth == '1' || userAuth == '4' )"><!--권한! v-if="company == 'inter' && (userAuth == '1' || userAuth == '4' )"-->         
                 <a ><span><i class="fa-light fa-chart-pie-simple"></i></span>통계</a>
                 <div class="depth2Lnb">
                     <ul>
@@ -63,7 +63,7 @@
                     </ul>
                 </div>
             </li>
-            <li ><!--권한! v-if="company == 'inter' && userAuth == '1'"-->         
+            <li v-if="company == 'inter' && userAuth == '1'"><!--권한! v-if="company == 'inter' && userAuth == '1'"-->         
               <a ><span><i class="fa-light fa-memo-circle-info"></i></span>정보관리</a>
                 <div class="depth2Lnb">
                     <ul>
@@ -126,6 +126,17 @@ import cmmn from "../../public/js/common.js"
         userAuth: ''
       };
     },
+    created() {
+        //계열사인지 협력사인지
+        this.company = this.$store.state.loginInfo.custType; 
+
+        //권한
+        this.userAuth = this.$store.state.loginInfo.userAuth;
+    },
+    mounted(){
+
+        cmmn.applyPub();//퍼블리싱 js 파일 적용
+    },
     methods: {
         //로그아웃
         logout() {
@@ -168,7 +179,7 @@ import cmmn from "../../public/js/common.js"
             this.$router.push({name:"notice"});
         },
         clickFaq(){//faq 클릭
-            if(this.company == 'inter'){//그룹사인 경우 권한! this.company == 'inter' && this.userAuth == '1'
+            if(this.company == 'inter' && this.userAuth == '1'){//그룹사인 경우 권한! this.company == 'inter' && this.userAuth == '1'
                 this.$router.push({name:"adminFaq"});
             }else{//협력사인 경우
                 this.$router.push({name:"userFaq"});
@@ -183,7 +194,7 @@ import cmmn from "../../public/js/common.js"
                     {},
                     { responseType: "blob" } // 응답 데이터를 Blob 형식으로 받기
                 );
-                console.log('다운로드된 파일', response);
+                                  
                 // 파일 다운로드를 위한 처리
                 const url = window.URL.createObjectURL(new Blob([response.data]));
                 const link = document.createElement("a");
@@ -198,17 +209,6 @@ import cmmn from "../../public/js/common.js"
                 this.$store.commit('finish');
             }
         }
-    },
-    created() {
-        //계열사인지 협력사인지
-        this.company = this.$store.state.loginInfo.custType; 
-
-        //권한
-        this.userAuth = this.$store.state.loginInfo.userAuth;
-    },
-    mounted(){
-
-        cmmn.applyPub();//퍼블리싱 js 파일 적용
     }
   };
   </script>
