@@ -95,13 +95,20 @@
     components: {
 
     },
-    mounted() {
+    async mounted() {
 	
-		//공지사항 내용 set
-		this.dataFromList = Object.assign({}, this.$store.state.noticeDetailData);
-		console.log('check1 >>> ', this.dataFromList);
-		console.log('check2 >>> ', this.dataFromList.buserid);
-		console.log('check3 >>> ', this.userId);
+		const params = {id: this.$options.name , bno:this.$route.query.bno};
+
+		//파라미터 초기값 세팅
+		if (this.$store.state.searchParams.id == params.id) {
+			this.searchParams = Object.assign(params, this.$store.state.searchParams);
+		} else {
+			this.searchParams = params;
+		}
+
+		//공지사항 상세 조회
+		await this.selectDetail();
+
 		//공지사항 내용 줄바꿈 처리
 		this.content = this.dataFromList.bcontent.replace(/(?:\r\n|\r|\n)/g, '<br />');
 
@@ -114,6 +121,7 @@
     },
     data() {
       return {
+		searchParams: {},
 		dataFromList : {},//목록에서 받아온 데이터
 		content : '',//공지사항 내용
 		groupList : [],//해당 공지사항 공개되는 계열사 리스트
@@ -123,6 +131,22 @@
       };
     },
     methods: {
+		async selectDetail(){//상세조회
+
+			try {
+				this.$store.commit('loading');
+				this.$store.commit('searchParams', this.searchParams);
+				const response = await this.$http.post('/api/v1/notice/noticeList', this.searchParams);
+				this.listPage = response.data;
+
+				//공지사항 내용 set
+				this.dataFromList = Object.assign({}, this.listPage.content[0]);
+				this.$store.commit('finish');
+			} catch(err) {
+				console.log(err)
+				this.$store.commit('finish');
+			}
+		},
 		async selectGroupList(){//해당 공지사항 공개되는 계열사 리스트 조회
 
 			try {

@@ -158,7 +158,6 @@
         		this.$store.commit('searchParams', this.searchParams);
 				const response = await this.$http.post('/api/v1/notice/noticeList', this.searchParams);
 				this.listPage = response.data;
-                console.log(this.listPage);
 				this.$store.commit('finish');
 			} catch(err) {
 				console.log(err)
@@ -166,10 +165,10 @@
 			}
 		},
         clickNoticeDetail(data){//공지사항 상세 이동
-
             this.plusClickNum(data.bno);// 조회수 +1
-            this.$store.commit('setNoticeDetailData', data);
-            this.$router.push({name:"noticeDetail"});//상세 페이지 이동
+            //this.$store.commit('setNoticeDetailData', data);//상세 페이지에 store로 넘기는 방법
+            
+            this.$router.push({name:"noticeDetail" , query: { 'bno': data.bno }});//상세 페이지 이동
         },
         plusClickNum(bno){// 조회수 +1
             this.$http.post('/api/v1/notice/updateClickNum', { 'bno': bno});

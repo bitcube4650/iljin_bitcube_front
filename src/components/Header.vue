@@ -3,9 +3,9 @@
     <div class="header">
         <div class="headerLeft">
             <router-link to="/" class="headerLogo" title="메인 페이지로 이동">
-                <img src="/images/headerLogo.svg" class="img-responsive" alt="일진그룹 로고">
-                <!--<img src="/images/headerLogo_lotte.svg" class="img-responsive" alt="롯데에너지머트리얼즈 로고">-->
-				<!--<img src="/images/headerLogo_jtv.svg" class="img-responsive" alt="전주방송 로고">-->
+                <img v-if="custType === 'inter' && custCode === '02'" src="/images/headerLogo_lotte.svg" class="img-responsive" alt="롯데에너지머트리얼즈 로고">
+				<img v-else-if="custType === 'inter' && custCode === '07'" src="/images/headerLogo_jtv.svg" class="img-responsive" alt="전주방송 로고">
+                <img v-else src="/images/headerLogo.svg" class="img-responsive" alt="일진그룹 로고">
                 <span>e-Bidding System</span>
             </router-link>
             <p>편하고 빠른 전자입찰시스템</p>
@@ -32,7 +32,8 @@ export default {
     name: 'Header',
   data() {
     return {
- 
+        custType : this.$store.state.loginInfo.custType,
+        custCode : this.$store.state.loginInfo.custCode
     };
   },
   methods: {

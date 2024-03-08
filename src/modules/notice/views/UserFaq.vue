@@ -24,7 +24,7 @@
 					<div class="faqAn">
 						<span class="faqA">A.</span>
 						<div class="faqTxt">
-							{{ val.answer }}
+							<pre v-html="val.answer" style="background-color: white;"></pre>
 						</div>
 					</div>
 				</div>
@@ -81,7 +81,7 @@
 		searchParams: {},	
 		listPage: {},
 		custType : this.$store.state.loginInfo.custType,//계열사, 협력사 정보
-		userAuth : this.$store.state.loginInfo.userAuth,//권한
+		userAuth : this.$store.state.loginInfo.userAuth//권한
       };
     },
     methods: {
@@ -91,7 +91,6 @@
         		this.$store.commit('searchParams', this.searchParams);
 				const response = await this.$http.post('/api/v1/faq/faqList', this.searchParams);
 				this.listPage = response.data;
-				console.log('gogo', this.listPage);
 				this.$store.commit('finish');
 			} catch(err) {
 				console.log(err)

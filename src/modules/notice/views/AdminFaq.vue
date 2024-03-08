@@ -64,7 +64,7 @@
                     <tr v-for="(val, idx) in listPage.content">
                         <td>{{ val.faqTypeDescription }}</td>
                         <td class="text-left"><a @click="goDetail(val)" data-toggle="modal" data-target="#faqReg" class="textUnderline notiTitle" title="FAQ 자세히 보기">{{ val.title }}</a></td>
-                        <td>{{ val.createUser }}</td>
+                        <td>{{ val.userName }}</td>
                         <td class="end">{{ val.createDate }}</td>
                     </tr>
                 </tbody>
@@ -169,6 +169,7 @@
         		this.$store.commit('searchParams', this.searchParams);
 				const response = await this.$http.post('/api/v1/faq/faqList', this.searchParams);
 				this.listPage = response.data;
+                console.log(this.listPage);
 				this.$store.commit('finish');
 			} catch(err) {
 				console.log(err)

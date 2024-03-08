@@ -11,10 +11,9 @@
         <!-- //conHeader -->
         <!-- contents -->
         <div class="contents">
-            <div class="mainBanner"><img src="/images/mainBanner01.jpg" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>
-            <!--<div class="mainBanner"><img src="/images/mainBanner01_lotte.jpg" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>-->
-            <!--<div class="mainBanner"><img src="/images/mainBanner01_jtv.jpg" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>-->
-
+            <div class="mainBanner" v-if="custType === 'inter' && custCode === '02'"><img src="/images/mainBanner01_lotte.jpg" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>
+            <div class="mainBanner" v-else-if="custType === 'inter' && custCode === '07'"><img src="/images/mainBanner01_jtv.jpg" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>
+            <div class="mainBanner" v-else><img src="/images/mainBanner01.jpg" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>
             <div class="mainConLayout">
                 <div class="mcl_left mainConBox">
                     <h2 class="h2Tit">전자입찰</h2>
@@ -127,7 +126,8 @@ export default {
   },
   data() {
     return {
-
+        custType : this.$store.state.loginInfo.custType,
+        custCode : this.$store.state.loginInfo.custCode
         
     }
   },
@@ -136,6 +136,7 @@ export default {
   },
   mounted() {
 
+    
   },
   methods: {
     
