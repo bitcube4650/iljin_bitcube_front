@@ -54,6 +54,11 @@
 	},
     async mounted() {
 
+		//계열사 시스템관리자인 경우
+		if(this.custType == 'inter' && this.userAuth == '1'){
+			this.$router.push({name:"adminFaq"});//관리자 faq 화면으로 이동
+		}
+
 		const params = {id: this.$options.name, title:'', faqType: '', useYn: '',updateInsert: '', admin: 'N' ,size: ''};
 		if (this.$store.state.searchParams.id == params.id) {
 			this.searchParams = Object.assign(params, this.$store.state.searchParams);
@@ -74,7 +79,9 @@
     data() {
       return {
 		searchParams: {},	
-		listPage: {}
+		listPage: {},
+		custType : this.$store.state.loginInfo.custType,//계열사, 협력사 정보
+		userAuth : this.$store.state.loginInfo.userAuth,//권한
       };
     },
     methods: {

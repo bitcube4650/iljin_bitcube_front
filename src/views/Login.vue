@@ -35,7 +35,7 @@
           <div class="inner">
             <div class="loginFootLeft"><img src="/images/footerLogo.svg" class="img-responsive" alt="일진그룹 로고"></div>
             <div class="loginFootCenter">
-              <a href="#" title="공동인증서">공동인증서</a>
+              <a href="#"  @click="clickCertificate" title="공동인증서">공동인증서</a>
               <a href="#" data-toggle="modal" data-target="#regProcess" title="업체등록절차">업체등록절차</a>
               <a href="#" data-toggle="modal" data-target="#biddingInfo" title="입찰업무안내">입찰업무안내</a>
             </div>
@@ -150,6 +150,9 @@ export default {
         this.$store.commit('finish');
         this.loginFail();
       }
+    },
+    clickCertificate(){//공동인증서안내 클릭
+      window.open("https://www.tradesign.net/ra/iljin1", "_blank", "width=800,height=600");
     }
   },
   created() {
