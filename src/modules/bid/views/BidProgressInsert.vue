@@ -16,146 +16,309 @@
         <div class="boxSt mt20">
           <div class="flex align-items-center">
             <div class="formTit flex-shrink0 width170px">입찰번호</div>
-            <div class="width100"><a href="javascript:return false;" data-toggle="modal" data-target="#pastBid" class="btnStyle btnOutlineBlue" title="과거입찰 가져오기">과거입찰 가져오기</a></div>
+            <div class="width100">
+              <a
+                data-toggle="modal"
+                data-target="#pastBid"
+                class="btnStyle btnOutlineBlue"
+                title="과거입찰 가져오기"
+                >과거입찰 가져오기</a
+              >
+            </div>
           </div>
           <div class="flex align-items-center mt10">
-            <div class="formTit flex-shrink0 width170px">입찰명 <span class="star">*</span></div>
-            <div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder=""></div>
+            <div class="formTit flex-shrink0 width170px">
+              입찰명 <span class="star">*</span>
+            </div>
+            <div class="width100">
+              <input
+                type="text"
+                name=""
+                id=""
+                class="inputStyle"
+                placeholder=""
+                v-model="bidContent.biName"
+              />
+            </div>
           </div>
           <div class="flex align-items-center mt10">
-            <div class="formTit flex-shrink0 width170px">품목 <span class="star">*</span></div>
+            <div class="formTit flex-shrink0 width170px">
+              품목 <span class="star">*</span>
+            </div>
             <div class="flex align-items-center width100">
-              <input type="text" name="" id="" class="inputStyle" placeholder="" value="사업 시설 유지관리 및 고용 서비스업 품목류">
-              <a href="javascript:return false;" class="btnStyle btnSecondary ml10" title="조회">조회</a>
+              <input
+                type="text"
+                name=""
+                id=""
+                class="inputStyle"
+                placeholder=""
+                v-model="bidContent.itemName"
+                @input="bidContent.itemCode = $event.target.value"
+                disabled
+              />
+              <a
+                class="btnStyle btnSecondary ml10"
+                title="조회"
+                @click="
+                  itemPop = 'custType1';
+                  $refs.itemPop.initModal();
+                "
+                data-toggle="modal"
+                data-target="#itemPop"
+                >조회</a
+              >
             </div>
           </div>
           <div class="flex align-items-center mt20">
-            <div class="formTit flex-shrink0 width170px">입찰방식 <span class="star">*</span></div>
+            <div class="formTit flex-shrink0 width170px">
+              입찰방식 <span class="star">*</span>
+            </div>
             <div class="width100">
-              <input type="radio" name="bm1" value="" id="bm1_1" class="radioStyle" checked=""><label for="bm1_1">지명경쟁입찰</label>
-              <input type="radio" name="bm1" value="" id="bm1_2" class="radioStyle" data-toggle="modal" data-target="#bmGeneral"><label for="bm1_2">일반경쟁입찰</label>
+              <input
+                type="radio"
+                name="bm1"
+                value="A"
+                id="bm1_1"
+                class="radioStyle"
+                checked="true"
+                v-model="bidContent.biModeCode"
+                data-toggle="modal"
+                v-bind:data-target="
+                  bidContent.biModeCode === 'B' ? '#bmGeneral' : ''
+                "
+              /><label for="bm1_1">지명경쟁입찰</label>
+              <input
+                type="radio"
+                name="bm1"
+                value="B"
+                id="bm1_2"
+                class="radioStyle"
+                v-model="bidContent.biModeCode"
+                data-toggle="modal"
+                v-bind:data-target="
+                  bidContent.biModeCode === 'A' ? '#bmGeneral' : ''
+                "
+              /><label for="bm1_2">일반경쟁입찰</label>
             </div>
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">입찰참가자격</div>
-            <div class="width100">C202401005</div>
+            <div class="width100">
+              <input
+                type="text"
+                name=""
+                id=""
+                class="inputStyle"
+                placeholder=""
+                v-model="bidContent.bidJoinSpec"
+              />
+            </div>
           </div>
           <div class="flex mt20">
             <div class="formTit flex-shrink0 width170px">특수조건</div>
             <div class="width100">
-              <textarea class="textareaStyle boxOverflowY" onkeydown="resize(this)" onkeyup="resize(this)" placeholder="">1. 스쿼즈닙룰 제작 및 성적서 제출
-2. 검토 후 현장납품
-3. 검토 후 현장납품</textarea>
+              <textarea
+                class="textareaStyle boxOverflowY"
+                onkeydown="resize(this)"
+                onkeyup="resize(this)"
+                placeholder=""
+                v-model="bidContent.specialCond"
+              ></textarea>
             </div>
           </div>
           <div class="flex align-items-center mt20">
-            <div class="formTit flex-shrink0 width170px">현장설명일시 <span class="star">*</span></div>
+            <div class="formTit flex-shrink0 width170px">
+              현장설명일시 <span class="star">*</span>
+            </div>
             <div class="width100">
-              <input type="text" class="datepicker inputStyle maxWidth140px" title="월 입력란">
-              <input type="time" class="inputStyle maxWidth140px">
+              <input
+                type="text"
+                class="datepicker inputStyle maxWidth140px"
+                title="월 입력란"
+                v-model="datePart"
+              />
+              <input
+                type="time"
+                class="inputStyle maxWidth140px"
+                v-model="timePart"
+              />
             </div>
           </div>
           <div class="flex align-items-center mt10">
-            <div class="formTit flex-shrink0 width170px">현장설명장소 <span class="star">*</span></div>
-            <div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" value="접견실"></div>
+            <div class="formTit flex-shrink0 width170px">
+              현장설명장소 <span class="star">*</span>
+            </div>
+            <div class="width100">
+              <input
+                type="text"
+                name=""
+                id=""
+                class="inputStyle"
+                placeholder=""
+                v-model="bidContent.spotArea"
+              />
+            </div>
           </div>
           <div class="flex align-items-center mt10">
-            <div class="formTit flex-shrink0 width170px">낙찰자결정방법 <span class="star">*</span></div>
+            <div class="formTit flex-shrink0 width170px">
+              낙찰자결정방법 <span class="star">*</span>
+            </div>
             <div class="width100">
-              <select name="" class="selectStyle maxWidth200px">
-                <option value="">최저가&내부적격심사</option>
+              <select
+                name=""
+                class="selectStyle maxWidth200px"
+                v-model="bidContent.succDeciMethCode"
+              >
+                <option value="1">최저가</option>
+                <option value="2">최고가</option>
+                <option value="3">내부적격심사</option>
+                <option value="4">최고가&내부적격심사</option>
+                <option value="5">최저가&내부적격심사</option>
               </select>
             </div>
           </div>
-          <div class="flex align-items-center mt20">
+          <div class="flex align-items-center mt20" v-if="bidContent.biModeCode==='A'">
             <div class="formTit flex-shrink0 width170px">입찰참가업체</div>
             <div class="flex align-items-center width100">
-              <div class="boxStSm boxOverflowY">
-                <a href="javascript:return false;" class="textUnderline">동서산업㈜ <i class="fa-regular fa-xmark"></i></a>,
-                <a href="javascript:return false;" class="textUnderline">비트큐브 <i class="fa-regular fa-xmark"></i></a>,
-                <a href="javascript:return false;" class="textUnderline">신양금속공업㈜ <i class="fa-regular fa-xmark"></i></a>,
-                <a href="javascript:return false;" class="textUnderline">테스트협력업체1 <i class="fa-regular fa-xmark"></i></a>,
-                <a href="javascript:return false;" class="textUnderline">테스트협력업체2 <i class="fa-regular fa-xmark"></i></a>,
-                <a href="javascript:return false;" class="textUnderline">테스트협력업체3 <i class="fa-regular fa-xmark"></i></a>,
-                <a href="javascript:return false;" class="textUnderline">테스트협력업체4 <i class="fa-regular fa-xmark"></i></a>,
-                <a href="javascript:return false;" class="textUnderline">테스트협력업체5 <i class="fa-regular fa-xmark"></i></a>,
-                <a href="javascript:return false;" class="textUnderline">테스트협력업체6 <i class="fa-regular fa-xmark"></i></a>,
-                <a href="javascript:return false;" class="textUnderline">테스트협력업체7 <i class="fa-regular fa-xmark"></i></a>,
-                <a href="javascript:return false;" class="textUnderline">테스트협력업체8 <i class="fa-regular fa-xmark"></i></a>,
-                <a href="javascript:return false;" class="textUnderline">테스트협력업체9 <i class="fa-regular fa-xmark"></i></a>,
-                <a href="javascript:return false;" class="textUnderline">테스트협력업체10 <i class="fa-regular fa-xmark"></i></a>,
-                <a href="javascript:return false;" class="textUnderline">테스트협력업체11 <i class="fa-regular fa-xmark"></i></a>,
-                <a href="javascript:return false;" class="textUnderline">테스트협력업체12 <i class="fa-regular fa-xmark"></i></a>,
-                <a href="javascript:return false;" class="textUnderline">테스트협력업체13 <i class="fa-regular fa-xmark"></i></a>,
-                <a href="javascript:return false;" class="textUnderline">테스트협력업체14 <i class="fa-regular fa-xmark"></i></a>,
-                <a href="javascript:return false;" class="textUnderline">테스트협력업체15 <i class="fa-regular fa-xmark"></i></a>,
-                <a href="javascript:return false;" class="textUnderline">테스트협력업체16 <i class="fa-regular fa-xmark"></i></a>,
-                <a href="javascript:return false;" class="textUnderline">테스트협력업체17 <i class="fa-regular fa-xmark"></i></a>,
-                <a href="javascript:return false;" class="textUnderline">테스트협력업체18 <i class="fa-regular fa-xmark"></i></a>,
-                <a href="javascript:return false;" class="textUnderline">테스트협력업체19 <i class="fa-regular fa-xmark"></i></a>,
-                <a href="javascript:return false;" class="textUnderline">테스트협력업체20 <i class="fa-regular fa-xmark"></i></a>,
-              </div>
-              <a href="javascript:return false;" data-toggle="modal" data-target="#partnerUserSearch" class="btnStyle btnSecondary ml10" title="업체선택">업체선택</a>
+              <div class="overflow-y-scroll boxStSm width100" style="display: inline">
+                <div  v-for="(val, idx) in custContent">   
+                <a
+                    @click.prevent="$refs.custUserPop.initModal(val.custCode)"
+                    data-toggle="modal"
+                    data-target="#custUserPop"
+                    class="textUnderline"
+                    >{{ val.custName }}</a
+                  ><i class="fa-regular fa-xmark" @click="removeCust(idx)"></i></a>
+                  <span v-if="idx !== custContent.length - 1">, </span>
+                </div>
+                </div>
+              <a
+                data-toggle="modal"
+                data-target="#custPop"
+                class="btnStyle btnSecondary ml10"
+                title="업체선택"
+                @click="$refs.custPop.initModal();"
+                >업체선택</a
+              >
             </div>
           </div>
-          <div class="flex align-items-center mt20">
+          <div class="flex align-items-center mt20" v-if="bidContent.biModeCode==='B'">
             <div class="formTit flex-shrink0 width170px">입찰참가업체</div>
             <div class="flex align-items-center width100">
-              <div class="overflow-y-scroll boxStSm width100" style="height:50px">
-                <a href="javascript:return false;" class="textUnderline">가입회원사 전체 <i class="fa-regular fa-xmark"></i></a>
+              <div
+                class="overflow-y-scroll boxStSm width100"
+                style="height: 50px"
+              >
+                <a>가입회원사 전체</a>
               </div>
             </div>
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">금액기준</div>
-            <div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" value="VAT 별도"></div>
+            <div class="width100">
+              <input
+                type="text"
+                name=""
+                id=""
+                class="inputStyle"
+                placeholder=""
+                v-model="bidContent.amtBasis"
+              />
+            </div>
           </div>
           <div class="flex align-items-center mt10">
             <div class="formTit flex-shrink0 width170px">결제조건</div>
-            <div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" value="당사 정기 결제 조건"></div>
+            <div class="width100">
+              <input
+                type="text"
+                name=""
+                id=""
+                class="inputStyle"
+                placeholder=""
+                v-model="bidContent.payCond"
+              />
+            </div>
           </div>
           <div class="flex align-items-center mt10">
             <div class="formTit flex-shrink0 width170px">예산금액</div>
             <div class="flex align-items-center width100">
-              <input type="text" name="" id="" class="inputStyle maxWidth200px" placeholder="" value="231,232,400"><div class="ml10">원</div>
+              <input
+                type="number"
+                name=""
+                id=""
+                class="inputStyle maxWidth200px"
+                placeholder=""
+                v-model="bidContent.bdAmt"
+              />
+              <div class="ml10">원</div>
             </div>
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">입찰담당자</div>
-            <div class="width100">강입찰</div>
+            <div class="width100">{{ bidContent.createUserName }}</div>
           </div>
         </div>
 
-        <h3 class="h3Tit mt50">입찰분류</h3>
-        <div class="boxSt mt20">
+        <h3 class="h3Tit mt50" v-if="bidContent.interrelatedCustCode==='02'">입찰분류</h3>
+        <div class="boxSt mt20" v-if="bidContent.interrelatedCustCode==='02'">
           <div class="flex align-items-center">
-            <div class="formTit flex-shrink0 width170px">분류군 <span class="star">*</span></div>
+            <div class="formTit flex-shrink0 width170px">
+              분류군 <span class="star">*</span>
+            </div>
             <div class="flex align-items-center width100">
-              <select name="" class="selectStyle">
-                <option value="">사업부</option>
+              <select name="" class="selectStyle" v-model="bidContent.matDept">
+                <option value=null>사업부</option>
+                <option v-for="dept in lotteDeptList" :value="dept.value">{{ dept.label }}</option>
               </select>
-              <select name="" class="selectStyle" style="margin:0 10px">
-                <option value="">공정</option>
+              <select name="" class="selectStyle" style="margin: 0 10px" v-model="bidContent.matProc">
+                <option value=null>공정</option>
+                <option v-for="proc in lotteProcList" :value="proc.value">{{ proc.label }}</option>
               </select>
-              <select name="" class="selectStyle">
-                <option value="">분류</option>
+              <select name="" class="selectStyle" v-model="bidContent.matCls">
+                <option value=null>분류</option>
+                <option v-for="cls in lotteClsList" :value="cls.value">{{ cls.label }}</option>
               </select>
             </div>
           </div>
           <div class="flex align-items-center mt10">
             <div class="formTit flex-shrink0 width170px">공장동</div>
             <div class="width100">
-              <input type="text" name="" id="" class="inputStyle" placeholder="">
+              <input
+                type="text"
+                name=""
+                id=""
+                class="inputStyle"
+                placeholder=""
+                v-model="bidContent.matFactory"
+              />
             </div>
           </div>
           <div class="flex align-items-center mt10">
             <div class="flex align-items-center width100">
               <div class="formTit flex-shrink0 width170px">라인</div>
-              <div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder=""></div>
+              <div class="width100">
+                <input
+                  type="text"
+                  name=""
+                  id=""
+                  class="inputStyle"
+                  placeholder=""
+                  v-model="bidContent.matFactoryLine"
+                />
+              </div>
             </div>
             <div class="flex align-items-center width100 ml80">
               <div class="formTit flex-shrink0 width170px">호기</div>
-              <div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder=""></div>
+              <div class="width100">
+                <input
+                  type="text"
+                  name=""
+                  id=""
+                  class="inputStyle"
+                  placeholder=""
+                  v-model="bidContent.matFactoryCnt"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -164,17 +327,31 @@
         <div class="boxSt mt20">
           <div class="flex align-items-center">
             <div class="flex align-items-center width100">
-              <div class="formTit flex-shrink0 width170px">제출시작일시 <span class="star">*</span></div>
+              <div class="formTit flex-shrink0 width170px">
+                제출시작일시 <span class="star">*</span>
+              </div>
               <div class="flex align-items-center width100">
-                <input type="text" class="datepicker inputStyle" title="월 입력란">
-                <input type="time" class="inputStyle ml10">
+                <input
+                  type="text"
+                  class="datepicker inputStyle"
+                  title="월 입력란"
+                  v-model="datePart1"
+                />
+                <input type="time" class="inputStyle ml10" v-model="timePart1"/>
               </div>
             </div>
             <div class="flex align-items-center width100 ml80">
-              <div class="formTit flex-shrink0 width170px">제출마감일시 <span class="star">*</span></div>
+              <div class="formTit flex-shrink0 width170px">
+                제출마감일시 <span class="star">*</span>
+              </div>
               <div class="flex align-items-center width100">
-                <input type="text" class="datepicker inputStyle" title="월 입력란">
-                <input type="time" class="inputStyle ml10">
+                <input
+                  type="text"
+                  class="datepicker inputStyle"
+                  title="월 입력란"
+                  v-model="datePart2"
+                />
+                <input type="time" class="inputStyle ml10" v-model="timePart2"/>
               </div>
             </div>
           </div>
@@ -182,15 +359,45 @@
             <div class="flex align-items-center width100">
               <div class="formTit flex-shrink0 width170px">개찰자/낙찰자</div>
               <div class="flex align-items-center width100">
-                <input type="text" name="" id="" class="inputStyle" placeholder="" value="강개찰">
-                <a href="javascript:return false;" data-toggle="modal" data-target="#userSearch1" class="btnStyle btnSecondary ml10" title="선택">선택</a>
+                <input
+                  type="text"
+                  name=""
+                  id=""
+                  class="inputStyle"
+                  placeholder=""
+                  v-model="bidContent.estOpener"
+                  disabled
+                />
+                <a
+                  data-toggle="modal"
+                  data-target="#bidOpenUserPop"
+                  class="btnStyle btnSecondary ml10"
+                  title="선택"
+                  @click="$refs.bidOpenUserPop.initModal(bidContent.interrelatedCustCode);"
+                  >선택</a
+                >
               </div>
             </div>
             <div class="flex align-items-center width100 ml80">
               <div class="formTit flex-shrink0 width170px">입찰공고자</div>
               <div class="flex align-items-center width100">
-                <input type="text" name="" id="" class="inputStyle" placeholder="" value="강공고">
-                <a href="javascript:return false;" data-toggle="modal" data-target="#userSearch2" class="btnStyle btnSecondary ml10" title="선택">선택</a>
+                <input
+                  type="text"
+                  name=""
+                  id=""
+                  class="inputStyle"
+                  placeholder=""
+                  v-model="bidContent.gongoId"
+                  disabled
+                />
+                <a
+                  data-toggle="modal"
+                  data-target="#bidUserPop"
+                  class="btnStyle btnSecondary ml10"
+                  title="선택"
+                  @click="$refs.bidUserPop.initModal('gongoId', bidContent.interrelatedCustCode);"
+                  >선택</a
+                >
               </div>
             </div>
           </div>
@@ -198,15 +405,45 @@
             <div class="flex align-items-center width100">
               <div class="formTit flex-shrink0 width170px">입회자1</div>
               <div class="flex align-items-center width100">
-                <input type="text" name="" id="" class="inputStyle" placeholder="">
-                <a href="javascript:return false;" data-toggle="modal" data-target="#userSearch2" class="btnStyle btnSecondary ml10" title="선택">선택</a>
+                <input
+                  type="text"
+                  name=""
+                  id=""
+                  class="inputStyle"
+                  placeholder=""
+                  v-model="bidContent.openAtt1"
+                  disabled
+                />
+                <a
+                  data-toggle="modal"
+                  data-target="#bidUserPop"
+                  class="btnStyle btnSecondary ml10"
+                  title="선택"
+                  @click="$refs.bidUserPop.initModal('openAtt1', bidContent.interrelatedCustCode);"
+                  >선택</a
+                >
               </div>
             </div>
             <div class="flex align-items-center width100 ml80">
               <div class="formTit flex-shrink0 width170px">입회자2</div>
               <div class="flex align-items-center width100">
-                <input type="text" name="" id="" class="inputStyle" placeholder="">
-                <a href="javascript:return false;" data-toggle="modal" data-target="#userSearch2" class="btnStyle btnSecondary ml10" title="선택">선택</a>
+                <input
+                  type="text"
+                  name=""
+                  id=""
+                  class="inputStyle"
+                  placeholder=""
+                  v-model="bidContent.openAtt2"
+                  disabled
+                />
+                <a
+                  data-toggle="modal"
+                  data-target="#bidUserPop"
+                  class="btnStyle btnSecondary ml10"
+                  title="선택"
+                  @click="$refs.bidUserPop.initModal('openAtt2', bidContent.interrelatedCustCode);"
+                  >선택</a
+                >
               </div>
             </div>
           </div>
@@ -214,23 +451,59 @@
             <div class="flex align-items-center width100">
               <div class="formTit flex-shrink0 width170px">내역방식</div>
               <div class="width100">
-                <input type="radio" name="bm2" value="" id="bm2_1" class="radioStyle" checked=""><label for="bm2_1">파일등록</label>
-                <input type="radio" name="bm2" value="" id="bm2_2" class="radioStyle" data-toggle="modal" data-target="#bmGeneral2"><label for="bm2_2">내역직접등록</label>
+                <input
+                  type="radio"
+                  name="bm2"
+                  value="1"
+                  id="bm2_1"
+                  class="radioStyle"
+                  checked=""
+                  v-model="bidContent.insModeCode"
+                  data-toggle="modal"
+                  v-bind:data-target="bidContent.insModeCode === '2' ? '#bmFile' : ''"
+                /><label for="bm2_1">파일등록</label>
+                <input
+                  type="radio"
+                  name="bm2"
+                  value="2"
+                  id="bm2_2"
+                  class="radioStyle"
+                  v-model="bidContent.insModeCode"
+                  data-toggle="modal"
+                  v-bind:data-target="bidContent.insModeCode === '1' ? '#bmFile' : ''"
+                /><label for="bm2_2">내역직접등록</label>
               </div>
             </div>
             <div class="flex align-items-center width100 ml80">
               <div class="formTit flex-shrink0 width170px">납품조건</div>
-              <div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" value="현장납품"></div>
+              <div class="width100">
+                <input
+                  type="text"
+                  name=""
+                  id=""
+                  class="inputStyle"
+                  placeholder=""
+                  v-model="bidContent.supplyCond"
+                />
+              </div>
             </div>
           </div>
-          <div class="flex mt10">
-            <div class="formTit flex-shrink0 width170px">세부내역 <span class="star">*</span>
+          <div class="flex mt10" v-if="bidContent.insModeCode==='1'">
+            <div class="formTit flex-shrink0 width170px">
+              세부내역 <span class="star">*</span>
               <!-- 툴팁 -->
               <i class="fas fa-question-circle toolTipSt ml5">
-                <div class="toolTipText" style="width:370px">
+                <div class="toolTipText" style="width: 370px">
                   <ul class="dList">
-                    <li><div>내역방식이 파일등록 일 경우 필수로 파일을 등록해야 합니다.</div></li>
-                    <li><div>파일이 암호화 되어 있는지 확인해 주십시오</div></li>
+                    <li>
+                      <div>
+                        내역방식이 파일등록 일 경우 필수로 파일을 등록해야
+                        합니다.
+                      </div>
+                    </li>
+                    <li>
+                      <div>파일이 암호화 되어 있는지 확인해 주십시오</div>
+                    </li>
                   </ul>
                 </div>
               </i>
@@ -240,26 +513,35 @@
               <!-- 다중파일 업로드 -->
               <div class="upload-boxWrap">
                 <div class="upload-box">
-                  <input type="file" id="file-input">
+                  <input type="file" id="file-input" />
                   <div class="uploadTxt">
                     <i class="fa-regular fa-upload"></i>
-                    <div>클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br>파일 최대 10MB (등록 파일 개수 최대 1개)</div>
+                    <div>
+                      클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br />파일
+                      최대 10MB (등록 파일 개수 최대 1개)
+                    </div>
                   </div>
                 </div>
-                <div class="uploadPreview" id="preview">
-                </div>
+                <div class="uploadPreview" id="preview"></div>
               </div>
               <!-- //다중파일 업로드 -->
             </div>
           </div>
           <div class="flex mt10">
-            <div class="formTit flex-shrink0 width170px">첨부파일(대내용) <span class="star">*</span>
+            <div class="formTit flex-shrink0 width170px">
+              첨부파일(대내용) <span class="star">*</span>
               <!-- 툴팁 -->
               <i class="fas fa-question-circle toolTipSt ml5">
-                <div class="toolTipText" style="width:320px">
+                <div class="toolTipText" style="width: 320px">
                   <ul class="dList">
-                    <li><div>그룹사 내부 입찰관계자가 확인하는 첨부파일 입니다.</div></li>
-                    <li><div>파일이 암호화 되어 있는지 확인해 주십시오</div></li>
+                    <li>
+                      <div>
+                        그룹사 내부 입찰관계자가 확인하는 첨부파일 입니다.
+                      </div>
+                    </li>
+                    <li>
+                      <div>파일이 암호화 되어 있는지 확인해 주십시오</div>
+                    </li>
                   </ul>
                 </div>
               </i>
@@ -269,26 +551,33 @@
               <!-- 다중파일 업로드 -->
               <div class="upload-boxWrap">
                 <div class="upload-box">
-                  <input type="file" id="file-input2">
+                  <input type="file" id="file-input2" />
                   <div class="uploadTxt">
                     <i class="fa-regular fa-upload"></i>
-                    <div>클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br>파일 최대 10MB (등록 파일 개수 최대 1개)</div>
+                    <div>
+                      클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br />파일
+                      최대 10MB (등록 파일 개수 최대 1개)
+                    </div>
                   </div>
                 </div>
-                <div class="uploadPreview" id="preview2">
-                </div>
+                <div class="uploadPreview" id="preview2"></div>
               </div>
               <!-- //다중파일 업로드 -->
             </div>
           </div>
           <div class="flex mt10">
-            <div class="formTit flex-shrink0 width170px">첨부파일(대외용) <span class="star">*</span>
+            <div class="formTit flex-shrink0 width170px">
+              첨부파일(대외용) <span class="star">*</span>
               <!-- 툴팁 -->
               <i class="fas fa-question-circle toolTipSt ml5">
-                <div class="toolTipText" style="width:300px">
+                <div class="toolTipText" style="width: 300px">
                   <ul class="dList">
-                    <li><div>입찰 참가업체들이 확인하는 첨부파일 입니다.</div></li>
-                    <li><div>파일이 암호화 되어 있는지 확인해 주십시오</div></li>
+                    <li>
+                      <div>입찰 참가업체들이 확인하는 첨부파일 입니다.</div>
+                    </li>
+                    <li>
+                      <div>파일이 암호화 되어 있는지 확인해 주십시오</div>
+                    </li>
                   </ul>
                 </div>
               </i>
@@ -298,24 +587,34 @@
               <!-- 다중파일 업로드 -->
               <div class="upload-boxWrap">
                 <div class="upload-box">
-                  <input type="file" id="file-input3">
+                  <input type="file" id="file-input3" />
                   <div class="uploadTxt">
                     <i class="fa-regular fa-upload"></i>
-                    <div>클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br>파일 최대 10MB (등록 파일 개수 최대 1개)</div>
+                    <div>
+                      클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br />파일
+                      최대 10MB (등록 파일 개수 최대 1개)
+                    </div>
                   </div>
                 </div>
-                <div class="uploadPreview" id="preview3">
-                </div>
+                <div class="uploadPreview" id="preview3"></div>
               </div>
               <!-- //다중파일 업로드 -->
             </div>
           </div>
-          <div class="flex mt10">
-            <div class="formTit flex-shrink0 width170px">세부내역 <span class="star">*</span><a href="javascript:return false;" class="btnStyle btnSecondary ml10" title="추가">추가</a></div>
+          <div class="flex mt10" v-if="bidContent.insModeCode==='2'">
+            <div class="formTit flex-shrink0 width170px">
+              세부내역 <span class="star">*</span
+              ><a
+                class="btnStyle btnSecondary ml10"
+                title="추가"
+                @click="addEmptyRow"
+                >추가</a
+              >
+            </div>
             <div class="width100">
               <table class="tblSkin1">
                 <colgroup>
-                  <col style="">
+                  <col style="" />
                 </colgroup>
                 <thead>
                   <tr>
@@ -329,298 +628,547 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td ><input type="text" name="" id="" class="inputStyle inputSm" placeholder="" value="페수처리슬러지"></td>
-                    <td><input type="text" name="" id="" class="inputStyle inputSm" placeholder="" value="ton"></td>
-                    <td><input type="text" name="" id="" class="inputStyle inputSm" placeholder="" value="1"></td>
-                    <td><input type="text" name="" id="" class="inputStyle inputSm" placeholder="" value="ton"></td>
-                    <td><input type="text" name="" id="" class="inputStyle inputSm text-right" placeholder="" value="1,000"></td>
-                    <td class="text-right">1,000</td>
-                    <td class="text-right end"><a href="javascript:return false;" class="btnStyle btnSecondary btnSm" title="삭제">삭제</a></td>
-                  </tr>
-                  <tr>
-                    <td ><input type="text" name="" id="" class="inputStyle inputSm" placeholder="텍스트 입력"></td>
-                    <td><input type="text" name="" id="" class="inputStyle inputSm" placeholder="200*200"></td>
-                    <td><input type="text" name="" id="" class="inputStyle inputSm" placeholder="14"></td>
-                    <td><input type="text" name="" id="" class="inputStyle inputSm" placeholder="ton"></td>
-                    <td><input type="text" name="" id="" class="inputStyle inputSm text-right" placeholder="1,100,000"></td>
-                    <td class="text-right">15,400,000</td>
-                    <td class="text-right end"><a href="javascript:return false;" class="btnStyle btnSecondary btnSm" title="삭제">삭제</a></td>
-                  </tr>
+                  <tr v-for="(val, idx) in tableContent">
+                    <td>
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        class="inputStyle inputSm"
+                        placeholder=""
+                        v-model="val.name"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        class="inputStyle inputSm"
+                        placeholder=""
+                        v-model="val.ssize"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        class="inputStyle inputSm"
+                        placeholder=""
+                        v-model="val.orderQty"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        class="inputStyle inputSm"
+                        placeholder=""
+                        v-model="val.unitcode"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        class="inputStyle inputSm text-right"
+                        placeholder=""
+                        v-model="val.orderUc"
+                      />
+                    </td>
+                    <td class="text-right">{{ val.orderQty*val.orderUc }}</td>
+                    <td class="text-right end">
+                      <a
+                        class="btnStyle btnSecondary btnSm"
+                        title="삭제"
+                        @click="deleteRow(idx)"
+                        >삭제</a
+                      >
+                    </td>
+                   </tr>
                 </tbody>
               </table>
-              <p class="text-right mt10"><strong>총합계 : 15,401,000</strong></p>
+              <p class="text-right mt10">
+                <strong>총합계 : {{ totalSum | numberWithCommas }}</strong>
+              </p>
             </div>
           </div>
         </div>
 
         <div class="text-center mt50">
-          <a href="javascript:return false;" class="btnStyle btnOutline" title="목록">목록</a>
-          <a href="javascript:return false;" data-toggle="modal" data-target="#biddingSave" class="btnStyle btnPrimary" title="저장">저장</a>
+          <a
+            class="btnStyle btnOutline"
+            title="목록"
+            ><router-link :to="{ name: 'bidProgress' }">목록 </router-link></a
+          >
+          <a
+            data-toggle="modal"
+            data-target="#save"
+            class="btnStyle btnPrimary"
+            title="저장"
+            >저장</a
+          >
         </div>
       </div>
     </div>
     <!-- //contents -->
 
-    <!-- 과거입찰내역 -->
-    <BidPast />
-
-    <!-- 개찰자 조회 -->
-    <div class="modal fade modalStyle" id="userSearch1" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" style="width:100%; max-width:800px">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-                    <h2 class="modalTitle">개찰자 조회</h2>
-                    <div class="modalTopBox">
-                        <ul>
-                            <li><div>소속사의 개찰권한을 가진 사용자만 조회됩니다. (사용자 조회 후 선택버튼을 누르십시오)</div></li>
-                            <li><div>개찰자가 조회되지 않을 경우 관리자에게 연락해 주십시오</div></li>
-                        </ul>
-                    </div>
-                    
-                    <div class="modalSearchBox mt20">
-                        <div class="flex align-items-center">
-                            <div class="sbTit mr30">사원명</div>
-                            <div class="width150px">
-                                <input type="text" name="" id="" class="inputStyle" placeholder="">
-                            </div>
-                            <div class="sbTit mr30 ml50">부서명</div>
-                            <div class="width150px">
-                                <input type="text" name="" id="" class="inputStyle" placeholder="">
-                            </div>
-                            <a href="javascript:void(0)" class="btnStyle btnSearch">검색</a>
-                        </div>
-                    </div>
-                    <table class="tblSkin1 mt30">
-                        <colgroup>
-                            <col style="width:250px">
-                            <col style="width:250px">
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th>부서명</th>
-                                <th>사원명</th>
-                                <th class="end">선택</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="text-left">웹서비스 팀</td>
-                                <td class="text-left">강개발</td>
-                                <td class="end"><a href="javascript:void(0)" class="btnStyle btnSecondary btnSm" title="선택">선택</a></td>
-                            </tr>
-                            <tr>
-                                <td class="text-left">웹서비스 팀</td>
-                                <td class="text-left">강개발</td>
-                                <td class="end"><a href="javascript:void(0)" class="btnStyle btnSecondary btnSm" title="선택">선택</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <!-- pagination -->
-                    <div class="row mt30">
-                        <div class="col-xs-12">
-                            <div class="pagination1 text-center">
-                                <a href="javascript:void(0)" title="10페이지 이전 페이지로 이동"><i class="fa-light fa-chevrons-left"></i></a>
-                                <a href="javascript:void(0)" title="이전 페이지로 이동"><i class="fa-light fa-chevron-left"></i></a>
-                                <a href="javascript:void(0)" title="1페이지로 이동" class="number active">1</a>
-                                <a href="javascript:void(0)" title="2페이지로 이동" class="number">2</a>
-                                <a href="javascript:void(0)" title="3페이지로 이동" class="number">3</a>
-                                <a href="javascript:void(0)" title="4페이지로 이동" class="number">4</a>
-                                <a href="javascript:void(0)" title="5페이지로 이동" class="number">5</a>
-                                <a href="javascript:void(0)" title="다음 페이지로 이동"><i class="fa-light fa-chevron-right"></i></a>
-                                <a href="javascript:void(0)" title="10페이지 다음 페이지로 이동"><i class="fa-light fa-chevrons-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- //pagination -->
-                    <div class="modalFooter">
-                        <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-                    </div>
-                </div>				
-            </div>
-        </div>
-    </div>
-    <!-- //개찰자 조회 -->
-
-    <!-- 사원 조회 -->
-    <div class="modal fade modalStyle" id="userSearch2" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" style="width:100%; max-width:800px">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-                    <h2 class="modalTitle">사원 조회</h2>
-                    <div class="modalTopBox">
-                        <ul>
-                            <li><div>소속사 사용자를 조회합니다. (사용자 조회 후 선택버튼을 누르십시오)</div></li>
-                        </ul>
-                    </div>
-                    
-                    <div class="modalSearchBox mt20">
-                        <div class="flex align-items-center">
-                            <div class="sbTit mr30">사원명</div>
-                            <div class="width150px">
-                                <input type="text" name="" id="" class="inputStyle" placeholder="">
-                            </div>
-                            <div class="sbTit mr30 ml50">부서명</div>
-                            <div class="width150px">
-                                <input type="text" name="" id="" class="inputStyle" placeholder="">
-                            </div>
-                            <a href="javascript:void(0)" class="btnStyle btnSearch">검색</a>
-                        </div>
-                    </div>
-                    <table class="tblSkin1 mt30">
-                        <colgroup>
-                            <col style="width:250px">
-                            <col style="width:250px">
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th>부서명</th>
-                                <th>사원명</th>
-                                <th class="end">선택</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="text-left">웹서비스 팀</td>
-                                <td class="text-left">김개발</td>
-                                <td class="end"><a href="javascript:void(0)" class="btnStyle btnSecondary btnSm" title="선택">선택</a></td>
-                            </tr>
-                            <tr>
-                                <td class="text-left">웹서비스 팀</td>
-                                <td class="text-left">김개발</td>
-                                <td class="end"><a href="javascript:void(0)" class="btnStyle btnSecondary btnSm" title="선택">선택</a></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <!-- pagination -->
-                    <div class="row mt30">
-                        <div class="col-xs-12">
-                            <div class="pagination1 text-center">
-                                <a href="javascript:void(0)" title="10페이지 이전 페이지로 이동"><i class="fa-light fa-chevrons-left"></i></a>
-                                <a href="javascript:void(0)" title="이전 페이지로 이동"><i class="fa-light fa-chevron-left"></i></a>
-                                <a href="javascript:void(0)" title="1페이지로 이동" class="number active">1</a>
-                                <a href="javascript:void(0)" title="2페이지로 이동" class="number">2</a>
-                                <a href="javascript:void(0)" title="3페이지로 이동" class="number">3</a>
-                                <a href="javascript:void(0)" title="4페이지로 이동" class="number">4</a>
-                                <a href="javascript:void(0)" title="5페이지로 이동" class="number">5</a>
-                                <a href="javascript:void(0)" title="다음 페이지로 이동"><i class="fa-light fa-chevron-right"></i></a>
-                                <a href="javascript:void(0)" title="10페이지 다음 페이지로 이동"><i class="fa-light fa-chevrons-right"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- //pagination -->
-                    <div class="modalFooter">
-                        <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-                    </div>
-                </div>				
-            </div>
-        </div>
-    </div>
-    <!-- //사원 조회 -->
-
-    <!-- 업체 조회 -->
-    <div class="modal fade modalStyle" id="partnerUserSearch" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog" style="width:100%; max-width:800px">
+    <!-- 일반경쟁입찰 -->
+    <div
+      class="modal fade modalStyle"
+      id="bmGeneral"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" style="width: 100%; max-width: 420px">
         <div class="modal-content">
           <div class="modal-body">
-            <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-            <h2 class="modalTitle">업체 조회</h2>
-            
-            <div class="modalSearchBox mt20">
-              <div class="flex align-items-center">
-                <div class="sbTit mr30">업체명</div>
-                <div class="width150px">
-                  <input type="text" name="" id="" class="inputStyle" placeholder="">
-                </div>
-                <div class="sbTit mr30 ml50">대표자명</div>
-                <div class="width150px">
-                  <input type="text" name="" id="" class="inputStyle" placeholder="">
-                </div>
-                <a href="javascript:void(0)" class="btnStyle btnSearch">검색</a>
-              </div>
+            <a class="ModalClose" data-dismiss="modal" title="닫기"
+              ><i class="fa-solid fa-xmark" @click="selectBid('named')"></i
+            ></a>
+            <div class="alertText2">
+              일반경쟁입찰을 선택하면 입찰은 등록되어 있는 모든 협력업체를
+              대상으로 하고 참가업체가 선택되어 있다면 초기화 됩니다.<br /><br />일반경쟁입찰을
+              선택 하시겠습니까?
             </div>
-            <table class="tblSkin1 mt30">
-              <colgroup>
-                <col style="width:250px">
-                <col style="width:250px">
-              </colgroup>
-              <thead>
-                <tr>
-                  <th>업체명</th>
-                  <th>주소</th>
-                  <th>대표자명</th>
-                  <th class="end">선택</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="text-left">(사)한국아이티복지진흥원1</td>
-                  <td class="text-left"><div class="text-overflow maxWidth250px">063-373 서울 강남구 자곡로 174-10 (자곡동) 063-373 서울 강남구 자곡로 174-10 (자곡동)</div></td>
-                  <td>강대표</td>
-                  <td class="end"><a href="javascript:void(0)" class="btnStyle btnSecondary btnSm" title="선택">선택</a></td>
-                </tr>
-                <tr>
-                  <td class="text-left">(사)한국아이티복지진흥원2</td>
-                  <td class="text-left"><div class="text-overflow maxWidth250px">063-373 서울 강남구 자곡로 174-10 (자곡동) 063-373 서울 강남구 자곡로 174-10 (자곡동)</div></td>
-                  <td>홍길동</td>
-                  <td class="end"><a href="javascript:void(0)" class="btnStyle btnSecondary btnSm" title="선택">선택</a></td>
-                </tr>
-              </tbody>
-            </table>
-            <!-- pagination -->
-            <div class="row mt30">
-              <div class="col-xs-12">
-                <div class="pagination1 text-center">
-                  <a href="javascript:void(0)" title="10페이지 이전 페이지로 이동"><i class="fa-light fa-chevrons-left"></i></a>
-                  <a href="javascript:void(0)" title="이전 페이지로 이동"><i class="fa-light fa-chevron-left"></i></a>
-                  <a href="javascript:void(0)" title="1페이지로 이동" class="number active">1</a>
-                  <a href="javascript:void(0)" title="2페이지로 이동" class="number">2</a>
-                  <a href="javascript:void(0)" title="3페이지로 이동" class="number">3</a>
-                  <a href="javascript:void(0)" title="4페이지로 이동" class="number">4</a>
-                  <a href="javascript:void(0)" title="5페이지로 이동" class="number">5</a>
-                  <a href="javascript:void(0)" title="다음 페이지로 이동"><i class="fa-light fa-chevron-right"></i></a>
-                  <a href="javascript:void(0)" title="10페이지 다음 페이지로 이동"><i class="fa-light fa-chevrons-right"></i></a>
-                </div>
-              </div>
-            </div>
-            <!-- //pagination -->
             <div class="modalFooter">
-              <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
+              <a
+                class="modalBtnClose"
+                data-dismiss="modal"
+                title="취소"
+                @click="selectBid('cancel')"
+                >취소</a
+              >
+              <a
+                class="modalBtnCheck"
+                data-toggle="modal"
+                title="선택"
+                @click="selectBid('ok')"
+                >선택</a
+              >
             </div>
-          </div>				
+          </div>
         </div>
       </div>
     </div>
-    <!-- //업체 조회 -->
+    <!-- //일반경쟁입찰 -->
+        <!-- 파일등록 -->
+    <div
+      class="modal fade modalStyle"
+      id="bmFile"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+      
+    >
+      <div class="modal-dialog" style="width: 100%; max-width: 420px" >
+        <div class="modal-content" >
+          <div class="modal-body">
+            <a
+              class="ModalClose"
+              data-dismiss="modal"
+              title="닫기"
+              ><i class="fa-solid fa-xmark"></i
+            ></a>
+            <div class="alertText2">
+              내역방식을 변경하면 이전에 선택한
+              세부내역이 초기화됩니다.
+              변경 하시겠습니까?
+            </div>
+            <div class="modalFooter">
+              <a
+                class="modalBtnClose"
+                data-dismiss="modal"
+                title="취소"
+                @click="selectIns('cancel')"
+                >취소</a
+              >
+              <a
+                class="modalBtnCheck"
+                data-toggle="modal"
+                title="선택"
+                @click="selectIns('ok')"
+                >선택</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- //파일등록 -->
 
+    <!-- 과거입찰내역 -->
+    <BidPast />
+        		<!-- 입찰계획 저장 -->
+		<div class="modal fade modalStyle" id="save" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" style="width:100%; max-width:420px">
+				<div class="modal-content">
+					<div class="modal-body">
+						<a  class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+						<div class="alertText2">작성하신 내용으로 입찰계획을<br>등록합니다.<br>등록 하시겠습니까?</div>
+						<div class="modalFooter">
+							<a  class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
+							<a  @click="save" class="modalBtnCheck" data-toggle="modal" title="저장">저장</a>
+						</div>
+					</div>				
+				</div>
+			</div>
+		</div>
+		<!-- //입찰계획 저장 -->
+
+    <!-- 품목 조회 -->
+    <item-pop ref="itemPop" @callbackFunc="callbackItem" />
+    <!-- //업체 조회 -->
+    <cust-pop ref="custPop" @callbackFunc="callbackCust" />
+    <!-- 협력사 사용자 조회-->
+    <cust-user-pop ref="custUserPop" />
+    <!-- 개찰자 조회-->
+    <bid-open-user-pop ref="bidOpenUserPop" @callbackFunc="callbackOpenUser"/>
+    <!-- 입찰관련 일반사용자 조회-->
+    <bid-user-pop ref="bidUserPop" @callbackFunc="callbackUser"/>
   </div>
   <!-- //본문 -->
 </template>
 <script>
-import BidPast from '../components/BidPast.vue'
-import fileInput from "../../../../public/js/fileInput.js"
-import cmmn from "../../../../public/js/common.js"
+import BidPast from "../components/BidPast.vue";
+import fileInput from "../../../../public/js/fileInput.js";
+import cmmn from "../../../../public/js/common.js";
+import ItemPop from "@/components/ItemPop.vue";
+import CustPop from "@/modules/company/components/CustPop.vue";
+import CustUserPop from "@/modules/company/components/CustUserPop.vue";
+import BidOpenUserPop from "@/modules/company/components/BidOpenUserPop.vue";
+import BidUserPop from "@/modules/company/components/BidUserPop.vue";
+
 export default {
   name: "bidProgressInsert",
   components: {
-    BidPast
+    BidPast,
+    ItemPop,
+    CustPop,
+    CustUserPop,
+    BidOpenUserPop,
+    BidUserPop,
   },
   data() {
     return {
+      result: {},
+      bidContent: {
+        biNo: "",
+        biModeCode: "A",
+        insModeCode: "1",
+        succDeciMethCode: "1",
+        createUserName: this.$store.state.loginInfo.userName,
+        createUser: this.$store.state.loginInfo.userId,
+        interrelatedCustCode: this.$store.state.loginInfo.custCode,
+        matDept: null,
+        matProc: null,
+        matCls: null,
+      },
+      custContent: [],
+      fileContent: [],
+      tableContent: [],
+      datePart: "",
+      timePart: "",
+      datePart1: "",
+      timePart1: "",
+      datePart2: "",
+      timePart2: "",
+      userInfo: {
+        custCode: "",
+        userName: "",
+        userId: "",
+      },
 
- 
+      lotteDeptList: [
+        { value: "A1", label: "익산 E/F" },
+        { value: "A2", label: "말련 E/F" },
+        { value: "A3", label: "에너지" },
+        { value: "A4", label: "융복합" },
+        { value: "A5", label: "공통" },
+      ],
+
+      lotteProcList: [
+        { value: "B1", label: "용해" },
+        { value: "B2", label: "제박" },
+        { value: "B3", label: "후처리" },
+        { value: "B4", label: "슬리터" },
+        { value: "B5", label: "절단" },
+        { value: "B6", label: "환경" },
+        { value: "B7", label: "공통" },
+        { value: "B8", label: "기타" },
+      ],
+
+      lotteClsList: [
+        { value: "C1", label: "탱크" },
+        { value: "C2", label: "배관" },
+        { value: "C3", label: "열교환기" },
+        { value: "C4", label: "냉각탑" },
+        { value: "C5", label: "브로이" },
+        { value: "C6", label: "판넬" },
+        { value: "C7", label: "펌프" },
+        { value: "C8", label: "인버터" },
+        { value: "C9", label: "PLC/드라이브" },
+        { value: "C10", label: "정류기" },
+        { value: "C11", label: "단락기" },
+        { value: "C12", label: "변압기" },
+        { value: "C13", label: "전기/케이블" },
+        { value: "C14", label: "공조" },
+        { value: "C15", label: "드럼" },
+        { value: "C16", label: "전해조" },
+        { value: "C17", label: "방청조" },
+        { value: "C18", label: "구동부" },
+        { value: "C19", label: "스크라바" },
+        { value: "C20", label: "크레인" },
+        { value: "C21", label: "구동 Roll" },
+        { value: "C22", label: "슬리터기" },
+        { value: "C23", label: "절단기" },
+        { value: "C24", label: "검사설비" },
+        { value: "C25", label: "기타" },
+      ],
     };
   },
+  computed: {
+    totalSum() {
+      // 테이블 내 모든 행의 합계 계산
+      return this.tableContent.reduce(
+        (sum, val) => sum + (val.orderQty * val.orderUc || 0),
+        0
+      );
+    },
+  },
+
+  filters: {
+    numberWithCommas(value) {
+      // 숫자에 쉼표 추가하는 필터 정의
+      return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
+  },
   methods: {
-    
-    
-    
+    callbackItem(data) {
+      this.bidContent.itemCode = data.itemCode;
+      this.bidContent.itemName = data.itemName;
+      this.$forceUpdate();
+    },
+    callbackCust(data) {
+      this.custContent.push({
+        biNo: this.bidContent.biNo,
+        custCode: data.custCode,
+        custName: data.custName,
+      });
+      this.$forceUpdate();
+    },
+    callbackOpenUser(data) {
+      this.bidContent.estOpener = data.userName;
+      this.bidContent.estOpenerCode = data.userId;
+      this.$forceUpdate();
+    },
+    callbackUser({ data, buttonId }) {
+      console.log(buttonId);
+      switch (buttonId) {
+        case "gongoId":
+          this.bidContent.gongoId = data.userName;
+          this.bidContent.gongoIdCode = data.userId;
+          break;
+        case "openAtt1":
+          this.bidContent.openAtt1 = data.userName;
+          this.bidContent.openAtt1Code = data.userId;
+          break;
+        case "openAtt2":
+          this.bidContent.openAtt2 = data.userName;
+          this.bidContent.openAtt2Code = data.userId;
+          break;
+      }
+
+      this.$forceUpdate();
+    },
+
+    selectBid(mode) {
+      console.log(this.$store.state.loginInfo);
+      if (mode === "cancel") {
+        if (this.bidContent.biModeCode === "A")
+          this.bidContent.biModeCode = "B";
+        else this.bidContent.biModeCode = "A";
+      } else if (mode === "ok") {
+        if (this.bidContent.biModeCode === "A") {
+          this.bidContent.biModeCode = "A";
+        } else {
+          this.custContent = [];
+          this.$forceUpdate();
+        }
+      }
+      this.$forceUpdate();
+      $("#bmGeneral").modal("hide");
+    },
+
+    selectIns(mode) {
+      if (mode === "cancel") {
+        if (this.bidContent.insModeCode === "1")
+          this.bidContent.insModeCode = "2";
+        else this.bidContent.insModeCode = "1";
+      } else if (mode === "ok") {
+        if (this.bidContent.insModeCode === "1") {
+          this.bidContent.insModeCode = "1";
+          this.tableContent = [];
+          this.$forceUpdate();
+        } else {
+          this.bidContent.insModeCode = "2";
+          this.fileContent = [];
+          this.$forceUpdate();
+        }
+      }
+      this.$forceUpdate();
+      $("#bmFile").modal("hide");
+    },
+
+    removeCust(index) {
+      this.custContent.splice(index, 1);
+    },
+    addEmptyRow() {
+      const seq = this.tableContent.length + 1;
+
+      this.tableContent.push({
+        biNo: this.bidContent.biNo,
+        seq: seq,
+        name: "",
+        ssize: "",
+        orderQty: "",
+        unitcode: "",
+        orderUc: "",
+        type: "I",
+      });
+    },
+    deleteRow(index) {
+      this.tableContent.splice(index, 1);
+    },
+
+    validationCheck() {
+      //파일관련 추후 보강 필요
+      if (!this.bidContent.biName || this.bidContent.biName === "") {
+        alert("입찰명을 입력해주세요.");
+        return false;
+      }
+      if (!this.bidContent.itemCode || this.bidContent.itemCode === "") {
+        alert("품목을 선택해주세요.");
+        return false;
+      }
+      if (!this.bidContent || this.bidContent === "") {
+        alert("입찰방식을 선택해주세요.");
+        return false;
+      }
+
+      this.bidContent.spotDate = this.datePart + " " + this.timePart;
+      this.bidContent.estStartDate = this.datePart1 + " " + this.timePart1;
+      this.bidContent.estCloseDate = this.datePart2 + " " + this.timePart2;
+      if (!this.bidContent.spotDate || this.bidContent.spotDate === "") {
+        alert("현장설명일시를 입력해주세요.");
+        return false;
+      }
+      if (!this.bidContent.spotArea || this.bidContent.spotArea === "") {
+        alert("현장설명장소를 입력해주세요.");
+        return false;
+      }
+      if (
+        !this.bidContent.succDeciMethCode ||
+        this.bidContent.succDeciMethCode === ""
+      ) {
+        alert("낙찰자 결정방법을 선택해주세요.");
+        return false;
+      }
+      if (
+        !this.bidContent.estStartDate ||
+        this.bidContent.estStartDate === ""
+      ) {
+        alert("제출시작일시를 입력해주세요.");
+        return false;
+      }
+      if (
+        !this.bidContent.estCloseDate ||
+        this.bidContent.estCloseDate === ""
+      ) {
+        alert("제출마감일시를 입력해주세요.");
+        return false;
+      }
+
+      if (this.bidContent.insModeCode === "2") {
+        if (this.tableContent.length === 0) {
+          alert("세부내역을 작성해주세요.");
+          return false;
+        } else {
+          this.tableContents = this.tableContent.filter(
+            (item) => item.name !== null
+          );
+        }
+      }
+
+      return true;
+    },
+    save() {
+      //파일관련 추후 보강 필요
+      if (!this.validationCheck()) {
+        $("#save").modal("hide");
+        console.log("false");
+        return false;
+      }
+
+      console.log(this.tableContent)
+
+      this.$store.commit("loading");
+      this.$http
+        .post("/api/v1/bid/insertBid", this.bidContent)
+        .then((response) => {
+          if (this.bidContent.biModeCode === "A") {
+            console.log("부가작업 시작")
+            this.$http.post("/api/v1/bid/updateBidCust", this.custContent);
+            this.$http.post("/api/v1/bid/updateEmail", {
+              biNo: this.bidContent.biNo,
+              type: "insert",
+              interCd: this.bidContent.interrelatedCustCode,
+            });
+          }
+          if (this.bidContent.insModeCode === "2") {
+            this.$http.post("/api/v1/bid/updateBidItem", this.tableContent);
+          }
+          if (response.data.code == "OK") {
+            this.$store.commit("searchParams", {});
+          } else {
+            this.$swal({
+              type: "warning",
+              text: "수정 중 오류가 발생했습니다.",
+            });
+          }
+        })
+        .finally(() => {
+          $("#save").modal("hide");
+          this.$router.push({ name: "bidProgress" });
+          this.$store.commit("finish");
+        });
+    },
+
+    async newBiNo() {
+      this.$http
+        .post("/api/v1/bid/newBiNo")
+        .then((response) => {
+          this.bidContent.biNo = response.data;
+          console.log(this.bidContent.biNo);
+        })
+        .catch((error) => {
+          console.error("Error fetching biNo:", error);
+        });
+    },
   },
   beforeMount() {},
   mounted() {
+    this.newBiNo();
 
+    this.userInfo.custCode = this.$store.state.loginInfo.custCode;
+    this.userInfo.userName = this.$store.state.loginInfo.userName;
+    this.userInfo.userId = this.$store.state.loginInfo.userId;
+
+    console.log(biNo);
     //달력
     cmmn.applyCal();
 

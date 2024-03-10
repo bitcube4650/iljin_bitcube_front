@@ -166,8 +166,8 @@
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">입찰참가업체</div>
             <div class="flex align-items-center width100">
-              <div class="boxStSm boxOverflowY">
-                <div v-if="dataFromList.result.biModeCode==='A'" v-for="(val, idx) in dataFromList.custContent" style="display: inline">   
+              <div class="overflow-y-scroll boxStSm width100" style="display: inline">
+                <div v-if="dataFromList.result.biModeCode==='A'" v-for="(val, idx) in dataFromList.custContent" >   
                 <div v-if="val.custName !== null">
                 <a
                     
@@ -484,7 +484,7 @@
               </div>
             </div>
           </div>
-          <div class="flex mt10">
+          <div class="flex mt10" v-if="dataFromList.result.insModeCode==='1'">
             <div class="formTit flex-shrink0 width170px">
               세부내역 <span class="star">*</span>
               <!-- 툴팁 -->
@@ -662,7 +662,7 @@
                         id=""
                         class="inputStyle inputSm"
                         placeholder=""
-                        v-model="val.unitCode"
+                        v-model="val.unitcode"
                       />
                     </td>
                     <td>
@@ -782,14 +782,14 @@
                 class="modalBtnClose"
                 data-dismiss="modal"
                 title="취소"
-                @click="selectBidBottom('cancel')"
+                @click="selectIns('cancel')"
                 >취소</a
               >
               <a
                 class="modalBtnCheck"
                 data-toggle="modal"
                 title="선택"
-                @click="selectBidBottom('ok')"
+                @click="selectIns('ok')"
                 >선택</a
               >
             </div>
@@ -797,7 +797,7 @@
         </div>
       </div>
     </div>
-    <!-- //일반경쟁입찰 -->
+    <!-- //파일등록 -->
 
     		<!-- 입찰계획 저장 -->
 		<div class="modal fade modalStyle" id="save" tabindex="-1" role="dialog" aria-hidden="true">
@@ -963,7 +963,7 @@ export default {
       $("#bmGeneral").modal("hide");
     },
 
-    selectBidBottom(mode) {
+    selectIns(mode) {
       if (mode === "cancel") {
         if (this.dataFromList.result.insModeCode === "1")
           this.dataFromList.result.insModeCode = "2";
@@ -992,8 +992,9 @@ export default {
         name: "",
         ssize: "",
         orderQty: "",
-        unitCode: "",
+        unitcode: "",
         orderUc: "",
+        type:"U",
       });
     },
     deleteRow(index) {
@@ -1122,27 +1123,39 @@ export default {
       }
 
       this.detail.result = this.dataFromList.result;
-      // this.detail.tableContent = this.dataFromList.tableContent;
       // this.detail.fileContent = this.dataFromList.fileContent;
 
       this.$store.commit("loading");
       this.$http
         .post("/api/v1/bid/updateBid", this.detail)
         .then((response) => {
-          this.$http.post("/api/v1/bid/updateBidCust",this.dataFromList.custContent);
           if (response.data.code == "OK") {
+            if (this.dataFromList.result.biModeCode === "A") {
+              this.$http.post(
+                "/api/v1/bid/updateBidCust",
+                this.dataFromList.custContent
+              );
+            }
+            if(this.dataFromList.result.insModeCode === '2'){
+                this.$http.post(
+                "/api/v1/bid/updateBidItem",
+                this.dataFromList.tableContent
+              );
+            }
             this.$store.commit("searchParams", {});
-            //this.$router.push({ name: "bidProgressDetail" }); //라우팅 추가 모달에 부착예정
+            
           } else {
             this.$swal({
               type: "warning",
               text: "수정 중 오류가 발생했습니다.",
             });
-            $("#save").modal("hide");
           }
         })
         .finally(() => {
+          $("#save").modal("hide");
+          this.$router.push({ name: "bidProgressDetail" });
           this.$store.commit("finish");
+
         });
     },
   },

@@ -16,7 +16,7 @@
         <div class="boxSt mt20">
           <div class="flex align-items-center">
             <div class="formTit flex-shrink0 width170px">입찰번호</div>
-            <div class="width100">{{ this.result.biNo }}</div>
+            <div class="width100">{{ this.dataFromList }}</div>
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">입찰명</div>
@@ -523,6 +523,7 @@ export default {
         return;
       }
       this.detail.biNo = this.dataFromList;
+      this.detail.biName = this.result.biName;
       this.detail.type = "del";
       this.detail.interNm = this.result.interrelatedNm;
       this.$store.commit("loading");
@@ -560,14 +561,18 @@ export default {
     },
 
     openBid() {
-      this.detail.param = this.dataFromList;
+      
+      this.detail.biNo = this.dataFromList;
+      console.log(this.detail.biNo)
+      this.detail.biName = this.result.biName;
+      this.detail.type = "open";
+      this.detail.interNm = this.result.interrelatedNm;
       this.$store.commit("loading");
       this.$http
         .post("/api/v1/bid/openBid", this.detail)
         .then((response) => {
           if (response.data.code == "OK") {
             this.$store.commit("searchParams", {});
-            this.$router.push({ name: "bidProgress" });
           } else {
             this.$swal({
               type: "warning",
@@ -576,7 +581,9 @@ export default {
           }
         })
         .finally(() => {
+          $("#save").modal("hide");
           this.$store.commit("finish");
+          this.$router.push({ name: "bidProgress" });
         });
     },
 
