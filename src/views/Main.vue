@@ -18,68 +18,56 @@
                 <div class="mcl_left mainConBox">
                     <h2 class="h2Tit">전자입찰</h2>
                     <div class="biddingList">
-                        <a href="#" class="biddingStep1">
+                        <a  class="biddingStep1">
                             <div class="biddingListLeft"><i class="fa-light fa-flag"></i>입찰계획</div>
-                            <div class="biddingListRight"><span>3</span>건<i class="fa-light fa-angle-right"></i></div>
+                            <div class="biddingListRight"><span>{{ bidInfo.planning }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
-                        <a href="#" class="biddingStep2">
-                            <div class="biddingListLeft"><i class="fa-light fa-comments"></i>진행중</div>
-                            <div class="biddingListRight"><span>3</span>건<i class="fa-light fa-angle-right"></i></div>
+                        <a  class="biddingStep2">
+                            <div class="biddingListLeft"><i class="fa-light fa-comments"></i>입찰공고</div>
+                            <div class="biddingListRight"><span>{{ bidInfo.progress + bidInfo.rebid }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
-                        <a href="#" class="biddingStep3">
+                        <a  class="biddingStep3">
                             <div class="biddingListLeft"><i class="fa-light fa-files"></i>개찰대상</div>
-                            <div class="biddingListRight"><span>1</span>건<i class="fa-light fa-angle-right"></i></div>
+                            <div class="biddingListRight"><span>{{ bidInfo.beforeOpening + bidInfo.beforeReopening }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
-                        <a href="#" class="biddingStep4">
-                            <div class="biddingListLeft"><i class="fa-light fa-file-check"></i>낙찰 (3개월)</div>
-                            <div class="biddingListRight"><span>5</span>건<i class="fa-light fa-angle-right"></i></div>
+                        <a  class="biddingStep4">
+                            <div class="biddingListLeft"><i class="fa-light fa-file-check"></i>개찰</div>
+                            <div class="biddingListRight"><span>{{ bidInfo.opening }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
-                        <a href="#" class="biddingStep5">
-                            <div class="biddingListLeft"><i class="fa-light fa-puzzle-piece"></i>유찰 (3개월)</div>
-                            <div class="biddingListRight"><span>7</span>건<i class="fa-light fa-angle-right"></i></div>
+                        <a  class="biddingStep5">
+                            <div class="biddingListLeft"><i class="fa-light fa-puzzle-piece"></i>입찰완료 (12개월)</div>
+                            <div class="biddingListRight"><span>{{ bidInfo.completed }}</span>건<i class="fa-light fa-angle-right"></i></div>
+                        </a>
+                        <a  class="biddingStep5">
+                            <div class="biddingListLeft"><i class="fa-light fa-puzzle-piece"></i>유찰 (12개월)</div>
+                            <div class="biddingListRight"><span>{{ bidInfo.unsuccessful }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
                     </div>
                 </div>
                 <div class="mcl_right">
                     <div class="mainConBox">
-                        <h2 class="h2Tit">협력업체<a href="#" title="협력업체 페이지로 이동" class="mainConBoxMore">더보기<i class="fa-solid fa-circle-plus"></i></a></h2>
+                        <h2 class="h2Tit">협력업체<a  title="협력업체 페이지로 이동" class="mainConBoxMore">더보기<i class="fa-solid fa-circle-plus"></i></a></h2>
                         <div class="cooperativ">
-                            <a href="#" title="미승인 업체 페이지로 이동">
+                            <a  title="미승인 업체 페이지로 이동">
                                 <span class="cooperativ_tit">미승인 업체</span>
-                                <span class="cooperativ_num">0</span>
+                                <span class="cooperativ_num">{{ partnerInfo.request }}</span>
                             </a>
-                            <a href="#" title="승인 업체 (인증서 제출) 페이지로 이동">
-                                <span class="cooperativ_tit">승인 업체 (인증서 제출)</span>
-                                <span class="cooperativ_num">55</span>
+                            <a  title="승인 업체 (인증서 제출) 페이지로 이동">
+                                <span class="cooperativ_tit">승인 업체</span>
+                                <span class="cooperativ_num">{{ partnerInfo.approval }}</span>
                             </a>
-                            <a href="#" title="승인 업체 (인증서 미제출) 페이지로 이동">
-                                <span class="cooperativ_tit">승인 업체 (인증서 미제출)</span>
-                                <span class="cooperativ_num">7</span>
-                            </a>
-                            <a href="#" title="삭제 업체 페이지로 이동">
+                            <a  title="삭제 업체 페이지로 이동">
                                 <span class="cooperativ_tit">삭제 업체</span>
-                                <span class="cooperativ_num">18</span>
+                                <span class="cooperativ_num">{{ partnerInfo.deletion }}</span>
                             </a>
                         </div>
                     </div>
                     <div class="mainConBox">
-                        <h2 class="h2Tit">공지사항<a href="#" title="공지사항 페이지로 이동" class="mainConBoxMore">더보기<i class="fa-solid fa-circle-plus"></i></a></h2>
+                        <h2 class="h2Tit">공지사항<router-link to="/notice" title="공지사항 페이지로 이동" class="mainConBoxMore">더보기<i class="fa-solid fa-circle-plus"></i></router-link></h2>
                         <div class="notiList">
-                            <a href="#" data-toggle="modal" data-target="#notiModal" title="해당 게시글 자세히 보기">
-                                <span class="notiTit">[시스템 OPEN공지] e-BIDDING SYSTEM(전자입찰시스템)이 오픈했습니다 e-BIDDING SYSTEM(전자입찰시스템)이 오픈했습니다</span>
-                                <span class="notiDate">2024-01-15</span>
-                            </a>
-                            <a href="#" data-toggle="modal" data-target="#notiModal" title="해당 게시글 자세히 보기">
-                                <span class="notiTit">[공통] 문자 발송 오류 안내</span>
-                                <span class="notiDate">2024-01-15</span>
-                            </a>
-                            <a href="#" data-toggle="modal" data-target="#notiModal" title="해당 게시글 자세히 보기">
-                                <span class="notiTit">[일진전기] 01월 협력사 등록 안내 01월 협력사 등록 안내</span>
-                                <span class="notiDate">2024-01-15</span>
-                            </a>
-                            <a href="#" data-toggle="modal" data-target="#notiModal" title="해당 게시글 자세히 보기">
-                                <span class="notiTit">[일진전기] 12월 협력사 등록 안내 12월 협력사 등록 안내</span>
-                                <span class="notiDate">2024-01-15</span>
+                            <a v-for="(val, idx) in listPage.content" data-toggle="modal" data-target="#notiModal" title="해당 게시글 자세히 보기">
+                                <span class="notiTit">{{ val.btitle }}</span>
+                                <span class="notiDate">{{ val.bdate.substring(0,10) }}</span>
                             </a>
                         </div>
                     </div>
@@ -99,47 +87,116 @@
 </template>
 
 <script>
-import mixinSlip from '@/mixin/slip';
-import menual from '@/components/Menual.vue';
-import DhxGrid from '@/components/DhxGrid.vue';
-import router from '@/router.js';
-import Menu from "@/components/Menu.vue";
-import Header from "@/components/Header.vue";
-import Footer from "@/components/Footer.vue";
 import NoticeDetailPopup from "@/components/NoticeDetailPopup.vue";
 
 
 
 
-
 export default {
-  name: 'MyMain',
-  mixins: [ mixinSlip],
+  name: 'Main',
   components: {
-    DhxGrid,
-    menual,
-    router,
-    Menu,
-    Header,
-    Footer,
     NoticeDetailPopup
   },
   data() {
     return {
-        custType : this.$store.state.loginInfo.custType,
-        custCode : this.$store.state.loginInfo.custCode
-        
+        searchParams: {},	
+		listPage: {},
+        bidInfo: {},
+        partnerInfo: {},
+        custType: '',
+        custCode: ''
     }
+  },
+  mounted() {
+    const params = {id: this.$options.name , title: '', content: '', userName: '', custCode: '', size: '5'};
+
+    this.custType = this.$store.state.loginInfo.custType; 
+
+    if(this.custType == 'inter'){//계열사인 경우
+
+        params.custCode = this.$store.state.loginInfo.custCode;//무슨 계열사인지
+        this.custCode = this.$store.state.loginInfo.custCode;
+
+    }else{//협력사인 경우
+
+        params.custCode = '';
+
+    }  
+
+    //파라미터 초기값 세팅
+    if (this.$store.state.searchParams.id == params.id) {
+
+        this.searchParams = Object.assign(params, this.$store.state.searchParams);
+    
+    } else {
+    
+        this.searchParams = params;
+    
+    }
+
+    this.selectNotice();//공지사항 조회
+    this.selectBidCnt();//전자입찰 건수 조회
+    this.selectPartnerCnt();//협력사 업채수 조회
+
+
   },
   filters:{
 
   },
-  mounted() {
-
-    
-  },
   methods: {
-    
+
+    async selectNotice() {//공지사항 조회
+
+        this.custType = this.$store.state.loginInfo.custType; 
+
+        //계열사의 경우 계열사 회원에게 공개되는 공지사항을 위해 custCode 데이터 입력
+        if(this.custType == 'inter'){//계열사인 경우
+            this.searchParams.custCode = this.$store.state.loginInfo.custCode;//무슨 계열사인지
+        }else{//협력사인 경우
+            this.searchParams.custCode = '';
+        } 
+
+        try {
+            this.$store.commit('loading');
+            this.$store.commit('searchParams', this.searchParams);
+            const response = await this.$http.post('/api/v1/notice/noticeList', this.searchParams);
+            this.listPage = response.data;
+            this.$store.commit('finish');
+        } catch(err) {
+            console.log(err)
+            this.$store.commit('finish');
+        }
+    },
+    async selectBidCnt() {//전자입찰 건수 조회
+
+        try {
+            this.$store.commit('loading');
+            this.$store.commit('searchParams', this.searchParams);
+            const response = await this.$http.post('/api/v1/main/selectBidCnt', this.searchParams);
+            this.bidInfo = response.data;
+            console.log('메인화면에서 출력하는 전자입찰',this.bidInfo );
+            this.$store.commit('finish');
+        } catch(err) {
+            console.log(err)
+            this.$store.commit('finish');
+        }
+            
+    },
+    async selectPartnerCnt() {//협력사 업채수 조회
+
+        try {
+            this.$store.commit('loading');
+            this.$store.commit('searchParams', this.searchParams);
+            const response = await this.$http.post('/api/v1/main/selectPartnerCnt', this.searchParams);
+            this.partnerInfo = response.data;
+            console.log('메인화면에서 출력하는 업채수',this.partnerInfo );
+            this.$store.commit('finish');
+        } catch(err) {
+            console.log(err)
+            this.$store.commit('finish');
+        }
+
+    }
 
   },
 };

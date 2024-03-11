@@ -100,7 +100,6 @@
     },
     data() {
 		return {
-			itemGrpList: [],	
 			searchParams: {},	
 			listPage: {},
             custType: '',
@@ -114,7 +113,7 @@
         this.custType = this.$store.state.loginInfo.custType; 
 
         if(this.custType == 'inter'){//계열사인 경우
-            var userAuth = this.$store.state.loginInfo.userAuth;
+            var userAuth = this.$store.state.loginInfo.userAuth;//계열사 권한
             params.custCode = this.$store.state.loginInfo.custCode;//무슨 계열사인지
             if(userAuth == '1' || userAuth == '2'){//시스템관리자 또는 각사관리자인 경우
 
@@ -167,7 +166,7 @@
         clickNoticeDetail(data){//공지사항 상세 이동
             this.plusClickNum(data.bno);// 조회수 +1
             //this.$store.commit('setNoticeDetailData', data);//상세 페이지에 store로 넘기는 방법
-            
+
             this.$router.push({name:"noticeDetail" , query: { 'bno': data.bno }});//상세 페이지 이동
         },
         plusClickNum(bno){// 조회수 +1
