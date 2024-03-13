@@ -237,7 +237,7 @@
             <div class="formTit flex-shrink0 width170px">예산금액</div>
             <div class="flex align-items-center width100">
               <input
-                type="text"
+                type="number"
                 name=""
                 id=""
                 class="inputStyle maxWidth200px"
@@ -509,7 +509,7 @@
               <!-- 다중파일 업로드 -->
               <div class="upload-boxWrap">
                 <div class="upload-box">
-                  <input type="file" ref="uploadedFile" id="file-input" @change="chageFile"/>
+                  <input type="file" ref="insFile" id="file-input" @change="changeFile"/>
                   <div class="uploadTxt">
                     <i class="fa-regular fa-upload"></i>
                     <div>
@@ -547,7 +547,7 @@
               <!-- 다중파일 업로드 -->
               <div class="upload-boxWrap">
                 <div class="upload-box">
-                  <input type="file" id="file-input2" />
+                  <input type="file" ref="innerFile" id="file-input2" @change="changeFile"/>
                   <div class="uploadTxt">
                     <i class="fa-regular fa-upload"></i>
                     <div>
@@ -583,7 +583,7 @@
               <!-- 다중파일 업로드 -->
               <div class="upload-boxWrap">
                 <div class="upload-box">
-                  <input type="file" id="file-input3" />
+                  <input type="file" ref="outerFile" id="file-input3" @change="changeFile"/>
                   <div class="uploadTxt">
                     <i class="fa-regular fa-upload"></i>
                     <div>
@@ -698,7 +698,8 @@
           <a
             class="btnStyle btnOutline"
             title="목록"
-            ><router-link :to="{ name: 'bidProgress' }">목록 </router-link></a>
+            @click="movetolist"
+            >목록</a>
           <a
             data-toggle="modal"
             data-target="#save"
@@ -994,36 +995,53 @@ export default {
         orderQty: "",
         unitcode: "",
         orderUc: "",
-        type:"U",
+        type: "U",
       });
     },
     deleteRow(index) {
       this.dataFromList.tableContent.splice(index, 1);
     },
     fileSetting() {
-      if (
-        this.dataFromList.fileContent.fileNm != null &&
-        this.dataFromList.fileContent.filePath != null
-      ) {
-        var preview = document.querySelector("#preview");
-        var fileName = dataFromList.fileContent.fileNm;
+      var preview1 = document.querySelector("#preview");
+      var preview2 = document.querySelector("#preview2");
+      var preview3 = document.querySelector("#preview3");
 
-        var timestamp = Date.now();
+      this.dataFromList.fileContent.forEach((fileData) => {
+        var fileName = fileData.fileNm;
+        var fileFlagKo = fileData.fileFlagKo;
 
-        preview.innerHTML += `
-										<p id=${timestamp}>
-											${fileName}
-											<button data-index=${timestamp} id='removeFile' class='file-remove'>삭제</button>
-										</p>`;
+        if (fileName) {
+          var preview;
 
-        //삭제 버튼 클릭시 기존 첨부된 파일 정보 삭제
-        $("#removeFile").click(
-          function () {
-            this.dataFromList.fileContent.fileNm = null;
-            this.dataFromList.fileContent.filePath = null;
-          }.bind(this)
-        );
-      }
+          if (fileFlagKo === "세부내역") {
+            preview = preview1;
+          } else if (fileFlagKo === "대내용") {
+            preview = preview2;
+          } else if (fileFlagKo === "대외용") {
+            preview = preview3;
+          }
+
+          preview.innerHTML += `
+        <p id=${fileFlagKo}>
+          ${fileName}
+          <button data-index=${fileFlagKo} class='file-remove'>삭제</button>
+        </p>`;
+
+          // 삭제 버튼에 클릭 이벤트 처리기 추가
+          var removeButton = document.querySelector(
+            `[data-index='${fileFlagKo}']`
+          );
+          removeButton.addEventListener("click", () => {
+            // 클릭된 버튼의 부모 요소인 p 태그를 찾아서 제거
+            removeButton.parentNode.remove();
+            // 데이터에서 해당 파일 삭제
+            this.dataFromList.fileContent =
+              this.dataFromList.fileContent.filter(
+                (file) => file.fileNm !== fileName
+              );
+          });
+        }
+      });
     },
     chageFile(event) {
       //바뀐 파일 selectedFile에 담기
@@ -1036,7 +1054,6 @@ export default {
       this.dataFromList.fileContent.filePath = null;
     },
     validationCheck() {
-      //파일관련 추후 보강 필요
       if (
         !this.dataFromList.result.biName ||
         this.dataFromList.result.biName === ""
@@ -1101,49 +1118,60 @@ export default {
       }
 
       if (this.dataFromList.result.insModeCode === "2") {
-        if (this.dataFromList.tableContents.length === 0) {
+        if (this.dataFromList.tableContent.length === 0) {
           alert("세부내역을 작성해주세요.");
           return false;
         } else {
           this.dataFromList.tableContents =
-            this.dataFromList.tableContents.filter(
-              (item) => item.name !== null
-            );
+            this.dataFromList.tableContent.filter((item) => item.name !== null);
         }
+      }
+
+      if (this.dataFromList.result.insModeCode === "1") {
+        if (!this.$refs.insFile.value) {
+          alert("세부내역파일을 업로드 해주세요.");
+          return false;
+        }
+      }
+
+      if (!this.$refs.innerFile.value) {
+        alert("대내용 첨부파일을 업로드 해주세요.");
+        return false;
+      }
+
+      if (!this.$refs.outerFile.value) {
+        alert("대외용 첨부파일을 업로드 해주세요.");
+        return false;
       }
 
       return true;
     },
     save() {
-      //파일관련 추후 보강 필요
       if (!this.validationCheck()) {
         $("#save").modal("hide");
         console.log("false");
         return false;
       }
-
-      this.detail.result = this.dataFromList.result;
-      // this.detail.fileContent = this.dataFromList.fileContent;
-
+      console.log(this.dataFromList.result);
       this.$store.commit("loading");
       this.$http
-        .post("/api/v1/bid/updateBid", this.detail)
+        .post("/api/v1/bid/updateBid", this.dataFromList.result)
         .then((response) => {
+          if (this.dataFromList.result.biModeCode === "A") {
+            this.$http.post(
+              "/api/v1/bid/updateBidCust",
+              this.dataFromList.custContent
+            );
+          }
+          if (this.dataFromList.result.insModeCode === "2") {
+            this.$http.post(
+              "/api/v1/bid/updateBidItem",
+              this.dataFromList.tableContent
+            );
+          }
+          this.sendFileContent();
           if (response.data.code == "OK") {
-            if (this.dataFromList.result.biModeCode === "A") {
-              this.$http.post(
-                "/api/v1/bid/updateBidCust",
-                this.dataFromList.custContent
-              );
-            }
-            if(this.dataFromList.result.insModeCode === '2'){
-                this.$http.post(
-                "/api/v1/bid/updateBidItem",
-                this.dataFromList.tableContent
-              );
-            }
             this.$store.commit("searchParams", {});
-            
           } else {
             this.$swal({
               type: "warning",
@@ -1155,19 +1183,98 @@ export default {
           $("#save").modal("hide");
           this.$router.push({ name: "bidProgressDetail" });
           this.$store.commit("finish");
-
         });
     },
+    movetolist() {
+      this.$router.push({ name: "bidProgress" });
+    },
+
+    sendFileContent() {
+      this.dataFromList.fileContent.forEach((fileData) => {
+        const formData = new FormData();
+
+        // 파일과 데이터를 FormData에 추가
+        formData.append("file", fileData.selectedFile); // 파일
+        formData.append(
+          "data",
+          JSON.stringify({
+            // 데이터
+            biNo: fileData.biNo,
+            fileFlag: fileData.fileFlag,
+            fCustCode: fileData.fCustCode,
+          })
+        );
+
+        this.$http.post("/api/v1/bid/updateBidFile", formData);
+      });
+    },
+
+    changeFile(event) {
+      // 파일 사이즈 체크
+      // if(this.checkFileSize()){
+      // 	return false;
+      // }
+
+      console.log(event.target.files[0]);
+
+      let fileFlag = "";
+      switch (event.target.id) {
+        case "file-input":
+          fileFlag = "K";
+          break;
+        case "file-input2":
+          fileFlag = "0";
+          break;
+        case "file-input3":
+          fileFlag = "1";
+          break;
+      }
+
+      // 동일한 fileFlag를 가진 기존 파일 정보가 있는 경우 삭제
+      this.dataFromList.fileContent = this.dataFromList.fileContent.filter(
+        (fileData) => fileData.fileFlag !== fileFlag
+      );
+
+      // 새로운 파일 정보 추가
+      if (event.target.id === "file-input") {
+        this.dataFromList.fileContent.push({
+          biNo: this.dataFromList.result.biNo,
+          fileFlag: "K",
+          fCustCode: "0",
+          selectedFile: event.target.files[0],
+        });
+      }
+      if (event.target.id === "file-input2") {
+        this.dataFromList.fileContent.push({
+          biNo: this.dataFromList.result.biNo,
+          fileFlag: "0",
+          fCustCode: "0",
+          selectedFile: event.target.files[0],
+        });
+      }
+      if (event.target.id === "file-input3") {
+        this.dataFromList.fileContent.push({
+          biNo: this.dataFromList.result.biNo,
+          fileFlag: "1",
+          fCustCode: "0",
+          selectedFile: event.target.files[0],
+        });
+      }
+
+      console.log(this.dataFromList.fileContent);
+    },
   },
-  beforeMount() {},
+  beforeMount() {
+    this.dataFromList = this.$store.state.bidUpdateData;
+  },
   mounted() {
-    this.dataFromList = Object.assign({}, this.$store.state.bidUpdateData);
-    this.fileSetting();
-    //달력
+    fileInput.applyFile();
     cmmn.applyCal();
+
+    this.fileSetting();
     this.assignDataFromList();
     //파일첨부
-    fileInput.applyFile();
+
     if (!this.originCustData) {
       this.originCustData = this.dataFromList.custContent.slice();
     }

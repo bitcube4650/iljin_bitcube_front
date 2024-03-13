@@ -181,7 +181,7 @@
 			this.$router.push({name:"noticeUpdateInsert" , query: { updateInsert: 'update' }});//수정 페이지 이동
 		},
 		async downloadFile(){//파일 다운로드
-
+					console.log(11111111, typeof(this.dataFromList.bfilePath))
 			try {
 				this.$store.commit('loading');
 				const response = await this.$http.post(

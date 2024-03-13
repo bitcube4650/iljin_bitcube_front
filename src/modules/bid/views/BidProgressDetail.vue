@@ -117,7 +117,7 @@
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">입찰담당자</div>
-            <div class="width100">{{ this.result.gongoId }}</div>
+            <div class="width100">{{ this.result.cuser }}</div>
           </div>
         </div>
 
@@ -132,13 +132,24 @@
             <div class="formTit flex-shrink0 width170px">분류군</div>
             <div class="flex align-items-center width100">
               <select name="" class="selectStyle" disabled>
-                <option v-for="dept in lotteDeptList" :value="dept.value">{{ dept.label }}</option>
+                <option v-for="dept in lotteDeptList" :value="dept.value">
+                  {{ dept.label }}
+                </option>
               </select>
-              <select name="" class="selectStyle" style="margin: 0 10px" disabled>
-                <option v-for="proc in lotteProcList" :value="proc.value">{{ proc.label }}</option>
+              <select
+                name=""
+                class="selectStyle"
+                style="margin: 0 10px"
+                disabled
+              >
+                <option v-for="proc in lotteProcList" :value="proc.value">
+                  {{ proc.label }}
+                </option>
               </select>
               <select name="" class="selectStyle" disabled>
-                <option v-for="cls in lotteClsList" :value="cls.value">{{ cls.label }}</option>
+                <option v-for="cls in lotteClsList" :value="cls.value">
+                  {{ cls.label }}
+                </option>
               </select>
             </div>
           </div>
@@ -215,9 +226,11 @@
             </div>
             <div class="width100" v-if="this.result.insMode === '파일등록'">
               <a
-                :href="val.filePath"
                 class="textUnderline"
                 v-for="(val, idx) in fileContent"
+                v-if="val.fileFlag === 'K'"
+                :key="idx"
+                @click="downloadFile(val.filePath, val.fileNm)"
                 >{{ val.fileNm }}</a
               >
             </div>
@@ -249,7 +262,7 @@
                     <td class="text-left">{{ val.name }}</td>
                     <td class="text-left">{{ val.ssize }}</td>
                     <td class="text-right">{{ val.orderQty }}</td>
-                    <td>{{ val.unitCode }}</td>
+                    <td>{{ val.unitcode }}</td>
                     <td class="text-right">{{ val.orderUc }}</td>
                     <td class="text-right end">
                       {{ val.orderQty * val.orderUc }}
@@ -267,13 +280,16 @@
             <div class="width100">
               <div
                 v-for="(val, idx) in fileContent"
-                v-if="val.fileFlgKo === '대외용' || val.fileFlgKo === '대내용'"
+                v-if="val.fileFlagKo === '대외용' || val.fileFlagKo === '대내용'"
+                :key="idx"
               >
                 <div
                   :class="val.fileFlagKo === '대외용' ? 'textHighlight' : 'mt5'"
                 >
                   <span class="mr20">{{ val.fileFlagKo }}</span>
-                  <a @click="downloadFile" class="textUnderline">{{val.fileNm}}</a>
+                  <a @click="downloadFile(val.filePath, val.fileNm)" class="textUnderline">{{
+                    val.fileNm
+                  }}</a>
                 </div>
               </div>
             </div>
@@ -301,10 +317,7 @@
             title="삭제"
             >삭제</a
           >
-          <a
-            @click="updateDetail"
-            class="btnStyle btnSecondary"
-            title="수정"
+          <a @click="updateDetail" class="btnStyle btnSecondary" title="수정"
             >수정</a
           >
           <a
@@ -329,7 +342,7 @@
       <div class="modal-dialog" style="width: 100%; max-width: 420px">
         <div class="modal-content">
           <div class="modal-body">
-            <a href="#" class="ModalClose" data-dismiss="modal" title="닫기"
+            <a class="ModalClose" data-dismiss="modal" title="닫기"
               ><i class="fa-solid fa-xmark"></i
             ></a>
             <div class="alertText2">
@@ -337,10 +350,7 @@
               불가하게 됩니다.<br /><br />입찰공고 하시겠습니까?
             </div>
             <div class="modalFooter">
-              <a
-                class="modalBtnClose"
-                data-dismiss="modal"
-                title="취소"
+              <a class="modalBtnClose" data-dismiss="modal" title="취소"
                 >취소</a
               >
               <a
@@ -445,51 +455,51 @@ export default {
       fileContent: [],
       custContent: [],
 
-      lotteDeptList:[
-        {value:"A1", label:"익산 E/F"},
-        {value:"A2", label:"말련 E/F"},
-        {value:"A3", label:"에너지"},
-        {value:"A4", label:"융복합"},
-        {value:"A5", label:"공통"},
+      lotteDeptList: [
+        { value: "A1", label: "익산 E/F" },
+        { value: "A2", label: "말련 E/F" },
+        { value: "A3", label: "에너지" },
+        { value: "A4", label: "융복합" },
+        { value: "A5", label: "공통" },
       ],
 
-      lotteProcList:[
-        {value:"B1", label:"용해"},
-        {value:"B2", label:"제박"},
-        {value:"B3", label:"후처리"},
-        {value:"B4", label:"슬리터"},
-        {value:"B5", label:"절단"},
-        {value:"B6", label:"환경"},
-        {value:"B7", label:"공통"},
-        {value:"B8", label:"기타"},
+      lotteProcList: [
+        { value: "B1", label: "용해" },
+        { value: "B2", label: "제박" },
+        { value: "B3", label: "후처리" },
+        { value: "B4", label: "슬리터" },
+        { value: "B5", label: "절단" },
+        { value: "B6", label: "환경" },
+        { value: "B7", label: "공통" },
+        { value: "B8", label: "기타" },
       ],
 
-      lotteClsList:[
-        {value:"C1", label:"탱크"},
-        {value:"C2", label:"배관"},
-        {value:"C3", label:"열교환기"},
-        {value:"C4", label:"냉각탑"},
-        {value:"C5", label:"브로이"},
-        {value:"C6", label:"판넬"},
-        {value:"C7", label:"펌프"},
-        {value:"C8", label:"인버터"},
-        {value:"C9", label:"PLC/드라이브"},
-        {value:"C10", label:"정류기"},
-        {value:"C11", label:"단락기"},
-        {value:"C12", label:"변압기"},
-        {value:"C13", label:"전기/케이블"},
-        {value:"C14", label:"공조"},
-        {value:"C15", label:"드럼"},
-        {value:"C16", label:"전해조"},
-        {value:"C17", label:"방청조"},
-        {value:"C18", label:"구동부"},
-        {value:"C19", label:"스크라바"},
-        {value:"C20", label:"크레인"},
-        {value:"C21", label:"구동 Roll"},
-        {value:"C22", label:"슬리터기"},
-        {value:"C23", label:"절단기"},
-        {value:"C24", label:"검사설비"},
-        {value:"C25", label:"기타"},
+      lotteClsList: [
+        { value: "C1", label: "탱크" },
+        { value: "C2", label: "배관" },
+        { value: "C3", label: "열교환기" },
+        { value: "C4", label: "냉각탑" },
+        { value: "C5", label: "브로이" },
+        { value: "C6", label: "판넬" },
+        { value: "C7", label: "펌프" },
+        { value: "C8", label: "인버터" },
+        { value: "C9", label: "PLC/드라이브" },
+        { value: "C10", label: "정류기" },
+        { value: "C11", label: "단락기" },
+        { value: "C12", label: "변압기" },
+        { value: "C13", label: "전기/케이블" },
+        { value: "C14", label: "공조" },
+        { value: "C15", label: "드럼" },
+        { value: "C16", label: "전해조" },
+        { value: "C17", label: "방청조" },
+        { value: "C18", label: "구동부" },
+        { value: "C19", label: "스크라바" },
+        { value: "C20", label: "크레인" },
+        { value: "C21", label: "구동 Roll" },
+        { value: "C22", label: "슬리터기" },
+        { value: "C23", label: "절단기" },
+        { value: "C24", label: "검사설비" },
+        { value: "C25", label: "기타" },
       ],
     };
   },
@@ -504,7 +514,10 @@ export default {
     async retrieve() {
       try {
         this.$store.commit("loading");
-        const response = await this.$http.post("/api/v1/bid/progresslistDetail", this.dataFromList);
+        const response = await this.$http.post(
+          "/api/v1/bid/progresslistDetail",
+          this.dataFromList
+        );
         this.result = response.data[0][0];
         this.tableContent = response.data[1];
         this.total = this.calculateTotal();
@@ -532,7 +545,6 @@ export default {
         .then((response) => {
           if (response.data.code == "OK") {
             this.$store.commit("searchParams", {});
-            this.$router.push({ name: "bidProgress" });
           } else {
             this.$swal({
               type: "warning",
@@ -541,12 +553,15 @@ export default {
           }
         })
         .finally(() => {
+          $("#biddingDel").modal("hide");
           this.$store.commit("finish");
+          this.$router.push({ name: "bidProgress" });
         });
     },
 
-    updateDetail(){
+    updateDetail() {
       this.detail.result = this.result;
+      this.detail.result.bdAmt = parseInt(this.result.bdAmt);
       this.detail.tableContent = this.tableContent;
       this.detail.fileContent = this.fileContent;
       this.detail.custContent = this.custContent;
@@ -554,16 +569,14 @@ export default {
       this.detail.lotteProcList = this.lotteProcList;
       this.detail.lotteClsList = this.lotteClsList;
 
-      this.$store.commit('setBidUpdateData', this.detail);
+      this.$store.commit("setBidUpdateData", this.detail);
       console.log(this.detail);
-      this.$router.push({name:"bidProgressUpdate"});
-
+      this.$router.push({ name: "bidProgressUpdate" });
     },
 
     openBid() {
-      
       this.detail.biNo = this.dataFromList;
-      console.log(this.detail.biNo)
+      console.log(this.detail.biNo);
       this.detail.biName = this.result.biName;
       this.detail.type = "open";
       this.detail.interNm = this.result.interrelatedNm;
@@ -572,7 +585,6 @@ export default {
         .post("/api/v1/bid/openBid", this.detail)
         .then((response) => {
           if (response.data.code == "OK") {
-            this.$store.commit("searchParams", {});
           } else {
             this.$swal({
               type: "warning",
@@ -581,7 +593,7 @@ export default {
           }
         })
         .finally(() => {
-          $("#save").modal("hide");
+          $("#biddingModal").modal("hide");
           this.$store.commit("finish");
           this.$router.push({ name: "bidProgress" });
         });
@@ -623,30 +635,30 @@ export default {
       return total;
     },
 
-    async downloadFile(){//파일 다운로드
+    async downloadFile(filePath, fileNm) {
+          console.log(filePath)
+      try {
+        this.$store.commit("loading");
+        const response = await this.$http.post(
+          "/api/v1/notice/downloadFile",
+          { fileId: filePath }, // 서버에서 파일을 식별할 수 있는 고유한 ID 또는 다른 필요한 데이터
+          { responseType: "blob" } // 응답 데이터를 Blob 형식으로 받기
+        );
 
-			try {
-				this.$store.commit('loading');
-				const response = await this.$http.post(
-					"/api/v1/notice/downloadFile",
-					{ fileId: this.dataFromList.bfilePath }, // 서버에서 파일을 식별할 수 있는 고유한 ID 또는 다른 필요한 데이터
-					{ responseType: "blob" } // 응답 데이터를 Blob 형식으로 받기
-				);
-
-				// 파일 다운로드를 위한 처리
-				const url = window.URL.createObjectURL(new Blob([response.data]));
-				const link = document.createElement("a");
-				link.href = url;
-				link.setAttribute("download", this.dataFromList.bfile); // 다운로드될 파일명 설정
-				document.body.appendChild(link);
-				link.click();
-				document.body.removeChild(link);
-				this.$store.commit('finish');
-			} catch (error) {
-				console.error("Error downloading file:", error);
-				this.$store.commit('finish');
-			}
-		}
+        // 파일 다운로드를 위한 처리
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", fileNm); // 다운로드될 파일명 설정
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        this.$store.commit("finish");
+      } catch (error) {
+        console.error("Error downloading file:", error);
+        this.$store.commit("finish");
+      }
+    },
   },
 };
 </script>

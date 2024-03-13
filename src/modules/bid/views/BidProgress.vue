@@ -114,9 +114,9 @@
             <td>
               <i class="fa-light fa-paper-plane-top"></i>
               <a
-                :href="'mailto:' + val.estOpenerEmail"
+                :href="'mailto:' + val.cuserEmail"
                 class="textUnderline"
-                title="담당자 메일">{{val.estOpener}}</a>
+                title="담당자 메일">{{val.cuser}}</a>
             </td>
             <td class="end">
               <i class="fa-light fa-paper-plane-top"></i>

@@ -78,11 +78,11 @@
           <div class="modalBoxSt mt10">
             <div class="flex align-items-center">
               <div class="formTit flex-shrink0 width170px">입찰담당자</div>
-              <div class="width100">{{ props[0].gongoId }}</div>
+              <div class="width100">{{ props[0].cuser }}</div>
             </div>
             <div class="flex align-items-center mt10">
               <div class="formTit flex-shrink0 width170px">입찰담당부서</div>
-              <div class="width100">{{ props[0].gongoDept }}</div>
+              <div class="width100">{{ props[0].cuserDept }}</div>
             </div>
           </div>
 
