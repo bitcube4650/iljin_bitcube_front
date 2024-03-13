@@ -19,27 +19,27 @@
                     <h2 class="h2Tit">전자입찰</h2>
                     <div class="biddingList">
                         <a  class="biddingStep1">
-                            <div class="biddingListLeft"><i class="fa-light fa-flag"></i>입찰계획</div>
+                            <div class="biddingListLeft"><i class="fa-light fa-flag"></i>입찰계획</div><!--공고전 상태-->
                             <div class="biddingListRight"><span>{{ bidInfo.planning }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
                         <a  class="biddingStep2">
-                            <div class="biddingListLeft"><i class="fa-light fa-comments"></i>입찰공고</div>
+                            <div class="biddingListLeft"><i class="fa-light fa-comments"></i>입찰공고</div><!--공고는 되었지만 개찰은 안된 상태(재입찰 포함)-->
                             <div class="biddingListRight"><span>{{ bidInfo.progress + bidInfo.rebid }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
                         <a  class="biddingStep3">
-                            <div class="biddingListLeft"><i class="fa-light fa-files"></i>개찰대상</div>
+                            <div class="biddingListLeft"><i class="fa-light fa-files"></i>개찰대상</div><!--공고는 되었는데 공고 기간이 지난 입찰(재입찰 포함)-->
                             <div class="biddingListRight"><span>{{ bidInfo.beforeOpening + bidInfo.beforeReopening }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
                         <a  class="biddingStep4">
-                            <div class="biddingListLeft"><i class="fa-light fa-file-check"></i>개찰</div>
+                            <div class="biddingListLeft"><i class="fa-light fa-file-check"></i>개찰</div><!--개찰은 되었지만 업체 선정이 안된 상태-->
                             <div class="biddingListRight"><span>{{ bidInfo.opening }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
                         <a  class="biddingStep5">
-                            <div class="biddingListLeft"><i class="fa-light fa-puzzle-piece"></i>입찰완료 (12개월)</div>
+                            <div class="biddingListLeft"><i class="fa-light fa-puzzle-piece"></i>입찰완료 (12개월)</div><!--업체선정까지 완료된 상태(업체 선정된 시점이 12개월 이내)-->
                             <div class="biddingListRight"><span>{{ bidInfo.completed }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
                         <a  class="biddingStep5">
-                            <div class="biddingListLeft"><i class="fa-light fa-puzzle-piece"></i>유찰 (12개월)</div>
+                            <div class="biddingListLeft"><i class="fa-light fa-puzzle-piece"></i>유찰 (12개월)</div><!--유찰된 시점이 12개월이내-->
                             <div class="biddingListRight"><span>{{ bidInfo.unsuccessful }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
                     </div>
@@ -65,7 +65,7 @@
                     <div class="mainConBox">
                         <h2 class="h2Tit">공지사항<router-link to="/notice" title="공지사항 페이지로 이동" class="mainConBoxMore">더보기<i class="fa-solid fa-circle-plus"></i></router-link></h2>
                         <div class="notiList">
-                            <a v-for="(val, idx) in listPage.content" data-toggle="modal" data-target="#notiModal" title="해당 게시글 자세히 보기">
+                            <a v-for="(val, idx) in listPage.content" @click="setDetailData(val)" data-toggle="modal" data-target="#notiModal" title="해당 게시글 자세히 보기">
                                 <span class="notiTit">{{ val.btitle }}</span>
                                 <span class="notiDate">{{ val.bdate.substring(0,10) }}</span>
                             </a>
@@ -77,7 +77,7 @@
         <!-- //contents -->
 
         <!--공지사항 상세 팝업-->
-        <NoticeDetailPopup />
+        <NoticeDetailPopup :dataFromMain="detailData" ref="noticePop" />
     </div>
     <!-- //본문 -->
 
@@ -103,6 +103,7 @@ export default {
 		listPage: {},
         bidInfo: {},
         partnerInfo: {},
+        detailData: {},
         custType: '',
         custCode: ''
     }
@@ -196,6 +197,10 @@ export default {
             this.$store.commit('finish');
         }
 
+    },
+    setDetailData(data){//공지사항 상세 팝업 데이터 set
+        this.detailData = data;
+        this.detailData.bcontent = this.detailData.bcontent.replace(/(?:\r\n|\r|\n)/g, '<br />');
     }
 
   },

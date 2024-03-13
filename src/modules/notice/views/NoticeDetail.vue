@@ -52,8 +52,8 @@
 				<div class="flex mt20">
 					<div class="formTit flex-shrink0 width170px">공지내용</div>
 					<div class="width100">
-						<div v-html="content" class="overflow-y-auto notiBox width100" style="height:400px">
-						</div>
+						<pre v-html="content" class="overflow-y-auto notiBox width100" style="height:400px;background-color: white;">
+						</pre>
 					</div>
 				</div>
 			</div>
@@ -181,7 +181,7 @@
 			this.$router.push({name:"noticeUpdateInsert" , query: { updateInsert: 'update' }});//수정 페이지 이동
 		},
 		async downloadFile(){//파일 다운로드
-					console.log(11111111, typeof(this.dataFromList.bfilePath))
+
 			try {
 				this.$store.commit('loading');
 				const response = await this.$http.post(

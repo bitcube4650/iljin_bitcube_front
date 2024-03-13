@@ -8,27 +8,27 @@
                     <h2 class="modalTitle">공지사항</h2>
                     <div class="flex align-items-center">
                         <div class="formTit flex-shrink0 width100px">제목</div>
-                        <div class="width100 line140">[공통] Edge에서 Internet Explore(IE) 호환 설정 방법</div>
+                        <div class="width100 line140">{{ dataFromMain.btitle }}</div>
                     </div>
                     <div class="flex align-items-center mt20">
                         <div class="formTit flex-shrink0 width100px">작성자</div>
-                        <div class="width100">관리자</div>
+                        <div class="width100">{{ dataFromMain.buserName }}</div>
                     </div>
                     <div class="flex align-items-center mt20">
                         <div class="formTit flex-shrink0 width100px">공지일시</div>
-                        <div class="width100">2023-12-31 13:21</div>
+                        <div class="width100">{{ dataFromMain.bdate }}</div>
                     </div>
                     <div class="flex align-items-center mt20">
                         <div class="formTit flex-shrink0 width100px">조회수</div>
-                        <div class="width100">2342</div>
+                        <div class="width100">{{ dataFromMain.bcount }}</div>
                     </div>
                     <div class="modalBoxSt overflow-y-scroll height250px mt30">
-                        <p>Edge로 전자입찰을 사용하실 때 오류가 나는 경우<br>(※ [ 설치파일#1 ] [ 설치파일#2 ] 두 개의 설치 파일을 전부 설치 하셨다는 전제 하에 오류입니다. )<br><br>1. 팝업창의 정보가 보이지 않는다.<br>2. 입찰에 파일을 첨부 후 입찰하기 버튼을 클릭했을 때 105 또는 138 오류가 나타난다.<br><br>해당 오류가 나타난 경우 첨부된 파일을 참고하시어 설정 바랍니다.<br><br>테스트<br><br>테스트</p>
+                        <pre v-html="dataFromMain.bcontent" style="background-color: white;"></pre>
                     </div>
                     <div class="flex align-items-center mt20">
                         <div class="formTit flex-shrink0 width100px">첨부파일</div>
                         <div class="width100">
-                            <a href="javascript:void(0)" class="textUnderline">전자입찰 Edge 사용 설정안내.pptx</a>
+                            <a @click="downloadFile" class="textUnderline">{{ dataFromMain.bfile }}</a>
                         </div>
                     </div>
 
@@ -44,21 +44,52 @@
 <script>
 export default {
     name: 'NoticeDetailPopup',
-
+    props: ['dataFromMain'],
   data() {
     return {
- 
-    };
-  },
-  methods: {
 
+    };
   },
   created() {
    
   },
   mounted(){
+    //this.resetData();
 
-  }    
+  },
+  methods: {
+    resetData(){
+        this.dataFromMain.btitle = '';
+        this.dataFromMain.buserName = '';
+        this.dataFromMain.bdate = '';
+        this.dataFromMain.bcount = 0;
+        this.dataFromMain.bcontent = '';
+    },
+    async downloadFile(){//파일 다운로드
+
+        try {
+            this.$store.commit('loading');
+            const response = await this.$http.post(
+                "/api/v1/notice/downloadFile",
+                { fileId: this.dataFromMain.bfilePath }, // 서버에서 파일을 식별할 수 있는 고유한 ID 또는 다른 필요한 데이터
+                { responseType: "blob" } // 응답 데이터를 Blob 형식으로 받기
+            );
+
+            // 파일 다운로드를 위한 처리
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", this.dataFromMain.bfile); // 다운로드될 파일명 설정
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            this.$store.commit('finish');
+        } catch (error) {
+            console.error("Error downloading file:", error);
+            this.$store.commit('finish');
+        }
+    }
+  }  
 }
 </script>
 <style>
