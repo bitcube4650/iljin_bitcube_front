@@ -1,4 +1,5 @@
 <template>
+
     <!-- 본문 -->
     <div class="conRight">
         <!-- conHeader -->
@@ -37,7 +38,7 @@
                     <div class="flex mt20">
                         <div class="formTit flex-shrink0 width170px">특수조건</div>
                         <div class="width100">
-                            <div class="overflow-y-scroll boxStSm width100" style="height:50px">
+                            <div class="boxStSm width100 boxOverflowY">
                                 1. 스쿼즈닙룰 제작 및 성적서 제출<br>
                                 2. 검토 후 현장납품<br>
                                 3. 검토 후 현장납품
@@ -59,7 +60,7 @@
                     <div class="flex align-items-center mt20">
                         <div class="formTit flex-shrink0 width170px">입찰참가업체</div>
                         <div class="width100">
-                            <div class="overflow-y-scroll boxStSm width100" style="height:50px">
+                            <div class="boxStSm width100 boxOverflowY">
                                 <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">동서산업㈜</a>,
                                 <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">비트큐브</a>,
                                 <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">신양금속공업㈜</a>,
@@ -185,7 +186,7 @@
                             <tr>
                                 <th>입찰참가업체명</th>
                                 <th>견적금액(총액)</th>
-                                <th>제출</th>
+                                <th>견적</th>
                                 <th>제출일시</th>
                                 <th>담당자</th>
                                 <th>기타첨부파일</th>
@@ -197,22 +198,96 @@
                             <tr>
                                 <td class="text-left"><a href="javascript:void(0)" class="textUnderline" data-toggle="modal" data-target="#history">비트큐브</a></td>
                                 <td>KRW 1,000,000</td>
-                                <td><img src="/images/icon_excel.svg" class="iconImg" alt="excel"></td>
+                                <td><a href="javascript:void(0)" class="textUnderline textMainColor detailBtn">상세</a></td>
                                 <td>2024-01-12 15:00</td>
                                 <td>홍길동</td>
                                 <td><img src="/images/icon_etc.svg" class="iconImg" alt="etc"></td>
                                 <td class="textHighlight">낙찰</td>
                                 <td class="end">2024-01-15 05:30</td>
                             </tr>
+                            <tr class="detailView">
+                                <td colspan="8" class="end">
+                                    <table class="tblSkin2">
+                                        <colgroup>
+                                            <col style="">
+                                        </colgroup>
+                                        <thead>
+                                            <tr>
+                                                <th>품목명</th>
+                                                <th>규격</th>
+                                                <th>수량</th>
+                                                <th>단위</th>
+                                                <th>실행단가</th>
+                                                <th class="end">합계</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-left">페수처리슬러지</td>
+                                                <td class="text-left">ton</td>
+                                                <td class="text-right">1</td>
+                                                <td>Ton</td>
+                                                <td class="text-right">860,000</td>
+                                                <td class="text-right end">860,000</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left">재박커튼</td>
+                                                <td class="text-left">200*200</td>
+                                                <td class="text-right">14</td>
+                                                <td>Ea</td>
+                                                <td class="text-right">10,000</td>
+                                                <td class="text-right end">140,000</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
                             <tr>
                                 <td class="text-left"><a href="javascript:void(0)" class="textUnderline" data-toggle="modal" data-target="#history">레드코사인㈜</a></td>
                                 <td></td>
-                                <td><img src="/images/icon_pdf.svg" class="iconImg" alt="excel"></td>
+                                <td><a href="javascript:void(0)" class="textUnderline textMainColor detailBtn">상세</a></td>
                                 <td></td>
                                 <td>홍길동</td>
                                 <td></td>
                                 <td></td>
                                 <td class="end"></td>
+                            </tr>
+                            <tr class="detailView">
+                                <td colspan="8" class="end">
+                                    <table class="tblSkin2">
+                                        <colgroup>
+                                            <col style="">
+                                        </colgroup>
+                                        <thead>
+                                            <tr>
+                                                <th>품목명</th>
+                                                <th>규격</th>
+                                                <th>수량</th>
+                                                <th>단위</th>
+                                                <th>실행단가</th>
+                                                <th class="end">합계</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-left">페수처리슬러지</td>
+                                                <td class="text-left">ton</td>
+                                                <td class="text-right">1</td>
+                                                <td>Ton</td>
+                                                <td class="text-right">860,000</td>
+                                                <td class="text-right end">860,000</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-left">재박커튼</td>
+                                                <td class="text-left">200*200</td>
+                                                <td class="text-right">14</td>
+                                                <td>Ea</td>
+                                                <td class="text-right">10,000</td>
+                                                <td class="text-right end">140,000</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -229,11 +304,57 @@
             </div>
         </div>
         <!-- //contents -->
+        <!-- 제출 이력 -->
+        <div class="modal fade modalStyle" id="history" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" style="width:100%; max-width:800px">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+                        <h2 class="modalTitle">제출 이력</h2>
+                        <table class="tblSkin1 mt20">
+                            <colgroup>
+                                <col style="">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th>차수</th>
+                                    <th>입찰참가업체명</th>
+                                    <th>견적금액(총액)</th>
+                                    <th>담당자</th>
+                                    <th class="end">제출일시</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td class="text-left">비트큐브</td>
+                                    <td>KRW 1,000,000</td>
+                                    <td>김담당</td>
+                                    <td class="end">2024-01-12 15:00</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td class="text-left">비트큐브</td>
+                                    <td>KRW 900,000</td>
+                                    <td>김담당</td>
+                                    <td class="end">2024-01-12 15:00</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="modalFooter">
+                            <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
+                        </div>
+                    </div>				
+                </div>
+            </div>
+        </div>
+        <!-- //제출 이력 -->
 
         <!--입찰결과보고서-->
         <BidResultReport />
     </div>
     <!-- //본문 -->
+
 </template>
   <script>
 import BidResultReport from '../components/BidResultReport.vue';
