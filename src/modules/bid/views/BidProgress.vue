@@ -50,7 +50,7 @@
               v-model="searchParams.bidName"
             />
           </div>
-          <a class="btnStyle btnSearch" href="#" @click.prevent="search(0)"
+          <a class="btnStyle btnSearch" @click.prevent="search(0)"
             >검색</a
           >
         </div>
