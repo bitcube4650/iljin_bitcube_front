@@ -326,7 +326,9 @@
         </div>
 
         <div class="text-center mt50">
-          <a class="btnStyle btnOutline" title="목록">목록</a>
+          <a class="btnStyle btnOutline" title="목록"
+            ><router-link :to="{ name: 'bidStatus' }">목록 </router-link></a
+          >
           <a
             data-toggle="modal"
             data-target="#biddingReserve"
@@ -334,7 +336,13 @@
             title="유찰"
             >유찰</a
           >
-          <a class="btnStyle btnPrimary" title="개찰">개찰</a>
+          <a
+            data-toggle="modal"
+            data-target="#openBid"
+            class="btnStyle btnPrimary"
+            title="개찰"
+            >개찰</a
+          >
         </div>
       </div>
     </div>
@@ -354,7 +362,7 @@
             <a class="ModalClose" data-dismiss="modal" title="닫기"
               ><i class="fa-solid fa-xmark"></i
             ></a>
-            <h2 class="modalTitle">입찰계획 삭제</h2>
+            <h2 class="modalTitle">유찰</h2>
             <div class="modalTopBox">
               <ul>
                 <li>
@@ -371,18 +379,57 @@
               onkeydown="resize(this)"
               onkeyup="resize(this)"
               placeholder="유찰사유 필수 입력"
+              v-model="detail.reason"
             ></textarea>
             <div class="modalFooter">
               <a class="modalBtnClose" data-dismiss="modal" title="취소"
                 >취소</a
               >
-              <a class="modalBtnCheck" data-toggle="modal" title="유찰">유찰</a>
+              <a
+                class="modalBtnCheck"
+                data-toggle="modal"
+                title="유찰"
+                @click="bidFailure"
+                >유찰</a
+              >
             </div>
           </div>
         </div>
       </div>
     </div>
     <!-- //유찰 -->
+
+    <!-- 개찰 -->
+    <div
+      class="modal fade modalStyle"
+      id="openBid"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" style="width: 100%; max-width: 550px">
+        <div class="modal-content">
+          <div class="modal-body">
+            <a class="ModalClose" data-dismiss="modal" title="닫기"
+              ><i class="fa-solid fa-xmark"></i
+            ></a>
+            <h2 class="modalTitle">개찰</h2>
+            <div class="modalTopBox">
+              <ul>
+                <div>개찰하시겠습니까?</div>
+              </ul>
+            </div>
+            <div class="modalFooter">
+              <a class="modalBtnClose" data-dismiss="modal" title="취소"
+                >취소</a
+              >
+              <a class="modalBtnCheck" data-toggle="modal" title="개찰">개찰</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- //개찰 -->
 
     <!-- 협력사 사용자-->
     <CustUserPop ref="custUserPop" />
@@ -477,7 +524,7 @@ export default {
         this.$store.commit("finish");
       }
     },
-        calculateTotal() {
+    calculateTotal() {
       let total = 0;
       this.tableContent.forEach((val) => {
         total += val.orderQty * val.orderUc;
@@ -486,7 +533,7 @@ export default {
     },
 
     async downloadFile(filePath, fileNm) {
-          console.log(filePath)
+      console.log(filePath);
       try {
         this.$store.commit("loading");
         const response = await this.$http.post(
@@ -508,6 +555,34 @@ export default {
         console.error("Error downloading file:", error);
         this.$store.commit("finish");
       }
+    },
+
+    bidFailure() {
+      if (this.detail.reason == null || this.detail.reason == "") {
+        this.$swal({ type: "warning", text: "유찰사유를 입력해주세요." });
+        return;
+      }
+      this.detail.biNo = this.dataFromList;
+      this.detail.biName = this.result.biName;
+      this.detail.type = "fail";
+      this.detail.interNm = this.result.interrelatedNm;
+      this.$store.commit("loading");
+      this.$http
+        .post("/api/v1/bidstatus/bidFailure", this.detail)
+        .then((response) => {
+          if (response.data.code == "OK") {
+          } else {
+            this.$swal({
+              type: "warning",
+              text: "유찰 처리중 오류가 발생했습니다.",
+            });
+          }
+        })
+        .finally(() => {
+          $("#biddingReserve").modal("hide");
+          this.$store.commit("finish");
+          this.$router.push({ name: "bidStatus" });
+        });
     },
   },
   beforeMount() {},
