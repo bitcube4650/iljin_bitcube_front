@@ -69,21 +69,18 @@
               type="checkbox"
               id="progress1-1"
               class="checkStyle"
-              checked
               v-model="searchParams.rebidYn"
             /><label for="progress1-1">입찰공고(재입찰 포함)</label>
             <input
               type="checkbox"
               id="progress1-2"
               class="checkStyle"
-              checked
               v-model="searchParams.dateOverYn"
             /><label for="progress1-2" class="ml50">입찰공고(개찰대상)</label>
             <input
               type="checkbox"
               id="progress1-3"
               class="checkStyle"
-              checked
               v-model="searchParams.openBidYn"
             /><label for="progress1-3" class="ml50">개찰(업체선정대상)</label>
           </div>
@@ -151,8 +148,15 @@
               <i class="fa-regular fa-timer"></i>{{ val.estCloseDate }}
             </td>
             <td>{{ val.biMode }}</td>
+            <td
+              :class="{
+                textHighlight: isPastDate(val.estCloseDate),
+                blueHighlight: val.ingTag === '개찰',
+              }"
+            >
+              {{ val.ingTag }}
+            </td>
             <td>{{ val.insMode }}</td>
-            <td>{{ val.ingTag }}</td>
             <td>
               <i class="fa-light fa-paper-plane-top"></i>
               <a
@@ -187,6 +191,11 @@
   </div>
   <!-- //본문 -->
 </template>
+<style>
+.blueHighlight {
+  color: blue;
+}
+</style>
   <script>
 import Pagination from "@/components/Pagination.vue";
 
@@ -197,11 +206,7 @@ export default {
   },
   data() {
     return {
-      searchParams: {
-        rebidYn : true,
-        dateOverYn : true,
-        openBidYn : true,
-      },
+      searchParams: {},
       listPage: {},
     };
   },
@@ -216,7 +221,7 @@ export default {
     },
 
     async retrieve() {
-console.log(this.searchParams)
+      console.log(this.searchParams);
 
       try {
         this.$store.commit("loading");
@@ -241,7 +246,13 @@ console.log(this.searchParams)
   },
   beforeMount() {},
   mounted() {
-    const params = { id: this.$options.name, size: "10" };
+    const params = {
+      id: this.$options.name,
+      size: "10",
+      rebidYn: true,
+      dateOverYn: true,
+      openBidYn: true,
+    };
     if (this.$store.state.searchParams.id == params.id) {
       this.searchParams = Object.assign(params, this.$store.state.searchParams);
     } else {

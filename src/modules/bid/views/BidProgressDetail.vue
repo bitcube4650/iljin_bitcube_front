@@ -155,22 +155,22 @@
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">
-              {{ this.result.matFactoryFactory }}
+              공장동
             </div>
-            <div class="width100"></div>
+            <div class="width100">{{ this.result.matFactoryFactory }}</div>
           </div>
           <div class="flex align-items-center mt20">
             <div class="flex align-items-center width100">
               <div class="formTit flex-shrink0 width170px">
-                {{ this.result.matFactoryLine }}
+                라인
               </div>
-              <div class="width100"></div>
+              <div class="width100">{{ this.result.matFactoryLine }}</div>
             </div>
             <div class="flex align-items-center width100 ml80">
               <div class="formTit flex-shrink0 width170px">
-                {{ this.result.matFactoryCnt }}
+                호기
               </div>
-              <div class="width100"></div>
+              <div class="width100">{{ this.result.matFactoryCnt }}</div>
             </div>
           </div>
         </div>

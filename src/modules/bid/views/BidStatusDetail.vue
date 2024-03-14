@@ -1,308 +1,520 @@
 <template>
-    <!-- 본문 -->
-    <div class="conRight">
-        <!-- conHeader -->
-        <div class="conHeader">
-            <ul class="conHeaderCate">
-                <li>전자입찰</li>
-                <li>입찰진행 상세</li>
-            </ul>
-        </div>
-        <!-- //conHeader -->
-        <!-- contents -->
-        <div class="contents">
-            <div class="formWidth">
-                <h3 class="h3Tit">입찰기본정보</h3>
-                <div class="boxSt mt20">
-                    <div class="flex align-items-center">
-                        <div class="formTit flex-shrink0 width170px">입찰번호</div>
-                        <div class="width100">C202401005</div>
-                    </div>
-                    <div class="flex align-items-center mt20">
-                        <div class="formTit flex-shrink0 width170px">입찰명</div>
-                        <div class="width100">CB3호 스퀴즈닙롤 스페어롤 신규구매 件</div>
-                    </div>
-                    <div class="flex align-items-center mt20">
-                        <div class="formTit flex-shrink0 width170px">품목</div>
-                        <div class="width100">사업 시설 유지관리 및 고용 서비스업 품목류</div>
-                    </div>
-                    <div class="flex align-items-center mt20">
-                        <div class="formTit flex-shrink0 width170px">입찰방식</div>
-                        <div class="width100">지명경쟁입찰</div>
-                    </div>
-                    <div class="flex align-items-center mt20">
-                        <div class="formTit flex-shrink0 width170px">입찰참가자격</div>
-                        <div class="width100">C202401005</div>
-                    </div>
-                    <div class="flex mt20">
-                        <div class="formTit flex-shrink0 width170px">특수조건</div>
-                        <div class="width100">
-                            <div class="overflow-y-scroll boxStSm width100" style="height:50px">
-                                1. 스쿼즈닙룰 제작 및 성적서 제출<br>
-                                2. 검토 후 현장납품<br>
-                                3. 검토 후 현장납품
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex align-items-center mt20">
-                        <div class="formTit flex-shrink0 width170px">현장설명일시</div>
-                        <div class="width100">2024-01-11 15:00</div>
-                    </div>
-                    <div class="flex align-items-center mt20">
-                        <div class="formTit flex-shrink0 width170px">현장설명장소</div>
-                        <div class="width100">접견실</div>
-                    </div>
-                    <div class="flex align-items-center mt20">
-                        <div class="formTit flex-shrink0 width170px">낙찰자결정방법</div>
-                        <div class="width100">최저가&내부적격심사</div>
-                    </div>
-                    <div class="flex align-items-center mt20">
-                        <div class="formTit flex-shrink0 width170px">입찰참가업체</div>
-                        <div class="width100">
-                            <div class="overflow-y-scroll boxStSm width100" style="height:50px">
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">동서산업㈜</a>,
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">비트큐브</a>,
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">신양금속공업㈜</a>,
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">테스트협력업체1</a>,
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">테스트협력업체2</a>,
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">테스트협력업체3</a>,
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">테스트협력업체4</a>,
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">테스트협력업체5</a>,
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">테스트협력업체6</a>,
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">테스트협력업체7</a>,
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">테스트협력업체8</a>,
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">테스트협력업체9</a>,
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">테스트협력업체10</a>,
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">테스트협력업체11</a>,
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">테스트협력업체12</a>,
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">테스트협력업체13</a>,
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">테스트협력업체14</a>,
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">테스트협력업체15</a>,
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">테스트협력업체16</a>,
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">테스트협력업체17</a>,
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">테스트협력업체18</a>,
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">테스트협력업체19</a>,
-                                <a href="javascript:void(0)" data-toggle="modal" data-target="#PartnerUser" class="textUnderline">테스트협력업체20</a>,
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex align-items-center mt20">
-                        <div class="formTit flex-shrink0 width170px">입찰참가업체</div>
-                        <div class="flex align-items-center width100">
-                            <div class="overflow-y-scroll boxStSm width100" style="height:50px">
-                                <a href="javascript:void(0)" class="textUnderline">동서산업㈜</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex align-items-center mt20">
-                        <div class="formTit flex-shrink0 width170px">금액기준</div>
-                        <div class="width100">VAT 별도</div>
-                    </div>
-                    <div class="flex align-items-center mt20">
-                        <div class="formTit flex-shrink0 width170px">결제조건</div>
-                        <div class="width100">당사 정기 결제 조건</div>
-                    </div>
-                    <div class="flex align-items-center mt20">
-                        <div class="formTit flex-shrink0 width170px">예산금액</div>
-                        <div class="width100">231,232,400 원</div>
-                    </div>
-                    <div class="flex align-items-center mt20">
-                        <div class="formTit flex-shrink0 width170px">입찰담당자</div>
-                        <div class="width100">강입찰</div>
-                    </div>
-                </div>
-
-                <h3 class="h3Tit mt50">입찰공고 추가등록 사항</h3>
-                <div class="boxSt mt20">
-                    <div class="flex align-items-center">
-                        <div class="flex align-items-center width100">
-                            <div class="formTit flex-shrink0 width170px">제출시작일시</div>
-                            <div class="width100">2024-01-11 15:00</div>
-                        </div>
-                        <div class="flex align-items-center width100 ml80">
-                            <div class="formTit flex-shrink0 width170px">제출마감일시</div>
-                            <div class="width100">2024-01-12 15:00</div>
-                        </div>
-                    </div>
-                    <div class="flex align-items-center mt20">
-                        <div class="flex align-items-center width100">
-                            <div class="formTit flex-shrink0 width170px">개찰자/낙찰자</div>
-                            <div class="width100">강개찰</div>
-                        </div>
-                        <div class="flex align-items-center width100 ml80">
-                            <div class="formTit flex-shrink0 width170px">입찰공고자</div>
-                            <div class="width100">강공고</div>
-                        </div>
-                    </div>
-                    <div class="flex align-items-center mt20">
-                        <div class="flex align-items-center width100">
-                            <div class="formTit flex-shrink0 width170px">입회자1</div>
-                            <div class="width100">강입회</div>
-                        </div>
-                        <div class="flex align-items-center width100 ml80">
-                            <div class="formTit flex-shrink0 width170px">입회자2</div>
-                            <div class="width100"></div>
-                        </div>
-                    </div>
-                    <div class="flex align-items-center mt20">
-                        <div class="flex align-items-center width100">
-                            <div class="formTit flex-shrink0 width170px">내역방식</div>
-                            <div class="width100">파일등록</div>
-                        </div>
-                        <div class="flex align-items-center width100 ml80">
-                            <div class="formTit flex-shrink0 width170px">납품조건</div>
-                            <div class="width100">현장납품</div>
-                        </div>
-                    </div>
-                    <div class="flex align-items-center mt20">
-                        <div class="formTit flex-shrink0 width170px">세부내역</div>
-                        <div class="width100">
-                            <a href="javascript:void(0)" class="textUnderline">일진입찰_세부파일_첨부.docx</a>
-                        </div>
-                    </div>
-                    <div class="flex mt20">
-                        <div class="formTit flex-shrink0 width170px">세부내역</div>
-                        <div class="width100">
-                            <table class="tblSkin1">
-                                <colgroup>
-                                    <col style="">
-                                </colgroup>
-                                <thead>
-                                    <tr>
-                                        <th>품목명</th>
-                                        <th>규격</th>
-                                        <th>수량</th>
-                                        <th>단위</th>
-                                        <th>실행단가</th>
-                                        <th class="end">합계</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="text-left">페수처리슬러지</td>
-                                        <td class="text-left">ton</td>
-                                        <td class="text-right">1</td>
-                                        <td>ton</td>
-                                        <td class="text-right">1,000</td>
-                                        <td class="text-right end">1,000</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-left">재박커튼</td>
-                                        <td class="text-left">200*200</td>
-                                        <td class="text-right">14</td>
-                                        <td>ea</td>
-                                        <td class="text-right">1,100,000</td>
-                                        <td class="text-right end">15,400.000</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <p class="text-right mt10"><strong>총합계 : 15,401,000</strong></p>
-                        </div>
-                    </div>
-                    <div class="flex mt20">
-                        <div class="formTit flex-shrink0 width170px">첨부파일</div>
-                        <div class="width100">
-                            <div class="textHighlight"><span class="mr20">대외용</span><a href="javascript:void(0)" class="textUnderline">일진입찰_첨부1.docx</a></div>
-                            <div class="mt5"><span class="mr20">대내용</span><a href="javascript:void(0)" class="textUnderline">일진입찰_첨부2.docx</a></div>
-                            <div class="mt5"><span class="mr20">대내용</span><a href="javascript:void(0)" class="textUnderline">일진입찰_첨부3.docx</a></div>
-                        </div>
-                    </div>
-                    <div class="flex align-items-center mt20">
-                        <div class="formTit flex-shrink0 width170px">재입찰사유</div>
-                        <div class="width100">입찰참여업체에게 다시 기회를 드려요</div>
-                    </div>
-                </div>
-
-                <h3 class="h3Tit mt50">업체견적 사항 <strong class="textHighlight">(개찰 전까지 견적금액 및 내역파일은 암호화되어 보호됩니다)</strong></h3>
-                <div class="boxSt mt20">
-                    <table class="tblSkin1">
-                        <colgroup>
-                            <col style="">
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th>입찰참가업체명</th>
-                                <th>견적금액(총액)</th>
-                                <th>제출</th>
-                                <th>제출일시</th>
-                                <th>담당자</th>
-                                <th class="end">기타첨부파일</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="text-left">비트큐브</td>
-                                <td>한국(KRW)</td>
-                                <td><img src="/images/icon_excel.svg" class="iconImg" alt="excel"></td>
-                                <td>2024-01-12 15:00</td>
-                                <td>홍길동</td>
-                                <td class="end"><img src="/images/icon_etc.svg" class="iconImg" alt="etc"></td>
-                            </tr>
-                            <tr>
-                                <td class="text-left">비트큐브</td>
-                                <td>한국(KRW)</td>
-                                <td><img src="/images/icon_pdf.svg" class="iconImg" alt="PDF"></td>
-                                <td>2024-01-12 15:00</td>
-                                <td>홍길동</td>
-                                <td class="end"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="text-center mt50">
-                    <a href="javascript:void(0)" class="btnStyle btnOutline" title="목록">목록</a>
-                    <a href="javascript:void(0)" data-toggle="modal" data-target="#biddingReserve" class="btnStyle btnSecondary" title="유찰">유찰</a>
-                    <a href="javascript:void(0)" class="btnStyle btnPrimary" title="개찰">개찰</a>
-                </div>
-            </div>
-        </div>
-        <!-- //contents -->
-
-        <!-- 유찰 -->
-        <div class="modal fade modalStyle" id="biddingReserve" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" style="width:100%; max-width:550px">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-                        <h2 class="modalTitle">입찰계획 삭제</h2>
-                        <div class="modalTopBox">
-                            <ul>
-                                <li><div>유찰처리 합니다. 유찰처리 시 참가업체에게 유찰 메일이 발송됩니다.<br>유찰 처리 시 유찰 사유 내용으로 업체에게 발송 됩니다.</div></li>
-                            </ul>
-                        </div>
-                        <textarea class="textareaStyle height150px mt20" onkeydown="resize(this)" onkeyup="resize(this)" placeholder="유찰사유 필수 입력"></textarea>
-                        <div class="modalFooter">
-                            <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
-                            <a href="javascript:void(0)" class="modalBtnCheck" data-toggle="modal" title="유찰">유찰</a>
-                        </div>
-                    </div>				
-                </div>
-            </div>
-        </div>
-        <!-- //유찰 -->
+  <!-- 본문 -->
+  <div class="conRight">
+    <!-- conHeader -->
+    <div class="conHeader">
+      <ul class="conHeaderCate">
+        <li>전자입찰</li>
+        <li>입찰진행 상세</li>
+      </ul>
     </div>
-    <!-- //본문 -->
+    <!-- //conHeader -->
+    <!-- contents -->
+    <div class="contents">
+      <div class="formWidth">
+        <h3 class="h3Tit">입찰기본정보</h3>
+        <div class="boxSt mt20">
+          <div class="flex align-items-center">
+            <div class="formTit flex-shrink0 width170px">입찰번호</div>
+            <div class="width100">{{ this.dataFromList }}</div>
+          </div>
+          <div class="flex align-items-center mt20">
+            <div class="formTit flex-shrink0 width170px">입찰명</div>
+            <div class="width100">{{ this.result.biName }}</div>
+          </div>
+          <div class="flex align-items-center mt20">
+            <div class="formTit flex-shrink0 width170px">품목</div>
+            <div class="width100">
+              {{ this.result.itemName }}
+            </div>
+          </div>
+          <div class="flex align-items-center mt20">
+            <div class="formTit flex-shrink0 width170px">입찰방식</div>
+            <div class="width100">{{ this.result.biMode }}</div>
+          </div>
+          <div class="flex align-items-center mt20">
+            <div class="formTit flex-shrink0 width170px">입찰참가자격</div>
+            <div class="width100">{{ this.result.bidJoinSpec }}</div>
+          </div>
+          <div class="flex mt20">
+            <div class="formTit flex-shrink0 width170px">특수조건</div>
+            <div class="width100">
+              <div
+                class="boxStSm width100 boxOverflowY"
+                v-if="this.result.specialCond !== null"
+              >
+                {{ this.result.specialCond }}
+              </div>
+              <div class="boxStSm width100 boxOverflowY" v-else>
+                <!-- null인 경우 빈 문자열 표시 -->
+                없음
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex align-items-center mt20"
+            v-if="this.result.biMode === '지명경쟁입찰'"
+          >
+            <div class="formTit flex-shrink0 width170px">입찰참가업체</div>
+            <div class="width100">
+              <div class="boxStSm width100 boxOverflowY">
+                <div v-for="(val, idx) in custContent" style="display: inline">
+                  <a
+                    v-if="val.custName !== null"
+                    @click.prevent="$refs.custUserPop.initModal(val.custCode)"
+                    data-toggle="modal"
+                    data-target="#custUserPop"
+                    class="textUnderline"
+                    >{{ val.custName }}</a
+                  >
+                  <a
+                    @click.prevent="$refs.custUserPop.initModal(val.custCode)"
+                    data-toggle="modal"
+                    data-target="#custUserPop"
+                    class="textUnderline"
+                    v-else
+                    >미등록업체</a
+                  >
+                  <span v-if="idx !== custContent.length - 1">, </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex align-items-center mt20"
+            v-if="this.result.biMode === '일반경쟁입찰'"
+          >
+            <div class="formTit flex-shrink0 width170px">입찰참가업체</div>
+            <div class="flex align-items-center width100">
+              <div class="boxStSm width100 boxOverflowY">
+                <a>가입회원사 전체</a>
+              </div>
+            </div>
+          </div>
+          <div class="flex align-items-center mt20">
+            <div class="formTit flex-shrink0 width170px">금액기준</div>
+            <div class="width100">{{ this.result.amtBasis }}</div>
+          </div>
+          <div class="flex align-items-center mt20">
+            <div class="formTit flex-shrink0 width170px">결제조건</div>
+            <div class="width100">{{ this.result.payCond }}</div>
+          </div>
+          <div class="flex align-items-center mt20">
+            <div class="formTit flex-shrink0 width170px">예산금액</div>
+            <div class="width100">{{ this.result.bdAmt }}원</div>
+          </div>
+          <div class="flex align-items-center mt20">
+            <div class="formTit flex-shrink0 width170px">입찰담당자</div>
+            <div class="width100">{{ this.result.cuser }}</div>
+          </div>
+        </div>
+
+        <h3 class="h3Tit mt50" v-if="this.result.interrelatedCustCode === '02'">
+          입찰분류
+        </h3>
+        <div
+          class="boxSt mt20"
+          v-if="this.result.interrelatedCustCode === '02'"
+        >
+          <div class="flex align-items-center">
+            <div class="formTit flex-shrink0 width170px">분류군</div>
+            <div class="flex align-items-center width100">
+              <select name="" class="selectStyle" disabled>
+                <option v-for="dept in lotteDeptList" :value="dept.value">
+                  {{ dept.label }}
+                </option>
+              </select>
+              <select
+                name=""
+                class="selectStyle"
+                style="margin: 0 10px"
+                disabled
+              >
+                <option v-for="proc in lotteProcList" :value="proc.value">
+                  {{ proc.label }}
+                </option>
+              </select>
+              <select name="" class="selectStyle" disabled>
+                <option v-for="cls in lotteClsList" :value="cls.value">
+                  {{ cls.label }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="flex align-items-center mt20">
+            <div class="formTit flex-shrink0 width170px">공장동</div>
+            <div class="width100">{{ this.result.matFactoryFactory }}</div>
+          </div>
+          <div class="flex align-items-center mt20">
+            <div class="flex align-items-center width100">
+              <div class="formTit flex-shrink0 width170px">라인</div>
+              <div class="width100">{{ this.result.matFactoryLine }}</div>
+            </div>
+            <div class="flex align-items-center width100 ml80">
+              <div class="formTit flex-shrink0 width170px">호기</div>
+              <div class="width100">{{ this.result.matFactoryCnt }}</div>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="h3Tit mt50">입찰공고 추가등록 사항</h3>
+        <div class="boxSt mt20">
+          <div class="flex align-items-center">
+            <div class="flex align-items-center width100">
+              <div class="formTit flex-shrink0 width170px">제출시작일시</div>
+              <div class="width100">{{ this.result.estStartDate }}</div>
+            </div>
+            <div class="flex align-items-center width100 ml80">
+              <div class="formTit flex-shrink0 width170px">제출마감일시</div>
+              <div class="width100">{{ this.result.estCloseDate }}</div>
+            </div>
+          </div>
+          <div class="flex align-items-center mt20">
+            <div class="flex align-items-center width100">
+              <div class="formTit flex-shrink0 width170px">개찰자/낙찰자</div>
+              <div class="width100">{{ this.result.estOpener }}</div>
+            </div>
+            <div class="flex align-items-center width100 ml80">
+              <div class="formTit flex-shrink0 width170px">입찰공고자</div>
+              <div class="width100">{{ this.result.gongoId }}</div>
+            </div>
+          </div>
+          <div class="flex align-items-center mt20">
+            <div class="flex align-items-center width100">
+              <div class="formTit flex-shrink0 width170px">입회자1</div>
+              <div class="width100">{{ this.result.openAtt1 }}</div>
+            </div>
+            <div class="flex align-items-center width100 ml80">
+              <div class="formTit flex-shrink0 width170px">입회자2</div>
+              <div class="width100">{{ this.result.openAtt2 }}</div>
+            </div>
+          </div>
+          <div class="flex align-items-center mt20">
+            <div class="flex align-items-center width100">
+              <div class="formTit flex-shrink0 width170px">내역방식</div>
+              <div class="width100">{{ this.result.insMode }}</div>
+            </div>
+            <div class="flex align-items-center width100 ml80">
+              <div class="formTit flex-shrink0 width170px">납품조건</div>
+              <div class="width100">{{ this.result.supplyCond }}</div>
+            </div>
+          </div>
+          <div class="flex align-items-center mt20">
+            <div
+              class="formTit flex-shrink0 width170px"
+              v-if="this.result.insMode === '파일등록'"
+            >
+              세부내역
+            </div>
+            <div class="width100" v-if="this.result.insMode === '파일등록'">
+              <a
+                class="textUnderline"
+                v-for="(val, idx) in fileContent"
+                v-if="val.fileFlag === 'K'"
+                :key="idx"
+                @click="downloadFile(val.filePath, val.fileNm)"
+                >{{ val.fileNm }}</a
+              >
+            </div>
+          </div>
+          <div class="flex mt20">
+            <div
+              class="formTit flex-shrink0 width170px"
+              v-if="this.result.insMode === '직접입력'"
+            >
+              세부내역
+            </div>
+            <div class="width100" v-if="this.result.insMode === '직접입력'">
+              <table class="tblSkin1">
+                <colgroup>
+                  <col style="" />
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>품목명</th>
+                    <th>규격</th>
+                    <th>수량</th>
+                    <th>단위</th>
+                    <th>실행단가</th>
+                    <th class="end">합계</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(val, idx) in tableContent">
+                    <td class="text-left">{{ val.name }}</td>
+                    <td class="text-left">{{ val.ssize }}</td>
+                    <td class="text-right">{{ val.orderQty }}</td>
+                    <td>{{ val.unitcode }}</td>
+                    <td class="text-right">{{ val.orderUc }}</td>
+                    <td class="text-right end">
+                      {{ val.orderQty * val.orderUc }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="text-right mt10">
+                <strong>총합계 : {{ total }}</strong>
+              </p>
+            </div>
+          </div>
+          <div class="flex mt20">
+            <div class="formTit flex-shrink0 width170px">첨부파일</div>
+            <div class="width100">
+              <div
+                v-for="(val, idx) in fileContent"
+                v-if="
+                  val.fileFlagKo === '대외용' || val.fileFlagKo === '대내용'
+                "
+                :key="idx"
+              >
+                <div
+                  :class="val.fileFlagKo === '대외용' ? 'textHighlight' : 'mt5'"
+                >
+                  <span class="mr20">{{ val.fileFlagKo }}</span>
+                  <a
+                    @click="downloadFile(val.filePath, val.fileNm)"
+                    class="textUnderline"
+                    >{{ val.fileNm }}</a
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex align-items-center mt20"
+            v-if="this.result.ingTag === 'A3'"
+          >
+            <div class="formTit flex-shrink0 width170px">재입찰사유</div>
+            <div class="width100">{{ this.result.whyA3 }}</div>
+          </div>
+        </div>
+
+        <h3 class="h3Tit mt50">
+          업체견적 사항
+          <strong class="textHighlight"
+            >(개찰 전까지 견적금액 및 내역파일은 암호화되어 보호됩니다)</strong
+          >
+        </h3>
+        <div class="boxSt mt20">
+          <table class="tblSkin1">
+            <colgroup>
+              <col style="" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>입찰참가업체명</th>
+                <th>견적금액(총액)</th>
+                <th>확인</th>
+                <th>제출일시</th>
+                <th>담당자</th>
+                <th class="end">기타첨부파일</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(val, idx) in custContent">
+                <td class="text-left">{{ val.custName }}</td>
+                <td>{{ val.esmt_curr }}</td>
+                <td></td>
+                <td>{{ val.submitDate }}</td>
+                <td>홍길동</td>
+                <td class="end">
+                  <img src="/images/icon_etc.svg" class="iconImg" alt="etc" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="text-center mt50">
+          <a class="btnStyle btnOutline" title="목록">목록</a>
+          <a
+            data-toggle="modal"
+            data-target="#biddingReserve"
+            class="btnStyle btnSecondary"
+            title="유찰"
+            >유찰</a
+          >
+          <a class="btnStyle btnPrimary" title="개찰">개찰</a>
+        </div>
+      </div>
+    </div>
+    <!-- //contents -->
+
+    <!-- 유찰 -->
+    <div
+      class="modal fade modalStyle"
+      id="biddingReserve"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" style="width: 100%; max-width: 550px">
+        <div class="modal-content">
+          <div class="modal-body">
+            <a class="ModalClose" data-dismiss="modal" title="닫기"
+              ><i class="fa-solid fa-xmark"></i
+            ></a>
+            <h2 class="modalTitle">입찰계획 삭제</h2>
+            <div class="modalTopBox">
+              <ul>
+                <li>
+                  <div>
+                    유찰처리 합니다. 유찰처리 시 참가업체에게 유찰 메일이
+                    발송됩니다.<br />유찰 처리 시 유찰 사유 내용으로 업체에게
+                    발송 됩니다.
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <textarea
+              class="textareaStyle height150px mt20"
+              onkeydown="resize(this)"
+              onkeyup="resize(this)"
+              placeholder="유찰사유 필수 입력"
+            ></textarea>
+            <div class="modalFooter">
+              <a class="modalBtnClose" data-dismiss="modal" title="취소"
+                >취소</a
+              >
+              <a class="modalBtnCheck" data-toggle="modal" title="유찰">유찰</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- //유찰 -->
+
+    <!-- 협력사 사용자-->
+    <CustUserPop ref="custUserPop" />
+    <!-- //협력사 사용자-->
+  </div>
+  <!-- //본문 -->
 </template>
   <script>
+import CustUserPop from "@/modules/company/components/CustUserPop.vue";
 
+export default {
+  name: "bidStatusDetail",
+  components: {
+    CustUserPop,
+  },
+  data() {
+    return {
+      total: 0,
+      detail: {},
+      dataFromList: {}, //목록에서 받아온 데이터
+      searchParams: {},
+      result: [],
+      tableContent: [],
+      fileContent: [],
+      custContent: [],
+      estimateContent: [],
 
-  export default {
-    name: "bidStatusDetail",
-    components: {
- 
-    },
-    data() {
-      return {
+      lotteDeptList: [
+        { value: "A1", label: "익산 E/F" },
+        { value: "A2", label: "말련 E/F" },
+        { value: "A3", label: "에너지" },
+        { value: "A4", label: "융복합" },
+        { value: "A5", label: "공통" },
+      ],
 
+      lotteProcList: [
+        { value: "B1", label: "용해" },
+        { value: "B2", label: "제박" },
+        { value: "B3", label: "후처리" },
+        { value: "B4", label: "슬리터" },
+        { value: "B5", label: "절단" },
+        { value: "B6", label: "환경" },
+        { value: "B7", label: "공통" },
+        { value: "B8", label: "기타" },
+      ],
+
+      lotteClsList: [
+        { value: "C1", label: "탱크" },
+        { value: "C2", label: "배관" },
+        { value: "C3", label: "열교환기" },
+        { value: "C4", label: "냉각탑" },
+        { value: "C5", label: "브로이" },
+        { value: "C6", label: "판넬" },
+        { value: "C7", label: "펌프" },
+        { value: "C8", label: "인버터" },
+        { value: "C9", label: "PLC/드라이브" },
+        { value: "C10", label: "정류기" },
+        { value: "C11", label: "단락기" },
+        { value: "C12", label: "변압기" },
+        { value: "C13", label: "전기/케이블" },
+        { value: "C14", label: "공조" },
+        { value: "C15", label: "드럼" },
+        { value: "C16", label: "전해조" },
+        { value: "C17", label: "방청조" },
+        { value: "C18", label: "구동부" },
+        { value: "C19", label: "스크라바" },
+        { value: "C20", label: "크레인" },
+        { value: "C21", label: "구동 Roll" },
+        { value: "C22", label: "슬리터기" },
+        { value: "C23", label: "절단기" },
+        { value: "C24", label: "검사설비" },
+        { value: "C25", label: "기타" },
+      ],
+    };
+  },
+  methods: {
+    async retrieve() {
+      try {
+        this.$store.commit("loading");
+        const response = await this.$http.post(
+          "/api/v1/bid/progresslistDetail",
+          this.dataFromList
+        );
+        this.result = response.data[0][0];
+        this.tableContent = response.data[1];
+        this.total = this.calculateTotal();
+        this.fileContent = response.data[2];
+        this.custContent = response.data[3];
+        this.$store.commit("finish");
+      } catch (err) {
+        console.log(err);
+        this.$store.commit("finish");
       }
     },
-    methods: {
-
+        calculateTotal() {
+      let total = 0;
+      this.tableContent.forEach((val) => {
+        total += val.orderQty * val.orderUc;
+      });
+      return total;
     },
-    beforeMount() {},
-    mounted() {
 
+    async downloadFile(filePath, fileNm) {
+          console.log(filePath)
+      try {
+        this.$store.commit("loading");
+        const response = await this.$http.post(
+          "/api/v1/notice/downloadFile",
+          { fileId: filePath }, // 서버에서 파일을 식별할 수 있는 고유한 ID 또는 다른 필요한 데이터
+          { responseType: "blob" } // 응답 데이터를 Blob 형식으로 받기
+        );
+
+        // 파일 다운로드를 위한 처리
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", fileNm); // 다운로드될 파일명 설정
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        this.$store.commit("finish");
+      } catch (error) {
+        console.error("Error downloading file:", error);
+        this.$store.commit("finish");
+      }
     },
-  };
-  </script>
+  },
+  beforeMount() {},
+  mounted() {
+    this.dataFromList = this.$store.state.bidDetailData;
+    console.log(this.dataFromList);
+    this.retrieve();
+  },
+};
+</script>
