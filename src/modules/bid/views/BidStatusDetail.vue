@@ -314,11 +314,31 @@
               <tr v-for="(val, idx) in custContent">
                 <td class="text-left">{{ val.custName }}</td>
                 <td>{{ val.esmt_curr }}</td>
-                <td></td>
+                <td>
+                  <span v-if="val.esmtYn === 1">공고확인</span>
+                  <span
+                    v-else-if="val.esmtYn === 2"
+                    style="
+                      color: blue;
+                      text-decoration: underline;
+                      cursor: pointer;
+                    "
+                    data-toggle="modal"
+                    data-target="#bmDetail"
+                    >상세</span
+                  >
+                  <span v-else></span>
+                </td>
                 <td>{{ val.submitDate }}</td>
                 <td>홍길동</td>
                 <td class="end">
-                  <img src="/images/icon_etc.svg" class="iconImg" alt="etc" />
+                  <img
+                    src="/images/icon_etc.svg"
+                    class="iconImg"
+                    alt="etc"
+                    data-toggle="modal"
+                    data-target="#bmDetail"
+                  />
                 </td>
               </tr>
             </tbody>
@@ -430,6 +450,34 @@
       </div>
     </div>
     <!-- //개찰 -->
+
+    <!-- 업체견적사항상세 확인 -->
+    <div
+      class="modal fade modalStyle"
+      id="bmDetail"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" style="width: 100%; max-width: 420px">
+        <div class="modal-content">
+          <div class="modal-body">
+            <a class="ModalClose" data-dismiss="modal" title="닫기"
+              ><i class="fa-solid fa-xmark"></i
+            ></a>
+            <div class="alertText2">
+              개찰 전 견적 내용은 확인할 수 없습니다.
+            </div>
+            <div class="modalFooter">
+              <a class="modalBtnClose" data-dismiss="modal" title="확인"
+                >확인</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- //업체견적사항상세 확인 -->
 
     <!-- 협력사 사용자-->
     <CustUserPop ref="custUserPop" />

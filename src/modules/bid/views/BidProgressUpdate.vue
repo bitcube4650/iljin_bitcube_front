@@ -997,6 +997,7 @@ export default {
         orderUc: "",
         type: "U",
       });
+      this.$forceUpdate();
     },
     deleteRow(index) {
       this.dataFromList.tableContent.splice(index, 1);
@@ -1271,10 +1272,7 @@ export default {
     fileInput.applyFile();
     cmmn.applyCal();
 
-    this.fileSetting();
     this.assignDataFromList();
-    //파일첨부
-
     if (!this.originCustData) {
       this.originCustData = this.dataFromList.custContent.slice();
     }
@@ -1285,6 +1283,10 @@ export default {
       this.originTableData = this.dataFromList.tableContent.slice();
     }
     console.log(this.dataFromList);
+
+    this.$nextTick(() => {
+      this.fileSetting();
+    });
   },
 };
 </script>
