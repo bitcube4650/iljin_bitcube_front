@@ -356,7 +356,7 @@
             ><router-link :to="{ name: 'bidStatus' }">목록 </router-link></a
           >
           <a
-            v-if="this.userId === this.result.cuserCode || this.userId === this.result.estOpenerCode"
+            v-if="this.userId === this.result.cuserCode || this.userId === this.result.estOpenerCode || this.loginId === 'master'"
             data-toggle="modal"
             data-target="#biddingReserve"
             class="btnStyle btnSecondary"
@@ -364,6 +364,7 @@
             >유찰</a
           >
           <a
+            v-if="this.userId === this.result.estBidderCode || this.userId === this.result.estOpenerCode || this.loginId === 'master'"
             data-toggle="modal"
             data-target="#openBid"
             class="btnStyle btnPrimary"
