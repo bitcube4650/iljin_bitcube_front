@@ -367,7 +367,7 @@
                 class="modalBtnCheck"
                 data-toggle="modal"
                 title="입찰공고"
-                @click="openBid()"
+                @click="bidNotice"
                 >입찰공고</a
               >
             </div>
@@ -517,7 +517,7 @@ export default {
   beforeMount() {},
   mounted() {
     this.dataFromList = this.$store.state.bidDetailData;
-    this.loginId = this.$store.state.loginInfo.loginId;
+    this.loginId = this.$store.state.loginInfo.userId;
     console.log(this.dataFromList);
     this.retrieve();
   },
@@ -586,7 +586,7 @@ export default {
       this.$router.push({ name: "bidProgressUpdate" });
     },
 
-    openBid() {
+    bidNotice() {
       this.detail.biNo = this.dataFromList;
       console.log(this.detail.biNo);
       this.detail.biName = this.result.biName;
@@ -594,7 +594,7 @@ export default {
       this.detail.interNm = this.result.interrelatedNm;
       this.$store.commit("loading");
       this.$http
-        .post("/api/v1/bid/openBid", this.detail)
+        .post("/api/v1/bid/bidNotice", this.detail)
         .then((response) => {
           if (response.data.code == "OK") {
           } else {

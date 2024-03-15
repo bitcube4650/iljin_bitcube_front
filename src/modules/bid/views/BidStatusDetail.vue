@@ -336,7 +336,7 @@
                   <span v-else></span>
                 </td>
                 <td>{{ val.submitDate }}</td>
-                <td>홍길동</td>
+                <td>{{ val.userName }}</td>
                 <td class="end">
                   <img
                     src="/images/icon_etc.svg"
@@ -356,6 +356,7 @@
             ><router-link :to="{ name: 'bidStatus' }">목록 </router-link></a
           >
           <a
+            v-if="this.userId === this.result.cuserCode || this.userId === this.result.estOpenerCode"
             data-toggle="modal"
             data-target="#biddingReserve"
             class="btnStyle btnSecondary"
@@ -510,6 +511,7 @@ export default {
       fileContent: [],
       custContent: [],
       estimateContent: [],
+      loginId:"",
 
       lotteDeptList: [
         { value: "A1", label: "익산 E/F" },
@@ -642,7 +644,8 @@ export default {
   beforeMount() {},
   mounted() {
     this.dataFromList = this.$store.state.bidDetailData;
-    console.log(this.dataFromList);
+    this.loginId =  this.$store.state.loginInfo.userId;
+    console.log(this.$store.state.loginInfo);
     this.retrieve();
   },
 };
