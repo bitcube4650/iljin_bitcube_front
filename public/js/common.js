@@ -98,7 +98,7 @@ export default {
         $('img[usemap]').rwdImageMaps();
 
         //견적 상세보기
-        $('.detailBtn').click(function(){
+        $('.detailBtn').on('click', function(){
             $(this).closest('tr').next('.detailView').toggle();
         });
 
