@@ -350,7 +350,7 @@
           </div>
           <div class="flex align-items-center mt10">
             <div class="flex align-items-center width100">
-              <div class="formTit flex-shrink0 width170px">개찰자/낙찰자</div>
+              <div class="formTit flex-shrink0 width170px">개찰자</div>
               <div class="flex align-items-center width100">
                 <input
                   type="text"
@@ -395,6 +395,30 @@
               </div>
             </div>
           </div>
+          <div class="flex align-items-center mt10">
+            <div class="flex align-items-center width100">
+              <div class="formTit flex-shrink0 width170px">낙찰자</div>
+              <div class="flex align-items-center width270px">
+                <input
+                  type="text"
+                  name=""
+                  id=""
+                  class="inputStyle"
+                  placeholder=""
+                  v-model="dataFromList.result.estBidder"
+                  disabled
+                />
+                <a
+                  data-toggle="modal"
+                  data-target="#biddingUserPop"
+                  class="btnStyle btnSecondary ml10"
+                  title="선택"
+                  @click="$refs.biddingUserPop.initModal(bidContent.interrelatedCustCode);"
+                  >선택</a
+                >
+              </div>
+            </div>
+            </div>
           <div class="flex align-items-center mt10">
             <div class="flex align-items-center width100">
               <div class="formTit flex-shrink0 width170px">입회자1</div>
@@ -825,6 +849,8 @@
     <cust-user-pop ref="custUserPop" />
     <!-- 개찰자 조회-->
     <bid-open-user-pop ref="bidOpenUserPop" @callbackFunc="callbackOpenUser"/>
+    <!-- 낙찰자 조회-->
+    <bidding-user-pop ref="biddingUserPop" @callbackFunc="callbackBiddingUser"/>
     <!-- 입찰관련 일반사용자 조회-->
     <bid-user-pop ref="bidUserPop" @callbackFunc="callbackUser"/>
 
@@ -839,6 +865,7 @@ import CustPop from "@/modules/company/components/CustPop.vue";
 import CustUserPop from "@/modules/company/components/CustUserPop.vue";
 import BidOpenUserPop from "@/modules/company/components/BidOpenUserPop.vue";
 import BidUserPop from "@/modules/company/components/BidUserPop.vue";
+import BiddingUserPop from "@/modules/company/components/BiddingUserPop.vue";
 
 export default {
   name: "bidProgressUpdate",
@@ -848,6 +875,7 @@ export default {
     CustUserPop,
     BidOpenUserPop,
     BidUserPop,
+    BiddingUserPop,
   },
   data() {
     return {
@@ -863,7 +891,9 @@ export default {
       datePart2: "",
       timePart2: "",
       selectedFile: null, //업로드한 파일
-      fileCnt: 0, //업로드한 파일 수
+      filek:[],
+      file0:[],
+      file1:[],
     };
   },
   computed: {
@@ -901,6 +931,11 @@ export default {
     callbackOpenUser(data) {
       this.dataFromList.result.estOpener = data.userName;
       this.dataFromList.result.estOpenerCode = data.userId;
+      this.$forceUpdate();
+    },
+    callbackBiddingUser(data) {
+      this.dataFromList.result.estBidder = data.userName;
+      this.dataFromList.result.estBidderCode = data.userId;
       this.$forceUpdate();
     },
     callbackUser({ data, buttonId }) {
@@ -1016,10 +1051,19 @@ export default {
 
           if (fileFlagKo === "세부내역") {
             preview = preview1;
+            this.filek.push({
+              selectedFile: fileData.fileNm
+            });
           } else if (fileFlagKo === "대내용") {
             preview = preview2;
+            this.file0.push({
+              selectedFile: fileData.fileNm
+            });
           } else if (fileFlagKo === "대외용") {
             preview = preview3;
+            this.file1.push({
+              selectedFile: fileData.fileNm
+            });
           }
 
           preview.innerHTML += `
@@ -1043,6 +1087,7 @@ export default {
           });
         }
       });
+      this.$forceUpdate();
     },
     chageFile(event) {
       //바뀐 파일 selectedFile에 담기
@@ -1129,22 +1174,23 @@ export default {
       }
 
       if (this.dataFromList.result.insModeCode === "1") {
-        if (!this.$refs.insFile.value) {
+        if (this.fileK.length === 0) {
           alert("세부내역파일을 업로드 해주세요.");
           return false;
         }
       }
 
-      if (!this.$refs.innerFile.value) {
+      if (this.file0.length === 0) {
         alert("대내용 첨부파일을 업로드 해주세요.");
+        console.log(this.file1)
         return false;
       }
 
-      if (!this.$refs.outerFile.value) {
+      if (this.file1.length === 0) {
         alert("대외용 첨부파일을 업로드 해주세요.");
         return false;
       }
-
+      
       return true;
     },
     save() {
@@ -1244,6 +1290,9 @@ export default {
           fCustCode: "0",
           selectedFile: event.target.files[0],
         });
+        this.filek.push({
+          selectedFile: event.target.files[0],
+        });
       }
       if (event.target.id === "file-input2") {
         this.dataFromList.fileContent.push({
@@ -1252,12 +1301,18 @@ export default {
           fCustCode: "0",
           selectedFile: event.target.files[0],
         });
+        this.file0.push({
+          selectedFile: event.target.files[0],
+        });
       }
       if (event.target.id === "file-input3") {
         this.dataFromList.fileContent.push({
           biNo: this.dataFromList.result.biNo,
           fileFlag: "1",
           fCustCode: "0",
+          selectedFile: event.target.files[0],
+        });
+        this.file1.push({
           selectedFile: event.target.files[0],
         });
       }
@@ -1283,10 +1338,7 @@ export default {
       this.originTableData = this.dataFromList.tableContent.slice();
     }
     console.log(this.dataFromList);
-
-    this.$nextTick(() => {
-      this.fileSetting();
-    });
+    this.fileSetting();
   },
 };
 </script>

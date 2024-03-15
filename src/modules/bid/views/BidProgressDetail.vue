@@ -154,22 +154,16 @@
             </div>
           </div>
           <div class="flex align-items-center mt20">
-            <div class="formTit flex-shrink0 width170px">
-              공장동
-            </div>
+            <div class="formTit flex-shrink0 width170px">공장동</div>
             <div class="width100">{{ this.result.matFactoryFactory }}</div>
           </div>
           <div class="flex align-items-center mt20">
             <div class="flex align-items-center width100">
-              <div class="formTit flex-shrink0 width170px">
-                라인
-              </div>
+              <div class="formTit flex-shrink0 width170px">라인</div>
               <div class="width100">{{ this.result.matFactoryLine }}</div>
             </div>
             <div class="flex align-items-center width100 ml80">
-              <div class="formTit flex-shrink0 width170px">
-                호기
-              </div>
+              <div class="formTit flex-shrink0 width170px">호기</div>
               <div class="width100">{{ this.result.matFactoryCnt }}</div>
             </div>
           </div>
@@ -189,12 +183,18 @@
           </div>
           <div class="flex align-items-center mt20">
             <div class="flex align-items-center width100">
-              <div class="formTit flex-shrink0 width170px">개찰자/낙찰자</div>
+              <div class="formTit flex-shrink0 width170px">개찰자</div>
               <div class="width100">{{ this.result.estOpener }}</div>
             </div>
             <div class="flex align-items-center width100 ml80">
               <div class="formTit flex-shrink0 width170px">입찰공고자</div>
               <div class="width100">{{ this.result.gongoId }}</div>
+            </div>
+          </div>
+          <div class="flex align-items-center mt20">
+            <div class="flex align-items-center width100">
+              <div class="formTit flex-shrink0 width170px">낙찰자</div>
+              <div class="width100">{{ this.result.estBidder }}</div>
             </div>
           </div>
           <div class="flex align-items-center mt20">
@@ -280,16 +280,20 @@
             <div class="width100">
               <div
                 v-for="(val, idx) in fileContent"
-                v-if="val.fileFlagKo === '대외용' || val.fileFlagKo === '대내용'"
+                v-if="
+                  val.fileFlagKo === '대외용' || val.fileFlagKo === '대내용'
+                "
                 :key="idx"
               >
                 <div
                   :class="val.fileFlagKo === '대외용' ? 'textHighlight' : 'mt5'"
                 >
                   <span class="mr20">{{ val.fileFlagKo }}</span>
-                  <a @click="downloadFile(val.filePath, val.fileNm)" class="textUnderline">{{
-                    val.fileNm
-                  }}</a>
+                  <a
+                    @click="downloadFile(val.filePath, val.fileNm)"
+                    class="textUnderline"
+                    >{{ val.fileNm }}</a
+                  >
                 </div>
               </div>
             </div>
@@ -311,16 +315,22 @@
             >공고문 미리보기</a
           >
           <a
+            v-if="this.loginId === this.result.cuserCode"
             data-toggle="modal"
             data-target="#biddingDel"
             class="btnStyle btnSecondary"
             title="삭제"
             >삭제</a
           >
-          <a @click="updateDetail" class="btnStyle btnSecondary" title="수정"
+          <a
+            v-if="this.loginId === this.result.cuserCode"
+            @click="updateDetail"
+            class="btnStyle btnSecondary"
+            title="수정"
             >수정</a
           >
           <a
+            v-if="this.loginId === this.result.cuserCode || this.logingId === this.result.gongoIdCode"
             data-toggle="modal"
             data-target="#biddingModal"
             class="btnStyle btnPrimary"
@@ -454,6 +464,7 @@ export default {
       tableContent: [],
       fileContent: [],
       custContent: [],
+      loginId: "",
 
       lotteDeptList: [
         { value: "A1", label: "익산 E/F" },
@@ -506,6 +517,7 @@ export default {
   beforeMount() {},
   mounted() {
     this.dataFromList = this.$store.state.bidDetailData;
+    this.loginId = this.$store.state.loginInfo.loginId;
     console.log(this.dataFromList);
     this.retrieve();
   },
@@ -636,7 +648,7 @@ export default {
     },
 
     async downloadFile(filePath, fileNm) {
-          console.log(filePath)
+      console.log(filePath);
       try {
         this.$store.commit("loading");
         const response = await this.$http.post(

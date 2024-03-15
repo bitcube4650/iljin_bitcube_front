@@ -358,7 +358,7 @@
           </div>
           <div class="flex align-items-center mt10">
             <div class="flex align-items-center width100">
-              <div class="formTit flex-shrink0 width170px">개찰자/낙찰자</div>
+              <div class="formTit flex-shrink0 width170px">개찰자</div>
               <div class="flex align-items-center width100">
                 <input
                   type="text"
@@ -402,6 +402,30 @@
               </div>
             </div>
           </div>
+           <div class="flex align-items-center mt10">
+            <div class="flex align-items-center width100">
+              <div class="formTit flex-shrink0 width170px">낙찰자</div>
+              <div class="flex align-items-center width270px">
+                <input
+                  type="text"
+                  name=""
+                  id=""
+                  class="inputStyle"
+                  placeholder=""
+                  v-model="bidContent.estBidder"
+                  disabled
+                />
+                <a
+                  data-toggle="modal"
+                  data-target="#biddingUserPop"
+                  class="btnStyle btnSecondary ml10"
+                  title="선택"
+                  @click="$refs.biddingUserPop.initModal(bidContent.interrelatedCustCode);"
+                  >선택</a
+                >
+              </div>
+            </div>
+            </div>
           <div class="flex align-items-center mt10">
             <div class="flex align-items-center width100">
               <div class="formTit flex-shrink0 width170px">입회자1</div>
@@ -831,6 +855,8 @@
     <cust-user-pop ref="custUserPop" />
     <!-- 개찰자 조회-->
     <bid-open-user-pop ref="bidOpenUserPop" @callbackFunc="callbackOpenUser"/>
+    <!-- 낙찰자 조회-->
+    <bidding-user-pop ref="biddingUserPop" @callbackFunc="callbackBiddingUser"/>
     <!-- 입찰관련 일반사용자 조회-->
     <bid-user-pop ref="bidUserPop" @callbackFunc="callbackUser"/>
   </div>
@@ -845,6 +871,7 @@ import CustPop from "@/modules/company/components/CustPop.vue";
 import CustUserPop from "@/modules/company/components/CustUserPop.vue";
 import BidOpenUserPop from "@/modules/company/components/BidOpenUserPop.vue";
 import BidUserPop from "@/modules/company/components/BidUserPop.vue";
+import BiddingUserPop from "@/modules/company/components/BiddingUserPop.vue";
 
 export default {
   name: "bidProgressInsert",
@@ -855,6 +882,7 @@ export default {
     CustUserPop,
     BidOpenUserPop,
     BidUserPop,
+    BiddingUserPop,
   },
   data() {
     return {
@@ -889,6 +917,9 @@ export default {
         userName: "",
         userId: "",
       },
+      filek: [],
+      file0: [],
+      file1: [],
 
       lotteDeptList: [
         { value: "A1", label: "익산 E/F" },
@@ -971,6 +1002,11 @@ export default {
     callbackOpenUser(data) {
       this.bidContent.estOpener = data.userName;
       this.bidContent.estOpenerCode = data.userId;
+      this.$forceUpdate();
+    },
+    callbackBiddingUser(data) {
+      this.bidContent.estBidder = data.userName;
+      this.bidContent.estBidderCode = data.userId;
       this.$forceUpdate();
     },
     callbackUser({ data, buttonId }) {
@@ -1088,6 +1124,7 @@ export default {
         orderUc: "",
         type: "I",
       });
+      this.$forceUpdate();
     },
     deleteRow(index) {
       this.tableContent.splice(index, 1);
@@ -1151,31 +1188,34 @@ export default {
         }
       }
 
-      if(this.bidContent.insModeCode === "1"){
-        if(!this.$refs.insFile.value){
+      if (this.bidContent.insModeCode === "1") {
+        if (this.fileK.length === 0) {
           alert("세부내역파일을 업로드 해주세요.");
           return false;
         }
       }
 
-      if(!this.$refs.innerFile.value){
-          alert("대내용 첨부파일을 업로드 해주세요.");
-          return false;
+      if (this.file0.length === 0) {
+        alert("대내용 첨부파일을 업로드 해주세요.");
+        console.log(this.file1);
+        return false;
       }
 
-      if(!this.$refs.outerFile.value){
-          alert("대외용 첨부파일을 업로드 해주세요.");
-          return false;
+      if (this.file1.length === 0) {
+        alert("대외용 첨부파일을 업로드 해주세요.");
+        return false;
       }
 
       return true;
     },
     save() {
-      if (!this.validationCheck()) {
-        $("#save").modal("hide");
-        console.log("false");
-        return false;
-      }
+      this.$nextTick(() => {
+        if (!this.validationCheck()) {
+          $("#save").modal("hide");
+          console.log("false");
+          return false;
+        }
+      });
 
       console.log(this.tableContent);
 
@@ -1210,8 +1250,6 @@ export default {
           this.$router.push({ name: "bidProgress" });
           this.$store.commit("finish");
         });
-
-      
     },
 
     async newBiNo() {
@@ -1259,11 +1297,17 @@ export default {
 
       console.log(event.target.files[0]);
 
-      let fileFlag ="";
-      switch(event.target.id){
-        case "file-input": fileFlag="K"; break;
-        case "file-input2": fileFlag="0"; break;
-        case "file-input3": fileFlag="1"; break;
+      let fileFlag = "";
+      switch (event.target.id) {
+        case "file-input":
+          fileFlag = "K";
+          break;
+        case "file-input2":
+          fileFlag = "0";
+          break;
+        case "file-input3":
+          fileFlag = "1";
+          break;
       }
 
       // 동일한 fileFlag를 가진 기존 파일 정보가 있는 경우 삭제
@@ -1279,12 +1323,18 @@ export default {
           fCustCode: "0",
           selectedFile: event.target.files[0],
         });
+        this.filek.push({
+          selectedFile: event.target.files[0],
+        });
       }
       if (event.target.id === "file-input2") {
         this.fileContent.push({
           biNo: this.bidContent.biNo,
           fileFlag: "0",
           fCustCode: "0",
+          selectedFile: event.target.files[0],
+        });
+        this.file0.push({
           selectedFile: event.target.files[0],
         });
       }
@@ -1295,8 +1345,11 @@ export default {
           fCustCode: "0",
           selectedFile: event.target.files[0],
         });
+        this.file1.push({
+          selectedFile: event.target.files[0],
+        });
       }
-
+      console.log(this.filek.length);
       console.log(this.fileContent);
     },
   },

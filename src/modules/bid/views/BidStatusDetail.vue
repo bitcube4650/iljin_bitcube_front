@@ -171,12 +171,18 @@
           </div>
           <div class="flex align-items-center mt20">
             <div class="flex align-items-center width100">
-              <div class="formTit flex-shrink0 width170px">개찰자/낙찰자</div>
+              <div class="formTit flex-shrink0 width170px">개찰자</div>
               <div class="width100">{{ this.result.estOpener }}</div>
             </div>
             <div class="flex align-items-center width100 ml80">
               <div class="formTit flex-shrink0 width170px">입찰공고자</div>
               <div class="width100">{{ this.result.gongoId }}</div>
+            </div>
+          </div>
+          <div class="flex align-items-center mt20">
+            <div class="flex align-items-center width100">
+              <div class="formTit flex-shrink0 width170px">낙찰자</div>
+              <div class="width100">{{ this.result.estBidder }}</div>
             </div>
           </div>
           <div class="flex align-items-center mt20">
