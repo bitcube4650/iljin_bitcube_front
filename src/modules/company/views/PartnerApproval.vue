@@ -67,11 +67,11 @@
 			<tbody>
 				<tr v-for="(val, idx) in listPage.content">
 					<td class="text-left"><router-link :to="'/company/partner/approval/'+val.custCode" class="textUnderline notiTitle" title="회사정보 자세히 보기">{{ val.custName }}</router-link></td>
-					<td>직물재배업 품목류</td>
-					<td>123-12-12345</td>
-					<td>관리자</td>
-					<td>김담당</td>
-					<td class="end">2023-12-31 13:21</td>
+					<td>{{ val.custType1 }}</td>
+					<td>{{ val.regnum }}</td>
+					<td>{{ val.presName }}</td>
+					<td>{{ val.userName }}</td>
+					<td class="end">{{ val.createDate }}</td>
 				</tr>
 			</tbody>
 		</table>

@@ -16,66 +16,66 @@
 			<div class="boxSt mt20">
 				<div class="flex align-items-center">
 					<div class="formTit flex-shrink0 width170px">가입희망 계열사</div>
-					<div class="width100">일진건설</div>
+					<div class="width100">{{ detail.interrelatedNm }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">업체유형 1</div>
-					<div class="width100">공공장소 청소 및 유사 서비스업 품목류</div>
+					<div class="width100">{{ detail.custType1 }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">업체유형 2</div>
-					<div class="width100">사업 시설 유지관리 및 고용 서비스업 품목류</div>
+					<div class="width100">{{ detail.custType2 }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">회사명</div>
-					<div class="width100">{{ detail.detailName }}</div>
+					<div class="width100">{{ detail.custName }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">대표자명</div>
-					<div class="width100">강대표</div>
+					<div class="width100">{{ detail.presName }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">사업자등록번호</div>
-					<div class="width100">123 - 12 - 12345</div>
+					<div class="width100">{{ detail.regnum }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">법인번호</div>
-					<div class="width100">123456 - 1234567</div>
+					<div class="width100">{{ detail.presJuminNo }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">자본금</div>
-					<div class="width100">10,000,000 원</div>
+					<div class="width100">{{ detail.capital.toLocaleString() }} 원</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">설립년도</div>
-					<div class="width100">2021 년</div>
+					<div class="width100">{{ detail.foundYear }} 년</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">대표전화</div>
-					<div class="width100">02-1234-1234</div>
+					<div class="width100">{{ detail.tel }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">팩스</div>
-					<div class="width100"></div>
+					<div class="width100">{{ detail.fax }}</div>
 				</div>
 				<div class="flex mt20">
 					<div class="formTit flex-shrink0 width170px">회사주소</div>
 					<div class="width100">
-						<p>12345</p>
-						<p>서울시 마포구 도화동</p>
-						<p>50-1 일진빌딩 304호</p>
+						<p>{{ detail.zipcode }}</p>
+						<p>{{ detail.addr }}</p>
+						<p>{{ detail.addrDetail }}</p>
 					</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">사업자등록증</div>
 					<div class="width100">
-						<a href="javascript:void(0)" class="textUnderline">비트큐브_사업자등록증.jpg</a>
+						<a href="#" class="textUnderline">비트큐브_사업자등록증.jpg</a>
 					</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">첨부파일</div>
 					<div class="width100">
-						<a href="javascript:void(0)" class="textUnderline">비트큐브_회사소개서.pptx</a>
+						<a href="#" class="textUnderline">비트큐브_회사소개서.pptx</a>
 					</div>
 				</div>
 				<div class="flex align-items-center mt20">
@@ -88,38 +88,38 @@
 			<div class="boxSt mt20">
 				<div class="flex align-items-center">
 					<div class="formTit flex-shrink0 width170px">이름</div>
-					<div class="width100">이순신</div>
+					<div class="width100">{{ detail.userName }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">이메일</div>
-					<div class="width100">james@bitcube.co.kr</div>
+					<div class="width100">{{ detail.userEmail }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">아이디</div>
-					<div class="width100">jameskang</div>
+					<div class="width100">{{ detail.userId }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">휴대폰</div>
-					<div class="width100">010-1234-1234</div>
+					<div class="width100">{{ detail.userHp }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">유선전화</div>
-					<div class="width100">02-123-1234</div>
+					<div class="width100">{{ detail.userTel }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">직급</div>
-					<div class="width100">대리</div>
+					<div class="width100">{{ detail.userPosition }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">부서</div>
-					<div class="width100">개발부</div>
+					<div class="width100">{{ detail.userBuseo }}</div>
 				</div>
 			</div>
 
 			<div class="text-center mt50">
 				<a href="#" @click.prevent="$router.go(-1)" class="btnStyle btnOutlineRed" title="취소">취소</a>
-				<a href="javascript:void(0)" data-toggle="modal" data-target="#companyTurnback" class="btnStyle btnRed" title="반려">반려</a>
-				<a href="javascript:void(0)" data-toggle="modal" data-target="#companyAccept" class="btnStyle btnPrimary" title="승인">승인</a>
+				<a href="#" data-toggle="modal" data-target="#companyTurnback" class="btnStyle btnRed" title="반려">반려</a>
+				<a href="#" data-toggle="modal" data-target="#companyAccept" class="btnStyle btnPrimary" title="승인">승인</a>
 			</div>
 		</div>
 	</div>
@@ -129,17 +129,17 @@
 		<div class="modal-dialog" style="width:100%; max-width:550px">
 			<div class="modal-content">
 				<div class="modal-body">
-					<a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+					<a href="#" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
 					<h2 class="modalTitle">업체등록 반려</h2>
 					<div class="modalTopBox">
 						<ul>
 							<li><div>업체 등록을 반려합니다.<br>아래 반려 사유를 입력해 주십시오.<br>반려 처리 시 반려사유 내용으로 업체에게 발송 됩니다.</div></li>
 						</ul>
 					</div>
-					<textarea class="textareaStyle height150px mt20" onkeydown="resize(this)" onkeyup="resize(this)" placeholder="반려사유 필수 입력"></textarea>
+					<textarea class="textareaStyle height150px mt20" v-model="detail.etc" placeholder="반려사유 필수 입력"></textarea>
 					<div class="modalFooter">
-						<a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
-						<a href="javascript:void(0)" class="modalBtnCheck" data-toggle="modal" title="반려">반려</a>
+						<a href="#" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
+						<a href="javascript:return false" @click.prevent="back" class="modalBtnCheck" data-toggle="modal" title="반려">반려</a>
 					</div>
 				</div>				
 			</div>
@@ -152,11 +152,11 @@
 		<div class="modal-dialog" style="width:100%; max-width:420px">
 			<div class="modal-content">
 				<div class="modal-body">
-					<a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+					<a href="#" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
 					<div class="alertText2">업체 등록을 승인하시겠습니까?</div>
 					<div class="modalFooter">
-						<a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
-						<a href="javascript:void(0)" class="modalBtnCheck" data-toggle="modal" title="승인">승인</a>
+						<a href="#" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
+						<a href="#" @click.prevent="approval" class="modalBtnCheck" title="승인">승인</a>
 					</div>
 				</div>				
 			</div>
@@ -171,7 +171,7 @@ export default {
 	name: "PartnerApprovalDetail",
 	data() {
 		return {
-			detail: {}
+			detail: {capital:0}
 		};
 	},
 	mounted() {
@@ -188,7 +188,47 @@ export default {
 				console.log(err)
 				this.$store.commit('finish');
 			}
-		}
+		},
+		approval() {  
+			this.$store.commit("loading");
+			this.$http
+			.post('/api/v1/cust/approval', this.detail)
+			.then((response) => {
+				if (response.data.code == 'OK') {
+					$("#commonAlertMsg").html('승인되었습니다.');
+					$("#commonAlertPop").modal("show");
+        			this.$store.commit('searchParams',{}); 
+        			this.$router.push('/company/partner/approval');
+				} else {
+					this.$swal({type: "warning",text: "처리 중 오류가 발생했습니다."});
+				}
+			})
+			.finally(() => {
+				this.$store.commit("finish");
+			});
+		},
+		back() {  
+			if (this.detail.etc == null || this.detail.etc == '') {
+				this.$swal({type: "warning",text: "반려사유를 입력해주세요."});
+				return;
+			}
+			this.$store.commit("loading");
+			this.$http
+			.post('/api/v1/cust/del', this.detail)
+			.then((response) => {
+				if (response.data.code == 'OK') {
+					$("#commonAlertMsg").html('반려되었습니다.');
+					$("#commonAlertPop").modal("show");
+        			this.$store.commit('searchParams',{}); 
+        			this.$router.push('/company/partner/approval');
+				} else {
+					this.$swal({type: "warning",text: "처리 중 오류가 발생했습니다."});
+				}
+			})
+			.finally(() => {
+				this.$store.commit("finish");
+			});
+		},
 	}
 }
 </script>

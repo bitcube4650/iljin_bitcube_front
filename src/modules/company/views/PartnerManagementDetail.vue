@@ -15,16 +15,16 @@
 			<h3 class="h3Tit">회사 정보</h3>
 			<div class="boxSt mt20">
 				<div class="flex align-items-center">
-					<div class="formTit flex-shrink0 width170px">승인 계열사</div>
-					<div class="width100">{{ detail.custName }}</div>
+					<div class="formTit flex-shrink0 width170px">가입희망 계열사</div>
+					<div class="width100">{{ detail.interrelatedNm }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">업체유형 1</div>
-					<div class="width100">{{ detail.custName }}</div>
+					<div class="width100">{{ detail.custType1 }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">업체유형 2</div>
-					<div class="width100">사{{ detail.custName }}</div>
+					<div class="width100">{{ detail.custType2 }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">회사명</div>
@@ -32,38 +32,38 @@
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">대표자명</div>
-					<div class="width100">강대표</div>
+					<div class="width100">{{ detail.presName }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">사업자등록번호</div>
-					<div class="width100">123 - 12 - 12345</div>
+					<div class="width100">{{ detail.regnum }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">법인번호</div>
-					<div class="width100">123456 - 1234567</div>
+					<div class="width100">{{ detail.presJuminNo }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">자본금</div>
-					<div class="width100">10,000,000 원</div>
+					<div class="width100">{{ detail.capital.toLocaleString() }} 원</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">설립년도</div>
-					<div class="width100">2021 년</div>
+					<div class="width100">{{ detail.foundYear }} 년</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">대표전화</div>
-					<div class="width100">02-1234-1234</div>
+					<div class="width100">{{ detail.tel }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">팩스</div>
-					<div class="width100"></div>
+					<div class="width100">{{ detail.fax }}</div>
 				</div>
 				<div class="flex mt20">
 					<div class="formTit flex-shrink0 width170px">회사주소</div>
 					<div class="width100">
-						<p>12345</p>
-						<p>서울시 마포구 도화동</p>
-						<p>50-1 일진빌딩 304호</p>
+						<p>{{ detail.zipcode }}</p>
+						<p>{{ detail.addr }}</p>
+						<p>{{ detail.addrDetail }}</p>
 					</div>
 				</div>
 				<div class="flex align-items-center mt20">
@@ -121,31 +121,31 @@
 			<div class="boxSt mt20">
 				<div class="flex align-items-center">
 					<div class="formTit flex-shrink0 width170px">이름</div>
-					<div class="width100">이순신</div>
+					<div class="width100">{{ detail.userName }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">이메일</div>
-					<div class="width100">james@bitcube.co.kr</div>
+					<div class="width100">{{ detail.userEmail }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">아이디</div>
-					<div class="width100">jameskang</div>
+					<div class="width100">{{ detail.userId }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">휴대폰</div>
-					<div class="width100">010-1234-1234</div>
+					<div class="width100">{{ detail.userHp }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">유선전화</div>
-					<div class="width100">02-123-1234</div>
+					<div class="width100">{{ detail.userTel }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">직급</div>
-					<div class="width100">대리</div>
+					<div class="width100">{{ detail.userPosition }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">부서</div>
-					<div class="width100">개발부</div>
+					<div class="width100">{{ detail.userBuseo }}</div>
 				</div>
 			</div>
 
@@ -173,7 +173,7 @@
 					<textarea class="textareaStyle height150px mt20" v-model="detail.etc" placeholder="삭제사유 필수 입력"></textarea>
 					<div class="modalFooter">
 						<a href="#" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
-						<a href="#" @click.prevent="del" class="modalBtnCheck" title="삭제">삭제</a>
+						<a href="javascript:return false" @click.prevent="del" class="modalBtnCheck" title="삭제">삭제</a>
 					</div>
 				</div>				
 			</div>
@@ -213,7 +213,7 @@ export default {
 			}
 			this.$store.commit("loading");
 			this.$http
-			.post('/api/v1/cust/delete', this.detail)
+			.post('/api/v1/cust/del', this.detail)
 			.then((response) => {
 				if (response.data.code == 'OK') {
 					$("#commonAlertMsg").html('삭제되었습니다.');

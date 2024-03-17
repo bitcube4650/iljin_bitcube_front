@@ -78,11 +78,11 @@
 			<tbody>
 				<tr v-for="(val, idx) in listPage.content">
 					<td class="text-left"><router-link :to="'/company/partner/management/'+val.custCode" class="textUnderline notiTitle" title="회사정보 자세히 보기">{{ val.custName }}</router-link></td>
-					<td>직물재배업 품목류</td>
-					<td>123-12-12345</td>
-					<td>관리자</td>
-					<td>정상</td>
-					<td>2023-12-31 13:21</td>
+					<td>{{ val.custType1 }}</td>
+					<td>{{ val.regnum }}</td>
+					<td>{{ val.presName }}</td>
+					<td>{{ val.userName }}</td>
+					<td class="end">{{ val.createDate }}</td>
 					<td class="end"><a href="#" @click.prevent="$refs.custUserPop.initModal(val.custCode)" data-toggle="modal" data-target="#custUserPop" class="btnStyle btnSecondary btnSm" title="조회">조회</a></td>
 				</tr>
 			</tbody>
@@ -143,7 +143,7 @@ export default {
 			try {
 				this.$store.commit('loading');
         		this.$store.commit('searchParams', this.searchParams);
-				const response = await this.$http.post('/api/v1/cust/approvalList', this.searchParams);
+				const response = await this.$http.post('/api/v1/cust/custList', this.searchParams);
 				this.listPage = response.data;
 				this.$store.commit('finish');
 			} catch(err) {
