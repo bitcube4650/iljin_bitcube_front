@@ -132,14 +132,14 @@
           <tr v-for="(val, idx) in listPage.content">
             <td
               class="textUnderline"
-              @click="clickBidDetail(val.biNo)"
+              @click="clickBidDetail(val.ingTag, val.biNo)"
               href="#"
             >
               {{ val.biNo }}
             </td>
             <td
               class="textUnderline text-left"
-              @click="clickBidDetail(val.biNo)"
+              @click="clickBidDetail(val.ingTag, val.biNo)"
               href="#"
             >
               {{ val.biName }}
@@ -211,9 +211,14 @@ export default {
     };
   },
   methods: {
-    clickBidDetail(biNo) {
-      this.$store.commit("setBidDetailData", biNo);
-      this.$router.push({ name: "bidStatusDetail" });
+    clickBidDetail(ingTag, biNo) {
+      if (ingTag === "개찰") {
+        this.$store.commit("setBidDetailData", biNo);
+        this.$router.push({ name: "bidOpenDetail" });
+      } else {
+        this.$store.commit("setBidDetailData", biNo);
+        this.$router.push({ name: "bidStatusDetail" });
+      }
     },
     search(page) {
       if (page >= 0) this.searchParams.page = page;

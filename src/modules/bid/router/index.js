@@ -5,6 +5,7 @@ import bidProgressUpdate from '../views/BidProgressUpdate.vue';
 import bidProgressInsert from '../views/BidProgressInsert.vue';
 import bidStatus from '../views/BidStatus.vue';
 import bidStatusDetail from '../views/BidStatusDetail.vue';
+import bidOpenDetail from '../views/BidOpenDetail.vue';
 import bidComplete from '../views/BidComplete.vue';
 import bidCompleteDetail from '../views/BidCompleteDetail.vue';
 import bidHistory from '../views/BidHistory.vue';
@@ -48,6 +49,12 @@ export default [
         path: '/bid/statusDetail',
         name: 'bidStatusDetail',
         component: bidStatusDetail
+        //meta: { bid: true }
+    },
+    {
+        path: '/bid/openDetail',
+        name: 'bidOpenDetail',
+        component: bidOpenDetail
         //meta: { bid: true }
     },
     {
