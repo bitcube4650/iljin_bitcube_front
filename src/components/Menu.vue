@@ -134,7 +134,7 @@ import cmmn from "../../public/js/common.js"
         this.userAuth = this.$store.state.loginInfo.userAuth;
     },
     mounted(){
-
+        //console.log('user info ', this.$store.state.loginInfo);
         cmmn.applyPub();//퍼블리싱 js 파일 적용
     },
     methods: {

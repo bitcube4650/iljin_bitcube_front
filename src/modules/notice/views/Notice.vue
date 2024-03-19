@@ -114,15 +114,15 @@
 
         if(this.custType == 'inter'){//계열사인 경우
             var userAuth = this.$store.state.loginInfo.userAuth;//계열사 권한
-            params.custCode = this.$store.state.loginInfo.custCode;//무슨 계열사인지
+            
             if(userAuth == '1' || userAuth == '2'){//시스템관리자 또는 각사관리자인 경우
 
                 //공지사항 등록가능
                 this.insertButton = true;
             }
-        }else{//협력사인 경우
-            params.custCode = '';
-        }   
+        }
+        
+        params.custCode = this.$store.state.loginInfo.custCode;//무슨 계열사인지
 
         //파라미터 초기값 세팅
 		if (this.$store.state.searchParams.id == params.id) {
@@ -143,14 +143,7 @@
 		},
 		async retrieve() {//공지사항 조회
 
-            this.custType = this.$store.state.loginInfo.custType; 
-        
-            //계열사의 경우 계열사 회원에게 공개되는 공지사항을 위해 custCode 데이터 입력
-            if(this.custType == 'inter'){//계열사인 경우
-                this.searchParams.custCode = this.$store.state.loginInfo.custCode;//무슨 계열사인지
-            }else{//협력사인 경우
-                this.searchParams.custCode = '';
-            } 
+            this.searchParams.custCode = this.$store.state.loginInfo.custCode;//무슨 계열사인지
 
 			try {
 				this.$store.commit('loading');

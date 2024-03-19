@@ -24,11 +24,11 @@
                         </a>
                         <a  class="biddingStep2">
                             <div class="biddingListLeft"><i class="fa-light fa-comments"></i>입찰공고</div><!--공고는 되었지만 개찰은 안된 상태(재입찰 포함)-->
-                            <div class="biddingListRight"><span>{{ bidInfo.progress + bidInfo.rebid }}</span>건<i class="fa-light fa-angle-right"></i></div>
+                            <div class="biddingListRight"><span>{{ bidInfo.noticing }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
                         <a  class="biddingStep3">
                             <div class="biddingListLeft"><i class="fa-light fa-files"></i>개찰대상</div><!--공고는 되었는데 공고 기간이 지난 입찰(재입찰 포함)-->
-                            <div class="biddingListRight"><span>{{ bidInfo.beforeOpening + bidInfo.beforeReopening }}</span>건<i class="fa-light fa-angle-right"></i></div>
+                            <div class="biddingListRight"><span>{{ bidInfo.beforeOpening }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
                         <a  class="biddingStep4">
                             <div class="biddingListLeft"><i class="fa-light fa-file-check"></i>개찰</div><!--개찰은 되었지만 업체 선정이 안된 상태-->
