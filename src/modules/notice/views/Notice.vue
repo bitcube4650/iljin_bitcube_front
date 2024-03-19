@@ -108,7 +108,7 @@
 	},
 	mounted() {     
 
-		const params = {id: this.$options.name , title: '', content: '', userName: '', custCode: '', size: '10'};
+		const params = {id: this.$options.name , title: '', content: '', userName: '', size: '10'};
 
         this.custType = this.$store.state.loginInfo.custType; 
 
@@ -121,8 +121,6 @@
                 this.insertButton = true;
             }
         }
-        
-        params.custCode = this.$store.state.loginInfo.custCode;//무슨 계열사인지
 
         //파라미터 초기값 세팅
 		if (this.$store.state.searchParams.id == params.id) {
@@ -142,8 +140,6 @@
 
 		},
 		async retrieve() {//공지사항 조회
-
-            this.searchParams.custCode = this.$store.state.loginInfo.custCode;//무슨 계열사인지
 
 			try {
 				this.$store.commit('loading');

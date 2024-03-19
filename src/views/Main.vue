@@ -104,25 +104,12 @@ export default {
         bidInfo: {},
         partnerInfo: {},
         detailData: {},
-        custType: '',
-        custCode: ''
+        custType : this.$store.state.loginInfo.custType,
+        custCode : this.$store.state.loginInfo.custCode
     }
   },
   mounted() {
-    const params = {id: this.$options.name , title: '', content: '', userName: '', custCode: '', size: '5'};
-
-    this.custType = this.$store.state.loginInfo.custType; 
-
-    if(this.custType == 'inter'){//계열사인 경우
-
-        params.custCode = this.$store.state.loginInfo.custCode;//무슨 계열사인지
-        this.custCode = this.$store.state.loginInfo.custCode;
-
-    }else{//협력사인 경우
-
-        params.custCode = '';
-
-    }  
+    const params = {id: this.$options.name , title: '', content: '', userName: '', size: '5'};
 
     //파라미터 초기값 세팅
     if (this.$store.state.searchParams.id == params.id) {
@@ -147,15 +134,6 @@ export default {
   methods: {
 
     async selectNotice() {//공지사항 조회
-
-        this.custType = this.$store.state.loginInfo.custType; 
-
-        //계열사의 경우 계열사 회원에게 공개되는 공지사항을 위해 custCode 데이터 입력
-        if(this.custType == 'inter'){//계열사인 경우
-            this.searchParams.custCode = this.$store.state.loginInfo.custCode;//무슨 계열사인지
-        }else{//협력사인 경우
-            this.searchParams.custCode = '';
-        } 
 
         try {
             this.$store.commit('loading');

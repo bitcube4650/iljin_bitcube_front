@@ -109,19 +109,15 @@ export default {
         detailData: {},
         bidInfo: {},
         completeInfo: {},
-        custType: '',
-        custCode: ''
+        custType : this.$store.state.loginInfo.custType,
+        custCode : this.$store.state.loginInfo.custCode
     }
   },
   filters:{
 
   },
   mounted() {
-    const params = {id: this.$options.name , title: '', content: '', userName: '', custCode: '', size: '5'};
-
-    this.custType = this.$store.state.loginInfo.custType; 
-
-    params.custCode = this.$store.state.loginInfo.custCode;
+    const params = {id: this.$options.name , title: '', content: '', userName: '', size: '5'};
 
     //파라미터 초기값 세팅
     if (this.$store.state.searchParams.id == params.id) {
@@ -153,10 +149,6 @@ export default {
 
     */
     async selectNotice() {//공지사항 조회
-
-        this.custType = this.$store.state.loginInfo.custType; 
-
-        this.searchParams.custCode = this.$store.state.loginInfo.custCode;
 
         try {
             this.$store.commit('loading');
