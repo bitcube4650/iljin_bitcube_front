@@ -17,7 +17,7 @@
 					<div class="modalSearchBox mt20">						
 						<div class="flex align-items-center">
 							<div style="width:calc(100% - 120px)">
-								<select v-model="searchParams.itemGrpCd" class="selectStyle">
+								<select v-model="searchParams.itemGrp" class="selectStyle">
 									<option value="">품목그룹 전체</option>
                             		<option :value="val.itemGrpCd" v-for="(val, idx) in itemGrpList">{{ val.grpNm }}</option>
 								</select>
