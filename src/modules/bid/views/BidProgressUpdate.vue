@@ -121,12 +121,7 @@
               현장설명일시 <span class="star">*</span>
             </div>
             <div class="width100">
-              <input
-                type="text"
-                class="datepicker inputStyle maxWidth140px"
-                title="월 입력란"
-                v-model="datePart"
-              />
+              <Calendar @update-date="fnUpdateSpotDate" calendarId="spotDate" classProps="datepicker inputStyle maxWidth140px" :initDate="datePart"></Calendar>
               <input
                 type="time"
                 class="inputStyle maxWidth140px"
@@ -324,12 +319,7 @@
                 제출시작일시 <span class="star">*</span>
               </div>
               <div class="flex align-items-center width100">
-                <input
-                  type="text"
-                  class="datepicker inputStyle"
-                  title="월 입력란"
-                  v-model="datePart1"
-                />
+                <Calendar @update-date="fnUpdateStartDate" calendarId="startDate" classProps="datepicker inputStyle" :initDate="datePart1"></Calendar>
                 <input type="time" class="inputStyle ml10" v-model="timePart1"/>
               </div>
             </div>
@@ -338,12 +328,7 @@
                 제출마감일시 <span class="star">*</span>
               </div>
               <div class="flex align-items-center width100">
-                <input
-                  type="text"
-                  class="datepicker inputStyle"
-                  title="월 입력란"
-                  v-model="datePart2"
-                />
+                <Calendar @update-date="fnUpdateCloseDate" calendarId="closeDate" classProps="datepicker inputStyle" :initDate="datePart2"></Calendar>
                 <input type="time" class="inputStyle ml10" v-model="timePart2"/>
               </div>
             </div>
@@ -866,6 +851,7 @@ import CustUserPop from "@/modules/company/components/CustUserPop.vue";
 import BidOpenUserPop from "@/modules/company/components/BidOpenUserPop.vue";
 import BidUserPop from "@/modules/company/components/BidUserPop.vue";
 import BiddingUserPop from "@/modules/company/components/BiddingUserPop.vue";
+import Calendar from "@/components/Calendar.vue";
 
 export default {
   name: "bidProgressUpdate",
@@ -876,6 +862,7 @@ export default {
     BidOpenUserPop,
     BidUserPop,
     BiddingUserPop,
+    Calendar,
   },
   data() {
     return {
@@ -891,9 +878,9 @@ export default {
       datePart2: "",
       timePart2: "",
       selectedFile: null, //업로드한 파일
-      filek:[],
-      file0:[],
-      file1:[],
+      filek: [],
+      file0: [],
+      file1: [],
     };
   },
   computed: {
@@ -1052,17 +1039,17 @@ export default {
           if (fileFlagKo === "세부내역") {
             preview = preview1;
             this.filek.push({
-              selectedFile: fileData.fileNm
+              selectedFile: fileData.fileNm,
             });
           } else if (fileFlagKo === "대내용") {
             preview = preview2;
             this.file0.push({
-              selectedFile: fileData.fileNm
+              selectedFile: fileData.fileNm,
             });
           } else if (fileFlagKo === "대외용") {
             preview = preview3;
             this.file1.push({
-              selectedFile: fileData.fileNm
+              selectedFile: fileData.fileNm,
             });
           }
 
@@ -1174,7 +1161,7 @@ export default {
       }
 
       if (this.dataFromList.result.insModeCode === "1") {
-        if (this.fileK.length === 0) {
+        if (this.filek.length === 0) {
           alert("세부내역파일을 업로드 해주세요.");
           return false;
         }
@@ -1182,7 +1169,7 @@ export default {
 
       if (this.file0.length === 0) {
         alert("대내용 첨부파일을 업로드 해주세요.");
-        console.log(this.file1)
+        console.log(this.file1);
         return false;
       }
 
@@ -1190,7 +1177,7 @@ export default {
         alert("대외용 첨부파일을 업로드 해주세요.");
         return false;
       }
-      
+
       return true;
     },
     save() {
@@ -1318,6 +1305,15 @@ export default {
       }
 
       console.log(this.dataFromList.fileContent);
+    },
+    fnUpdateSpotDate(val) {
+      this.datePart = val;
+    },
+    fnUpdateStartDate(val) {
+      this.datePart1 = val;
+    },
+    fnUpdateCloseDate(val) {
+      this.datePart2 = val;
     },
   },
   beforeMount() {

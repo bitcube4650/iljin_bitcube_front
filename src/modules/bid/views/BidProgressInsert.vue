@@ -131,13 +131,8 @@
             <div class="formTit flex-shrink0 width170px">
               현장설명일시 <span class="star">*</span>
             </div>
-            <div class="width100">
-              <input
-                type="text"
-                class="datepicker inputStyle maxWidth140px"
-                title="월 입력란"
-                v-model="datePart"
-              />
+            <div class="flex align-items-center width100">
+              <Calendar @update-date="fnUpdateSpotDate" calendarId="spotDate" classProps="datepicker inputStyle maxWidth140px" :initDate="datePart"></Calendar>
               <input
                 type="time"
                 class="inputStyle maxWidth140px"
@@ -332,12 +327,7 @@
                 제출시작일시 <span class="star">*</span>
               </div>
               <div class="flex align-items-center width100">
-                <input
-                  type="text"
-                  class="datepicker inputStyle"
-                  title="월 입력란"
-                  v-model="datePart1"
-                />
+                <Calendar @update-date="fnUpdateStartDate" calendarId="startDate" classProps="datepicker inputStyle" :initDate="datePart1"></Calendar>
                 <input type="time" class="inputStyle ml10" v-model="timePart1"/>
               </div>
             </div>
@@ -346,12 +336,7 @@
                 제출마감일시 <span class="star">*</span>
               </div>
               <div class="flex align-items-center width100">
-                <input
-                  type="text"
-                  class="datepicker inputStyle"
-                  title="월 입력란"
-                  v-model="datePart2"
-                />
+                <Calendar @update-date="fnUpdateCloseDate" calendarId="closeDate" classProps="datepicker inputStyle" :initDate="datePart2"></Calendar>
                 <input type="time" class="inputStyle ml10" v-model="timePart2"/>
               </div>
             </div>
@@ -872,6 +857,7 @@ import CustUserPop from "@/modules/company/components/CustUserPop.vue";
 import BidOpenUserPop from "@/modules/company/components/BidOpenUserPop.vue";
 import BidUserPop from "@/modules/company/components/BidUserPop.vue";
 import BiddingUserPop from "@/modules/company/components/BiddingUserPop.vue";
+import Calendar from "@/components/Calendar.vue";
 
 export default {
   name: "bidProgressInsert",
@@ -883,6 +869,7 @@ export default {
     BidOpenUserPop,
     BidUserPop,
     BiddingUserPop,
+    Calendar,
   },
   data() {
     return {
@@ -1351,6 +1338,15 @@ export default {
       }
       console.log(this.filek.length);
       console.log(this.fileContent);
+    },
+    fnUpdateSpotDate(val) {
+      this.datePart = val;
+    },
+    fnUpdateStartDate(val) {
+      this.datePart1 = val;
+    },
+    fnUpdateCloseDate(val) {
+      this.datePart2 = val;
     },
   },
   beforeMount() {},
