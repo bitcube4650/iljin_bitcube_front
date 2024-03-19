@@ -20,20 +20,27 @@
             <!-- searchBox -->
             <div class="searchBox mt20">
                 <div class="flex align-items-center">
-                    <div class="sbTit mr30">입찰번호</div>
-                    <div class="width250px">
+                    <div class="sbTit mr30 width100px">입찰완료일</div>
+                    <div class="flex align-items-center width280px">
+                        <Calendar @update-date="fnUpdateStartDate" calendarId="startDate" classProps="datepicker inputStyle" :initDate="searchParams.startDate"></Calendar>
+                        <span style="margin:0 10px">~</span>
+                        <Calendar @update-date="fnUpdateEndDate" calendarId="endDate" classProps="datepicker inputStyle" :initDate="searchParams.endDate"></Calendar>
+                    </div>
+                   
+                    <div class="sbTit mr30 ml50">완료상태</div>
+                    <div class="flex align-items-center width300px">
+                        <input type="checkbox" id="progress1-1" v-model="searchParams.succBi" class="checkStyle"><label for="progress1-1">입찰완료</label>
+                        <input type="checkbox" id="progress1-2" v-model="searchParams.ingBi" class="checkStyle"><label for="progress1-2" class="ml50">유찰</label>
+                    </div>
+                </div>
+                <div class="flex align-items-center height50px mt10">
+                    <div class="sbTit mr30 width100px">입찰번호</div>
+                    <div class="width280px">
                         <input type="text" v-model="searchParams.biNo" class="inputStyle" placeholder="" @keydown.enter="fnSearchInit(0)">
                     </div>
                     <div class="sbTit mr30 ml50">입찰명</div>
                     <div class="width250px">
                         <input type="text" v-model="searchParams.biName" class="inputStyle" placeholder="" @keydown.enter="fnSearchInit(0)">
-                    </div>
-                </div>
-                <div class="flex align-items-center height50px mt10">
-                    <div class="sbTit mr30">완료상태</div>
-                    <div class="flex align-items-center width100">
-                        <input type="checkbox" id="progress1-1" v-model="searchParams.succBi" class="checkStyle"><label for="progress1-1">입찰완료</label>
-                        <input type="checkbox" id="progress1-2" v-model="searchParams.ingBi" class="checkStyle"><label for="progress1-2" class="ml50">유찰</label>
                     </div>
                     <a @click="fnSearchInit(0)" class="btnStyle btnSearch">검색</a>
                 </div>
@@ -96,11 +103,14 @@
 </template>
 <script>
 import Pagination from "@/components/Pagination.vue";
+import Calendar from "@/components/Calendar.vue";
+import cmmn from "../../../../public/js/common.js";
 
 export default {
     name: "bidComplete",
     components: {
-        Pagination
+        Pagination,
+        Calendar
     },
     data() {
         return {
@@ -111,6 +121,8 @@ export default {
             ,	ingBi : true					//조회조건 : 완료상태 - 유찰
             ,	size : 10						//10개씩 보기
             ,	page : 0						//클릭한 페이지번호
+            ,   startDate : ''
+            ,   endDate : ''
             },
             listPage: {},						//리스트
         }
@@ -131,7 +143,7 @@ export default {
     },
     methods: {
         clickPartnerBidCompleteDetail(biNo){
-            this.$router.push({name:"bidCompleteDetail", query: { 'biNo': biNo }});
+            this.$router.push({name:"bidCompleteDetail", params: { 'biNo': biNo }});
         },
         fnSearchInit(page) {// 조회조건 셋팅
             
@@ -157,8 +169,17 @@ export default {
             }
             
         },
+        fnUpdateEndDate(val){
+            this.searchParams.endDate = val;
+        },
+        fnUpdateStartDate(val){
+            this.searchParams.startDate = val;
+        }  
     },
     mounted() {
+        //검색조건 날짜 초기셋팅
+        this.searchParams.endDate = cmmn.getCurretDate();
+        this.searchParams.startDate = cmmn.strDateAddDay(this.searchParams.endDate, -365);
         this.fnSearchInit(0);
     },
 };
