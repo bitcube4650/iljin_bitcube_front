@@ -21,7 +21,7 @@
 									<option value="">품목그룹 전체</option>
                             		<option :value="val.itemGrpCd" v-for="(val, idx) in itemGrpList">{{ val.grpNm }}</option>
 								</select>
-								<input type="text" name="" id="" class="inputStyle mt10" placeholder="품목명 또는 품목코드 입력 조회">
+								<input type="text" v-model="searchParams.itemName" class="inputStyle mt10" placeholder="품목명 또는 품목코드 입력 조회">
 							</div>
 							<a href="#" @click.prevent="search(0)" class="btnStyle btnSearch">검색</a>
 						</div>
