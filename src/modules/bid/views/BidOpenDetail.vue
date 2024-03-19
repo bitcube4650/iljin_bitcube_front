@@ -5,7 +5,7 @@
     <div class="conHeader">
       <ul class="conHeaderCate">
         <li>전자입찰</li>
-        <li>입찰진행 상세</li>
+        <li>개찰 상세</li>
       </ul>
     </div>
     <!-- //conHeader -->
@@ -301,6 +301,21 @@
             >(개찰 전까지 견적금액 및 내역파일은 암호화되어 보호됩니다)</strong
           >
         </h3>
+        <div class="conTopBox mt20">
+          <ul class="dList">
+            <li>
+              <div>
+                재 입찰일 경우 참가업체명을 클릭하면 차수 별 견적제출 이력을 볼
+                수 있습니다.
+              </div>
+            </li>
+            <li>
+              <div>
+                견적 상세 확인은 상세를 클릭하시면 확인하실 수 있습니다.
+              </div>
+            </li>
+          </ul>
+        </div>
         <div class="boxSt mt20">
           <table class="tblSkin1">
             <colgroup>
@@ -308,22 +323,50 @@
             </colgroup>
             <thead>
               <tr>
+                <th>
+                  <input
+                    type="checkbox"
+                    id="ckAll"
+                    class="checkStyle checkOnly"
+                    v-model="selectAll"
+                    @change="selectAllItems"
+                  />
+                  <label for="ckAll"></label>
+                </th>
                 <th>입찰참가업체명</th>
                 <th>견적금액(총액)</th>
                 <th>확인</th>
                 <th>제출일시</th>
                 <th>담당자</th>
-                <th class="end">기타첨부파일</th>
+                <th>기타첨부파일</th>
+                <th class="end">선정</th>
               </tr>
             </thead>
             <tbody>
               <tr v-for="(val, idx) in custContent">
-                <td class="text-left">{{ val.custName }}</td>
+                <td>
+                  <input
+                    :id="idx"
+                    class="checkStyle checkOnly"
+                    v-if="val.esmtYn === '2'"
+                    type="checkbox"
+                    v-model="selectedItems"
+                    :value="val.custName"
+                  /><label :for="idx"></label>
+                </td>
+                <td
+                  data-toggle="modal"
+                  data-target="#submitHistPop"
+                  class="text-left textUnderline"
+                  @click="$refs.submitHistPop.initModal(val.biNo, val.custCode, val.custName, val.userName, val.esmtCurr);"
+                >
+                  {{ val.custName }}
+                </td>
                 <td>{{ val.esmt_curr }}</td>
                 <td>
-                  <span v-if="val.esmtYn === 1">공고확인</span>
+                  <span v-if="val.esmtYn === '1'">공고확인</span>
                   <span
-                    v-else-if="val.esmtYn === 2"
+                    v-else-if="val.esmtYn === '2'"
                     style="
                       color: blue;
                       text-decoration: underline;
@@ -337,7 +380,7 @@
                 </td>
                 <td>{{ val.submitDate }}</td>
                 <td>{{ val.userName }}</td>
-                <td class="end">
+                <td>
                   <img
                     src="/images/icon_etc.svg"
                     class="iconImg"
@@ -345,6 +388,14 @@
                     data-toggle="modal"
                     data-target="#bmDetail"
                   />
+                </td>
+                <td class="end">
+                  <a
+                    v-if="val.esmtYn === '2'"
+                    class="btnStyle btnSecondary btnSm"
+                    title="낙찰"
+                    >낙찰</a
+                  >
                 </td>
               </tr>
             </tbody>
@@ -355,8 +406,15 @@
           <a class="btnStyle btnOutline" title="목록"
             ><router-link :to="{ name: 'bidStatus' }">목록 </router-link></a
           >
+          <a class="btnStyle btnOutline" title="개찰결과 보고서"
+            >개찰결과 보고서</a
+          >
           <a
-            v-if="this.loginId === this.result.cuserCode || this.loginId === this.result.estOpenerCode || this.loginId === 'master'"
+            v-if="
+              this.loginId === this.result.cuserCode ||
+              this.loginId === this.result.estOpenerCode ||
+              this.loginId === 'master'
+            "
             data-toggle="modal"
             data-target="#biddingReserve"
             class="btnStyle btnSecondary"
@@ -364,12 +422,16 @@
             >유찰</a
           >
           <a
-            v-if="this.loginId === this.result.estBidderCode || this.loginId === this.result.estOpenerCode || this.loginId === 'master'"
+            v-if="
+              this.loginId === this.result.estBidderCode ||
+              this.loginId === this.result.estOpenerCode ||
+              this.loginId === 'master'
+            "
             data-toggle="modal"
             data-target="#openBid"
             class="btnStyle btnPrimary"
-            title="개찰"
-            >개찰</a
+            title="선택업체 재입찰"
+            >선택업체 재입찰</a
           >
         </div>
       </div>
@@ -490,16 +552,21 @@
     <!-- 협력사 사용자-->
     <CustUserPop ref="custUserPop" />
     <!-- //협력사 사용자-->
+    <!-- 제출이력-->
+    <SubmitHistPop ref="submitHistPop"/>
+    <!-- //제출이력-->
   </div>
   <!-- //본문 -->
 </template>
   <script>
 import CustUserPop from "@/modules/company/components/CustUserPop.vue";
+import SubmitHistPop from "@/modules/company/components/SubmitHistoryPop.vue";
 
 export default {
-  name: "bidStatusDetail",
+  name: "bidOpenDetail",
   components: {
     CustUserPop,
+    SubmitHistPop,
   },
   data() {
     return {
@@ -512,7 +579,9 @@ export default {
       fileContent: [],
       custContent: [],
       estimateContent: [],
-      loginId:"",
+      loginId: "",
+      selectAll: false, // 전체 선택 여부를 관리하는 변수
+      selectedItems: [], // 선택된 항목을 저장하는 배열
 
       lotteDeptList: [
         { value: "A1", label: "익산 E/F" },
@@ -589,6 +658,16 @@ export default {
       return total;
     },
 
+    selectAllItems() {
+      if (this.selectAll) {
+        // 전체 선택 체크박스가 체크되었을 때
+        this.selectedItems = this.custContent.map((item) => item.custName); // 모든 항목을 선택함
+      } else {
+        // 전체 선택 체크박스가 해제되었을 때
+        this.selectedItems = []; // 선택된 항목 초기화
+      }
+    },
+
     async downloadFile(filePath, fileNm) {
       console.log(filePath);
       try {
@@ -642,11 +721,12 @@ export default {
         });
     },
   },
-  beforeMount() {},
-  mounted() {
+  beforeMount() {
     this.dataFromList = this.$store.state.bidDetailData;
-    this.loginId =  this.$store.state.loginInfo.userId;
-    console.log(this.$store.state.loginInfo);
+    this.loginId = this.$store.state.loginInfo.userId;
+  },
+  mounted() {
+    console.log(this.loginId);
     this.retrieve();
   },
 };
