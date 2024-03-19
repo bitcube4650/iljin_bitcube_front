@@ -82,7 +82,7 @@ export default {
     initModal() {
 	  this.searchParams = {
 			size: '5',
-			itemGrpCd: ''
+			itemGrp: ''
 		};
       this.init();
 	  this.search(0);
