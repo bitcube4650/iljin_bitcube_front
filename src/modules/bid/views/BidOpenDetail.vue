@@ -358,7 +358,7 @@
                   data-toggle="modal"
                   data-target="#submitHistPop"
                   class="text-left textUnderline"
-                  @click="$refs.submitHistPop.initModal(val.biNo, val.custCode, val.custName, val.userName, val.esmtCurr, this.result.insModeCode);"
+                  @click="$refs.submitHistPop.initModal(val.biNo, val.custCode, val.custName, val.userName, val.esmtCurr);"
                 >
                   {{ val.custName }}
                 </td>
@@ -553,7 +553,7 @@
     <CustUserPop ref="custUserPop" />
     <!-- //협력사 사용자-->
     <!-- 제출이력-->
-    <SubmitHistPop ref="submitHistPop" />
+    <SubmitHistPop ref="submitHistPop"/>
     <!-- //제출이력-->
   </div>
   <!-- //본문 -->

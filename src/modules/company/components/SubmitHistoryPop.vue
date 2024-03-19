@@ -2,7 +2,7 @@
   <!-- 제출 이력 -->
   <div
     class="modal fade modalStyle"
-    id="history"
+    id="submitHistPop"
     tabindex="-1"
     role="dialog"
     aria-hidden="true"
@@ -28,12 +28,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td class="text-left">비트큐브</td>
-                <td>KRW 1,000,000</td>
-                <td>김담당</td>
-                <td class="end">2024-01-12 15:00</td>
+              <tr v-for="(val, idx) in listPage.content">
+                <td>{{val.biOrder}}</td>
+                <td class="text-left">{{custName}}</td>
+                <td>{{val.esmtCurr}} {{val.esmtAmt}}</td>
+                <td>{{userName}}</td>
+                <td class="end">{{val.submitDate}}</td>
               </tr>
             </tbody>
           </table>
@@ -71,11 +71,10 @@ export default {
     };
   },
   methods: {
-    initModal(biNo, custCode, custName, userName, esmtCurr, insModeCode) {
+    initModal(biNo, custCode, custName, userName, esmtCurr) {
       this.searchParams = {
         biNo:biNo,
         custCode:custCode,
-        insMode:insModeCode,
         size: "5",
       };
       this.custName = custName;
