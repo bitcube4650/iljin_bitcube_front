@@ -128,23 +128,21 @@
             >
               <div class="formTit flex-shrink0 width170px">세부내역</div>
               <div class="width100">
-                <a :href="val.filePath" class="textUnderline"
-                v-for="(val, idx) in props[2]">{{val.fileNm}}</a
-              >
+                <div
+                  v-for="(val, idx) in props[2]"
+                  :key="idx"
+                  @click="downloadFile(val.filePath, val.fileNm)"
+                >
+                  <a class="textUnderline" v-if="val.fileFlag === 'K'">{{
+                    val.fileNm
+                  }}</a>
+                </div>
               </div>
             </div>
           </div>
           <div class="modalFooter">
-            <a
-              class="modalBtnClose"
-              data-dismiss="modal"
-              title="닫기"
-              >닫기</a
-            >
-            <a
-              class="modalBtnCheck"
-              data-toggle="modal"
-              title="인쇄하기"
+            <a class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
+            <a class="modalBtnCheck" data-toggle="modal" title="인쇄하기"
               >인쇄하기</a
             >
           </div>
@@ -161,7 +159,32 @@ export default {
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    async downloadFile(filePath, fileNm) {
+      console.log(filePath);
+      try {
+        this.$store.commit("loading");
+        const response = await this.$http.post(
+          "/api/v1/notice/downloadFile",
+          { fileId: filePath }, // 서버에서 파일을 식별할 수 있는 고유한 ID 또는 다른 필요한 데이터
+          { responseType: "blob" } // 응답 데이터를 Blob 형식으로 받기
+        );
+
+        // 파일 다운로드를 위한 처리
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", fileNm); // 다운로드될 파일명 설정
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        this.$store.commit("finish");
+      } catch (error) {
+        console.error("Error downloading file:", error);
+        this.$store.commit("finish");
+      }
+    },
+  },
   created() {},
   mounted() {},
 };
