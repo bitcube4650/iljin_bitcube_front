@@ -41,12 +41,12 @@
 						<tr v-for="(val, idx) in listPage.content">
 							<td>{{ val.userName }}</td>
 							<td>{{ val.userId }}</td>
-							<td>관리부</td>
-							<td>대표</td>
-							<td>jam@iljin.co.kr</td>
+							<td>{{ val.userBuseo }}</td>
+							<td>{{ val.userPosition }}</td>
+							<td>{{ val.userEmail }}</td>
 							<td>{{ val.userTel }}</td>
 							<td>{{ val.userHp }}</td>
-							<td class="end">업체관리자</td>
+							<td class="end">{{ val.userType == '1' ? '업체관리자' : '사용자'}}</td>
 						</tr>
 					</tbody>
 				</table>

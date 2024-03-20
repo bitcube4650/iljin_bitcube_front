@@ -17,14 +17,15 @@
 					<div class="flex align-items-center">
 						<div class="sbTit mr30">업체유형</div>
 						<div class="width150px">
-							<input type="text" name="" id="" class="inputStyle" placeholder="">
+							<input type="text" v-model="searchParams.custTypeNm" class="inputStyle readonly" readonly placeholder="">
 						</div>
-						<a href="javascript:void(0)" data-toggle="modal" data-target="#selectItem" class="btnStyle btnSecondary ml10">조회</a>
+						<input type="hidden" v-model="searchParams.custType"/>
+						<a hhref="#" @click="$parent.callPop()" data-toggle="modal" data-target="#itemPop" class="btnStyle btnSecondary ml10" title="조회">조회</a>
 						<div class="sbTit mr30 ml50">업체명</div>
 						<div class="width150px">
-							<input type="text" name="" id="" class="inputStyle" placeholder="">
+							<input type="text" v-model="searchParams.custName" class="inputStyle" placeholder="">
 						</div>
-						<a href="javascript:void(0)" class="btnStyle btnSearch">검색</a>
+							<a href="#" @click.prevent="search(0)" class="btnStyle btnSearch">검색</a>
 					</div>
 				</div>
 				<table class="tblSkin1 mt30">
@@ -42,46 +43,20 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>비트큐브㈜</td>
-							<td class="text-left">1. 비철금속 광업 품목류<br>2. 기타 비금속 광물 광업 품목류</td>
-							<td>123-12-12345</td>
-							<td>강대표</td>
-							<td>일진다이아모드<br>일진씨엔에스<br>일진파트너스</td>
-							<td class="end"><a href="javascript:void(0)" class="btnStyle btnSecondary btnSm" title="선택">선택</a></td>
-						</tr>
-						<tr>
-							<td>레드코사인</td>
-							<td class="text-left">1. 비철금속 광업 품목류</td>
-							<td>123-12-12345</td>
-							<td>강대표</td>
-							<td>전주방송</td>
-							<td class="end"><a href="javascript:void(0)" class="btnStyle btnSecondary btnSm" title="선택">선택</a></td>
-						</tr>
-						<tr>
-							<td>㈜유령케피탈</td>
-							<td class="text-left">1. 비철금속 광업 품목류<br>2. 기타 비금속 광물 광업 품목류</td>
-							<td>123-12-12345</td>
-							<td>강대표</td>
-							<td>일진씨엔에스</td>
-							<td class="end"><a href="javascript:void(0)" class="btnStyle btnSecondary btnSm" title="선택">선택</a></td>
+						<tr v-for="(val, idx) in listPage.content">
+							<td>{{ val.custName }}</td>
+							<td class="text-left" v-html="val.custType1"></td>
+							<td>{{ val.regnum }}</td>
+							<td>{{ val.presName }}</td>
+							<td v-html="val.interrelatedNm"></td>
+							<td class="end"><a href="#" @click.prevent="select(val)" class="btnStyle btnSecondary btnSm" title="선택">선택</a></td>
 						</tr>
 					</tbody>
 				</table>
 				<!-- pagination -->
 				<div class="row mt30">
 					<div class="col-xs-12">
-						<div class="pagination1 text-center">
-							<a href="javascript:void(0)" title="10페이지 이전 페이지로 이동"><i class="fa-light fa-chevrons-left"></i></a>
-							<a href="javascript:void(0)" title="이전 페이지로 이동"><i class="fa-light fa-chevron-left"></i></a>
-							<a href="javascript:void(0)" title="1페이지로 이동" class="number active">1</a>
-							<a href="javascript:void(0)" title="2페이지로 이동" class="number">2</a>
-							<a href="javascript:void(0)" title="3페이지로 이동" class="number">3</a>
-							<a href="javascript:void(0)" title="4페이지로 이동" class="number">4</a>
-							<a href="javascript:void(0)" title="5페이지로 이동" class="number">5</a>
-							<a href="javascript:void(0)" title="다음 페이지로 이동"><i class="fa-light fa-chevron-right"></i></a>
-							<a href="javascript:void(0)" title="10페이지 다음 페이지로 이동"><i class="fa-light fa-chevrons-right"></i></a>
-						</div>
+						<pagination @searchFunc="search" :page="listPage"/>
 					</div>
 				</div>
 				<!-- //pagination -->
@@ -99,25 +74,32 @@
 <script>
 import Pagination from "@/components/Pagination.vue";
 export default {
-  name: 'ItemPop',
-  props: [ 'callbackFunc' ],
+  name: 'OtherCustPop',
+  props: [ 'callbackFunc', 'custType', 'custTypeNm' ],
   components: {
     Pagination
   },
+  watch: {
+	custType: {
+		handler: function () {
+			this.searchParams.custType = this.custType.itemCode;
+			this.searchParams.custTypeNm = this.custType.itemName;
+			this.$forceUpdate()
+		}
+	}
+  },
   data() {
     return {
-		searchParams: {},
-		itemGrpList: [],		
-		itemPage: {}
+		searchParams: {},	
+		listPage: {}
     }
   },
   methods: {
     initModal() {
 	  this.searchParams = {
-			size: '5',
-			itemGrpCd: ''
+		    custCode : this.$store.state.loginInfo.custCode,
+			size: '5'
 		};
-      this.init();
 	  this.search(0);
     },
 	search(page) {
@@ -126,24 +108,13 @@ export default {
 	},
 	select(data) {
       this.$emit('callbackFunc', data);
-      $("#itemPop").modal("hide"); 
+      $("#otherCustPop").modal("hide"); 
 	},
-    async init() {
-      try {
-        this.$store.commit('loading');
-        const response = await this.$http.post('/login/itemGrpList');
-        this.itemGrpList = response.data;
-        this.$store.commit('finish');
-      } catch(err) {
-        console.log(err)
-        this.$store.commit('finish');
-      }
-    },
     async retrieve() {
       try {
         this.$store.commit('loading');
-		const response = await this.$http.post('/login/itemList', this.searchParams);
-        this.itemPage = response.data;
+		const response = await this.$http.post('/api/v1/cust/otherCustList', this.searchParams);
+        this.listPage = response.data;
         this.$store.commit('finish');
       } catch(err) {
         console.log(err)

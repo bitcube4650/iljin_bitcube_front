@@ -23,7 +23,7 @@
 			<div class="flex align-items-center">
 				<div class="sbTit mr30">업체명</div>
 				<div class="width150px">
-					<input type="text" name="" id="" class="inputStyle" placeholder="">
+					<input type="text" v-model="searchParams.custName" class="inputStyle" placeholder="">
 				</div>
 				<div class="sbTit mr30 ml50">상태</div>
 				<div class="width120px">
