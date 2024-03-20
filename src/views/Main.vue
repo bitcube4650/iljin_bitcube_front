@@ -62,7 +62,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="mainConBox">
+                    <div class="mainConBox" style="height: 436px;">
                         <h2 class="h2Tit">공지사항<router-link to="/notice" title="공지사항 페이지로 이동" class="mainConBoxMore">더보기<i class="fa-solid fa-circle-plus"></i></router-link></h2>
                         <div class="notiList">
                             <a v-for="(val, idx) in listPage.content" @click="setDetailData(val)" data-toggle="modal" data-target="#notiModal" title="해당 게시글 자세히 보기">
@@ -109,7 +109,7 @@ export default {
     }
   },
   mounted() {
-    const params = {id: this.$options.name , title: '', content: '', userName: '', size: '5'};
+    const params = {id: this.$options.name , title: '', content: '', userName: '', size: '8'};
 
     //파라미터 초기값 세팅
     if (this.$store.state.searchParams.id == params.id) {
@@ -153,7 +153,6 @@ export default {
             this.$store.commit('searchParams', this.searchParams);
             const response = await this.$http.post('/api/v1/main/selectBidCnt', this.searchParams);
             this.bidInfo = response.data;
-            console.log('메인화면에서 출력하는 전자입찰',this.bidInfo );
             this.$store.commit('finish');
         } catch(err) {
             console.log(err)
@@ -168,7 +167,6 @@ export default {
             this.$store.commit('searchParams', this.searchParams);
             const response = await this.$http.post('/api/v1/main/selectPartnerCnt', this.searchParams);
             this.partnerInfo = response.data;
-            console.log('메인화면에서 출력하는 업채수',this.partnerInfo );
             this.$store.commit('finish');
         } catch(err) {
             console.log(err)

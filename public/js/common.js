@@ -1,16 +1,7 @@
 
 export default {
 	applyPub(){ 
-		//프로필 드롭다운 (헤더)
-        $('.profileDrop').click(function() {
-            $('.profileDropWrap').addClass('active');
-        });
-        $(document).mouseup(function (e){
-            var LayerPopup1 = $(".profileDropWrap");
-            if(LayerPopup1.has(e.target).length === 0){
-                LayerPopup1.removeClass("active");
-            }
-        });
+		
         //프로필 드롭다운 (LNB)
         $('.profileDrop2').click(function() {
             $('.profileDropWrap2').addClass('active');
@@ -103,6 +94,20 @@ export default {
         });
 
 	},
+
+    //헤더
+    applyHeader(){
+        //프로필 드롭다운 (헤더)
+        $('.profileDrop').click(function() {
+            $('.profileDropWrap').addClass('active');
+        });
+        $(document).mouseup(function (e){
+            var LayerPopup1 = $(".profileDropWrap");
+            if(LayerPopup1.has(e.target).length === 0){
+                LayerPopup1.removeClass("active");
+            }
+        });
+    },
 
     //달력
     applyCal(){

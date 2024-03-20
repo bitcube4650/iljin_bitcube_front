@@ -135,19 +135,7 @@ export default {
     this.selectCompletedBidCnt();//입찰완료 조회
   },
   methods: {
-    /*
-    select count(1) from t_bi_info_mat tbim where tbim.ING_TAG in('A1', 'A3') 
-    select count(1) from t_bi_info_mat tbim inner join t_bi_info_mat_cust tbimc on(tbim.BI_NO = tbimc.BI_NO) where tbim.ING_TAG in('A1', 'A2', 'A3', 'A7') and tbimc.CUST_CODE = 217
-    select count(1) from t_bi_info_mat tbim inner join t_bi_info_mat_cust tbimc on(tbim.BI_NO = tbimc.BI_NO) where tbim.ING_TAG in('A5') and tbimc.CUST_CODE = 217
-    select count(1) from t_bi_info_mat tbim inner join t_bi_info_mat_cust tbimc on(tbim.BI_NO = tbimc.BI_NO) where tbim.ING_TAG in('A5') and tbimc.SUCC_YN = 'Y' and (tbimc.UPDATE_DATE  >= CURDATE() - INTERVAL 12 MONTH ) and tbimc.CUST_CODE = 10
-    select count(1) from t_bi_info_mat tbim inner join t_bi_info_mat_cust tbimc on(tbim.BI_NO = tbimc.BI_NO) where tbim.ING_TAG in('A7') and (tbim.UPDATE_DATE >= CURDATE() - INTERVAL 12 month) and tbimc.CUST_CODE = 217
-
-
-    select count(1) from t_bi_info_mat tbim where tbim.ING_TAG in('A5') and (tbim.UPDATE_DATE >= CURDATE() - INTERVAL 12 month);
-    select count(1) from t_bi_info_mat tbim inner join t_bi_info_mat_cust tbimc on(tbim.BI_NO = tbimc.BI_NO) where tbim.ING_TAG in('A5') and (tbim.UPDATE_DATE >= CURDATE() - INTERVAL 12 month) and tbimc.CUST_CODE = 10;
-    select count(1) from t_bi_info_mat tbim inner join t_bi_info_mat_cust tbimc on(tbim.BI_NO = tbimc.BI_NO) where tbim.ING_TAG in('A5') and (tbim.UPDATE_DATE >= CURDATE() - INTERVAL 12 month) and tbimc.SUCC_YN = 'Y' and tbimc.CUST_CODE = 10;
-
-    */
+    
     async selectNotice() {//공지사항 조회
 
         try {

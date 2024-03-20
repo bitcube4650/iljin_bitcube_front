@@ -5,16 +5,20 @@
         <div class="profileDropWrap2">
             <a  class="profileDrop2">{{ this.$store.state.loginInfo.userName }} 님<i class="fa-solid fa-sort-down"></i></a>
             <div class="profileDropMenu2">
-                <a  data-toggle="modal" data-target="#mody1" title="개인정보 수정"><i class="fa-light fa-gear"></i>개인정보 수정</a>
-                <a  data-toggle="modal" data-target="#mody2" title="비밀번호 변경"><i class="fa-light fa-lock-keyhole"></i>비밀번호 변경</a>
+                <a @click="changeStatus('info')" data-toggle="modal" title="개인정보 수정"><i class="fa-light fa-gear"></i>개인정보 수정</a>
+                <a @click="changeStatus('pwd')" data-toggle="modal" title="비밀번호 변경"><i class="fa-light fa-lock-keyhole"></i>비밀번호 변경</a>
                 <a  data-toggle="modal" data-target="#logout" title="로그아웃"><i class="fa-light fa-arrow-right-from-bracket"></i>로그아웃</a>
             </div>
         </div>
         <!-- //프로필 드롭다운2 -->
         <!-- 좌측 입찰상태 표시 -->
-        <div class="myState">
-            <div>진행중<a  class="myStateNum" title="전자입찰 페이지로 이동"><span>3</span>건</a></div>
-            <div>낙찰 (3개월)<a  class="myStateNum" title="전자입찰 페이지로 이동"><span>5</span>건</a></div>
+        <div class="myState" v-if="company == 'inter'">
+            <div>진행중<a  class="myStateNum" title="전자입찰 페이지로 이동"><span>{{ bidInfo.noticing }}</span>건</a></div>
+            <div>낙찰 (12개월)<a  class="myStateNum" title="전자입찰 페이지로 이동"><span>{{ bidInfo.completed }}</span>건</a></div>
+        </div>
+        <div class="myState" v-if="company == 'cust'">
+            <div>진행중<a  class="myStateNum" title="전자입찰 페이지로 이동"><span></span>건</a></div>
+            <div>낙찰 (12개월)<a  class="myStateNum" title="전자입찰 페이지로 이동"><span></span>건</a></div>
         </div>
         <!-- //좌측 입찰상태 표시 -->
         <!-- LNB -->
@@ -94,13 +98,6 @@
 
         <!--비밀번호 확인 팝업-->
         <CheckPwd />
-
-        <!--비밀번호 변경 팝업-->
-        <ChangePwd />
-
-        <!--개인정보 수정 팝업-->
-        <PersonalInfo />
-
     </div>
     <!-- //conLeft -->
   
@@ -109,21 +106,19 @@
   
   <script>
 import CheckPwd from "@/components/CheckPwd.vue";
-import ChangePwd from "@/components/ChangePwd.vue";
-import PersonalInfo from "@/components/PersonalInfo.vue";
-import cmmn from "../../public/js/common.js"
+import cmmn from "../../public/js/common.js";
 
   export default {
     name: 'Menu',
     components: {
-        CheckPwd,
-        ChangePwd,
-        PersonalInfo
+        CheckPwd
     },
     data() {
       return {
         company: '',
-        userAuth: ''
+        userAuth: '',
+        searchParams: {},
+        bidInfo: {}
       };
     },
     created() {
@@ -136,6 +131,10 @@ import cmmn from "../../public/js/common.js"
     mounted(){
         //console.log('user info ', this.$store.state.loginInfo);
         cmmn.applyPub();//퍼블리싱 js 파일 적용
+
+        if(this.company == 'inter'){
+            this.selectBidCnt();//전자입찰 건수 조회
+        }
     },
     methods: {
         //로그아웃
@@ -156,7 +155,6 @@ import cmmn from "../../public/js/common.js"
 
 
         },
-
         clickBidProgress(){//입찰계획 클릭
             this.$router.push({name:"bidProgress"});
         },
@@ -208,6 +206,25 @@ import cmmn from "../../public/js/common.js"
                 console.error("Error downloading file:", error);
                 this.$store.commit('finish');
             }
+        },
+        async selectBidCnt() {//전자입찰 건수 조회
+
+            try {
+                this.$store.commit('loading');
+                this.$store.commit('searchParams', this.searchParams);
+                const response = await this.$http.post('/api/v1/main/selectBidCnt', this.searchParams);
+                this.bidInfo = response.data;
+                console.log('메인화면에서 출력하는 전자입찰',this.bidInfo );
+                this.$store.commit('finish');
+            } catch(err) {
+                console.log(err)
+                this.$store.commit('finish');
+            }
+                
+        },
+        changeStatus(word){//비밀번호 변경인지 개인정보 수정인지 update
+            this.$store.commit('updatePwdOrInfo', word);
+            $('#mody1').modal('show');
         }
     }
   };

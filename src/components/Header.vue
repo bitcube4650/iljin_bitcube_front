@@ -13,10 +13,10 @@
         <div v-if="this.$store.state.loginInfo !== null && this.$store.state.token !== ''" class="headerRight">
             <!-- 프로필 드롭다운1 -->
             <div class="profileDropWrap">
-                <a href="#" class="profileDrop"><i class="fa-solid fa-circle-user"></i>{{ this.$store.state.loginInfo.userName }}님<i class="fa-solid fa-sort-down"></i></a><!--{{ this.$store.state.loginInfo.loginId }}-->
+                <a class="profileDrop"><i class="fa-solid fa-circle-user"></i>{{ this.$store.state.loginInfo.userName }}님<i class="fa-solid fa-sort-down"></i></a><!--{{ this.$store.state.loginInfo.loginId }}-->
                 <div class="profileDropMenu">
-                    <a href="#" data-toggle="modal" data-target="#mody1" title="개인정보 수정"><i class="fa-light fa-gear"></i>개인정보 수정</a>
-                    <a href="#" data-toggle="modal" data-target="#mody2" title="비밀번호 변경"><i class="fa-light fa-lock-keyhole"></i>비밀번호 변경</a>
+                    <a @click="changeStatus('info')" data-toggle="modal" title="개인정보 수정"><i class="fa-light fa-gear"></i>개인정보 수정</a>
+                    <a @click="changeStatus('pwd')" data-toggle="modal" title="비밀번호 변경"><i class="fa-light fa-lock-keyhole"></i>비밀번호 변경</a>
                     <a data-toggle="modal" data-target="#logout" title="로그아웃"><i class="fa-light fa-arrow-right-from-bracket"></i>로그아웃</a>
                 </div>
             </div>
@@ -26,25 +26,28 @@
     <!-- //header -->
 </template>
 <script>
-
+import cmmn from "../../public/js/common.js"
 
 export default {
     name: 'Header',
-  data() {
-    return {
-        custType : this.$store.state.loginInfo.custType,
-        custCode : this.$store.state.loginInfo.custCode
-    };
-  },
-  methods: {
-    
-  },
-  created() {
-   
-  },
-  mounted(){
-    
-  }   
+    data() {
+        return {
+            custType : this.$store.state.loginInfo.custType,
+            custCode : this.$store.state.loginInfo.custCode
+        };
+    },
+    mounted(){
+        cmmn.applyHeader();//퍼블리싱 js 파일 적용
+
+    },
+    methods: {
+        changeStatus(word){//비밀번호 변경인지 개인정보 수정인지 update
+            
+            this.$store.commit('updatePwdOrInfo', word);
+            $('#mody1').modal('show');
+            
+        }
+    }  
 }
 </script>
 <style>
