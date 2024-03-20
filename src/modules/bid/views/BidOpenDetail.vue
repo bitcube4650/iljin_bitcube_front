@@ -358,11 +358,19 @@
                   data-toggle="modal"
                   data-target="#submitHistPop"
                   class="text-left textUnderline"
-                  @click="$refs.submitHistPop.initModal(val.biNo, val.custCode, val.custName, val.userName, val.esmtCurr);"
+                  @click="
+                    $refs.submitHistPop.initModal(
+                      val.biNo,
+                      val.custCode,
+                      val.custName,
+                      val.userName,
+                      val.esmtCurr
+                    )
+                  "
                 >
                   {{ val.custName }}
                 </td>
-                <td>{{ val.esmt_curr }}</td>
+                <td>{{ val.esmtCurr }}{{ val.esmtAmt }}</td>
                 <td>
                   <span v-if="val.esmtYn === '1'">공고확인</span>
                   <span
@@ -406,7 +414,11 @@
           <a class="btnStyle btnOutline" title="목록"
             ><router-link :to="{ name: 'bidStatus' }">목록 </router-link></a
           >
-          <a class="btnStyle btnOutline" title="개찰결과 보고서"
+          <a
+            class="btnStyle btnOutline"
+            title="개찰결과 보고서"
+            data-toggle="modal"
+            data-target="#resultReport"
             >개찰결과 보고서</a
           >
           <a
@@ -549,11 +561,17 @@
     </div>
     <!-- //업체견적사항상세 확인 -->
 
+    <!-- 개찰결과 보고서 -->
+    <BidResultReport ref="bidResultReport"
+      :props="[this.result, this.custContent]"
+    />
+    <!-- //개찰결과 보고서 -->
+
     <!-- 협력사 사용자-->
     <CustUserPop ref="custUserPop" />
     <!-- //협력사 사용자-->
     <!-- 제출이력-->
-    <SubmitHistPop ref="submitHistPop"/>
+    <SubmitHistPop ref="submitHistPop" />
     <!-- //제출이력-->
   </div>
   <!-- //본문 -->
@@ -561,12 +579,14 @@
   <script>
 import CustUserPop from "@/modules/company/components/CustUserPop.vue";
 import SubmitHistPop from "@/modules/company/components/SubmitHistoryPop.vue";
+import BidResultReport from "@/modules/bid/components/BidResultReport.vue";
 
 export default {
   name: "bidOpenDetail",
   components: {
     CustUserPop,
     SubmitHistPop,
+    BidResultReport,
   },
   data() {
     return {

@@ -389,7 +389,6 @@
         <div class="modal-content">
           <div class="modal-body">
             <a
-              href="javascript:return false;"
               class="ModalClose"
               data-dismiss="modal"
               title="닫기"

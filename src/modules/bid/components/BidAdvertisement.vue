@@ -136,14 +136,12 @@
           </div>
           <div class="modalFooter">
             <a
-              href="javascript:void(0)"
               class="modalBtnClose"
               data-dismiss="modal"
               title="닫기"
               >닫기</a
             >
             <a
-              href="javascript:void(0)"
               class="modalBtnCheck"
               data-toggle="modal"
               title="인쇄하기"
@@ -168,5 +166,3 @@ export default {
   mounted() {},
 };
 </script>
-<style>
-</style>
