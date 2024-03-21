@@ -1017,6 +1017,8 @@ export default {
         return false;
       }
       console.log(this.dataFromList.result);
+      this.dataFromList.detail.type = "rebid";
+      this.dataFromList.detail.interNm = this.result.interrelatedNm;
       this.$store.commit("loading");
       this.$http
         .post("/api/v1/bidstatus/rebid", this.dataFromList.result) 
