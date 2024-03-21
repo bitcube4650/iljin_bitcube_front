@@ -13,6 +13,7 @@ import partnerBidStatus from '../views/PartnerBidStatus.vue';
 import partnerBidComplete from '../views/PartnerBidComplete.vue';
 import partnerBidStatusDetail from '../views/PartnerBidStatusDetail.vue';
 import partnerBidCompleteDetail from '../views/PartnerBidCompleteDetail.vue';
+import rebid from '../views/Rebid.vue';
 
 export default [
     {
@@ -97,6 +98,12 @@ export default [
         path: '/bid/partnerCompleteDetail',
         name: 'partnerBidCompleteDetail',
         component: partnerBidCompleteDetail
+        //meta: { bid: true }
+    },
+    {
+        path: '/bid/rebid',
+        name: 'rebid',
+        component: rebid
         //meta: { bid: true }
     }
 ];

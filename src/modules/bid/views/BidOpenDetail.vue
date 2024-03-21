@@ -352,6 +352,7 @@
                     type="checkbox"
                     v-model="selectedItems"
                     :value="val.custName"
+                    @change="updateSelectedRows"
                   /><label :for="idx"></label>
                 </td>
                 <td
@@ -380,8 +381,6 @@
                       text-decoration: underline;
                       cursor: pointer;
                     "
-                    data-toggle="modal"
-                    data-target="#bmDetail"
                     >상세</span
                   >
                   <span v-else></span>
@@ -389,13 +388,7 @@
                 <td>{{ val.submitDate }}</td>
                 <td>{{ val.userName }}</td>
                 <td>
-                  <img
-                    src="/images/icon_etc.svg"
-                    class="iconImg"
-                    alt="etc"
-                    data-toggle="modal"
-                    data-target="#bmDetail"
-                  />
+                  <img src="/images/icon_etc.svg" class="iconImg" alt="etc" />
                 </td>
                 <td class="end">
                   <a
@@ -433,16 +426,7 @@
             title="유찰"
             >유찰</a
           >
-          <a
-            v-if="
-              this.loginId === this.result.estBidderCode ||
-              this.loginId === this.result.estOpenerCode ||
-              this.loginId === 'master'
-            "
-            data-toggle="modal"
-            data-target="#openBid"
-            class="btnStyle btnPrimary"
-            title="선택업체 재입찰"
+          <a @click="rebid" class="btnStyle btnPrimary" title="선택업체 재입찰"
             >선택업체 재입찰</a
           >
         </div>
@@ -533,36 +517,9 @@
     </div>
     <!-- //개찰 -->
 
-    <!-- 업체견적사항상세 확인 -->
-    <div
-      class="modal fade modalStyle"
-      id="bmDetail"
-      tabindex="-1"
-      role="dialog"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" style="width: 100%; max-width: 420px">
-        <div class="modal-content">
-          <div class="modal-body">
-            <a class="ModalClose" data-dismiss="modal" title="닫기"
-              ><i class="fa-solid fa-xmark"></i
-            ></a>
-            <div class="alertText2">
-              개찰 전 견적 내용은 확인할 수 없습니다.
-            </div>
-            <div class="modalFooter">
-              <a class="modalBtnClose" data-dismiss="modal" title="확인"
-                >확인</a
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- //업체견적사항상세 확인 -->
-
     <!-- 개찰결과 보고서 -->
-    <BidResultReport ref="bidResultReport"
+    <BidResultReport
+      ref="bidResultReport"
       :props="[this.result, this.custContent]"
     />
     <!-- //개찰결과 보고서 -->
@@ -602,6 +559,7 @@ export default {
       loginId: "",
       selectAll: false, // 전체 선택 여부를 관리하는 변수
       selectedItems: [], // 선택된 항목을 저장하는 배열
+      selectedRows: [],
 
       lotteDeptList: [
         { value: "A1", label: "익산 E/F" },
@@ -687,6 +645,12 @@ export default {
         this.selectedItems = []; // 선택된 항목 초기화
       }
     },
+    updateSelectedRows() {
+      // selectedItems 배열에 있는 custName을 가지고 있는 row만 추출
+      this.selectedRows = this.custContent.filter((item) =>
+        this.selectedItems.includes(item.custName)
+      );
+    },
 
     async downloadFile(filePath, fileNm) {
       console.log(filePath);
@@ -739,6 +703,18 @@ export default {
           this.$store.commit("finish");
           this.$router.push({ name: "bidStatus" });
         });
+    },
+
+    rebid() {
+      this.detail.result = this.result;
+      this.detail.result.bdAmt = parseInt(this.result.bdAmt);
+      this.detail.tableContent = this.tableContent;
+      this.detail.fileContent = this.fileContent;
+      this.selectedRows = this.custContent;
+
+      this.$store.commit("setBidUpdateData", this.detail);
+      console.log(this.detail);
+      this.$router.push({ name: "rebid" });
     },
   },
   beforeMount() {
