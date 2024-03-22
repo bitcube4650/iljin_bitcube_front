@@ -11,9 +11,7 @@
         <!-- //conHeader -->
         <!-- contents -->
         <div class="contents">
-            <div class="mainBanner" v-if="custType === 'inter' && custCode === '02'"><img src="/images/mainBanner01_lotte.jpg" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>
-            <div class="mainBanner" v-else-if="custType === 'inter' && custCode === '07'"><img src="/images/mainBanner01_jtv.jpg" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>
-            <div class="mainBanner" v-else><img src="/images/mainBanner01.jpg" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>
+            <div class="mainBanner"><img :src="compInfo.imgPath2" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>
             <div class="mainConLayout">
                 <div class="mcl_left mainConBox">
                     <h2 class="h2Tit">전자입찰</h2>
@@ -46,17 +44,17 @@
                 </div>
                 <div class="mcl_right">
                     <div class="mainConBox">
-                        <h2 class="h2Tit">협력업체<a  title="협력업체 페이지로 이동" class="mainConBoxMore">더보기<i class="fa-solid fa-circle-plus"></i></a></h2>
+                        <h2 class="h2Tit">협력업체<a @click="movePartnerManagement('')" title="협력업체 페이지로 이동" class="mainConBoxMore">더보기<i class="fa-solid fa-circle-plus"></i></a></h2>
                         <div class="cooperativ">
-                            <a  title="미승인 업체 페이지로 이동">
+                            <router-link to="/company/partner/approval" title="미승인 업체 페이지로 이동">
                                 <span class="cooperativ_tit">미승인 업체</span>
                                 <span class="cooperativ_num">{{ partnerInfo.request }}</span>
-                            </a>
-                            <a  title="승인 업체 (인증서 제출) 페이지로 이동">
+                            </router-link>
+                            <a @click="movePartnerManagement('approval')" title="승인 업체 (인증서 제출) 페이지로 이동">
                                 <span class="cooperativ_tit">승인 업체</span>
                                 <span class="cooperativ_num">{{ partnerInfo.approval }}</span>
                             </a>
-                            <a  title="삭제 업체 페이지로 이동">
+                            <a @click="movePartnerManagement('deletion')" title="삭제 업체 페이지로 이동">
                                 <span class="cooperativ_tit">삭제 업체</span>
                                 <span class="cooperativ_num">{{ partnerInfo.deletion }}</span>
                             </a>
@@ -101,6 +99,7 @@ export default {
     return {
         searchParams: {},	
 		listPage: {},
+        compInfo: {},
         bidInfo: {},
         partnerInfo: {},
         detailData: {},
@@ -122,6 +121,7 @@ export default {
     
     }
 
+    this.selectCompInfo();//무슨계열사인지 조회
     this.selectNotice();//공지사항 조회
     this.selectBidCnt();//전자입찰 건수 조회
     this.selectPartnerCnt();//협력사 업채수 조회
@@ -133,6 +133,23 @@ export default {
   },
   methods: {
 
+    async selectCompInfo(){//업체정보 조회
+
+        try {
+            this.$store.commit('loading');
+            const response = await this.$http.post('/api/v1/main/selectCompInfo', { 'custCode': this.$store.state.loginInfo.custCode});
+            if(response.data.code == 'OK'){
+                this.compInfo = response.data.data;
+            }else{
+                alert(response.data.msg);
+            }
+            this.$store.commit('finish');
+        } catch(err) {
+            console.log(err)
+            this.$store.commit('finish');
+        }
+
+    },
     async selectNotice() {//공지사항 조회
 
         try {
@@ -177,6 +194,9 @@ export default {
     setDetailData(data){//공지사항 상세 팝업 데이터 set
         this.detailData = data;
         this.detailData.bcontent = this.detailData.bcontent.replace(/(?:\r\n|\r|\n)/g, '<br />');
+    },
+    movePartnerManagement(keyword){//업체관리로 이동
+        this.$router.push({name:"PartnerManagement" , query: { 'flag': keyword }});
     }
 
   },

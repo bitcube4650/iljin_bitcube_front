@@ -98,7 +98,7 @@ import NoticeDetailPopup from "@/components/NoticeDetailPopup.vue";
 
 
 export default {
-  name: 'Main',
+  name: 'partnerMain',
   components: {
     NoticeDetailPopup
   },

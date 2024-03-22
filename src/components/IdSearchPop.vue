@@ -9,6 +9,7 @@
           <div class="modalTopBox">
             <ul>
               <li><div>아래 사업자등록번호, 찾고자 하는 로그인 사용자명 그리고 등록된 이메일을 정확인 입력하셔야 이메일로 아이디를 발송합니다.</div></li>
+              <li><div>[아이디 찾기]는 전자입찰 협력사 사용자만 해당 됩니다. 계열사 사용자는 시스템 관리자에게 문의해 주십시오.</div></li>
             </ul>
           </div>
           <div class="flex align-items-center mt30">

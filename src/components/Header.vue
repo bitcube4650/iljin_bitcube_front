@@ -3,9 +3,7 @@
     <div class="header">
         <div class="headerLeft">
             <router-link to="/" class="headerLogo" title="메인 페이지로 이동">
-                <img v-if="custType === 'inter' && custCode === '02'" src="/images/headerLogo_lotte.svg" class="img-responsive" alt="롯데에너지머트리얼즈 로고">
-				<img v-else-if="custType === 'inter' && custCode === '07'" src="/images/headerLogo_jtv.svg" class="img-responsive" alt="전주방송 로고">
-                <img v-else src="/images/headerLogo.svg" class="img-responsive" alt="일진그룹 로고">
+                <img :src="compInfo.logoPath" class="img-responsive" alt="일진그룹 로고">
                 <span>e-Bidding System</span>
             </router-link>
             <p>편하고 빠른 전자입찰시스템</p>
@@ -33,11 +31,13 @@ export default {
     data() {
         return {
             custType : this.$store.state.loginInfo.custType,
-            custCode : this.$store.state.loginInfo.custCode
+            custCode : this.$store.state.loginInfo.custCode,
+            compInfo: {}
         };
     },
     mounted(){
         cmmn.applyHeader();//퍼블리싱 js 파일 적용
+        this.selectCompInfo();//무슨계열사인지 조회
 
     },
     methods: {
@@ -46,6 +46,23 @@ export default {
             this.$store.commit('updatePwdOrInfo', word);
             $('#mody1').modal('show');
             
+        },
+        async selectCompInfo(){//업체정보 조회
+
+            try {
+                this.$store.commit('loading');
+                const response = await this.$http.post('/api/v1/main/selectCompInfo', { 'custCode': this.$store.state.loginInfo.custCode});
+                if(response.data.code == 'OK'){
+                    this.compInfo = response.data.data;
+                }else{
+                    alert(response.data.msg);
+                }
+                this.$store.commit('finish');
+            } catch(err) {
+                console.log(err)
+                this.$store.commit('finish');
+            }
+
         }
     }  
 }

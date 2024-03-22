@@ -29,9 +29,9 @@
                         <div class="flex align-items-center mt20">
                             <div class="formTit flex-shrink0 width120px">입찰권한</div>
                             <div class="width100">
-                                <input type="checkbox" v-model="openauth" id="checkbox1">
+                                <input type="checkbox" v-model="openauth" id="checkbox1" class="checkStyle">
                                 <label for="checkbox1"><div>개찰</div></label>&nbsp&nbsp&nbsp&nbsp
-                                <input type="checkbox" v-model="bidauth" id="checkbox2">
+                                <input type="checkbox" v-model="bidauth" id="checkbox2" class="checkStyle">
                                 <label for="checkbox2"><div>낙찰</div></label>
                             </div>
                         </div>
@@ -175,7 +175,7 @@ export default {
     methods: {
 
         async selectUserInfo(){//유저 정보 조회
-
+            
             try {
                 this.$store.commit('loading');
                 const response = await this.$http.post('/api/v1/main/selectUserInfo', {});
@@ -188,7 +188,7 @@ export default {
                     }
                     console.log(this.userInfo);
                 }else{
-                    console.log(response.data.data);
+                    alert(response.data.msg);//에러 메시지
                 }
                 this.$store.commit('finish');
             } catch(err) {

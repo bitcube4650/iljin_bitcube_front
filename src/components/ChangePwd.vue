@@ -21,7 +21,7 @@
                         </div>
 
                         <div class="modalFooter">
-                            <a @click="reset" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
+                            <a @click="cancel" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
                             <a @click="savePwd" class="modalBtnCheck" data-toggle="modal" title="저장">저장</a>
                         </div>
                     </div>				
@@ -108,13 +108,18 @@ export default {
         this.passwordChk = '';
     },
     reopenPersonalInfo(){
+        alert(this.$store.state.pwdOrInfo);
         if(this.$store.state.pwdOrInfo == 'info'){//개인정보 변경
 
             $('#pwMody1').modal('hide');
             $('#pwMody2').modal('hide');
-            $('#piMody1').modal('show');
+            //$('#piMody1').modal('show');
             
         }
+    },
+    cancel(){
+        this.reset();
+        this.reopenPersonalInfo();
     }
   },
   created() {
