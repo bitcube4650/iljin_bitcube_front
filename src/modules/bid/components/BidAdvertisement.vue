@@ -1,7 +1,7 @@
 <template>
   <!-- 공고문 미리보기 -->
   <div
-    class="modal fade modalStyle"
+    class="modal fade modalStyle printDiv"
     id="biddingPreview"
     tabindex="-1"
     role="dialog"
@@ -142,7 +142,11 @@
           </div>
           <div class="modalFooter">
             <a class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-            <a class="modalBtnCheck" data-toggle="modal" title="인쇄하기"
+            <a
+              class="modalBtnCheck"
+              data-toggle="modal"
+              title="인쇄하기"
+              @click="fnPrint"
               >인쇄하기</a
             >
           </div>
@@ -184,6 +188,21 @@ export default {
         this.$store.commit("finish");
       }
     },
+		fnPrint(){
+			const printContents = document.querySelector('.printDiv').innerHTML;
+			const html = document.querySelector('html');
+			const printDiv = document.createElement("DIV");
+			printDiv.className = "print-div modalStyle";
+			html.appendChild(printDiv);
+			printDiv.innerHTML = printContents;
+			printDiv.querySelector(".modalFooter").style.display = "none";
+			printDiv.querySelector(".ModalClose").style.display = "none";
+			printDiv.querySelector(".modal-dialog").style.cssText = "width:100%; max-width:700px";
+			document.body.style.display = 'none';
+			window.print();
+			document.body.style.display = 'block';
+			$(".print-div").remove();
+		},
   },
   created() {},
   mounted() {},
