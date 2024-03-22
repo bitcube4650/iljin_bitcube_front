@@ -316,7 +316,9 @@
             </li>
           </ul>
         </div>
-        <div class="boxSt mt20">
+
+        <!--파일등록 type 테이블-->
+        <div class="boxSt mt20" v-if="this.result.insMode === '파일등록'">
           <table class="tblSkin1">
             <colgroup>
               <col style="" />
@@ -397,6 +399,125 @@
                     title="낙찰"
                     >낙찰</a
                   >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!--직접입력 type 테이블-->
+        <div class="boxSt mt20" v-if="this.result.insMode === '직접입력'">
+          <table class="tblSkin1">
+            <colgroup>
+              <col style="" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>
+                  <input
+                    type="checkbox"
+                    id="ckAll"
+                    class="checkStyle checkOnly"
+                    v-model="selectAll"
+                    @change="selectAllItems"
+                  />
+                  <label for="ckAll"></label>
+                </th>
+                <th>입찰참가업체명</th>
+                <th>견적금액(총액)</th>
+                <th>확인</th>
+                <th>제출일시</th>
+                <th>담당자</th>
+                <th>기타첨부파일</th>
+                <th class="end">선정</th>
+              </tr>
+            </thead>
+            <tbody v-for="(val, i) in custContent" :key="i">
+              <tr>
+                <td>
+                  <input
+                    :id="i"
+                    class="checkStyle checkOnly"
+                    type="checkbox"
+                    v-model="selectedItems"
+                    :value="val.custName"
+                    @change="updateSelectedRows"
+                  /><label :for="i"></label>
+                </td>
+                <td
+                  data-toggle="modal"
+                  data-target="#submitHistPop"
+                  class="text-left textUnderline"
+                  @click="
+                    $refs.submitHistPop.initModal(
+                      val.biNo,
+                      val.custCode,
+                      val.custName,
+                      val.userName,
+                      val.esmtCurr
+                    )
+                  "
+                >
+                  {{ val.custName }}
+                </td>
+                <td>{{ val.esmtCurr }}{{ val.esmtAmt }}</td>
+                <td>
+                  <span v-if="val.esmtYn === '1'">공고확인</span>
+                  <span
+                    v-else-if="val.esmtYn === '2'"
+                    style="
+                      color: blue;
+                      text-decoration: underline;
+                      cursor: pointer;
+                    "
+                    @click="toggleItemTable(i, val.biNo, val.custCode)"
+                    >상세</span
+                  >
+                  <span v-else></span>
+                </td>
+                <td>{{ val.submitDate }}</td>
+                <td>{{ val.userName }}</td>
+                <td>
+                  <img src="/images/icon_etc.svg" class="iconImg" alt="etc" />
+                </td>
+                <td class="end">
+                  <a
+                    v-if="val.esmtYn === '2'"
+                    class="btnStyle btnSecondary btnSm"
+                    title="낙찰"
+                    >낙찰</a
+                  >
+                </td>
+              </tr>
+              <tr v-show="showItemTable && showItemTable[i]">
+                <td colspan="8">
+                  <table class="tblSkin1">
+                    <colgroup>
+                      <col style="" />
+                    </colgroup>
+                    <thead>
+                      <tr>
+                        <th>품목명</th>
+                        <th>규격</th>
+                        <th>수량</th>
+                        <th>단위</th>
+                        <th>견적단가</th>
+                        <th>견적금액</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(val, i) in itemContent" :key="i">
+                        <td>{{ val.name }}</td>
+                        <td>{{ val.ssize }}</td>
+                        <td>{{ val.orderQty }}</td>
+                        <td>{{ val.unitcode }}</td>
+                        <td>
+                          {{ parseInt(val.esmtUc) / parseInt(val.orderQty) }}
+                        </td>
+                        <td>{{ val.esmtUc }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </td>
               </tr>
             </tbody>
@@ -560,6 +681,8 @@ export default {
       selectAll: false, // 전체 선택 여부를 관리하는 변수
       selectedItems: [], // 선택된 항목을 저장하는 배열
       selectedRows: [],
+      showItemTable: {},
+      itemContent: [],
 
       lotteDeptList: [
         { value: "A1", label: "익산 E/F" },
@@ -650,6 +773,8 @@ export default {
       this.selectedRows = this.custContent.filter((item) =>
         this.selectedItems.includes(item.custName)
       );
+
+      console.log(this.selectedRows);
     },
 
     async downloadFile(filePath, fileNm) {
@@ -710,11 +835,43 @@ export default {
       this.detail.result.bdAmt = parseInt(this.result.bdAmt);
       this.detail.tableContent = this.tableContent;
       this.detail.fileContent = this.fileContent;
-      this.selectedRows = this.custContent;
+      this.detail.custContent = this.selectedRows;
 
       this.$store.commit("setBidUpdateData", this.detail);
       console.log(this.detail);
       this.$router.push({ name: "rebid" });
+    },
+
+    toggleItemTable(index, biNo, custCode) {
+      this.itemList(biNo, custCode);
+      // showItemTable 배열에 해당 인덱스에 대한 값이 없으면 새로 추가하고 true로 설정합니다.
+      if (this.$data.showItemTable === undefined) {
+        this.$data.showItemTable = {};
+      }
+      if (this.$data.showItemTable[index] === undefined) {
+        this.$set(this.showItemTable, index, true);
+      } else {
+        // 해당 인덱스에 대한 값이 이미 있으면 토글합니다.
+        this.$set(this.showItemTable, index, !this.showItemTable[index]);
+      }
+    },
+    async itemList(biNo, custCode) {
+      this.searchParams.biNo = biNo;
+      this.searchParams.custCode = custCode;
+      try {
+        this.$store.commit("loading");
+        const response = await this.$http.post(
+          "/api/v1/bidstatus/itemlist",
+          this.searchParams
+        );
+        this.itemContent = response.data;
+        this.$store.commit("finish");
+      } catch (err) {
+        console.log(err);
+        this.$store.commit("finish");
+      }
+
+      console.log(this.itemContent);
     },
   },
   beforeMount() {
