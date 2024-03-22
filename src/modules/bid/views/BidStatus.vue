@@ -258,11 +258,11 @@ export default {
       dateOverYn: true,
       openBidYn: true,
     };
-    if (this.$route.params.flag === "notice") {
+    if (this.$route.params.flag === "noticing") {
       params.dateOverYn = false;
       params.openBidYn = false;
     } else if (this.$route.params.flag === "beforeOpening") {
-      params.dateOverYn = false;
+      params.openBidYn = false;
     } else if (this.$route.params.flag === "opening") {
       params.openBidYn = false;
       params.rebidYn = false;
