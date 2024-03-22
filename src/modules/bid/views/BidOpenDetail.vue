@@ -394,9 +394,17 @@
                 </td>
                 <td class="end">
                   <a
-                    v-if="val.esmtYn === '2'"
+                    v-if="
+                      (val.esmtYn === '2' &&
+                        this.loginId === this.result.estOpenerCode) ||
+                      (val.esmtYn === '2' &&
+                        this.loginId === this.result.estBidderCode)
+                    "
                     class="btnStyle btnSecondary btnSm"
+                    data-toggle="modal"
+                    data-target="#bidSucc"
                     title="낙찰"
+                    @click="setInfo(val.custName, val.custCode, val.esmtAmt)"
                     >낙찰</a
                   >
                 </td>
@@ -482,9 +490,17 @@
                 </td>
                 <td class="end">
                   <a
-                    v-if="val.esmtYn === '2'"
+                    v-if="
+                      (val.esmtYn === '2' &&
+                        this.loginId === this.result.estOpenerCode) ||
+                      (val.esmtYn === '2' &&
+                        this.loginId === this.result.estBidderCode)
+                    "
                     class="btnStyle btnSecondary btnSm"
+                    data-toggle="modal"
+                    data-target="#bidSucc"
                     title="낙찰"
+                    @click="setInfo(val.custName, val.custCode, val.esmtAmt)"
                     >낙찰</a
                   >
                 </td>
@@ -538,8 +554,7 @@
           <a
             v-if="
               this.loginId === this.result.cuserCode ||
-              this.loginId === this.result.estOpenerCode ||
-              this.loginId === 'master'
+              this.loginId === this.result.estOpenerCode
             "
             data-toggle="modal"
             data-target="#biddingReserve"
@@ -606,10 +621,10 @@
     </div>
     <!-- //유찰 -->
 
-    <!-- 개찰 -->
+    <!-- 낙찰 -->
     <div
       class="modal fade modalStyle"
-      id="openBid"
+      id="bidSucc"
       tabindex="-1"
       role="dialog"
       aria-hidden="true"
@@ -620,23 +635,42 @@
             <a class="ModalClose" data-dismiss="modal" title="닫기"
               ><i class="fa-solid fa-xmark"></i
             ></a>
-            <h2 class="modalTitle">개찰</h2>
+            <h2 class="modalTitle">낙찰</h2>
             <div class="modalTopBox">
               <ul>
-                <div>개찰하시겠습니까?</div>
+                <li>
+                  <div>
+                    [{{ custName }}] 업체로 낙찰 처리합니다.<br />
+                    아해 낙찰 시 추가합의 사항이 있을 경우 입력해 주십시오.<br />
+                    낙찰 하시겠습니까?
+                  </div>
+                </li>
               </ul>
             </div>
+            <textarea
+              class="textareaStyle height150px mt20"
+              onkeydown="resize(this)"
+              onkeyup="resize(this)"
+              placeholder="추가합의 사항(필수아님)"
+              v-model="detail.reason"
+            ></textarea>
             <div class="modalFooter">
               <a class="modalBtnClose" data-dismiss="modal" title="취소"
                 >취소</a
               >
-              <a class="modalBtnCheck" data-toggle="modal" title="개찰">개찰</a>
+              <a
+                class="modalBtnCheck"
+                data-toggle="modal"
+                title="낙찰"
+                @click="bidSucc"
+                >낙찰</a
+              >
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- //개찰 -->
+    <!-- //낙찰 -->
 
     <!-- 개찰결과 보고서 -->
     <BidResultReport
@@ -683,6 +717,9 @@ export default {
       selectedRows: [],
       showItemTable: {},
       itemContent: [],
+      custName: "",
+      custCode: "",
+      esmtAmt: 0,
 
       lotteDeptList: [
         { value: "A1", label: "익산 E/F" },
@@ -872,6 +909,34 @@ export default {
       }
 
       console.log(this.itemContent);
+    },
+
+    setInfo(custName, custCode, esmtAmt) {
+      this.custName = custName;
+      this.custCode = custCode;
+      this.esmtAmt = parseInt(esmtAmt);
+    },
+
+    bidSucc() {
+      this.result.custCode = this.custcode;
+      this.result.esmtAmt = this.esmtAmt;
+      this.$store.commit("loading");
+      this.$http
+        .post("/api/v1/bidstatus/bidSucc", this.detail)
+        .then((response) => {
+          if (response.data.code == "OK") {
+          } else {
+            this.$swal({
+              type: "warning",
+              text: "낙찰 처리중 오류가 발생했습니다.",
+            });
+          }
+        })
+        .finally(() => {
+          $("#bidSucc").modal("hide");
+          this.$store.commit("finish");
+          this.$router.push({ name: "bidStatus" });
+        });
     },
   },
   beforeMount() {

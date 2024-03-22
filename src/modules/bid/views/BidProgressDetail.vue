@@ -315,7 +315,7 @@
             >공고문 미리보기</a
           >
           <a
-            v-if="this.loginId === this.result.cuserCode  || this.loginId === 'master'"
+            v-if="this.loginId === this.result.cuserCode"
             data-toggle="modal"
             data-target="#biddingDel"
             class="btnStyle btnSecondary"
@@ -330,7 +330,7 @@
             >수정</a
           >
           <a
-            v-if="this.loginId === this.result.cuserCode || this.logingId === this.result.gongoIdCode || this.loginId === 'master'"
+            v-if="this.loginId === this.result.cuserCode || this.logingId === this.result.gongoIdCode"
             data-toggle="modal"
             data-target="#biddingModal"
             class="btnStyle btnPrimary"

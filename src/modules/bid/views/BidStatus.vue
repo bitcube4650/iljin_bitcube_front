@@ -251,13 +251,23 @@ export default {
   },
   beforeMount() {},
   mounted() {
-    const params = {
+    let params = {
       id: this.$options.name,
       size: "10",
       rebidYn: true,
       dateOverYn: true,
       openBidYn: true,
     };
+    if (this.$route.params.flag === "notice") {
+      params.dateOverYn = false;
+      params.openBidYn = false;
+    } else if (this.$route.params.flag === "beforeOpening") {
+      params.dateOverYn = false;
+    } else if (this.$route.params.flag === "opening") {
+      params.openBidYn = false;
+      params.rebidYn = false;
+    }
+
     if (this.$store.state.searchParams.id == params.id) {
       this.searchParams = Object.assign(params, this.$store.state.searchParams);
     } else {
