@@ -264,7 +264,7 @@ export default {
     } else if (this.$route.params.flag === "beforeOpening") {
       params.openBidYn = false;
     } else if (this.$route.params.flag === "opening") {
-      params.openBidYn = false;
+      params.dateOverYn = false;
       params.rebidYn = false;
     }
 

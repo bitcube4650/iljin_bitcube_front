@@ -920,6 +920,8 @@ export default {
     bidSucc() {
       this.result.custCode = this.custcode;
       this.result.esmtAmt = this.esmtAmt;
+      this.result.type = "succ";
+      this.result.interNm = this.result.interrelatedNm;
       this.$store.commit("loading");
       this.$http
         .post("/api/v1/bidstatus/bidSucc", this.detail)

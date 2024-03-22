@@ -247,9 +247,7 @@ export default {
   },
   beforeMount() {},
   mounted() {
-    console.log(this.$store.state.loginInfo);
-
-    const params = {
+    let params = {
       id: this.$options.name,
       custCode: this.$store.state.loginInfo.custCode,
       size: "10",
@@ -259,6 +257,13 @@ export default {
       participateYn: true,
       rebidYn: true,
     };
+
+    if (this.$route.params.flag === "noticing") {
+      params.participateYn = false;
+    } else if (this.$route.params.flag === "submitted") {
+      params.noticeYn = false;
+      params.rebidYn = false;
+    }
     if (this.$store.state.searchParams.id == params.id) {
       this.searchParams = Object.assign(params, this.$store.state.searchParams);
     } else {
