@@ -29,9 +29,9 @@
                         <div class="flex align-items-center mt20">
                             <div class="formTit flex-shrink0 width120px">입찰권한</div>
                             <div class="width100">
-                                <input type="checkbox" v-model="openauth" id="checkbox1" class="checkStyle">
+                                <input type="checkbox" v-model="openauth" id="checkbox1" class="checkStyle" disabled>
                                 <label for="checkbox1"><div>개찰</div></label>&nbsp&nbsp&nbsp&nbsp
-                                <input type="checkbox" v-model="bidauth" id="checkbox2" class="checkStyle">
+                                <input type="checkbox" v-model="bidauth" id="checkbox2" class="checkStyle" disabled>
                                 <label for="checkbox2"><div>낙찰</div></label>
                             </div>
                         </div>
@@ -39,7 +39,7 @@
                             <div class="formTit flex-shrink0 width120px">비밀번호</div>
                             <div class="flex align-items-center width100">
                                 <div class="width100">최종변경일 : {{ userInfo.pwdEditDate }}</div>
-                                <a data-toggle="modal" @click="changePwd" class="btnStyle btnSecondary btnSm flex-shrink0 ml10" title="비밀번호 변경">비밀번호 변경</a>
+                                <!--<a data-toggle="modal" @click="changePwd" class="btnStyle btnSecondary btnSm flex-shrink0 ml10" title="비밀번호 변경">비밀번호 변경</a>-->
                             </div>
                         </div>
                         <div class="flex align-items-center mt10">

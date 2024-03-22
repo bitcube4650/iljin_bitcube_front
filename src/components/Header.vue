@@ -3,7 +3,7 @@
     <div class="header">
         <div class="headerLeft">
             <router-link to="/" class="headerLogo" title="메인 페이지로 이동">
-                <img :src="compInfo.logoPath" class="img-responsive" alt="일진그룹 로고">
+                <img :src="imgUrl" class="img-responsive" alt="일진그룹 로고">
                 <span>e-Bidding System</span>
             </router-link>
             <p>편하고 빠른 전자입찰시스템</p>
@@ -32,7 +32,7 @@ export default {
         return {
             custType : this.$store.state.loginInfo.custType,
             custCode : this.$store.state.loginInfo.custCode,
-            compInfo: {}
+            imgUrl: ''
         };
     },
     mounted(){
@@ -51,12 +51,23 @@ export default {
 
             try {
                 this.$store.commit('loading');
-                const response = await this.$http.post('/api/v1/main/selectCompInfo', { 'custCode': this.$store.state.loginInfo.custCode});
-                if(response.data.code == 'OK'){
-                    this.compInfo = response.data.data;
-                }else{
-                    alert(response.data.msg);
+                const response = await this.$http.post('/login/interrelatedList', { 'custCode': this.$store.state.loginInfo.custCode});
+                var compInfo = response.data;
+
+                if(this.$store.state.loginInfo.custType != 'inter'){//협력사인 경우
+                    
+                    this.imgUrl = compInfo[0].logoPath;
+                
+                }else{//계열사인 경우
+
+                    //계열사에 맞는 이미지 경로 set
+                    compInfo.forEach(item => {
+                        if(item.interrelatedCustCode == this.$store.state.loginInfo.custCode){
+                            this.imgUrl = item.logoPath;
+                        }
+                    });
                 }
+                
                 this.$store.commit('finish');
             } catch(err) {
                 console.log(err)

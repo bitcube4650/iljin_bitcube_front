@@ -16,27 +16,27 @@
                 <div class="mcl_left mainConBox">
                     <h2 class="h2Tit">전자입찰</h2>
                     <div class="biddingList">
-                        <a  class="biddingStep1">
+                        <a @click="moveBiddingPage('planning')" class="biddingStep1">
                             <div class="biddingListLeft"><i class="fa-light fa-flag"></i>입찰계획</div><!--공고전 상태-->
                             <div class="biddingListRight"><span>{{ bidInfo.planning }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
-                        <a  class="biddingStep2">
+                        <a  @click="moveBiddingPage('noticing')" class="biddingStep2">
                             <div class="biddingListLeft"><i class="fa-light fa-comments"></i>입찰공고</div><!--공고는 되었지만 개찰은 안된 상태(재입찰 포함)-->
                             <div class="biddingListRight"><span>{{ bidInfo.noticing }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
-                        <a  class="biddingStep3">
+                        <a  @click="moveBiddingPage('beforeOpening')" class="biddingStep3">
                             <div class="biddingListLeft"><i class="fa-light fa-files"></i>개찰대상</div><!--공고는 되었는데 공고 기간이 지난 입찰(재입찰 포함)-->
                             <div class="biddingListRight"><span>{{ bidInfo.beforeOpening }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
-                        <a  class="biddingStep4">
+                        <a  @click="moveBiddingPage('opening')" class="biddingStep4">
                             <div class="biddingListLeft"><i class="fa-light fa-file-check"></i>개찰</div><!--개찰은 되었지만 업체 선정이 안된 상태-->
                             <div class="biddingListRight"><span>{{ bidInfo.opening }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
-                        <a  class="biddingStep5">
+                        <a  @click="moveBiddingPage('completed')" class="biddingStep5">
                             <div class="biddingListLeft"><i class="fa-light fa-puzzle-piece"></i>입찰완료 (12개월)</div><!--업체선정까지 완료된 상태(업체 선정된 시점이 12개월 이내)-->
                             <div class="biddingListRight"><span>{{ bidInfo.completed }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
-                        <a  class="biddingStep5">
+                        <a  @click="moveBiddingPage('unsuccessful')" class="biddingStep5">
                             <div class="biddingListLeft"><i class="fa-light fa-puzzle-piece"></i>유찰 (12개월)</div><!--유찰된 시점이 12개월이내-->
                             <div class="biddingListRight"><span>{{ bidInfo.unsuccessful }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
@@ -196,7 +196,23 @@ export default {
         this.detailData.bcontent = this.detailData.bcontent.replace(/(?:\r\n|\r|\n)/g, '<br />');
     },
     movePartnerManagement(keyword){//업체관리로 이동
-        this.$router.push({name:"PartnerManagement" , query: { 'flag': keyword }});
+        this.$router.push({name:"PartnerManagement" , params: { 'flag': keyword }});
+    },
+    moveBiddingPage(keyword){//입찰페이지 이동
+        if(keyword == 'planning'){//입찰계획 이동
+
+            this.$router.push({name:"bidProgress" , params: { 'flag': keyword }});
+
+        }else if(keyword == 'completed' || keyword == 'unsuccessful'){//입찰완료 이동
+
+            this.$router.push({name:"bidComplete" , params: { 'flag': keyword }});
+
+        }else{//입찰진행 이동
+
+            this.$router.push({name:"bidStatus" , params: { 'flag': keyword }});
+            
+        }
+        
     }
 
   },
