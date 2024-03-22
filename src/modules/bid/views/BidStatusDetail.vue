@@ -356,7 +356,10 @@
             ><router-link :to="{ name: 'bidStatus' }">목록 </router-link></a
           >
           <a
-            v-if="this.loginId === this.result.cuserCode || this.loginId === this.result.estOpenerCode"
+            v-if="
+              this.loginId === this.result.cuserCode ||
+              this.loginId === this.result.estOpenerCode
+            "
             data-toggle="modal"
             data-target="#biddingReserve"
             class="btnStyle btnSecondary"
@@ -364,7 +367,10 @@
             >유찰</a
           >
           <a
-            v-if="this.loginId === this.result.estBidderCode || this.loginId === this.result.estOpenerCode"
+            v-if="
+              this.loginId === this.result.estBidderCode ||
+              this.loginId === this.result.estOpenerCode
+            "
             data-toggle="modal"
             data-target="#openBid"
             class="btnStyle btnPrimary"
@@ -512,7 +518,7 @@ export default {
       fileContent: [],
       custContent: [],
       estimateContent: [],
-      loginId:"",
+      loginId: "",
 
       lotteDeptList: [
         { value: "A1", label: "익산 E/F" },
@@ -641,13 +647,33 @@ export default {
           this.$router.push({ name: "bidStatus" });
         });
     },
+    updateSign(att1, att2) {
+      //입회자 클릭시 sign 업데이트
+      this.$http.post("/api/v1/bidstatus/updateSign", {
+        att1: att1,
+        att2: att2,
+        biNo: this.result.biNo,
+      });
+    },
   },
   beforeMount() {},
   mounted() {
     this.dataFromList = this.$store.state.bidDetailData;
-    this.loginId =  this.$store.state.loginInfo.userId;
+    this.loginId = this.$store.state.loginInfo.userId;
     console.log(this.$store.state.loginInfo);
     this.retrieve();
+
+    let att1 = false;
+    let att2 = false;
+    if (this.loginId === this.result.openAtt1Code) {
+      att1 = true;
+    }
+    if (this.loginId === this.result.openAtt2Code) {
+      att2 = true;
+    }
+    if (att1 || att2) {
+      this.updateSign(att1, att2);
+    }
   },
 };
 </script>
