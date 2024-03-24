@@ -13,12 +13,12 @@
         <!-- //프로필 드롭다운2 -->
         <!-- 좌측 입찰상태 표시 -->
         <div class="myState" v-if="company == 'inter'">
-            <div>진행중<a  class="myStateNum" title="전자입찰 페이지로 이동"><span>{{ bidInfo.noticing }}</span>건</a></div>
-            <div>낙찰 (12개월)<a  class="myStateNum" title="전자입찰 페이지로 이동"><span>{{ bidInfo.completed }}</span>건</a></div>
+            <div>진행중<a  @click="moveBiddingPage('noticing')" class="myStateNum" title="전자입찰 페이지로 이동"><span>{{ bidInfo.noticing }}</span>건</a></div>
+            <div>낙찰 (12개월)<a  @click="moveBiddingPage('completed')" class="myStateNum" title="전자입찰 페이지로 이동"><span>{{ bidInfo.completed }}</span>건</a></div>
         </div>
         <div class="myState" v-if="company == 'cust'">
-            <div>진행중<a  class="myStateNum" title="전자입찰 페이지로 이동"><span></span>건</a></div>
-            <div>낙찰 (12개월)<a  class="myStateNum" title="전자입찰 페이지로 이동"><span></span>건</a></div>
+            <div>진행중<a  @click="moveBiddingPage('noticing')" class="myStateNum" title="전자입찰 페이지로 이동"><span>{{ bidInfo.noticing }}</span>건</a></div>
+            <div>낙찰 (12개월)<a  @click="moveBiddingPage('awarded')" class="myStateNum" title="전자입찰 페이지로 이동"><span>{{ bidInfo.awarded }}</span>건</a></div>
         </div>
         <!-- //좌측 입찰상태 표시 -->
         <!-- LNB -->
@@ -134,6 +134,8 @@ import cmmn from "../../public/js/common.js";
 
         if(this.company == 'inter'){
             this.selectBidCnt();//전자입찰 건수 조회
+        }else{
+            this.selectPartnerBidCnt();//협력사 전자입찰 건수 조회
         }
     },
     methods: {
@@ -207,14 +209,27 @@ import cmmn from "../../public/js/common.js";
                 this.$store.commit('finish');
             }
         },
-        async selectBidCnt() {//전자입찰 건수 조회
+        async selectBidCnt() {//계열사 전자입찰 건수 조회
 
             try {
                 this.$store.commit('loading');
                 this.$store.commit('searchParams', this.searchParams);
                 const response = await this.$http.post('/api/v1/main/selectBidCnt', this.searchParams);
                 this.bidInfo = response.data;
-                console.log('메인화면에서 출력하는 전자입찰',this.bidInfo );
+                this.$store.commit('finish');
+            } catch(err) {
+                console.log(err)
+                this.$store.commit('finish');
+            }
+                
+        },
+        async selectPartnerBidCnt() {//협력사 전자입찰 건수 조회
+
+            try {
+                this.$store.commit('loading');
+                this.$store.commit('searchParams', this.searchParams);
+                const response = await this.$http.post('/api/v1/main/selectPartnerBidCnt', this.searchParams);
+                this.bidInfo = response.data;
                 this.$store.commit('finish');
             } catch(err) {
                 console.log(err)
@@ -225,6 +240,15 @@ import cmmn from "../../public/js/common.js";
         changeStatus(word){//비밀번호 변경인지 개인정보 수정인지 update
             this.$store.commit('updatePwdOrInfo', word);
             $('#mody1').modal('show');
+        },
+        moveBiddingPage(keyword){//입찰페이지 이동
+            
+            if(keyword == 'completed' || keyword == 'awarded'){//입찰완료로 이동
+                this.$router.push({name:"partnerBidComplete" , params: { 'flag': keyword }});
+            }else{//입찰진행으로 이동
+                this.$router.push({name:"partnerBidStatus" , params: { 'flag': keyword }});
+            }
+            
         }
     }
   };

@@ -150,8 +150,7 @@ export default {
     name: 'PersonalInfo',
 
     mounted(){
-        console.log(this.$store.state.loginInfo);
-
+        
     }, 
     watch: {
         bidauth(newValue) {
