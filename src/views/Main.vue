@@ -11,7 +11,7 @@
         <!-- //conHeader -->
         <!-- contents -->
         <div class="contents">
-            <div class="mainBanner"><img :src="compInfo.imgPath2" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>
+            <div class="mainBanner"><img :src="imgUrl" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>
             <div class="mainConLayout">
                 <div class="mcl_left mainConBox">
                     <h2 class="h2Tit">전자입찰</h2>
@@ -99,7 +99,8 @@ export default {
     return {
         searchParams: {},	
 		listPage: {},
-        compInfo: {},
+        compInfo: [],
+        imgUrl: '',
         bidInfo: {},
         partnerInfo: {},
         detailData: {},
@@ -109,7 +110,7 @@ export default {
   },
   mounted() {
     const params = {id: this.$options.name , title: '', content: '', userName: '', size: '8'};
-
+    
     //파라미터 초기값 세팅
     if (this.$store.state.searchParams.id == params.id) {
 
@@ -121,7 +122,7 @@ export default {
     
     }
 
-    this.selectCompInfo();//무슨계열사인지 조회
+    this.selectCompInfo();//url에 맞는 배너 이미지 경로 set
     this.selectNotice();//공지사항 조회
     this.selectBidCnt();//전자입찰 건수 조회
     this.selectPartnerCnt();//협력사 업채수 조회
@@ -133,16 +134,40 @@ export default {
   },
   methods: {
 
-    async selectCompInfo(){//업체정보 조회
+    async selectCompInfo(){//업체정보 조회하여 url에 맞는 배너 경로 set
 
         try {
             this.$store.commit('loading');
-            const response = await this.$http.post('/api/v1/main/selectCompInfo', { 'custCode': this.$store.state.loginInfo.custCode});
-            if(response.data.code == 'OK'){
-                this.compInfo = response.data.data;
-            }else{
-                alert(response.data.msg);
+            const response = await this.$http.post('/login/interrelatedList', { 'custCode': this.$store.state.loginInfo.custCode});
+            this.compInfo = response.data;
+ 
+            var url = window.location.href;
+            if(url.includes('ebid.jtv.co.kr')){//전주방송인 경우
+                
+                this.compInfo.forEach(item => {
+                    if(item.interrelatedCustCode == '07'){
+                        this.imgUrl = item.imgPath2;
+                    }
+                });
+
+            }else if(url.includes('l-ebid.iljin.co.kr')){//롯데에너지머티리얼즈인 경우
+
+                this.compInfo.forEach(item => {
+                    if(item.interrelatedCustCode == '02'){
+                        this.imgUrl = item.imgPath2;
+                    }
+                });
+                
+            }else{//일진전기로 조회되는 배너path로 set
+
+                this.compInfo.forEach(item => {
+                    if(item.interrelatedCustCode == '01'){
+                        this.imgUrl = item.imgPath2;
+                    }
+                });
+
             }
+            
             this.$store.commit('finish');
         } catch(err) {
             console.log(err)
@@ -210,7 +235,7 @@ export default {
         }else{//입찰진행 이동
 
             this.$router.push({name:"bidStatus" , params: { 'flag': keyword }});
-            
+
         }
         
     }

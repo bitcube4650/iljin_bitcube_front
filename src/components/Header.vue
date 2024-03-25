@@ -32,12 +32,13 @@ export default {
         return {
             custType : this.$store.state.loginInfo.custType,
             custCode : this.$store.state.loginInfo.custCode,
-            imgUrl: ''
+            imgUrl: '',
+            compInfo : []
         };
     },
     mounted(){
         cmmn.applyHeader();//퍼블리싱 js 파일 적용
-        this.selectCompInfo();//무슨계열사인지 조회
+        this.selectCompInfo();//업체정보 조회하여 url에 맞는 logo 경로 set
 
     },
     methods: {
@@ -47,25 +48,38 @@ export default {
             $('#mody1').modal('show');
             
         },
-        async selectCompInfo(){//업체정보 조회
+        async selectCompInfo(){//업체정보 조회하여 url에 맞는 logo 경로 set
 
             try {
                 this.$store.commit('loading');
                 const response = await this.$http.post('/login/interrelatedList', { 'custCode': this.$store.state.loginInfo.custCode});
-                var compInfo = response.data;
+                this.compInfo = response.data;
 
-                if(this.$store.state.loginInfo.custType != 'inter'){//협력사인 경우
+                var url = window.location.href;
+                if(url.includes('ebid.jtv.co.kr')){//전주방송인 경우
                     
-                    this.imgUrl = compInfo[0].logoPath;
-                
-                }else{//계열사인 경우
-
-                    //계열사에 맞는 이미지 경로 set
-                    compInfo.forEach(item => {
-                        if(item.interrelatedCustCode == this.$store.state.loginInfo.custCode){
+                    this.compInfo.forEach(item => {
+                        if(item.interrelatedCustCode == '07'){
                             this.imgUrl = item.logoPath;
                         }
                     });
+
+                }else if(url.includes('l-ebid.iljin.co.kr')){//롯데에너지머티리얼즈인 경우
+
+                    this.compInfo.forEach(item => {
+                        if(item.interrelatedCustCode == '02'){
+                            this.imgUrl = item.logoPath;
+                        }
+                    });
+                    
+                }else{//일진전기로 조회되는 로고path로 set
+
+                    this.compInfo.forEach(item => {
+                        if(item.interrelatedCustCode == '01'){
+                            this.imgUrl = item.logoPath;
+                        }
+                    });
+
                 }
                 
                 this.$store.commit('finish');
