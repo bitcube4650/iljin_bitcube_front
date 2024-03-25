@@ -10,13 +10,13 @@
                         <div class="flex align-items-center">
                             <div class="formTit flex-shrink0 width120px">비밀번호</div>
                             <div class="width100">
-                                <input type="password" v-model="password" class="inputStyle" placeholder="대/소문자, 숫자, 특수문자중에서 2가지 이상 조합(길이 8~16자리)">
+                                <input type="password" @keypress.enter="savePwd" v-model="password" class="inputStyle" placeholder="대/소문자, 숫자, 특수문자중에서 2가지 이상 조합(길이 8~16자리)">
                             </div>
                         </div>
                         <div class="flex align-items-center mt10">
                             <div class="formTit flex-shrink0 width120px">비밀번호 확인</div>
                             <div class="width100">
-                                <input type="password" v-model="passwordChk" class="inputStyle" placeholder="비밀번호와 동일해야 합니다.">
+                                <input type="password" @keypress.enter="savePwd" v-model="passwordChk" class="inputStyle" placeholder="비밀번호와 동일해야 합니다.">
                             </div>
                         </div>
 
