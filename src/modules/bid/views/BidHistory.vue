@@ -231,8 +231,7 @@ export default {
     mounted() {
         //검색조건 날짜 초기셋팅
         this.searchParams.endDate = cmmn.getCurretDate();
-        // this.searchParams.startDate = cmmn.strDateAddDay(this.searchParams.endDate, -365);
-        this.searchParams.startDate = cmmn.strDateAddDay(this.searchParams.endDate, -2000);
+        this.searchParams.startDate = cmmn.strDateAddDay(this.searchParams.endDate, -365);
         this.fnLotteMatFlag();
         this.fnSearchInit(0);
     },
