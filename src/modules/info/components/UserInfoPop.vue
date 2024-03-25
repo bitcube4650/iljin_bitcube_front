@@ -11,7 +11,7 @@
 						<div class="formTit flex-shrink0 width120px">로그인ID <span class="star">*</span></div>
 						<div v-if="detail.isCreate" class="flex align-items-center width100">
 							<div class="width100"><input type="text" v-model="detail.userId" class="inputStyle" placeholder="영문, 숫자 입력(8자 이내) 후 중복확인"></div>
-							<a href="javascript:void(0)" class="btnStyle btnSecondary flex-shrink0 ml10" title="중복 확인">중복 확인</a>
+							<a href="" @click.prevent="idDuplicateCheck" class="btnStyle btnSecondary flex-shrink0 ml10" title="중복 확인">중복 확인</a>
 						</div>
 						<div v-else class="width100">{{ detail.userId }}</div>
 					</div>
@@ -37,12 +37,13 @@
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width120px">소속 계열사 <span class="star">*</span></div>
-						<div class="width100">
+						<div class="width100" v-if="detail.isCreate" >
 							<select v-model="detail.interrelatedCustCode" class="selectStyle">
 								<option value="">선택</option>
 								<option :value="val.key" v-for="(val, idx) in interrelatedList">{{ val.value }}</option>
 							</select>
 						</div>
+						<div v-else class="width100">{{ detail.interrelatedCustNm }}</div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width120px">사용권한 <span class="star">*</span></div>
@@ -94,20 +95,34 @@
 						</div>
 					</div>
 					<div class="flex align-items-center mt20">
-						<div class="formTit flex-shrink0 width120px">개찰권한</div>
+						<div class="formTit flex-shrink0 width120px">개찰권한 <span class="star">*</span></div>
 						<div class="width100">
 							<select v-model="detail.openauth" class="selectStyle">
-								<option value="">선택</option>
+								<option value="">아니오</option>
 								<option value="1">개찰권한</option>
 							</select>
 						</div>
 					</div>
+					<div class="flex align-items-center mt20">
+						<div class="formTit flex-shrink0 width120px">낙찰권한 <span class="star">*</span></div>
+						<div class="width100">
+							<select v-model="detail.bidauth" class="selectStyle">
+								<option value="">아니오</option>
+								<option value="1">낙찰권한</option>
+							</select>
+						</div>
+					</div>
+					<div class="flex align-items-center mt10" v-if="!this.detail.isCreate">
+						<div class="formTit flex-shrink0 width120px">비밀번호 <span class="star">*</span></div>
+						<div class="width100">최종변경일 : {{ detail.pwdEditDateStr }}</div>
+						<a href="" @click.prevent="fnShowChgPwdPop" class="btnStyle btnSecondary flex-shrink0 ml10" title="비밀번호 변경">비밀번호 변경</a>
+					</div>
 					<div class="flex align-items-center mt10">
-						<div class="formTit flex-shrink0 width120px">휴대폰 <span class="star">*</span></div>
+						<div class="formTit flex-shrink0 width120px">휴대폰 ☎  <span class="star">*</span></div>
 						<div class="width100"><input type="text" v-model="detail.userHp" class="inputStyle" placeholder="숫자만"></div>
 					</div>
 					<div class="flex align-items-center mt10">
-						<div class="formTit flex-shrink0 width120px">유선전화 <span class="star">*</span></div>
+						<div class="formTit flex-shrink0 width120px">유선전화 ☎  <span class="star">*</span></div>
 						<div class="width100"><input type="text" v-model="detail.userTel" class="inputStyle" placeholder="숫자만"></div>
 					</div>
 					<div class="flex align-items-center mt10">
@@ -142,30 +157,35 @@
 	</div>
 	<!-- //사용자 등록 -->
 
-	<!-- 사용자수정 비밀번호 확인 -->
-	<div class="modal modalStyle" id="userInfoPwdPop" tabindex="-1" role="dialog" aria-hidden="true">
+	<!-- 비밀번호 변경 -->
+	<div class="modal fade modalStyle" id="chgPwdPop" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog" style="width:100%; max-width:510px">
 			<div class="modal-content">
 				<div class="modal-body">
-					<a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-					<h2 class="modalTitle">비밀번호 확인</h2>
+					<a class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+					<h2 class="modalTitle">비밀번호 변경</h2>
 					<div class="flex align-items-center">
-						<div class="formTit flex-shrink0 width100px">비밀번호</div>
+						<div class="formTit flex-shrink0 width120px">비밀번호</div>
 						<div class="width100">
-							<input type="password" class="inputStyle" placeholder="">
+							<input type="password" v-model="chgPwdParam.chgPassword" class="inputStyle" placeholder="대/소문자, 숫자, 특수문자중에서 2가지 이상 조합(길이 8~16자리)">
 						</div>
 					</div>
-					<p class="text-center mt20"><i class="fa-light fa-circle-info"></i> 안전을 위해서 비밀번호를 입력해 주십시오</p>
+					<div class="flex align-items-center mt10">
+						<div class="formTit flex-shrink0 width120px">비밀번호 확인</div>
+						<div class="width100">
+							<input type="password" v-model="chgPwdParam.chgPasswordChk" class="inputStyle" placeholder="비밀번호와 동일해야 합니다.">
+						</div>
+					</div>
 
 					<div class="modalFooter">
-						<a href="#" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-						<a href="#" @click.prevent="show" class="modalBtnCheck" title="확인">확인</a>
+						<a @click.prevent="$('#chgPwdPop').modal('hide'); " class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
+						<a @click.prevent="fnSaveChgPwd" class="modalBtnCheck" data-toggle="modal" title="저장">저장</a>
 					</div>
 				</div>				
 			</div>
 		</div>
 	</div>
-	<!-- 사용자수정 비밀번호 확인 -->
+	<!-- //비밀번호 변경 -->
 </div>
 </template>
 
@@ -176,8 +196,16 @@ export default {
   data() {
     return {
 		userInterrelatedList: [],
-		detail: {}
+		detail: {},
+		userIdChkYn : 'N', // 로그인ID 중복 체크 확인
+		chgPwdParam : {}
     }
+  },
+  watch: {
+	"detail.userId"(){
+		// 로그인ID 체크
+		this.userIdChkYn = 'N';
+	}
   },
   methods: {
 	onlyNumber(e) {
@@ -188,15 +216,17 @@ export default {
 		if (id) {
 			this.retrieve(id);
 		} else {
-			this.detail = { isCreate: true, interrelatedCustCode: '', userAuth: '', openauth: '', useYn: 'Y' }
+			this.detail = { isCreate: true, interrelatedCustCode: '', userAuth: '', openauth: '', bidauth: '', useYn: 'Y' }
 		}
     },
+	// 사용자 상세 조회
     async retrieve(id) {
       try {
 		const response = await this.$http.post('/api/v1/couser/'+id, this.searchParams);
         this.detail = response.data;
 		this.detail.isCreate = false;
 		if (this.detail.openauth == null) this.detail.openauth = ''; // null이라 선택이 안되어서 강제로 ''로 변경
+		if (this.detail.bidauth == null) this.detail.bidauth = ''; // null이라 선택이 안되어서 강제로 ''로 변경
 		if (this.detail.userAuth == '4') {
 			var userInterrelated = {};
 			this.detail.userInterrelated.map((val, idx) => {
@@ -213,9 +243,35 @@ export default {
         this.$store.commit('finish');
       }
     },
+	// 중복확인
+	idDuplicateCheck(){
+		if (this.detail.userId == null || this.detail.userId == '') {
+			this.$swal({type: "warning",text: "로그인ID를 입력해주세요."});
+			return;
+		}
+
+		this.$http
+			.post('/api/v1/couser/idcheck', this.detail)
+			.then((response) => {
+				if (response.data.code == 'OK') {
+					this.$swal({type: "success",text: "사용 가능한 로그인ID입니다."});
+					this.userIdChkYn = 'Y';
+					return;
+				} else {
+					this.$swal({type: "warning",text: "사용 불가능한 로그인ID입니다."});
+					this.userIdChkYn = 'N'
+					return;
+				}
+			}
+		);
+	},
 	save() {  
 		if (this.detail.userId == null || this.detail.userId == '') {
 			this.$swal({type: "warning",text: "로그인ID를 입력해주세요."});
+			return;
+		}
+		if (this.detail.isCreate && this.userIdChkYn != 'Y') {
+			this.$swal({type: "warning",text: "로그인ID 중복체크를 진행해주세요."});
 			return;
 		}
 		if (this.detail.isCreate && (this.detail.userPwd == null || this.detail.userPwd == '')) {
@@ -226,6 +282,13 @@ export default {
 			this.$swal({type: "warning",text: "비밀번호 확인을 입력해주세요."});
 			return;
 		}
+		if( this.detail.userPwdConfirm != this.detail.userPwd){
+			this.$swal({type: "warning",text: "비밀번호와 비밀번호 확인의 값이 일치하지 않습니다."});
+			return;
+		}
+		if( !this.fnPwdvaildation(this.detail.userPwd) ){
+			return;
+		}		
 		if (this.detail.userName == null || this.detail.userName == '') {
 			this.$swal({type: "warning",text: "이름을 입력해주세요."});
 			return;
@@ -284,9 +347,66 @@ export default {
 			this.$store.commit("finish");
 		});
 	},
+	// 비밀번호 유효성 체크
+	fnPwdvaildation(userPwd){
+		const password = userPwd;
+		const hasUpperCase = /[A-Z]/.test(password);//대문자
+		const hasLowerCase = /[a-z]/.test(password);//소문자
+		const hasDigit = /\d/.test(password);//숫자
+		const hasSpecialChar = /[!@#$%^&*()\-_=+{};:,<.>]/.test(password);//특수문자
+
+		var isValidPassword = (hasUpperCase && hasLowerCase && hasDigit) || (hasUpperCase && hasLowerCase && hasSpecialChar) || (hasDigit && hasSpecialChar);
+		var isValidLength = password.length >= 8 && password.length <= 16;
+
+		if(!isValidPassword){
+			this.$swal({type: "warning",text: "대/소문자, 숫자, 특수문자중에서 2가지 이상 조합되어야 합니다."});
+			return;
+		}else if(!isValidLength){
+			this.$swal({type: "warning",text: "비밀번호는 8자 이상 16자 이하로 작성해주세요."});
+			return;
+		}
+		return true;
+
+	},
+	// 비밀번호 확인 후 팝업
 	show() {
+		// 비밀번호 체크 로직 필요 > 세션값?
 		$("#userInfoPwdPop").modal("hide"); 
 		$("#userInfoPop").modal("show"); 
+	},
+	// 비밀번호 변경 팝업
+	fnShowChgPwdPop(){
+		$('#chgPwdPop').modal('show');
+	},
+	// 비밀번호 변경 
+	fnSaveChgPwd(){
+		// 비밀번호 정규식 체크
+		if(!this.fnPwdvaildation(this.chgPwdParam.chgPassword)){
+			return;
+		};
+
+		// 파라미터 세팅
+		this.chgPwdParam.userId = this.detail.userId;
+
+		// 비밀번호 변경
+		this.$http
+		.post('/api/v1/couser/saveChgPwd', this.chgPwdParam)
+		.then((response) => {
+			if (response.data.code == 'OK') {
+				this.$swal({type: "success",text: "수정되었습니다."});
+				// 사용자 팝업 새로고침
+				this.retrieve(id);
+				// 변경파라미터 초기화
+				this.chgPwdParam = {};
+			} else {
+				this.$swal({type: "warning",text: "수정 중 오류가 발생했습니다."});
+			}
+		})
+		.finally(() => {
+			// 비밀번호 변경 팝업 닫기
+			$("#chgPwdPop").modal("hide");
+			this.$store.commit("finish");
+		});
 	}
   }
 };

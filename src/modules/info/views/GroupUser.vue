@@ -83,8 +83,8 @@
 			</thead>
 			<tbody>
 				<tr v-for="(val, idx) in listPage.content">
-					<td class="text-left"><a href="#" @click.prevent="$refs.userInfoPop.initModal(val.userId);" data-toggle="modal" data-target="#userInfoPwdPop" class="textUnderline notiTitle">{{ val.userName }}</a></td>
-					<td class="text-left"><a href="#" @click.prevent="$refs.userInfoPop.initModal(val.userId);" data-toggle="modal" data-target="#userInfoPwdPop" class="textUnderline notiTitle">{{ val.userId }}</a></td>
+					<td class="text-left"><a href="#" @click.prevent="fnUserDetail(val.userId);" class="textUnderline notiTitle">{{ val.userName }}</a></td>
+					<td class="text-left"><a href="#" @click.prevent="fnUserDetail(val.userId);" class="textUnderline notiTitle">{{ val.userId }}</a></td>
 					<td>{{ val.userPosition }}</td>
 					<td>{{ val.deptName }}</td>
 					<td>{{ val.userTel }}</td>
@@ -107,6 +107,32 @@
 	</div>
 	<!-- //contents -->
 
+	<!-- 사용자수정 비밀번호 확인 -->
+	<div class="modal modalStyle" id="userInfoPwdPop" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal-dialog" style="width:100%; max-width:510px">
+			<div class="modal-content">
+				<div class="modal-body">
+					<a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+					<h2 class="modalTitle">비밀번호 확인</h2>
+					<div class="flex align-items-center">
+						<div class="formTit flex-shrink0 width100px">비밀번호</div>
+						<div class="width100">
+							<input type="password" class="inputStyle" placeholder="" v-model="pwdCheckParam.pwd"  @keypress.enter="fnCheckPwd">
+						</div>
+					</div>
+					<p class="text-center mt20"><i class="fa-light fa-circle-info"></i> 안전을 위해서 비밀번호를 입력해 주십시오</p>
+
+					<div class="modalFooter">
+						<a href="#" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
+						<!-- <a href="#" @click.prevent="show" class="modalBtnCheck" title="확인">확인</a> -->
+						<a href="#" @click.prevent="fnCheckPwd" class="modalBtnCheck" title="확인">확인</a>
+					</div>
+				</div>				
+			</div>
+		</div>
+	</div>
+	<!-- 사용자수정 비밀번호 확인 -->
+
 	<!-- 품목 등록/수정 팝업 -->
 	<user-info-pop ref="userInfoPop" :interrelatedList="interrelatedList" @searchFunc="search"/>
 </div>
@@ -126,11 +152,13 @@ export default {
 		return {
 			interrelatedList: [],
 			searchParams: {},	
-			listPage: {}
+			listPage: {},
+			pwdCheckParam : {}
 		};
 	},
 	mounted() {
-		const params = {id: this.$options.name, interrelatedCustCode: '', useYn: '', size: '10'};
+		this.searchParams.useYn = 'Y';
+		const params = {id: this.$options.name, interrelatedCustCode: '', useYn: 'Y', size: '10'};
 		if (this.$store.state.searchParams.id == params.id) {
 			this.searchParams = Object.assign(params, this.$store.state.searchParams);
 		} else {
@@ -171,6 +199,30 @@ export default {
 			this.searchParams.custTypeCode1 = data.itemCode;
 			this.searchParams.custTypeNm1 = data.itemName;
 			this.$forceUpdate()
+		},
+		fnUserDetail(userId){
+			// 비밀번호 체크
+			this.pwdCheckParam.detailUserId = userId;
+			$("#userInfoPwdPop").modal("show"); 
+		},
+		fnCheckPwd(userId){
+			// 대충 비밀번호 체크 로직
+			this.$http
+				.post('/api/v1/couser/pwdCheck', this.pwdCheckParam)
+				.then((response) => {
+					if (response.data.code == 'OK') {
+						$("#userInfoPwdPop").modal("hide"); 
+						$("#userInfoPop").modal("show"); 
+
+						this.$refs.userInfoPop.initModal(this.pwdCheckParam.detailUserId);
+						this.pwdCheckParam = {pwd : '', detailUserId : ''};	// 입력 pwd 초기화
+						return;
+					} else {
+						this.$swal({type: "warning",text: "비밀번호를 확인해주세요"});
+						return;
+					}
+				}
+			);
 		}
 	}
 };
