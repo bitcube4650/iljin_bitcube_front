@@ -120,8 +120,8 @@ export default {
             ,	failBi : true					//조회조건 : 완료상태 - 유찰
             ,	size : 10						//10개씩 보기
             ,	page : 0						//클릭한 페이지번호
-            ,   startDate : ''
-            ,   endDate : ''
+            ,   startDate : ''                  //조회조건 : 입찰완료 - 시작일
+            ,   endDate : ''                    //조회조건 : 입찰완료 - 종료일
             },
             listPage: {},						//리스트
         }
@@ -160,7 +160,14 @@ export default {
             
             this.$store.commit('loading');
             await this.$http.post('/api/v1/bidComplete/list', this.searchParams).then((response) => {
-                this.listPage = response.data;
+                if(response.data.code != '999'){
+                    this.listPage = response.data.data;
+                }else{
+                    this.$swal({
+						type: "warning",
+						text: response.data.msg,
+					});
+                }
             }).finally(() => {
                 this.$store.commit("finish");
             });
@@ -173,6 +180,16 @@ export default {
         fnUpdateStartDate(val){
             this.searchParams.startDate = val;
         }  
+    },
+    beforeMount() {
+        let flag = this.$route.params.flag;
+        if(flag == 'completed'){
+            this.searchParams.succBi = true;
+            this.searchParams.failBi = false;
+        }else if(flag == 'unsuccessful'){
+            this.searchParams.succBi = false;
+            this.searchParams.failBi = true;
+        }
     },
     mounted() {
         //검색조건 날짜 초기셋팅
