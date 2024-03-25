@@ -10,7 +10,7 @@
                     <div class="flex align-items-center">
                         <div class="formTit flex-shrink0 width100px">비밀번호</div>
                         <div class="width100">
-                            <input type="password" v-model="pwd" class="inputStyle" placeholder="">
+                            <input type="password" @keypress.enter="popup" v-model="pwd" class="inputStyle" placeholder="">
                         </div>
                     </div>
                     <p class="text-center mt20"><i class="fa-light fa-circle-info"></i> 안전을 위해서 비밀번호를 입력해 주십시오</p>

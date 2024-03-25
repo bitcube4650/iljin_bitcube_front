@@ -242,11 +242,27 @@ import cmmn from "../../public/js/common.js";
             $('#mody1').modal('show');
         },
         moveBiddingPage(keyword){//입찰페이지 이동
-            
-            if(keyword == 'completed' || keyword == 'awarded'){//입찰완료로 이동
+
+            if(keyword == 'completed'){//계열사 입찰완료로 이동
+
+                this.$router.push({name:"bidComplete" , params: { 'flag': keyword }});
+
+            }else if( keyword == 'awarded'){//협력사 입찰완료로 이동
+
                 this.$router.push({name:"partnerBidComplete" , params: { 'flag': keyword }});
+
             }else{//입찰진행으로 이동
-                this.$router.push({name:"partnerBidStatus" , params: { 'flag': keyword }});
+
+                if(this.company == 'inter'){
+
+                    this.$router.push({name:"bidStatus" , params: { 'flag': keyword }});
+
+                }else{
+
+                    this.$router.push({name:"partnerBidStatus" , params: { 'flag': keyword }});
+
+                }
+                
             }
             
         }

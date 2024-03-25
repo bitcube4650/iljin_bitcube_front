@@ -38,7 +38,7 @@
                         <a class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
                         <div class="alertText2">비밀번호를 저장하였습니다.</div>
                         <div class="modalFooter">
-                            <a @click="reopenPersonalInfo" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
+                            <a class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
                         </div>
                     </div>				
                 </div>
@@ -59,7 +59,7 @@ export default {
   methods: {
     async savePwd(){//비밀번호 저장
 
-        //if(this.checkValid()){
+        if(this.checkValid()){
             try {
                 this.$store.commit('loading');
                 const response = await this.$http.post('/api/v1/main/changePwd', { password : this.password});
@@ -74,7 +74,7 @@ export default {
                 console.log(err)
                 this.$store.commit('finish');
             }
-        //}  
+        }  
     },
     checkValid(){//유효성 체크
 
@@ -107,19 +107,8 @@ export default {
         this.password = '';
         this.passwordChk = '';
     },
-    reopenPersonalInfo(){
-        alert(this.$store.state.pwdOrInfo);
-        if(this.$store.state.pwdOrInfo == 'info'){//개인정보 변경
-
-            $('#pwMody1').modal('hide');
-            $('#pwMody2').modal('hide');
-            //$('#piMody1').modal('show');
-            
-        }
-    },
     cancel(){
         this.reset();
-        this.reopenPersonalInfo();
     }
   },
   created() {

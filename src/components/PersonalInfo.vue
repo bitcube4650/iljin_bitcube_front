@@ -92,7 +92,7 @@
                             <div class="formTit flex-shrink0 width120px">비밀번호</div>
                             <div class="flex align-items-center width100">
                                 <div class="width100">최종변경일: {{ userInfo.pwdChgDate }}</div>
-                                <a data-toggle="modal" @click="changePwd" class="btnStyle btnSecondary btnSm flex-shrink0 ml10" title="비밀번호 변경">비밀번호 변경</a>
+                                <!--<a data-toggle="modal" @click="changePwd" class="btnStyle btnSecondary btnSm flex-shrink0 ml10" title="비밀번호 변경">비밀번호 변경</a>-->
                             </div>
                         </div>
                         <div class="flex align-items-center mt10">
@@ -185,7 +185,7 @@ export default {
                         this.bidauth = this.userInfo.bidauth == '1';
                         this.openauth = this.userInfo.openauth == '1';
                     }
-                    console.log(this.userInfo);
+
                 }else{
                     alert(response.data.msg);//에러 메시지
                 }
@@ -211,7 +211,7 @@ export default {
                     $('#piMody2').modal('hide');
                     $('#piMody3').modal('show');
                 }else{
-                    console.log(response.data.data);
+                    alert(response.data.msg);//에러 메시지
                 }
                 this.$store.commit('finish');
             } catch(err) {

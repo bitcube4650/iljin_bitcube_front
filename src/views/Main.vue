@@ -44,20 +44,20 @@
                 </div>
                 <div class="mcl_right">
                     <div class="mainConBox">
-                        <h2 class="h2Tit">협력업체<a @click="movePartnerManagement('')" title="협력업체 페이지로 이동" class="mainConBoxMore">더보기<i class="fa-solid fa-circle-plus"></i></a></h2>
+                        <h2 class="h2Tit">협력업체<router-link to="/company/partner/management" title="협력업체 페이지로 이동" class="mainConBoxMore">더보기<i class="fa-solid fa-circle-plus"></i></router-link></h2>
                         <div class="cooperativ">
                             <router-link to="/company/partner/approval" title="미승인 업체 페이지로 이동">
                                 <span class="cooperativ_tit">미승인 업체</span>
                                 <span class="cooperativ_num">{{ partnerInfo.request }}</span>
                             </router-link>
-                            <a @click="movePartnerManagement('approval')" title="승인 업체 (인증서 제출) 페이지로 이동">
+                            <router-link to="/company/partner/management" title="승인 업체 (인증서 제출) 페이지로 이동">
                                 <span class="cooperativ_tit">승인 업체</span>
                                 <span class="cooperativ_num">{{ partnerInfo.approval }}</span>
-                            </a>
-                            <a @click="movePartnerManagement('deletion')" title="삭제 업체 페이지로 이동">
+                            </router-link>
+                            <router-link to="/company/partner/management?certYn=D" title="삭제 업체 페이지로 이동">
                                 <span class="cooperativ_tit">삭제 업체</span>
                                 <span class="cooperativ_num">{{ partnerInfo.deletion }}</span>
-                            </a>
+                            </router-link>
                         </div>
                     </div>
                     <div class="mainConBox" style="height: 436px;">
@@ -219,9 +219,6 @@ export default {
     setDetailData(data){//공지사항 상세 팝업 데이터 set
         this.detailData = data;
         this.detailData.bcontent = this.detailData.bcontent.replace(/(?:\r\n|\r|\n)/g, '<br />');
-    },
-    movePartnerManagement(keyword){//업체관리로 이동
-        this.$router.push({name:"PartnerManagement" , params: { 'flag': keyword }});
     },
     moveBiddingPage(keyword){//입찰페이지 이동
         if(keyword == 'planning'){//입찰계획 이동
