@@ -224,7 +224,37 @@ export default {
         },
         //엑셀다운로드
         fnExcelDown(){
+            let time = cmmn.formatDate(new Date(), 'yyyy_mm_dd');
+            let params = Object.assign({}, this.searchParams);
+            params.fileName = '입찰_이력_' + time;
 
+            this.$store.commit("loading");
+            this.$http.post("/api/v1/excel/bid/completeList/downLoad", params, { responseType: 'blob' }).then((response) => {
+                if (response.status === 200) { // 응답이 성공적으로 도착한 경우
+                    const url = window.URL.createObjectURL(new Blob([response.data])); // 응답 데이터를 Blob 형식으로 변환하여 URL을 생성합니다.
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', this.detail.fileName + '.xlsx'); // 다운로드할 파일명을 설정합니다.
+                    document.body.appendChild(link);
+                    link.click();
+                    window.URL.revokeObjectURL(url); // 임시 URL을 해제합니다.
+                } else {
+                    this.$swal({ // 오류 처리
+                        type: "warning",
+                        text: "엑셀 다운로드 중 오류가 발생했습니다.",
+                    });
+                }
+            })
+            .catch((error) => { // 오류 처리
+                console.error("Error:", error);
+                this.$swal({
+                    type: "warning",
+                    text: "엑셀 다운로드 중 오류가 발생했습니다.",
+                });
+            })
+            .finally(() => {
+                this.$store.commit("finish"); // 로딩 상태 종료
+            });
         }
     },
     beforeMount() {},
