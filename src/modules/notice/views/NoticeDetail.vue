@@ -59,9 +59,9 @@
 			</div>
 
 			<div class="text-center mt50">
-				<router-link to="/notice" style="margin: 0 5px;" class="btnStyle btnOutline" title="목록">목록</router-link>
-				<a style="margin: 0 5px;" v-if="(custType == 'inter' && userAuth == '1') || (dataFromList.buserid == userId)" @click="clickUpdate" class="btnStyle btnOutline" title="수정 이동">수정 이동</a>
-				<a style="margin: 0 5px;" v-if="(custType == 'inter' && userAuth == '1') || (dataFromList.buserid == userId)" data-toggle="modal" data-target="#notiDel" class="btnStyle btnOutlineRed" title="삭제">삭제</a>
+				<router-link to="/notice" class="btnStyle btnOutline" title="목록">목록</router-link>
+				<a v-if="(custType == 'inter' && userAuth == '1') || (dataFromList.buserid == userId)" @click="clickUpdate" class="btnStyle btnOutline" title="수정 이동">수정 이동</a>
+				<a v-if="(custType == 'inter' && userAuth == '1') || (dataFromList.buserid == userId)" data-toggle="modal" data-target="#notiDel" class="btnStyle btnOutlineRed" title="삭제">삭제</a>
 			</div>
 		</div>
 		<!-- //contents -->

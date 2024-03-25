@@ -193,7 +193,7 @@ input, select {vertical-align:top; margin-top:0 !important}
 .btnLoginOutline:active {color:#004B9E !important; background:#004B9E26}
 .btnLoginOutline.dimmed {color:#fff !important; border-color:#D0D0D0; background:#D0D0D0; cursor:no-drop}
 
-.btnStyle {display:inline-flex; align-items:center; justify-content:center; height:50px; padding:0 25px; box-sizing:border-box; border-radius:4px; font-size:15px; font-weight:500; transition:.3s}
+.btnStyle {display:inline-flex; align-items:center; justify-content:center; height:50px; padding:0 25px; box-sizing:border-box; border-radius:4px; font-size:15px; font-weight:500; transition:.3s; margin: 0 5px;}
 .btnStyle.btnMd {height:60px; font-size:15px}
 .btnStyle.btnSm {height:40px}
 .btnStyle.btnXs {height:30px}
