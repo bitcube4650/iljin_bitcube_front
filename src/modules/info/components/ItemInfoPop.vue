@@ -98,25 +98,59 @@ export default {
 			return;
 		}
 		this.$store.commit("loading");
-		this.$http
-		.post('/api/v1/item/save', this.detail)
-		.then((response) => {
-			if (response.data.code == 'OK') {
-				$("#commonAlertMsg").html('저장되었습니다.');
-				$("#commonAlertPop").modal("show"); 
-				$("#itemInfoPop").modal("hide");
-				if (this.isCreate) {
-					this.$emit('searchFunc', 0);
+		// 등록
+		if( this.isCreate ){
+			this.$http
+			.post('/api/v1/item/save', this.detail)
+			.then((response) => {
+				if (response.data.code == 'OK') {
+					$("#commonAlertMsg").html('저장되었습니다.');
+					$("#commonAlertPop").modal("show"); 
+					$("#itemInfoPop").modal("hide");
+					if (this.isCreate) {
+						this.$emit('searchFunc', 0);
+					} else {
+						this.$emit('searchFunc');
+					}
+				} else if(response.data.code == 'DUP'){
+					this.$swal({type: "warning",text: "이미 등록된 품목코드가 존재합니다."});
+					this.userIdChkYn = 'N'
+					return;
 				} else {
-					this.$emit('searchFunc');
+					this.$swal({type: "warning",text: "저장 중 오류가 발생했습니다."});
 				}
-			} else {
-				this.$swal({type: "warning",text: "저장 중 오류가 발생했습니다."});
-			}
-		})
-		.finally(() => {
-			this.$store.commit("finish");
-		});
+			})
+			.finally(() => {
+				this.$store.commit("finish");
+			});
+		} 
+		// 수정
+		else {
+			this.$http
+			.post('/api/v1/item/saveUpdate', this.detail)
+			.then((response) => {
+				if (response.data.code == 'OK') {
+					$("#commonAlertMsg").html('저장되었습니다.');
+					$("#commonAlertPop").modal("show"); 
+					$("#itemInfoPop").modal("hide");
+					if (this.isCreate) {
+						this.$emit('searchFunc', 0);
+					} else {
+						this.$emit('searchFunc');
+					}
+				} else if(response.data.code == 'DUP'){
+					this.$swal({type: "warning",text: "이미 등록된 품목코드가 존재합니다."});
+					this.userIdChkYn = 'N'
+					return;
+				} else {
+					this.$swal({type: "warning",text: "저장 중 오류가 발생했습니다."});
+				}
+			})
+			.finally(() => {
+				this.$store.commit("finish");
+			});
+		}
+		
 	},
   }
 };
