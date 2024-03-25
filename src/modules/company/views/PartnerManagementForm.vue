@@ -134,7 +134,7 @@
 							<!-- 다중파일 업로드 -->
 							<div class="upload-boxWrap">
 								<div class="upload-box">
-									<input type="file" id="file-input">
+									<input type="file" ref="uploadedRegnumFile" id="file-input" @change="changeRegnumFile">
 									<div class="uploadTxt">
 										<i class="fa-regular fa-upload"></i>
 										<div>클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br>파일 최대 10MB (등록 파일 개수 최대 1개)</div>
@@ -164,7 +164,7 @@
 							<!-- 다중파일 업로드 -->
 							<div class="upload-boxWrap">
 								<div class="upload-box">
-									<input type="file" id="file-input2">
+									<input type="file" ref="uploadedbfile" id="file-input2" @change="changebfile">
 									<div class="uploadTxt">
 										<i class="fa-regular fa-upload"></i>
 										<div>클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br>파일 최대 10MB (등록 파일 개수 최대 1개)</div>
@@ -307,6 +307,7 @@
 <!-- //본문 -->
 </template>
 <script>
+import fileInput from "../../../../public/js/fileInput.js"
 import ItemPop from "@/components/ItemPop.vue";
 import AddrPop from "@/components/AddrPop.vue";
 import OtherCustPop from "../components/OtherCustPop.vue";
@@ -324,12 +325,21 @@ export default {
 		} else {
 			this.detail.interrelatedCustCode = this.$store.state.loginInfo.custCode;
 		}
+		//파일첨부
+		fileInput.applyFile('#fileRegnumFile','#previewRegnumFile');
+		fileInput.applyFile('#filebfile','#previewbfile');
 	},
 	data() {
 		return {
 			detail: {},
         	itemPop: null,
-			otherCustType: null
+			otherCustType: null,
+			regnumFile : null,  // 업로드한 파일
+			regnumFileCnt : 0,  // 업로드한 파일 수
+			regnumFileSize : 0, // 파일크기
+			bfile : null,       // 업로드한 파일
+			bfileCnt : 0,       // 업로드한 파일 수
+			bfileSize : 0       // 파일크기
 		};
 	},
 	methods: {
@@ -343,6 +353,43 @@ export default {
 				this.detail = response.data;
 				if (custCode) {
 					this.detail.custCode = null;
+				}
+				//기존에 첨부되어있는 파일 나타내기
+				if(this.detail.regnumFile != null && this.detail.regnumPath != null){
+					var preview = document.querySelector('#preview');
+					var fileName = this.detail.regnumFile;
+					// 현재 시간의 타임스탬프 (13자리)
+  					var timestamp = Date.now();
+					preview.innerHTML += `
+										<p id=${timestamp}>
+											${fileName}
+											<button data-index=${timestamp} id='removeFile' class='file-remove'>삭제</button>
+										</p>`;
+
+					//삭제 버튼 클릭시 기존 첨부된 파일 정보 삭제
+					$('#removeFile').click(function(){
+						this.detail.regnumFile = null;
+						this.detail.regnumPath = null;
+
+					}.bind(this));
+				}
+				if(this.detail.bfile != null && this.detail.bfilePath != null){
+					var preview = document.querySelector('#preview2');
+					var fileName = this.detail.bfile;
+					// 현재 시간의 타임스탬프 (13자리)
+  					var timestamp = Date.now();
+					preview.innerHTML += `
+										<p id=${timestamp}>
+											${fileName}
+											<button data-index=${timestamp} id='removeFile2' class='file-remove'>삭제</button>
+										</p>`;
+
+					//삭제 버튼 클릭시 기존 첨부된 파일 정보 삭제
+					$('#removeFile2').click(function(){
+						this.detail.bfile = null;
+						this.detail.bfilePath = null;
+
+					}.bind(this));
 				}
 				this.$store.commit('finish');
 			} catch(err) {
@@ -364,10 +411,10 @@ export default {
 			.then((response) => {
 				$("#joinBtn").modal("hide"); 
 				if (response.data.code == 'OK') {
-					this.$swal({type: "info",text: "사용 가능합니다."});
+					this.$swal({type: "info",text: "입력한 아이디를 사용할 수 있습니다."});
 					this.detail.idcheck = true;
 				} else {
-					this.$swal({type: "warning",text: "아이디가 중복됩니다. 다른 아이디를 사용해주세요."});
+					this.$swal({type: "warning",text: "입력한 아이디를 사용할 수 없습니다."});
 				}
 			})
 			.finally(() => {
@@ -465,8 +512,25 @@ export default {
 		},
 		save() {  
 			this.$store.commit("loading");
+			var formData = new FormData();
+
+			var regnumFileRemoveCnt = $('#preview .file-remove').length;//올려진 파일을 삭제하는 버튼 개수
+			if(this.regnumFileCnt == 0 || regnumFileRemoveCnt == 0){//업로드 한 파일이 없는 경우
+				this.$refs.uploadedRegnumFile.value = null;
+				this.regnumFile = null;
+			}
+			var bfileRemoveCnt = $('#preview2 .file-remove').length;//올려진 파일을 삭제하는 버튼 개수
+			if(this.bfileCnt == 0 || bfileRemoveCnt == 0){//업로드 한 파일이 없는 경우
+				this.$refs.uploadedbfile.value = null;
+				this.bfile = null;
+			}
+
+    		formData.append('regnumFile', this.regnumFile);
+    		formData.append('bfile', this.bfile);
+			formData.append('data', new Blob([JSON.stringify(this.detail)], { type: 'application/json' }));
+
 			this.$http
-			.post('/api/v1/cust/save', this.detail)
+			.post('/api/v1/cust/save', formData)
 			.then((response) => {
 				$("#joinBtn").modal("hide"); 
 				if (response.data.code == 'OK') {
@@ -512,7 +576,67 @@ export default {
 			this.detail.addr = data.addr;
 			this.detail.addrDetail = data.addrDetail;
 			this.$forceUpdate()
-		}
+		},
+		checkRegnumFileSize() {//파일크기 확인
+			const input = this.$refs.uploadedRegnumFile;
+			if (input.files.length > 0) {
+				const file = input.files[0];
+				this.regnumFileSize = file.size;
+				// 원하는 용량 제한 설정 (10MB)
+				const maxSize = 10 * 1024 * 1024;
+				if (this.regnumFileSize > maxSize) {
+					alert('파일 크기가 10MB를 초과했습니다.');
+					// 파일 초기화 또는 다른 조치를 취할 수 있습니다.
+					this.$refs.uploadedRegnumFile.value = null;
+					this.regnumFileSize = null;
+					var previewRegnumFile = document.querySelector('#preview');
+					previewRegnumFile.innerHTML = '';
+					return true;
+				}
+			}
+			return false;
+		},
+		changeRegnumFile(evnet){//바뀐 파일 regnumFile에 담기
+			//파일 변경시 기존 처음에 첨부되었던 파일정보 사라짐
+			this.detail.regnumFile = null;
+			this.detail.regnumPath = null;
+			//파일 사이즈 체크
+			if(this.checkRegnumFileSize()){
+				return false;
+			}
+			this.regnumFile = event.target.files[0];
+			this.regnumFileCnt = event.target.files.length;
+		},
+		checkbfileSize() {//파일크기 확인
+			const input = this.$refs.uploadedbfile;
+			if (input.files.length > 0) {
+				const file = input.files[0];
+				this.regnumFileSize = file.size;
+				// 원하는 용량 제한 설정 (10MB)
+				const maxSize = 10 * 1024 * 1024;
+				if (this.regnumFileSize > maxSize) {
+					alert('파일 크기가 10MB를 초과했습니다.');
+					// 파일 초기화 또는 다른 조치를 취할 수 있습니다.
+					this.$refs.uploadedbfile.value = null;
+					this.regnumFileSize = null;
+					var previewbfile = document.querySelector('#preview2');
+					previewbfile.innerHTML = '';
+					return true;
+				}
+			}
+			return false;
+		},
+		changebfile(evnet){//바뀐 파일 regnumFile에 담기
+			//파일 변경시 기존 처음에 첨부되었던 파일정보 사라짐
+			this.detail.bfile = null;
+			this.detail.bfilePath = null;
+			//파일 사이즈 체크
+			if(this.checkbfileSize()){
+				return false;
+			}
+			this.bfile = event.target.files[0];
+			this.bfileCnt = event.target.files.length;
+		},
 	}
 };
 </script>
