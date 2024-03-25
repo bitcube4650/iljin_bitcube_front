@@ -73,13 +73,13 @@
 				</thead>
 				<tbody>
 					<tr v-for="(val, idx) in listPage.content">
-						<td class="text-left"><a href="#" @click.prevent="$refs.custUserInfoPop.initModal(val.userId);" data-toggle="modal" data-target="#userInfoPwdPop" class="textUnderline notiTitle">{{ val.userName }}</a></td>
-						<td class="text-left"><a href="#" @click.prevent="$refs.custUserInfoPop.initModal(val.userId);" data-toggle="modal" data-target="#userInfoPwdPop" class="textUnderline notiTitle">{{ val.userId }}</a></td>
+						<td class="text-left"><a href="#" @click.prevent="$refs.custUserInfoPop.initModal(val.userId);" data-toggle="modal" data-target="#userInfoPop" class="textUnderline notiTitle">{{ val.userName }}</a></td>
+						<td class="text-left"><a href="#" @click.prevent="$refs.custUserInfoPop.initModal(val.userId);" data-toggle="modal" data-target="#userInfoPop" class="textUnderline notiTitle">{{ val.userId }}</a></td>
 						<td>{{ val.userBuseo }}</td>
 						<td>{{ val.userPosition }}</td>
 						<td>{{ val.userTel }}</td>
 						<td>{{ val.userHp }}</td>
-						<td :class="val.useYn == 'Y' ? '' : 'textHighlight'">{{ val.useYn == 'Y' ? '사용' : '미사용' }}</td>
+						<td :class="val.useYn == 'Y' ? '' : 'textHighlight'">{{ val.useYn == 'Y' ? '정상' : '삭제' }}</td>
 						<td class="end">{{ val.userType == '1' ? '업체관리자' : '일반사용자' }}</td>
 					</tr>
 				</tbody>
