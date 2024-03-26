@@ -1160,21 +1160,21 @@ export default {
       }
       if (
         !this.bidContent.succDeciMethCode ||
-        this.bidContent.succDeciMethCode === ""
+        this.bidContent.succDeciMethCode === "0000-00-00 00:00"
       ) {
         alert("낙찰자 결정방법을 선택해주세요.");
         return false;
       }
       if (
         !this.bidContent.estStartDate ||
-        this.bidContent.estStartDate === ""
+        this.bidContent.estStartDate === "0000-00-00 00:00"
       ) {
         alert("제출시작일시를 입력해주세요.");
         return false;
       }
       if (
         !this.bidContent.estCloseDate ||
-        this.bidContent.estCloseDate === ""
+        this.bidContent.estCloseDate === "0000-00-00 00:00"
       ) {
         alert("제출마감일시를 입력해주세요.");
         return false;

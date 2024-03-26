@@ -136,19 +136,19 @@
         </thead>
         <tbody>
           <tr v-for="(val, idx) in listPage.content">
-            <td
-              class="textUnderline"
-              @click="clickBidDetail(val.ingTag, val.biNo)"
-              href="#"
-            >
-              {{ val.biNo }}
+            <td class="textUnderline">
+              <a
+                style="cursor: pointer"
+                @click="clickBidDetail(val.ingTag, val.biNo)"
+                >{{ val.biNo }}</a
+              >
             </td>
-            <td
-              class="textUnderline text-left"
-              @click="clickBidDetail(val.ingTag, val.biNo)"
-              href="#"
-            >
-              {{ val.biName }}
+            <td class="textUnderline text-left">
+              <a
+                style="cursor: pointer"
+                @click="clickBidDetail(val.ingTag, val.biNo)"
+                >{{ val.biName }}</a
+              >
             </td>
             <td :class="{ textHighlight: isPastDate(val.estCloseDate) }">
               <i class="fa-regular fa-timer"></i>{{ val.estCloseDate }}

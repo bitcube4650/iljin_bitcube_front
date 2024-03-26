@@ -174,7 +174,7 @@
                     data-target="#custUserPop"
                     class="textUnderline"
                     >{{ val.custName }}</a
-                  ><i class="fa-regular fa-xmark" @click="removeCust(idx)"></i></a>
+                  ><i class="fa-regular fa-xmark textHighlight" @click="removeCust(idx)"></i></a>
                   <span v-if="idx !== dataFromList.custContent.length - 1">, </span>
                   </div>
                 <div v-else-if="val.custName == null">
@@ -184,7 +184,7 @@
                     data-target="#custUserPop"
                     class="textUnderline"
                     >미등록업체</a
-                  ><i class="fa-regular fa-xmark" @click="removeCust(idx)"></i></a>
+                  ><i class="fa-regular fa-xmark textHighlight" @click="removeCust(idx)"></i></a>
                   <span v-if="idx !== dataFromList.custContent.length - 1">, </span>
                   </div>
                   
@@ -958,6 +958,7 @@ export default {
       this.timePart2 = this.dataFromList.result.estCloseDate.substring(11, 16);
     },
     removeCust(index) {
+      console.log(this.dataFromList.custContent)
       this.dataFromList.custContent.splice(index, 1);
     },
 
@@ -1133,21 +1134,21 @@ export default {
       }
       if (
         !this.dataFromList.result.succDeciMethCode ||
-        this.dataFromList.result.succDeciMethCode === ""
+        this.dataFromList.result.succDeciMethCode === "0000-00-00 00:00"
       ) {
         alert("낙찰자 결정방법을 선택해주세요.");
         return false;
       }
       if (
         !this.dataFromList.result.estStartDate ||
-        this.dataFromList.result.estStartDate === ""
+        this.dataFromList.result.estStartDate === "0000-00-00 00:00"
       ) {
         alert("제출시작일시를 입력해주세요.");
         return false;
       }
       if (
         !this.dataFromList.result.estCloseDate ||
-        this.dataFromList.result.estCloseDate === ""
+        this.dataFromList.result.estCloseDate === "0000-00-00 00:00"
       ) {
         alert("제출마감일시를 입력해주세요.");
         return false;

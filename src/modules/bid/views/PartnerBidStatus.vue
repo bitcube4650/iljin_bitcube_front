@@ -152,6 +152,7 @@
               <a
                 @click="clickPartnerBidStatusDetail(val.biNo)"
                 class="textUnderline"
+                style="cursor: pointer"
                 >{{ val.biNo }}</a
               >
             </td>
@@ -159,6 +160,7 @@
               <a
                 @click="clickPartnerBidStatusDetail(val.biNo)"
                 class="textUnderline"
+                style="cursor: pointer"
                 >{{ val.biName }}</a
               >
             </td>

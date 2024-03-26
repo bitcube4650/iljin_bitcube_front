@@ -338,7 +338,7 @@
           <a
             v-if="
               this.loginId === this.result.cuserCode ||
-              this.logingId === this.result.gongoIdCode
+              this.loginId === this.result.gongoIdCode
             "
             data-toggle="modal"
             data-target="#biddingModal"
