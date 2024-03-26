@@ -44,11 +44,11 @@
                         </div>
                         <div class="flex align-items-center mt10">
                             <div class="formTit flex-shrink0 width120px">휴대폰 <span class="star">*</span></div>
-                            <div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" v-model="userInfo.userHp"></div>
+                            <div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" v-model="userInfo.userHp" @input="formatPhoneNumber"></div>
                         </div>
                         <div class="flex align-items-center mt10">
                             <div class="formTit flex-shrink0 width120px">유선전화 <span class="star">*</span></div>
-                            <div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" v-model="userInfo.userTel"></div>
+                            <div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" v-model="userInfo.userTel" @input="formatLandlineNumber"></div>
                         </div>
                         <div class="flex align-items-center mt10">
                             <div class="formTit flex-shrink0 width120px">이메일 <span class="star">*</span></div>
@@ -97,11 +97,11 @@
                         </div>
                         <div class="flex align-items-center mt10">
                             <div class="formTit flex-shrink0 width120px">휴대폰 <span class="star">*</span></div>
-                            <div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" v-model="userInfo.userHp"></div>
+                            <div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" v-model="userInfo.userHp" @input="formatPhoneNumber"></div>
                         </div>
                         <div class="flex align-items-center mt10">
                             <div class="formTit flex-shrink0 width120px">유선전화 <span class="star">*</span></div>
-                            <div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" v-model="userInfo.userTel"></div>
+                            <div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" v-model="userInfo.userTel" @input="formatLandlineNumber"></div>
                         </div>
                         <div class="flex align-items-center mt10">
                             <div class="formTit flex-shrink0 width120px">이메일 <span class="star">*</span></div>
@@ -220,10 +220,67 @@ export default {
             }
 
         },
+        formatPhoneNumber() {
+            // '-'를 제외한 숫자만 남기기
+            let cleaned = this.userInfo.userHp.replace(/\D/g, '');
+            let formatted = '';
+            // '-'를 삽입하여 전화번호 형식으로 변경
+            if (cleaned.length >= 11){
+                formatted += cleaned.substring(0, 3);
+                formatted += '-';
+                formatted += cleaned.substring(3, 7);
+                formatted += '-';
+                formatted += cleaned.substring(7);
+            }else{
+                formatted = cleaned;
+            }
+
+            // 최대 길이 제한
+            this.userInfo.userHp = formatted.slice(0, 13);
+        },
+        formatLandlineNumber() {
+            let cleaned = this.userInfo.userTel.replace(/\D/g, ''); // 숫자만 남기기
+            let formatted = '';
+
+            if (cleaned.length == 9){
+                formatted += cleaned.substring(0, 2);
+                formatted += '-';
+                formatted += cleaned.substring(2, 5);
+                formatted += '-';
+                formatted += cleaned.substring(5);
+            }else if(cleaned.length == 10){
+                if(cleaned.substring(0, 2) == '02'){
+                    formatted += cleaned.substring(0, 2);
+                    formatted += '-';
+                    formatted += cleaned.substring(2, 6);
+                    formatted += '-';
+                    formatted += cleaned.substring(6);
+                }else{
+                    formatted += cleaned.substring(0, 3);
+                    formatted += '-';
+                    formatted += cleaned.substring(3, 6);
+                    formatted += '-';
+                    formatted += cleaned.substring(6);
+                }
+            }else if(cleaned.length >= 11){
+                formatted += cleaned.substring(0, 3);
+                formatted += '-';
+                formatted += cleaned.substring(3, 7);
+                formatted += '-';
+                formatted += cleaned.substring(7);
+            }else if(cleaned.length <9){
+                formatted = cleaned;
+            }
+
+            // 최대 길이 제한
+            this.userInfo.userTel = formatted.slice(0, 13);
+        }
+        /*
         changePwd(){ 
             $('#piMody1').modal('hide');
             $('#pwMody1').modal('show');
         }
+        */
     }
 }
 </script>
