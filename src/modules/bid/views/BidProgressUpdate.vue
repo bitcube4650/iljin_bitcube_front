@@ -946,6 +946,7 @@ export default {
     removeCust(index) {
       console.log(this.dataFromList.custContent);
       this.dataFromList.custContent.splice(index, 1);
+      this.$forceUpdate();
     },
 
     formatInput(event) {
