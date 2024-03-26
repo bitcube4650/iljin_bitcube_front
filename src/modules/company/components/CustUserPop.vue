@@ -98,7 +98,7 @@ export default {
     async retrieve() {
       try {
         this.$store.commit('loading');
-		const response = await this.$http.post('/api/v1/custuser/userList', this.searchParams);
+		const response = await this.$http.post('/api/v1/custuser/userListForCust', this.searchParams);
         this.listPage = response.data;
         this.$store.commit('finish');
       } catch(err) {

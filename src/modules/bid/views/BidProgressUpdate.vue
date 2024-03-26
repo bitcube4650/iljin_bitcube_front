@@ -162,32 +162,18 @@
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">입찰참가업체</div>
             <div class="flex align-items-center width100">
-              <div class="overflow-y-scroll boxStSm width100" style="display: inline">
-                                <a v-if="dataFromList.custContent.length ===0"
+              <div class="overflow-y-scroll boxStSm width100" >
+                <a v-if="dataFromList.custContent.length ===0"
                     >선택된 참가업체 없음</a>
-                <div v-if="dataFromList.result.biModeCode==='A'" v-for="(val, idx) in dataFromList.custContent" >   
-                <div v-if="val.custName !== null">
+                <div v-if="dataFromList.result.biModeCode==='A'" v-for="(val, idx) in dataFromList.custContent" :key="idx">   
                 <a
-                    
                     @click.prevent="$refs.custUserPop.initModal(val.custCode)"
                     data-toggle="modal"
                     data-target="#custUserPop"
                     class="textUnderline"
                     >{{ val.custName }}</a
                   ><i class="fa-regular fa-xmark textHighlight" @click="removeCust(idx)"></i></a>
-                  <span v-if="idx !== dataFromList.custContent.length - 1">, </span>
-                  </div>
-                <div v-else-if="val.custName == null">
-                <a
-                    @click.prevent="$refs.custUserPop.initModal(val.custCode)"
-                    data-toggle="modal"
-                    data-target="#custUserPop"
-                    class="textUnderline"
-                    >미등록업체</a
-                  ><i class="fa-regular fa-xmark textHighlight" @click="removeCust(idx)"></i></a>
-                  <span v-if="idx !== dataFromList.custContent.length - 1">, </span>
-                  </div>
-                  
+                  <span v-if="idx !== dataFromList.custContent.length - 1">, </span>   
                 </div>
                 <div v-if="dataFromList.result.biModeCode==='B'">
                     <a>가입회원사 전체</a>
@@ -958,7 +944,7 @@ export default {
       this.timePart2 = this.dataFromList.result.estCloseDate.substring(11, 16);
     },
     removeCust(index) {
-      console.log(this.dataFromList.custContent)
+      console.log(this.dataFromList.custContent);
       this.dataFromList.custContent.splice(index, 1);
     },
 
