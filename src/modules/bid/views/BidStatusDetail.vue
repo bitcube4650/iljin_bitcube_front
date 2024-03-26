@@ -101,7 +101,9 @@
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">예산금액</div>
-            <div class="width100">{{ this.result.bdAmt }}원</div>
+            <div class="width100">
+              {{ this.result.bdAmt | numberWithCommas }}원
+            </div>
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">입찰담당자</div>
@@ -249,11 +251,15 @@
                   <tr v-for="(val, idx) in tableContent">
                     <td class="text-left">{{ val.name }}</td>
                     <td class="text-left">{{ val.ssize }}</td>
-                    <td class="text-right">{{ val.orderQty }}</td>
+                    <td class="text-right">
+                      {{ val.orderQty | numberWithCommas }}
+                    </td>
                     <td>{{ val.unitcode }}</td>
-                    <td class="text-right">{{ val.orderUc }}</td>
+                    <td class="text-right">
+                      {{ val.orderUc | numberWithCommas }}
+                    </td>
                     <td class="text-right end">
-                      {{ val.orderQty * val.orderUc }}
+                      {{ (val.orderQty * val.orderUc) | numberWithCommas }}
                     </td>
                   </tr>
                 </tbody>
@@ -567,6 +573,12 @@ export default {
         { value: "C25", label: "기타" },
       ],
     };
+  },
+  filters: {
+    numberWithCommas(val) {
+      if (!val) return "";
+      else return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
   },
   methods: {
     async retrieve() {

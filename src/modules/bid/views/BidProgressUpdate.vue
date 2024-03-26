@@ -30,6 +30,7 @@
                 class="inputStyle"
                 placeholder=""
                 v-model="dataFromList.result.biName"
+                maxlength="50"
               />
             </div>
           </div>
@@ -162,6 +163,8 @@
             <div class="formTit flex-shrink0 width170px">입찰참가업체</div>
             <div class="flex align-items-center width100">
               <div class="overflow-y-scroll boxStSm width100" style="display: inline">
+                                <a v-if="dataFromList.custContent.length ===0"
+                    >선택된 참가업체 없음</a>
                 <div v-if="dataFromList.result.biModeCode==='A'" v-for="(val, idx) in dataFromList.custContent" >   
                 <div v-if="val.custName !== null">
                 <a

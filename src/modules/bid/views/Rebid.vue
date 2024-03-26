@@ -30,6 +30,7 @@
                 class="inputStyle"
                 placeholder=""
                 v-model="dataFromList.result.biName"
+                maxlength="50"
               />
             </div>
           </div>

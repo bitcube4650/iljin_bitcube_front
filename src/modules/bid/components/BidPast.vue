@@ -26,6 +26,8 @@
                   class="inputStyle"
                   placeholder=""
                   v-model="searchParams.biNo"
+                  @keyup.enter="search(0)"
+                  maxlength="10"
                 />
               </div>
               <div class="sbTit mr30 ml50">입찰명</div>
@@ -37,6 +39,8 @@
                   class="inputStyle"
                   placeholder=""
                   v-model="searchParams.biName"
+                  @keyup.enter="search(0)"
+                  maxlength="50"
                 />
               </div>
               <a class="btnStyle btnSearch" @click.prevent="search(0)">검색</a>
@@ -59,16 +63,17 @@
             </thead>
             <tbody>
               <tr v-for="(val, idx) in listPage.content">
-				<td>{{val.biNo}}</td>
-				<td>{{val.biName}}</td>
-				<td>{{val.estCloseDate}}</td>
-				<td>{{val.biMode}}</td>
-				<td>{{val.insMode}}</td>
+                <td>{{ val.biNo }}</td>
+                <td>{{ val.biName }}</td>
+                <td>{{ val.estCloseDate }}</td>
+                <td>{{ val.biMode }}</td>
+                <td>{{ val.ingTag }}</td>
+                <td>{{ val.insMode }}</td>
                 <td class="end">
                   <a
                     class="btnStyle btnSecondary btnSm"
                     title="선택"
-                    @click.prevent="select(val)"
+                    @click.prevent="select(val.biNo)"
                     >선택</a
                   >
                 </td>
@@ -116,9 +121,20 @@ export default {
       this.searchParams.page = page;
       this.retrieve();
     },
-    select(data) {
-      this.$emit("callbackFunc", data);
-      $("#pastBid").modal("hide");
+    async select(biNo) {
+      try {
+        this.$store.commit("loading");
+        const response = await this.$http.post(
+          "/api/v1/bid/progresslistDetail",
+          biNo
+        );
+        this.$emit("callbackFunc", response.data);
+        this.$store.commit("finish");
+      } catch (err) {
+        console.log(err);
+        this.$store.commit("finish");
+      }
+      $("#bidPast").modal("hide");
     },
 
     async retrieve() {

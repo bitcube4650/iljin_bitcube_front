@@ -43,6 +43,7 @@
               placeholder=""
               v-model="searchParams.bidNo"
               @keyup.enter.prevent="search(0)"
+              maxlength="10"
             />
           </div>
           <div class="sbTit mr30 ml50">입찰명</div>
@@ -55,6 +56,7 @@
               placeholder=""
               v-model="searchParams.bidName"
               @keyup.enter.prevent="search(0)"
+              maxlength="50"
             />
           </div>
         </div>

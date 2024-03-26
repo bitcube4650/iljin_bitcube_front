@@ -39,6 +39,7 @@
                 class="inputStyle"
                 placeholder=""
                 v-model="bidContent.biName"
+                maxlength="50"
               />
             </div>
           </div>
@@ -177,7 +178,10 @@
             <div class="formTit flex-shrink0 width170px">입찰참가업체</div>
             <div class="flex align-items-center width100">
               <div class="overflow-y-scroll boxStSm width100" style="display: inline">
+                <a v-if="custContent.length ===0"
+                    >선택된 참가업체 없음</a>
                 <div  v-for="(val, idx) in custContent">   
+                  
                 <a
                     @click.prevent="$refs.custUserPop.initModal(val.custCode)"
                     data-toggle="modal"
@@ -390,7 +394,7 @@
            <div class="flex align-items-center mt10">
             <div class="flex align-items-center width100">
               <div class="formTit flex-shrink0 width170px">낙찰자</div>
-              <div class="flex align-items-center width270px">
+              <div class="flex align-items-center width70">
                 <input
                   type="text"
                   name=""
@@ -1017,44 +1021,51 @@ export default {
     },
 
     callbackPastBid(data) {
-      this.bidContent.biName = data.biName;
-      this.bidContent.itemCode = data.itemCode;
-      this.bidContent.itemName = data.itemName;
-      this.bidContent.biModeCode = data.biModeCode;
-      if (!data.biModeCode) this.bidContent.biModeCode = "A";
+      this.result = data[0][0];
+      this.tableContent = data[1];
+      this.fileContent = data[2];
+      this.custContent = data[3];
 
-      this.bidContent.specialCond = data.specialCond;
-      this.datePart = data.spotDate.substring(0, 10);
-      this.timePart = data.spotDate.substring(11, 16);
-      this.bidContent.spotArea = data.spotArea;
-      this.bidContent.succDeciMethCode = data.succDeciMethCode;
-      this.bidContent.amtBasis = data.amtBasis;
-      this.bidContent.payCond = data.payCond;
-      this.bidContent.bdAmt = data.bdAmt;
+      this.bidContent.biName = this.result.biName;
+      this.bidContent.itemCode =this.result.itemCode;
+      this.bidContent.itemName = this.result.itemName;
+      this.bidContent.biModeCode = this.result.biModeCode;
+      if (!this.result.biModeCode) this.bidContent.biModeCode = "A";
 
-      this.datePart1 = data.estStartDate.substring(0, 10);
-      this.timePart1 = data.estStartDate.substring(11, 16);
-      this.datePart2 = data.estCloseDate.substring(0, 10);
-      this.timePart2 = estCloseDate.substring(11, 16);
-      this.bidContent.estOpener = data.estOpener;
-      this.bidContent.estOpenerCode = data.estOpenerCode;
-      this.bidContent.gongoId = data.gongoId;
-      this.bidContent.openAtt1 = data.openAtt1;
-      this.bidContent.openAtt1Code = data.openAtt1Code;
-      this.bidContent.openAtt2 = data.openAtt2;
-      this.bidContent.openAtt2Code = data.openAtt2Code;
-      this.bidContent.insModeCode = data.insModeCode;
-      if (!data.insModeCode) this.bidContent.insModeCode = "1";
+      this.bidContent.specialCond = this.result.specialCond;
+      this.datePart = this.result.spotDate.substring(0, 10);
+      this.timePart = this.result.spotDate.substring(11, 16);
+      this.bidContent.spotArea = this.result.spotArea;
+      this.bidContent.succDeciMethCode = this.result.succDeciMethCode;
+      this.bidContent.amtBasis = this.result.amtBasis;
+      this.bidContent.payCond = this.result.payCond;
+      this.bidContent.bdAmt = this.result.bdAmt;
 
-      if (data.interrelatedCustCode === "02") {
-        this.bidContent.matDept = data.matDept;
-        this.bidContent.matProc = data.matProc;
-        this.bidContent.matCls = data.matCls;
-        this.bidContent.matFactory = data.matFactory;
-        this.bidContent.matFactoryLine = data.matFactoryLine;
-        this.bidContent.matFactoryCnt = data.matFactoryCnt;
+      this.datePart1 = this.result.estStartDate.substring(0, 10);
+      this.timePart1 = this.result.estStartDate.substring(11, 16);
+      this.datePart2 = this.result.estCloseDate.substring(0, 10);
+      this.timePart2 = this.result.estCloseDate.substring(11, 16);
+      this.bidContent.estOpener = this.result.estOpener;
+      this.bidContent.estOpenerCode = this.result.estOpenerCode;
+      this.bidContent.gongoId = this.result.gongoId;
+      this.bidContent.gongoIdCode = this.result.gongoIdCode;
+      this.bidContent.openAtt1 = this.result.openAtt1;
+      this.bidContent.openAtt1Code = this.result.openAtt1Code;
+      this.bidContent.openAtt2 = this.result.openAtt2;
+      this.bidContent.openAtt2Code = this.result.openAtt2Code;
+      this.bidContent.insModeCode = this.result.insModeCode;
+      if (!this.result.insModeCode) this.bidContent.insModeCode = "1";
+
+      if (this.result.interrelatedCustCode === "02") {
+        this.bidContent.matDept = this.result.matDept;
+        this.bidContent.matProc = this.result.matProc;
+        this.bidContent.matCls = this.result.matCls;
+        this.bidContent.matFactory = this.result.matFactory;
+        this.bidContent.matFactoryLine = this.result.matFactoryLine;
+        this.bidContent.matFactoryCnt = this.result.matFactoryCnt;
       }
       this.$forceUpdate();
+      $("#bidPast").modal("hide");
     },
 
     selectBid(mode) {

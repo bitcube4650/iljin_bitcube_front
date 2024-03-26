@@ -160,8 +160,8 @@
                   <tr v-for="(val, idx) in tableContent">
                     <td class="text-left">{{ val.name }}</td>
                     <td class="text-left">{{ val.ssize }}</td>
-                    <td class="text-right">{{ val.orderQty }}</td>
-                    <td>{{ val.unitcode }}</td>
+                    <td class="text-right">{{ val.orderQty | numberWithCommas }}</td>
+                    <td>{{ val.unitcode | numberWithCommas }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -394,7 +394,12 @@
             title="공고문 미리보기"
             >공고문 미리보기</a
           >
-          <a class="btnStyle btnSecondary" title="수정" v-if="this.result.insMode === '직접입력'">견적금액 임시저장</a>
+          <a
+            class="btnStyle btnSecondary"
+            title="수정"
+            v-if="this.result.insMode === '직접입력'"
+            >견적금액 임시저장</a
+          >
           <a class="btnStyle btnPrimary" title="견적서 제출">견적서 제출</a>
         </div>
       </div>
@@ -441,6 +446,12 @@ export default {
       );
     },
   },
+  filters: {
+    numberWithCommas(val) {
+      if (!val) return "";
+      else return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
+  },
   methods: {
     async retrieve() {
       try {
@@ -460,11 +471,12 @@ export default {
       }
     },
 
-    validationCheck(){ //투찰 전 필수입력요소 체크 로직 추가하기
-   
+    validationCheck() {
+      //투찰 전 필수입력요소 체크 로직 추가하기
     },
 
-    bidNotice() { //투찰 로직으로 변경하기
+    bidNotice() {
+      //투찰 로직으로 변경하기
       this.detail.biNo = this.dataFromList;
       console.log(this.detail.biNo);
       this.detail.biName = this.result.biName;
@@ -536,7 +548,6 @@ export default {
       console.log(1111111111111, this.searchParams);
       this.$http.post("/api/v1/bidPtStatus/checkBid", this.searchParams);
     },
-
   },
   beforeMount() {
     this.curr = "KRW";
