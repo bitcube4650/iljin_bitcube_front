@@ -896,12 +896,24 @@ export default {
       this.$forceUpdate();
     },
     callbackCust(data) {
-      this.dataFromList.custContent.push({
-        biNo: this.dataFromList.result.biNo,
-        custCode: data.custCode,
-        custName: data.custName,
-      });
-      console.log(1111111111111, this.dataFromList.custContent);
+      const existingCust = this.dataFromList.custContent.find(
+        (item) => item.custCode === data.custCode
+      );
+
+      if (!existingCust) {
+        this.dataFromList.custContent.push({
+          biNo: this.dataFromList.result.biNo,
+          custCode: data.custCode,
+          custName: data.custName,
+        });
+        console.log(1111111111111, this.dataFromList.custContent);
+        this.$forceUpdate();
+      } else {
+        this.$swal({
+          type: "warning",
+          text: "이미 등록한 업체입니다.",
+        });
+      }
       this.$forceUpdate();
     },
     callbackOpenUser(data) {
