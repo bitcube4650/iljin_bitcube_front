@@ -511,7 +511,7 @@
           </div>
           <div class="flex mt10">
             <div class="formTit flex-shrink0 width170px">
-              첨부파일(대내용) <span class="star">*</span>
+              첨부파일(대내용)
               <!-- 툴팁 -->
               <i class="fas fa-question-circle toolTipSt ml5">
                 <div class="toolTipText" style="width: 320px">
@@ -554,7 +554,7 @@
           </div>
           <div class="flex mt10">
             <div class="formTit flex-shrink0 width170px">
-              첨부파일(대외용) <span class="star">*</span>
+              첨부파일(대외용)
               <!-- 툴팁 -->
               <i class="fas fa-question-circle toolTipSt ml5">
                 <div class="toolTipText" style="width: 300px">
@@ -991,17 +991,6 @@ export default {
           alert("세부내역파일을 업로드 해주세요.");
           return false;
         }
-      }
-
-      if (this.file0.length === 0) {
-        alert("대내용 첨부파일을 업로드 해주세요.");
-        console.log(this.file1);
-        return false;
-      }
-
-      if (this.file1.length === 0) {
-        alert("대외용 첨부파일을 업로드 해주세요.");
-        return false;
       }
 
       if (!this.dataFromList.result.whyA3) {
