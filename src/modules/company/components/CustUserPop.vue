@@ -12,11 +12,11 @@
 					<div class="flex align-items-center">
 						<div class="sbTit mr30">사용자명</div>
 						<div class="width150px">
-							<input type="text" v-model="searchParams.userName" class="inputStyle" placeholder="">
+							<input type="text" v-model="searchParams.userName" class="inputStyle" placeholder="" @keyup.enter.prevent="search(0)">
 						</div>
 						<div class="sbTit mr30 ml50">로그인 ID</div>
 						<div class="width150px">
-							<input type="text" v-model="searchParams.userId" class="inputStyle" placeholder="">
+							<input type="text" v-model="searchParams.userId" class="inputStyle" placeholder="" @keyup.enter.prevent="search(0)">
 						</div>
 						<a href="#" @click.prevent="search(0)" class="btnStyle btnSearch">검색</a>
 					</div>

@@ -17,13 +17,13 @@
 					<div class="flex align-items-center">
 						<div class="sbTit mr30">업체유형</div>
 						<div class="width150px">
-							<input type="text" v-model="searchParams.custTypeNm" class="inputStyle readonly" readonly placeholder="">
+							<input type="text" v-model="searchParams.custTypeNm" class="inputStyle readonly" readonly placeholder="" @keyup.enter.prevent="search(0)">
 						</div>
-						<input type="hidden" v-model="searchParams.custType"/>
+						<input type="hidden" v-model="searchParams.custType" @keyup.enter.prevent="search(0)"/>
 						<a hhref="#" @click="$parent.callPop()" data-toggle="modal" data-target="#itemPop" class="btnStyle btnSecondary ml10" title="조회">조회</a>
 						<div class="sbTit mr30 ml50">업체명</div>
 						<div class="width150px">
-							<input type="text" v-model="searchParams.custName" class="inputStyle" placeholder="">
+							<input type="text" v-model="searchParams.custName" class="inputStyle" placeholder="" @keyup.enter.prevent="search(0)">
 						</div>
 							<a href="#" @click.prevent="search(0)" class="btnStyle btnSearch">검색</a>
 					</div>

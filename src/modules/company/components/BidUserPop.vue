@@ -44,6 +44,7 @@
                   class="inputStyle"
                   placeholder=""
                   v-model="searchParams.userName"
+                  @keyup.enter.prevent="search(0)"
                 />
               </div>
               <div class="sbTit mr30 ml50">부서명</div>
@@ -55,6 +56,7 @@
                   class="inputStyle"
                   placeholder=""
                   v-model="searchParams.deptName"
+                  @keyup.enter.prevent="search(0)"
                 />
               </div>
               <a class="btnStyle btnSearch" @click.prevent="search(0)">검색</a>

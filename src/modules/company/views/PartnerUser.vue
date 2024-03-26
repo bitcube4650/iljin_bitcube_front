@@ -23,11 +23,11 @@
 				<div class="flex align-items-center">
 					<div class="sbTit mr30">사용자명</div>
 					<div class="flex align-items-center width200px">
-						<input type="text" v-model="searchParams.userName" class="inputStyle">
+						<input type="text" v-model="searchParams.userName" class="inputStyle" @keyup.enter.prevent="search(0)">
 					</div>
 					<div class="sbTit mr30 ml50">로그인 ID</div>
 					<div class="flex align-items-center width200px">
-						<input type="text" v-model="searchParams.userId" class="inputStyle">
+						<input type="text" v-model="searchParams.userId" class="inputStyle" @keyup.enter.prevent="search(0)">
 					</div>
 					<div class="sbTit mr30 ml50">상태</div>
 					<div class="flex align-items-center width200px">
