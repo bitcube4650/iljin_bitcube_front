@@ -197,6 +197,10 @@ export default {
         },
         async saveInfo(){//개인정보 변경
 
+            if(!this.validChek()){
+                return false;
+            }
+
             if(this.$store.state.loginInfo.custType == 'inter'){
                 this.userInfo.bidauth = this.bidauth;
                 this.userInfo.openauth = this.openauth;
@@ -220,7 +224,31 @@ export default {
             }
 
         },
-        formatPhoneNumber() {
+        validChek(){
+            if(this.userInfo.userHp == null || this.userInfo.userHp == ''){
+                alert('휴대폰 번호를 입력해주세요.');
+                return false;
+            }else if(this.userInfo.userTel == null || this.userInfo.userTel == ''){
+                alert('유선전화 번호를 입력해주세요.');
+                return false;
+            }else if(this.userInfo.userEmail == null || this.userInfo.userEmail == ''){
+                alert('이메일을 입력해주세요.');
+                return false;
+            }else if(!this.validateEmail(this.userInfo.userEmail)){
+                alert('이메일 형식에 맞게 작성해주세요.');
+                return false;
+            }
+
+            return true;
+        },
+        validateEmail(email) {
+            // 이메일 주소를 검사하기 위한 정규 표현식
+            const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            
+            // 정규 표현식을 사용하여 이메일 주소를 검사하고 결과를 반환
+            return regex.test(email);
+        },
+        formatPhoneNumber() {//핸드폰 번호 형식
             // '-'를 제외한 숫자만 남기기
             let cleaned = this.userInfo.userHp.replace(/\D/g, '');
             let formatted = '';
@@ -238,7 +266,7 @@ export default {
             // 최대 길이 제한
             this.userInfo.userHp = formatted.slice(0, 13);
         },
-        formatLandlineNumber() {
+        formatLandlineNumber() {//유선 번호 형식
             let cleaned = this.userInfo.userTel.replace(/\D/g, ''); // 숫자만 남기기
             let formatted = '';
 
