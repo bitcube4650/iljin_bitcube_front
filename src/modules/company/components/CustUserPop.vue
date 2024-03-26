@@ -5,7 +5,7 @@
 	<div class="modal-dialog" style="width:100%; max-width:800px">
 		<div class="modal-content">
 			<div class="modal-body">
-				<a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+				<a class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
 				<h2 class="modalTitle">협력사 사용자</h2>
 				
 				<div class="modalSearchBox mt20">
@@ -18,7 +18,7 @@
 						<div class="width150px">
 							<input type="text" v-model="searchParams.userId" class="inputStyle" placeholder="" @keyup.enter.prevent="search(0)">
 						</div>
-						<a href="#" @click.prevent="search(0)" class="btnStyle btnSearch">검색</a>
+						<a @click.prevent="search(0)" class="btnStyle btnSearch">검색</a>
 					</div>
 				</div>
 				<table class="tblSkin1 mt30">
@@ -58,7 +58,7 @@
 				</div>
 				<!-- //pagination -->
 				<div class="modalFooter">
-					<a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
+					<a class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
 				</div>
 			</div>				
 		</div>

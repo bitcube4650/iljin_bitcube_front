@@ -188,7 +188,7 @@
                     data-target="#custUserPop"
                     class="textUnderline"
                     >{{ val.custName }}</a
-                  ><i class="fa-regular fa-xmark" @click="removeCust(idx)"></i></a>
+                  ><i class="fa-regular fa-xmark textHighlight" @click="removeCust(idx)"></i></a>
                   <span v-if="idx !== custContent.length - 1">, </span>
                 </div>
                 </div>
@@ -851,6 +851,11 @@
   </div>
   <!-- //본문 -->
 </template>
+<style>
+a + i {
+  margin-left: 10px;
+}
+</style>
 <script>
 import BidPast from "../components/BidPast.vue";
 import fileInput from "../../../../public/js/fileInput.js";
@@ -1027,7 +1032,7 @@ export default {
       this.custContent = data[3];
 
       this.bidContent.biName = this.result.biName;
-      this.bidContent.itemCode =this.result.itemCode;
+      this.bidContent.itemCode = this.result.itemCode;
       this.bidContent.itemName = this.result.itemName;
       this.bidContent.biModeCode = this.result.biModeCode;
       if (!this.result.biModeCode) this.bidContent.biModeCode = "A";
