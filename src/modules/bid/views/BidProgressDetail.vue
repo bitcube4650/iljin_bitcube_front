@@ -307,9 +307,9 @@
         </div>
 
         <div class="text-center mt50">
-          <a href="#" class="btnStyle btnOutline" title="목록"
-            ><router-link :to="{ name: 'bidProgress' }">목록 </router-link></a
-          >
+          <a class="btnStyle btnOutline" title="목록" @click="movetolist"
+            >목록
+          </a>
           <a class="btnStyle btnOutline" title="엑셀변환" @click="excel"
             >엑셀변환</a
           >
@@ -652,7 +652,7 @@ export default {
             this.$swal({
               // 오류 처리
               type: "warning",
-              text: "개찰 중 오류가 발생했습니다.",
+              text: "엑셀 변환 중 오류가 발생했습니다.",
             });
           }
         })
@@ -675,6 +675,9 @@ export default {
         total += val.orderQty * val.orderUc;
       });
       return total;
+    },
+    movetolist() {
+      this.$router.push({ name: "bidProgress" });
     },
 
     async downloadFile(filePath, fileNm) {

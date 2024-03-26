@@ -160,7 +160,9 @@
                   <tr v-for="(val, idx) in tableContent">
                     <td class="text-left">{{ val.name }}</td>
                     <td class="text-left">{{ val.ssize }}</td>
-                    <td class="text-right">{{ val.orderQty | numberWithCommas }}</td>
+                    <td class="text-right">
+                      {{ val.orderQty | numberWithCommas }}
+                    </td>
                     <td>{{ val.unitcode | numberWithCommas }}</td>
                   </tr>
                 </tbody>
@@ -382,11 +384,7 @@
         </div>
 
         <div class="text-center mt50">
-          <a class="btnStyle btnOutline" title="목록"
-            ><router-link :to="{ name: 'partnerBidStatus' }"
-              >목록
-            </router-link></a
-          >
+          <a class="btnStyle btnOutline" title="목록" @click="movetolist"> 목록 </a>
           <a
             data-toggle="modal"
             data-target="#biddingPreview"
@@ -547,6 +545,9 @@ export default {
     checkBid() {
       console.log(1111111111111, this.searchParams);
       this.$http.post("/api/v1/bidPtStatus/checkBid", this.searchParams);
+    },
+        movetolist() {
+      this.$router.push({ name: "partnerBidStatus" });
     },
   },
   beforeMount() {

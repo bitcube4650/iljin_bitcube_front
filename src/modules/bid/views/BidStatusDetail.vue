@@ -358,9 +358,9 @@
         </div>
 
         <div class="text-center mt50">
-          <a class="btnStyle btnOutline" title="목록"
-            ><router-link :to="{ name: 'bidStatus' }">목록 </router-link></a
-          >
+          <a class="btnStyle btnOutline" title="목록" @click="movetolist"
+            >목록
+          </a>
           <a
             v-if="
               this.loginId === this.result.cuserCode ||
@@ -666,6 +666,9 @@ export default {
         att2: att2,
         biNo: this.result.biNo,
       });
+    },
+    movetolist() {
+      this.$router.push({ name: "bidStatus" });
     },
   },
   beforeMount() {},

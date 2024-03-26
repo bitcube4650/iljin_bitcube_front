@@ -401,7 +401,7 @@
                   data-target="#biddingUserPop"
                   class="btnStyle btnSecondary ml10"
                   title="선택"
-                  @click="$refs.biddingUserPop.initModal(bidContent.interrelatedCustCode);"
+                  @click="$refs.biddingUserPop.initModal(dataFromList.result.interrelatedCustCode);"
                   >선택</a
                 >
               </div>
