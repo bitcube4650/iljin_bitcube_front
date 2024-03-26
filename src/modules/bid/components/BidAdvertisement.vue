@@ -139,6 +139,23 @@
                 </div>
               </div>
             </div>
+            <div class="flex align-items-center mt10">
+              <div class="formTit flex-shrink0 width170px">첨부파일</div>
+              <div class="width100">
+                <div
+                  v-for="(val, idx) in props[2]"
+                  :key="idx"
+                  @click="downloadFile(val.filePath, val.fileNm)"
+                >
+                  <span v-if="val.fileFlag === '0'">대내용  &nbsp;</span><a class="textUnderline" v-if="val.fileFlag === '0'">{{
+                    val.fileNm
+                  }}</a>
+                  <span v-if="val.fileFlag === '1'">대외용  &nbsp;</span><a class="textUnderline" v-if="val.fileFlag === '1'"> {{
+                    val.fileNm
+                  }}</a>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="modalFooter">
             <a class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
@@ -188,21 +205,22 @@ export default {
         this.$store.commit("finish");
       }
     },
-		fnPrint(){
-			const printContents = document.querySelector('.printDiv').innerHTML;
-			const html = document.querySelector('html');
-			const printDiv = document.createElement("DIV");
-			printDiv.className = "print-div modalStyle";
-			html.appendChild(printDiv);
-			printDiv.innerHTML = printContents;
-			printDiv.querySelector(".modalFooter").style.display = "none";
-			printDiv.querySelector(".ModalClose").style.display = "none";
-			printDiv.querySelector(".modal-dialog").style.cssText = "width:100%; max-width:700px";
-			document.body.style.display = 'none';
-			window.print();
-			document.body.style.display = 'block';
-			$(".print-div").remove();
-		},
+    fnPrint() {
+      const printContents = document.querySelector(".printDiv").innerHTML;
+      const html = document.querySelector("html");
+      const printDiv = document.createElement("DIV");
+      printDiv.className = "print-div modalStyle";
+      html.appendChild(printDiv);
+      printDiv.innerHTML = printContents;
+      printDiv.querySelector(".modalFooter").style.display = "none";
+      printDiv.querySelector(".ModalClose").style.display = "none";
+      printDiv.querySelector(".modal-dialog").style.cssText =
+        "width:100%; max-width:700px";
+      document.body.style.display = "none";
+      window.print();
+      document.body.style.display = "block";
+      $(".print-div").remove();
+    },
   },
   created() {},
   mounted() {},
