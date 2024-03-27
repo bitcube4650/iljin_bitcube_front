@@ -65,7 +65,7 @@
 
                         <div class="modalFooter">
                             <a class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
-                            <a class="modalBtnCheck" data-toggle="modal" @click="saveInfo" title="저장">저장</a>
+                            <a class="modalBtnCheck" data-toggle="modal" @click="confirm" title="저장">저장</a>
                         </div>
                     </div>				
                 </div>
@@ -118,7 +118,7 @@
 
                         <div class="modalFooter">
                             <a class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
-                            <a class="modalBtnCheck" data-toggle="modal" @click="saveInfo" title="저장">저장</a>
+                            <a class="modalBtnCheck" data-toggle="modal" @click="confirm" title="저장">저장</a>
                         </div>
                     </div>				
                 </div>
@@ -126,6 +126,22 @@
         </div>
         <!-- //협력사 개인정보 -->
 
+        <!-- confirm 창 -->
+		<div class="modal fade modalStyle" id="infoSave" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" style="width:100%; max-width:420px">
+				<div class="modal-content">
+					<div class="modal-body">
+						<a  class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+						<div class="alertText2">개인정보를 변경하시겠습니까?</div>
+						<div class="modalFooter">
+							<a  class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
+							<a  @click="saveInfo" class="modalBtnCheck" data-toggle="modal" title="저장">저장</a>
+						</div>
+					</div>				
+				</div>
+			</div>
+		</div>
+        <!-- //confirm 창 -->
 
         <!-- 개인정보 저장 얼럿 -->
         <div class="modal fade modalStyle" id="piMody3" tabindex="-1" role="dialog" aria-hidden="true">
@@ -195,7 +211,12 @@ export default {
                 this.$store.commit('finish');
             }
         },
+        confirm(){
+            $('#infoSave').modal('show');
+        },
         async saveInfo(){//개인정보 변경
+
+            $('#infoSave').modal('hide');
 
             if(!this.validChek()){
                 return false;
