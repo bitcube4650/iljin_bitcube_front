@@ -347,7 +347,7 @@
           </div>
           <div class="flex align-items-center mt10">
             <div class="flex align-items-center width100">
-              <div class="formTit flex-shrink0 width170px">개찰자</div>
+              <div class="formTit flex-shrink0 width170px">개찰자 <span class="star">*</span></div>
               <div class="flex align-items-center width100">
                 <input
                   type="text"
@@ -369,7 +369,7 @@
               </div>
             </div>
             <div class="flex align-items-center width100 ml80">
-              <div class="formTit flex-shrink0 width170px">입찰공고자</div>
+              <div class="formTit flex-shrink0 width170px">입찰공고자 <span class="star">*</span></div>
               <div class="flex align-items-center width100">
                 <input
                   type="text"
@@ -393,8 +393,8 @@
           </div>
            <div class="flex align-items-center mt10">
             <div class="flex align-items-center width100">
-              <div class="formTit flex-shrink0 width170px">낙찰자</div>
-              <div class="flex align-items-center width70">
+              <div class="formTit flex-shrink0 width170px">낙찰자 <span class="star">*</span></div>
+              <div class="flex align-items-center width100">
                 <input
                   type="text"
                   name=""
@@ -410,6 +410,26 @@
                   class="btnStyle btnSecondary ml10"
                   title="선택"
                   @click="$refs.biddingUserPop.initModal(bidContent.interrelatedCustCode);"
+                  >선택</a
+                >
+              </div>
+            </div>
+            <div class="flex align-items-center width100 ml80">
+              <div class="formTit flex-shrink0 width170px" style="display: none;"></div>
+              <div class="flex align-items-center width100">
+                <input
+                  type="text"
+                  name=""
+                  id=""
+                  class="inputStyle"
+                  placeholder=""
+                  disabled
+                  style="display: none;"
+                />
+                <a
+                  class="btnStyle btnSecondary ml10"
+                  title="선택"
+                  style="display: none;"
                   >선택</a
                 >
               </div>
@@ -489,7 +509,7 @@
               </div>
             </div>
             <div class="flex align-items-center width100 ml80">
-              <div class="formTit flex-shrink0 width170px">납품조건</div>
+              <div class="formTit flex-shrink0 width170px">납품조건 <span class="star">*</span></div>
               <div class="width100">
                 <input
                   type="text"
@@ -502,7 +522,107 @@
               </div>
             </div>
           </div>
-          <div class="flex mt10" v-if="bidContent.insModeCode==='1'">
+          <div class="flex mt10" v-show="bidContent.insModeCode==='2'">
+            <div class="formTit flex-shrink0 width170px">
+              세부내역 <span class="star">*</span
+              ><a
+                class="btnStyle btnSecondary ml10"
+                title="추가"
+                @click="addEmptyRow"
+                >추가</a
+              >
+            </div>
+            <div class="width100">
+              <table class="tblSkin1">
+                <colgroup>
+                  <col style="" />
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>품목명</th>
+                    <th>규격</th>
+                    <th>수량</th>
+                    <th>단위</th>
+                    <th>실행단가</th>
+                    <th>합계</th>
+                    <th class="end">삭제</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(val, idx) in tableContent">
+                    <td>
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        class="inputStyle inputSm"
+                        placeholder=""
+                        v-model="val.name"
+                        maxlength="100"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        class="inputStyle inputSm"
+                        placeholder=""
+                        v-model="val.ssize"
+                        maxlength="25"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        class="inputStyle inputSm"
+                        placeholder=""
+                        v-model="val.orderQty"
+                        maxlength="12"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        class="inputStyle inputSm"
+                        placeholder=""
+                        v-model="val.unitcode"
+                        maxlength="25"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        class="inputStyle inputSm text-right"
+                        placeholder=""
+                        v-model="val.orderUc"
+                        maxlength="12"
+                      />
+                    </td>
+                    <td class="text-right">{{ val.orderQty*val.orderUc }}</td>
+                    <td class="text-right end">
+                      <a
+                        class="btnStyle btnSecondary btnSm"
+                        title="삭제"
+                        @click="deleteRow(idx)"
+                        >삭제</a
+                      >
+                    </td>
+                   </tr>
+                </tbody>
+              </table>
+              <p class="text-right mt10">
+                <strong>총합계 : {{ totalSum | numberWithCommas }}</strong>
+              </p>
+            </div>
+          </div>
+          <div class="flex mt10" v-show="bidContent.insModeCode==='1'">
             <div class="formTit flex-shrink0 width170px">
               세부내역 <span class="star">*</span>
               <!-- 툴팁 -->
@@ -615,101 +735,7 @@
               <!-- //다중파일 업로드 -->
             </div>
           </div>
-          <div class="flex mt10" v-if="bidContent.insModeCode==='2'">
-            <div class="formTit flex-shrink0 width170px">
-              세부내역 <span class="star">*</span
-              ><a
-                class="btnStyle btnSecondary ml10"
-                title="추가"
-                @click="addEmptyRow"
-                >추가</a
-              >
-            </div>
-            <div class="width100">
-              <table class="tblSkin1">
-                <colgroup>
-                  <col style="" />
-                </colgroup>
-                <thead>
-                  <tr>
-                    <th>품목명</th>
-                    <th>규격</th>
-                    <th>수량</th>
-                    <th>단위</th>
-                    <th>실행단가</th>
-                    <th>합계</th>
-                    <th class="end">삭제</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(val, idx) in tableContent">
-                    <td>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        class="inputStyle inputSm"
-                        placeholder=""
-                        v-model="val.name"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        class="inputStyle inputSm"
-                        placeholder=""
-                        v-model="val.ssize"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        class="inputStyle inputSm"
-                        placeholder=""
-                        v-model="val.orderQty"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        class="inputStyle inputSm"
-                        placeholder=""
-                        v-model="val.unitcode"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        class="inputStyle inputSm text-right"
-                        placeholder=""
-                        v-model="val.orderUc"
-                      />
-                    </td>
-                    <td class="text-right">{{ val.orderQty*val.orderUc }}</td>
-                    <td class="text-right end">
-                      <a
-                        class="btnStyle btnSecondary btnSm"
-                        title="삭제"
-                        @click="deleteRow(idx)"
-                        >삭제</a
-                      >
-                    </td>
-                   </tr>
-                </tbody>
-              </table>
-              <p class="text-right mt10">
-                <strong>총합계 : {{ totalSum | numberWithCommas }}</strong>
-              </p>
-            </div>
-          </div>
+
         </div>
 
         <div class="text-center mt50">
@@ -894,11 +920,8 @@ export default {
         matDept: null,
         matProc: null,
         matCls: null,
-
-        selectedFile: null, //업로드한 파일
-        fileCnt: 0, //업로드한 파일 수
-        fileSize: 0, //파일크기
       },
+
       custContent: [],
       fileContent: [],
       tableContent: [],
@@ -914,8 +937,6 @@ export default {
         userId: "",
       },
       filek: [],
-      file0: [],
-      file1: [],
 
       lotteDeptList: [
         { value: "A1", label: "익산 E/F" },
@@ -1112,11 +1133,13 @@ export default {
         if (this.bidContent.insModeCode === "1") {
           this.bidContent.insModeCode = "1";
           this.tableContent = [];
-          this.$forceUpdate();
         } else {
           this.bidContent.insModeCode = "2";
-          this.fileContent = [];
-          this.$forceUpdate();
+          this.fileContent = this.fileContent.filter(function (item) {
+            return item.fileFlag !== "k";
+          });
+          this.filek = [];
+          document.querySelector("#preview").innerHTML = "";
         }
       }
       this.$forceUpdate();
@@ -1189,6 +1212,26 @@ export default {
         this.bidContent.estCloseDate === "0000-00-00 00:00"
       ) {
         alert("제출마감일시를 입력해주세요.");
+        return false;
+      }
+
+      if (!this.bidContent.estOpener || this.bidContent.estOpener === "") {
+        alert("개찰자를 선택해주세요.");
+        return false;
+      }
+
+      if (!this.bidContent.gongoId || this.bidContent.gongoId === "") {
+        alert("입찰공고자를 선택해주세요.");
+        return false;
+      }
+
+      if (!this.bidContent.estBidder || this.bidContent.estBidder === "") {
+        alert("낙찰자를 선택해주세요.");
+        return false;
+      }
+
+      if (!this.bidContent.supplyCond || this.bidContent.supplyCond === "") {
+        alert("납품조건을 입력해주세요.");
         return false;
       }
 
@@ -1338,9 +1381,6 @@ export default {
           fCustCode: "0",
           selectedFile: event.target.files[0],
         });
-        this.file0.push({
-          selectedFile: event.target.files[0],
-        });
       }
       if (event.target.id === "file-input3") {
         this.fileContent.push({
@@ -1349,10 +1389,8 @@ export default {
           fCustCode: "0",
           selectedFile: event.target.files[0],
         });
-        this.file1.push({
-          selectedFile: event.target.files[0],
-        });
       }
+      this.$forceUpdate();
       console.log(this.filek.length);
       console.log(this.fileContent);
     },
@@ -1375,7 +1413,6 @@ export default {
     this.userInfo.userId = this.$store.state.loginInfo.userId;
     //달력
     cmmn.applyCal();
-
     //파일첨부
     fileInput.applyFile();
   },
