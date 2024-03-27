@@ -158,31 +158,31 @@ import cmmn from "../../public/js/common.js";
 
         },
         clickBidProgress(){//입찰계획 클릭
-            this.$router.push({name:"bidProgress"});
+            this.$router.push({name:"bidProgress"}).catch(()=>{});
         },
         clickBidStatus(){//입찰진행 클릭
             if(this.company == 'inter'){//그룹사인 경우
-                this.$router.push({name:"bidStatus"});
+                this.$router.push({name:"bidStatus"}).catch(()=>{});
             }else{//협력사인 경우
-                this.$router.push({name:"partnerBidStatus"});
+                this.$router.push({name:"partnerBidStatus"}).catch(()=>{});
             }
         },
         clickBidComplete(){//입찰완료 클릭
             if(this.company == 'inter'){//그룹사인 경우
-                this.$router.push({name:"bidComplete"});
+                this.$router.push({name:"bidComplete"}).catch(()=>{});
             }else{//협력사인 경우
-                this.$router.push({name:"partnerBidComplete"});
+                this.$router.push({name:"partnerBidComplete"}).catch(()=>{});
             }
 
         },
         clickNotice(){//공지사항 클릭
-            this.$router.push({name:"notice"});
+            this.$router.push({name:"notice"}).catch(()=>{});
         },
         clickFaq(){//faq 클릭
             if(this.company == 'inter' && this.userAuth == '1'){//그룹사인 경우 권한! this.company == 'inter' && this.userAuth == '1'
-                this.$router.push({name:"adminFaq"});
+                this.$router.push({name:"adminFaq"}).catch(()=>{});
             }else{//협력사인 경우
-                this.$router.push({name:"userFaq"});
+                this.$router.push({name:"userFaq"}).catch(()=>{});
             }
         },
         async downloadMenual(){//메뉴얼 다운로드
@@ -245,21 +245,21 @@ import cmmn from "../../public/js/common.js";
 
             if(keyword == 'completed'){//계열사 입찰완료로 이동
 
-                this.$router.push({name:"bidComplete" , params: { 'flag': keyword }});
+                this.$router.push({name:"bidComplete" , params: { 'flag': keyword }}).catch(()=>{});
 
             }else if( keyword == 'awarded'){//협력사 입찰완료로 이동
 
-                this.$router.push({name:"partnerBidComplete" , params: { 'flag': keyword }});
+                this.$router.push({name:"partnerBidComplete" , params: { 'flag': keyword }}).catch(()=>{});
 
             }else{//입찰진행으로 이동
 
                 if(this.company == 'inter'){
 
-                    this.$router.push({name:"bidStatus" , params: { 'flag': keyword }});
+                    this.$router.push({name:"bidStatus" , params: { 'flag': keyword }}).catch(()=>{});
 
                 }else{
 
-                    this.$router.push({name:"partnerBidStatus" , params: { 'flag': keyword }});
+                    this.$router.push({name:"partnerBidStatus" , params: { 'flag': keyword }}).catch(()=>{});
 
                 }
                 

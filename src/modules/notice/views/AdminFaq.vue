@@ -22,7 +22,7 @@
                     <div class="sbTit mr30 ml50">구분</div>
                     <div class="width200px">
                         <select v-model="searchParams.faqType" class="selectStyle">
-                            <option value="">선택</option>
+                            <option value="">전체</option>
                             <option value="1">가입관련</option>
                             <option value="2">입찰관련</option>
                             <option value="3">인증서관련</option>
@@ -83,6 +83,25 @@
         </div>
         <!-- //contents -->
 
+        <!-- faq confirm -->
+		<div class="modal fade modalStyle" id="faqConfirm" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog" style="width:100%; max-width:420px">
+				<div class="modal-content">
+					<div class="modal-body">
+						<a  class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+						<div v-if="saveDelete == 'save'" class="alertText2">FAQ를 저장 하시겠습니까?</div>
+                        <div v-else class="alertText2">FAQ를 삭제합니다.<br>삭제 하시겠습니까?</div>
+						<div class="modalFooter">
+							<a class="modalBtnClose" @click="cancelConfirm" data-dismiss="modal" title="취소">취소</a>
+                            <a v-if="saveDelete == 'save'" @click="save" class="modalBtnCheck" data-toggle="modal" title="저장">저장</a>
+							<a v-else @click="deleteFaq" class="modalBtnCheck" data-toggle="modal" title="삭제">삭제</a>
+						</div>
+					</div>				
+				</div>
+			</div>
+		</div>
+		<!-- //faq confirm -->
+
         <!-- FAQ 상세 -->
         <div class="modal fade modalStyle" id="faqReg" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" style="width:100%; max-width:600px">
@@ -112,7 +131,8 @@
                         </div>
                         <div class="modalFooter">
                             <a  class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-                            <a v-if="custType == 'inter' && userAuth == '1'" @click="save" class="modalBtnCheck" data-toggle="modal" title="저장">저장</a>
+                            <a v-if="custType == 'inter' && userAuth == '1' && detail.updateInsert =='update'" @click="openConfirm('delete')" class="deleteBtn" data-toggle="modal" title="저장">삭제</a>
+                            <a v-if="custType == 'inter' && userAuth == '1'" @click="openConfirm('save')" class="modalBtnCheck" data-toggle="modal" title="저장">저장</a>
                         </div>
                     </div>				
                 </div>
@@ -138,7 +158,8 @@
             detail: {},
             custType : this.$store.state.loginInfo.custType,//계열사, 협력사 정보
 		    userAuth : this.$store.state.loginInfo.userAuth,//권한
-            updateInsert : ''
+            updateInsert : '',
+            saveDelete : ''
 		};
 	},
 	mounted() {
@@ -171,7 +192,6 @@
         		this.$store.commit('searchParams', this.searchParams);
 				const response = await this.$http.post('/api/v1/faq/faqList', this.searchParams);
 				this.listPage = response.data;
-                console.log(this.listPage);
 				this.$store.commit('finish');
 			} catch(err) {
 				console.log(err)
@@ -186,16 +206,25 @@
             this.detail = { title : '', faqType : '1', answer : '', updateInsert : 'insert'};
         },
         save(){//저장
-            if(this.valueCheck()){
-                return false;
-            }
-
+            
             var response = this.$http.post('/api/v1/faq/save', this.detail)
 								    .then(response => {
 										alert('저장되었습니다.');
 										$('#faqReg').modal('hide');
+                                        $('#faqConfirm').modal('hide');
                                         this.retrieve();
 									});
+                                    
+        },
+        deleteFaq(){//faq 삭제
+            var response = this.$http.post('/api/v1/faq/delete', this.detail)
+								    .then(response => {
+                                        alert('삭제되었습니다.');
+										$('#faqConfirm').modal('hide');
+                                        $('#faqReg').modal('hide');
+                                        this.retrieve();
+									});
+            
         },
 		valueCheck(){//값 체크
 		
@@ -210,7 +239,52 @@
 			}
 
             return false;
-		}
+		},
+        openConfirm(word){//삭제 및 저장시 확인창 띄우기
+       
+            this.saveDelete = word;
+
+            if(word == 'delete'){//삭제하는 경우
+
+            }else{//수정 및 등록하는 경우
+
+                if(this.valueCheck()){//값체크
+                    return false;
+                }
+            }
+
+            $('#faqReg').modal('hide');
+            $('#faqConfirm').modal('show');
+        },
+        cancelConfirm(){//삭제 및 저장을 취소할 경우 다시 상세창 띄우기
+            $('#faqReg').modal('show');
+        }
 	}
   };
   </script>
+
+<style>
+    .deleteBtn {
+        border: 1px solid #e41919;
+        color: #fff;
+        background: #e41919;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 50px;
+        width: auto;
+        padding: 0 25px;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 14px;
+        font-weight: 500;
+        margin: 0 5px;
+        transition: .3s;
+    }
+
+    /* :hover 선택자를 사용하여 hover 상태일 때의 스타일 정의 */
+    .deleteBtn:hover {
+        border: 1px solid #393cdf;
+        background-color: #393cdf; /* hover 상태일 때의 배경색 */
+    }
+</style>

@@ -17,17 +17,17 @@
                 <div class="flex align-items-center">
                     <div class="sbTit mr30">제목</div>
                     <div class="width200px">
-                        <input type="text" @keydown.enter="search(0)" v-model="searchParams.title" class="inputStyle" placeholder="">
+                        <input type="text" @keydown.enter="search(0)" v-model="searchParams.title" class="inputStyle" placeholder="" maxlength="300">
                     </div>
                     <div class="sbTit mr30 ml50">내용</div>
                     <div class="width200px">
-                        <input type="text" @keydown.enter="search(0)" v-model="searchParams.content" class="inputStyle" placeholder="">
+                        <input type="text" @keydown.enter="search(0)" v-model="searchParams.content" class="inputStyle" placeholder="" maxlength="300">
                     </div>
                     <div class="sbTit mr30 ml50">등록자</div>
                     <div class="width200px">
-                        <input type="text" @keydown.enter="search(0)" v-model="searchParams.userName" class="inputStyle" placeholder="">
+                        <input type="text" @keydown.enter="search(0)" v-model="searchParams.userName" class="inputStyle" placeholder="" maxlength="50">
                     </div>
-                    <a href="javascript:" @click="search(0)" class="btnStyle btnSearch">검색</a>
+                    <a @click="search(0)" class="btnStyle btnSearch">검색</a>
                 </div>
             </div>
             <!-- //searchBox -->
@@ -68,7 +68,7 @@
                 <tbody>
                     <tr v-for="(val, idx) in listPage.content">
                         <td>{{ val.rowNo }}</td>
-                        <td class="text-left"><a href="javascript:" @click="clickNoticeDetail(val)" class="textUnderline notiTitle" title="공지사항 자세히 보기">{{ val.btitle }}</a></td>
+                        <td class="text-left"><a @click="clickNoticeDetail(val)" class="textUnderline notiTitle" title="공지사항 자세히 보기"><span v-if="val.bco == 'ALL'">[공통] </span>{{ val.btitle }}</a></td>
                         <td><i v-if="val.bfile" class="fa-regular fa-file-lines notiFile"></i></td>
                         <td>{{ val.buserName }}</td>
                         <td>{{ val.bdate }}</td>
@@ -158,7 +158,7 @@
             this.plusClickNum(data.bno);// 조회수 +1
             //this.$store.commit('setNoticeDetailData', data);//상세 페이지에 store로 넘기는 방법
 
-            this.$router.push({name:"noticeDetail" , query: { 'bno': data.bno }});//상세 페이지 이동
+            this.$router.push({name:"noticeDetail" , query: { 'bno': data.bno }}).catch(()=>{});//상세 페이지 이동
         },
         plusClickNum(bno){// 조회수 +1
             this.$http.post('/api/v1/notice/updateClickNum', { 'bno': bno});
