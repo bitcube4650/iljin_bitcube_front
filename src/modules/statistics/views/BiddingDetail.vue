@@ -23,9 +23,9 @@
                 <div class="flex align-items-center">
                     <div class="sbTit width100px">입찰완료일</div>
                     <div class="flex align-items-center width280px">
-                        <input type="text" class="datepicker inputStyle" title="월 입력란">
+                        <input type="text" id="startDay" class="datepicker inputStyle" title="월 입력란">
                         <span style="margin:0 10px">~</span>
-                        <input type="text" class="datepicker inputStyle" title="월 입력란">
+                        <input type="text" id="endDay" class="datepicker inputStyle" title="월 입력란">
                     </div>
                     <div class="sbTit width80px ml50">계열사</div>
                     <div class="flex align-items-center width280px">
@@ -33,7 +33,7 @@
                             <option value="">전체</option>
                         </select>
                     </div>
-                    <a href="javascript:void(0)" class="btnStyle btnSearch">검색</a>
+                    <a class="btnStyle btnSearch">검색</a>
                 </div>
             </div>
             <!-- //searchBox -->
@@ -75,7 +75,7 @@
                         <td class="text-right">10,000,000</td>
                         <td class="text-right">9,000,000</td>
                         <td>비트큐브</td>
-                        <td><a href="javascript:void(0)" data-toggle="modal" data-target="#companiesNum" class="textUnderline" title="투찰 정보 페이지가 열림">2</a></td>
+                        <td><a data-toggle="modal" data-target="#companiesNum" class="textUnderline" title="투찰 정보 페이지가 열림">2</a></td>
                         <td>2023-12-16</td>
                         <td>2023-12-18</td>
                         <td class="end">강감찬</td>
@@ -86,7 +86,7 @@
                         <td class="text-right">10,000,000</td>
                         <td class="text-right">9,000,000</td>
                         <td>비트큐브</td>
-                        <td><a href="javascript:void(0)" data-toggle="modal" data-target="#companiesNum" class="textUnderline" title="투찰 정보 페이지가 열림">2</a></td>
+                        <td><a data-toggle="modal" data-target="#companiesNum" class="textUnderline" title="투찰 정보 페이지가 열림">2</a></td>
                         <td>2023-12-16</td>
                         <td>2023-12-18</td>
                         <td class="end">강감찬</td>
@@ -97,7 +97,7 @@
                         <td class="text-right">10,000,000</td>
                         <td class="text-right">9,000,000</td>
                         <td>비트큐브</td>
-                        <td><a href="javascript:void(0)" data-toggle="modal" data-target="#companiesNum" class="textUnderline" title="투찰 정보 페이지가 열림">2</a></td>
+                        <td><a data-toggle="modal" data-target="#companiesNum" class="textUnderline" title="투찰 정보 페이지가 열림">2</a></td>
                         <td>2023-12-16</td>
                         <td>2023-12-18</td>
                         <td class="end">강감찬</td>
@@ -109,15 +109,15 @@
             <div class="row mt40">
                 <div class="col-xs-12">
                     <div class="pagination1 text-center">
-                        <a href="javascript:void(0)" title="10페이지 이전 페이지로 이동"><i class="fa-light fa-chevrons-left"></i></a>
-                        <a href="javascript:void(0)" title="이전 페이지로 이동"><i class="fa-light fa-chevron-left"></i></a>
-                        <a href="javascript:void(0)" title="1페이지로 이동" class="number active">1</a>
-                        <a href="javascript:void(0)" title="2페이지로 이동" class="number">2</a>
-                        <a href="javascript:void(0)" title="3페이지로 이동" class="number">3</a>
-                        <a href="javascript:void(0)" title="4페이지로 이동" class="number">4</a>
-                        <a href="javascript:void(0)" title="5페이지로 이동" class="number">5</a>
-                        <a href="javascript:void(0)" title="다음 페이지로 이동"><i class="fa-light fa-chevron-right"></i></a>
-                        <a href="javascript:void(0)" title="10페이지 다음 페이지로 이동"><i class="fa-light fa-chevrons-right"></i></a>
+                        <a title="10페이지 이전 페이지로 이동"><i class="fa-light fa-chevrons-left"></i></a>
+                        <a title="이전 페이지로 이동"><i class="fa-light fa-chevron-left"></i></a>
+                        <a title="1페이지로 이동" class="number active">1</a>
+                        <a title="2페이지로 이동" class="number">2</a>
+                        <a title="3페이지로 이동" class="number">3</a>
+                        <a title="4페이지로 이동" class="number">4</a>
+                        <a title="5페이지로 이동" class="number">5</a>
+                        <a title="다음 페이지로 이동"><i class="fa-light fa-chevron-right"></i></a>
+                        <a title="10페이지 다음 페이지로 이동"><i class="fa-light fa-chevrons-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -148,7 +148,9 @@
     beforeMount() {},
     mounted() {
         //달력
-        cmmn.applyCal();
+        cmmn.applyCal()
+        $('#startDay').datepicker('setDate', '-1M')
+        $('#endDay').datepicker('setDate', 'today')
     },
   };
   </script>

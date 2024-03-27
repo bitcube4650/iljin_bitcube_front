@@ -22,24 +22,25 @@
         <div class="flex align-items-center">
           <div class="sbTit width100px">입찰완료일</div>
           <div class="flex align-items-center width280px">
-            <input type="text" class="datepicker inputStyle" title="월 입력란">
+            <input type="text" id="startDay" class="datepicker inputStyle" title="월 입력란" readonly>
             <span style="margin:0 10px">~</span>
-            <input type="text" class="datepicker inputStyle" title="월 입력란">
+            <input type="text" id="endDay" class="datepicker inputStyle" title="월 입력란" readonly>
           </div>
         </div>
         <div class="flex align-items-center height50px mt10">
           <div class="sbTit width100px">품목</div>
           <div class="flex align-items-center">
-            <input type="text" name="" id="" class="inputStyle width250px readonly" placeholder="" value="우측 검색 버튼을 클릭해 주세요" readonly>
-            <a href="javascript:void(0)" data-toggle="modal" data-target="#selectItem" class="btnStyle btnSecondary ml10" title="조회">조회</a>
+            <input type="text" class="inputStyle width250px readonly" v-model="itemName" placeholder="우측 검색 버튼을 클릭해 주세요" readonly>
+            <a @click="$refs.itemPop.initModal()" data-toggle="modal" data-target="#itemPop" class="btnStyle btnSecondary ml10" title="조회">조회</a>
           </div>
           <div class="sbTit mr30 ml50">계열사</div>
           <div class="width250px">
-            <select name="" class="selectStyle">
+            <select v-model="coInter" class="selectStyle">
               <option value="">전체</option>
+              <option v-for="(data,idx) in coInterList" :key="idx" :value="data.interrelatedCustCode">{{data.interrelatedNm}}</option>
             </select>
           </div>
-          <a href="javascript:void(0)" class="btnStyle btnSearch">검색</a>
+          <a class="btnStyle btnSearch">검색</a>
         </div>
       </div>
       <!-- //searchBox -->
@@ -137,15 +138,15 @@
       <div class="row mt40">
         <div class="col-xs-12">
           <div class="pagination1 text-center">
-            <a href="javascript:void(0)" title="10페이지 이전 페이지로 이동"><i class="fa-light fa-chevrons-left"></i></a>
-            <a href="javascript:void(0)" title="이전 페이지로 이동"><i class="fa-light fa-chevron-left"></i></a>
-            <a href="javascript:void(0)" title="1페이지로 이동" class="number active">1</a>
-            <a href="javascript:void(0)" title="2페이지로 이동" class="number">2</a>
-            <a href="javascript:void(0)" title="3페이지로 이동" class="number">3</a>
-            <a href="javascript:void(0)" title="4페이지로 이동" class="number">4</a>
-            <a href="javascript:void(0)" title="5페이지로 이동" class="number">5</a>
-            <a href="javascript:void(0)" title="다음 페이지로 이동"><i class="fa-light fa-chevron-right"></i></a>
-            <a href="javascript:void(0)" title="10페이지 다음 페이지로 이동"><i class="fa-light fa-chevrons-right"></i></a>
+            <a title="10페이지 이전 페이지로 이동"><i class="fa-light fa-chevrons-left"></i></a>
+            <a title="이전 페이지로 이동"><i class="fa-light fa-chevron-left"></i></a>
+            <a title="1페이지로 이동" class="number active">1</a>
+            <a title="2페이지로 이동" class="number">2</a>
+            <a title="3페이지로 이동" class="number">3</a>
+            <a title="4페이지로 이동" class="number">4</a>
+            <a title="5페이지로 이동" class="number">5</a>
+            <a title="다음 페이지로 이동"><i class="fa-light fa-chevron-right"></i></a>
+            <a title="10페이지 다음 페이지로 이동"><i class="fa-light fa-chevrons-right"></i></a>
           </div>
         </div>
       </div>
@@ -153,29 +154,64 @@
 
     </div>
     <!-- //contents -->
+    <!-- 품목 선택 팝업 -->
+    <item-pop ref="itemPop" @callbackFunc="callbackItem"/>
   </div>
   <!-- //본문 -->
 </template>
   <script>
   import cmmn from "../../../../public/js/common.js"
-  
+  import ItemPop from "@/components/ItemPop.vue";
+
   export default {
     name: "performanceDetail",
     components: {
-
+      ItemPop
     },
     data() {
       return {
-
+        coInterList : [], //  계열사 리스트
+        coInter : '', // 선택된 계열사
+        itemCode : '', // 품목 코드
+        itemName : '', // 품목 이름
       };
     },
-    methods: {
-
-    },
-    beforeMount() {},
-    mounted() {
-      //달력
+    async mounted() {
       cmmn.applyCal();
+      const vm = this
+      await vm.selectCoInterList()
+      //달력
+      $('#startDay').datepicker('setDate', '-1M')
+      $('#endDay').datepicker('setDate', 'today')
+      if(vm.$route.params.interrelatedCustCode != undefined){
+        $('#startDay').val(this.$route.params.startDay)
+        $('#endDay').val(this.$route.params.endDay)
+        vm.coInter = vm.$route.params.interrelatedCustCode
+      }
+    },   
+     methods: {
+      //협락사 리스트 불러 오는 메소드
+      async selectCoInterList(){
+        const vm = this
+        try {
+          vm.$store.commit("loading");
+          const response = await vm.$http.post(
+            "/api/v1/statistics/coInterList",
+          );
+          vm.coInterList = response.data[0]
+
+          vm.$store.commit("finish");
+        } catch (err) {
+          console.log(err);
+          vm.$store.commit("finish");
+        }
+      },
+      callbackItem(data) {
+          const vm = this
+          vm.itemCode = data.itemCode
+          vm.itemName = data.itemName
+          this.$forceUpdate()
+      },
     },
   };
   </script>
