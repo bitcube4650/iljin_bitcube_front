@@ -17,7 +17,7 @@
                 <div class="flex align-items-center">
                     <div class="sbTit mr30">제목</div>
                     <div class="width200px">
-                        <input type="text" @keydown.enter="search(0)" v-model="searchParams.title" class="inputStyle" placeholder="">
+                        <input type="text" @keydown.enter="search(0)" v-model="searchParams.title" class="inputStyle" placeholder="" maxlength="300">
                     </div>
                     <div class="sbTit mr30 ml50">구분</div>
                     <div class="width200px">
@@ -112,7 +112,7 @@
                         <div class="flex align-items-center mt20">
                             <div class="formTit flex-shrink0 width150px">FAQ 제목 <span class="star">*</span></div>
                             <div class="width100">
-                                <input type="text" v-model="detail.title" class="inputStyle" placeholder="" value="발신번호를 선택할 수 없습니다.">
+                                <input type="text" v-model="detail.title" class="inputStyle" placeholder="" value="발신번호를 선택할 수 없습니다." maxlength="2000">
                             </div>
                         </div>
                         <div class="flex align-items-center mt20">
@@ -126,7 +126,7 @@
                         <div class="flex mt20">
                             <div class="formTit flex-shrink0 width150px">FAQ 내용 <span class="star">*</span></div>
                             <div class="width100">
-                                <textarea v-model="detail.answer" class="textareaStyle overflow-y-scroll height150px" placeholder=""></textarea>
+                                <textarea v-model="detail.answer" @input="limitText" class="textareaStyle overflow-y-scroll height150px" placeholder=""></textarea>
                             </div>
                         </div>
                         <div class="modalFooter">
@@ -258,6 +258,12 @@
         },
         cancelConfirm(){//삭제 및 저장을 취소할 경우 다시 상세창 띄우기
             $('#faqReg').modal('show');
+        },
+        limitText() {//faq 답변 글자수 제한
+            if (this.detail.answer.length > 2000) {
+                // 최대 길이 초과 시 입력을 막음
+                this.detail.answer = this.detail.answer.slice(0, 2000);
+            }
         }
 	}
   };
