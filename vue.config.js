@@ -3,6 +3,6 @@ module.exports = {
   runtimeCompiler: true,
   transpileDependencies: [ansiRegex],
   devServer: {
-    port: 18500
+    port: process.env.VUE_APP_PORT
   }
 };
