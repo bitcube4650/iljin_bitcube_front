@@ -15,7 +15,7 @@
 			<div class="boxSt mt20">
 				<div class="flex align-items-center">
 					<div class="formTit flex-shrink0 width170px">제목</div>
-					<div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" v-model="detailData.btitle"></div>
+					<div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder="" v-model="detailData.btitle" maxlength="300"></div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">공지대상</div>
