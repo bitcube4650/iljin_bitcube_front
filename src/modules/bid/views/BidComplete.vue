@@ -30,7 +30,7 @@
                     <div class="sbTit mr30 ml50">완료상태</div>
                     <div class="flex align-items-center width300px">
                         <input type="checkbox" id="progress1-1" v-model="searchParams.succBi" class="checkStyle"><label for="progress1-1">입찰완료</label>
-                        <input type="checkbox" id="progress1-2" v-model="searchParams.ingBi" class="checkStyle"><label for="progress1-2" class="ml50">유찰</label>
+                        <input type="checkbox" id="progress1-2" v-model="searchParams.failBi" class="checkStyle"><label for="progress1-2" class="ml50">유찰</label>
                     </div>
                 </div>
                 <div class="flex align-items-center height50px mt10">
@@ -55,7 +55,6 @@
                         <option value="20">20개씩 보기</option>
                     </select>
                 </div>
-                
             </div>
             <table class="tblSkin1 mt10">
                 <colgroup>
@@ -118,11 +117,11 @@ export default {
                 biNo : ''						//조회조건 : 입찰번호
             ,	biName : ''						//조회조건 : 입찰명
             ,	succBi : true					//조회조건 : 완료상태 - 입찰완료
-            ,	ingBi : true					//조회조건 : 완료상태 - 유찰
+            ,	failBi : true					//조회조건 : 완료상태 - 유찰
             ,	size : 10						//10개씩 보기
             ,	page : 0						//클릭한 페이지번호
-            ,   startDate : ''
-            ,   endDate : ''
+            ,   startDate : ''                  //조회조건 : 입찰완료 - 시작일
+            ,   endDate : ''                    //조회조건 : 입찰완료 - 종료일
             },
             listPage: {},						//리스트
         }
@@ -142,12 +141,14 @@ export default {
         }
     },
     methods: {
+        //그룹사 입찰완료 상세 이동
         clickPartnerBidCompleteDetail(biNo){
             this.$router.push({name:"bidCompleteDetail", params: { 'biNo': biNo }});
         },
-        fnSearchInit(page) {// 조회조건 셋팅
+        //그룹사 입찰완료 리스트 조회
+        fnSearchInit(page) {
             
-            if(!this.searchParams.succBi && !this.searchParams.ingBi){
+            if(!this.searchParams.succBi && !this.searchParams.failBi){
                 alert("완료상태를 선택해주세요.");
                 return false;
             }
@@ -155,26 +156,40 @@ export default {
             this.retrieve();
             
         },
-        async retrieve() {// 입찰완료 리스트 조회
+        async retrieve() {
             
-            try {
-                this.$store.commit('loading');
-                this.$store.commit('searchParams', this.searchParams);
-                const response = await this.$http.post('/api/v1/bidComplete/list', this.searchParams);
-                this.listPage = response.data;
-                this.$store.commit('finish');
-            } catch(err) {
-                console.log(err)
-                this.$store.commit('finish');
-            }
-            
+            this.$store.commit('loading');
+            await this.$http.post('/api/v1/bidComplete/list', this.searchParams).then((response) => {
+                if(response.data.code != '999'){
+                    this.listPage = response.data.data;
+                }else{
+                    this.$swal({
+						type: "warning",
+						text: response.data.msg,
+					});
+                }
+            }).finally(() => {
+                this.$store.commit("finish");
+            });
+        
         },
+        //입찰완료 조회조건 날짜 셋팅
         fnUpdateEndDate(val){
             this.searchParams.endDate = val;
         },
         fnUpdateStartDate(val){
             this.searchParams.startDate = val;
         }  
+    },
+    beforeMount() {
+        let flag = this.$route.params.flag;
+        if(flag == 'completed'){
+            this.searchParams.succBi = true;
+            this.searchParams.failBi = false;
+        }else if(flag == 'unsuccessful'){
+            this.searchParams.succBi = false;
+            this.searchParams.failBi = true;
+        }
     },
     mounted() {
         //검색조건 날짜 초기셋팅

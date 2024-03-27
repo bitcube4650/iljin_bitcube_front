@@ -37,6 +37,8 @@
               class="inputStyle"
               placeholder=""
               v-model="searchParams.bidNo"
+              @keyup.enter.prevent="search(0)"
+              maxlength="10"
             />
           </div>
           <div class="sbTit mr30 ml50">입찰명</div>
@@ -48,6 +50,8 @@
               class="inputStyle"
               placeholder=""
               v-model="searchParams.bidName"
+              @keyup.enter.prevent="search(0)"
+              maxlength="50"
             />
           </div>
           <a class="btnStyle btnSearch" @click.prevent="search(0)"
@@ -64,6 +68,8 @@
           <select v-model="searchParams.size" @change="search(0)" class="selectStyle maxWidth140px ml20">
             <option value="10">10개씩 보기</option>
             <option value="20">20개씩 보기</option>
+            <option value="30">30개씩 보기</option>
+            <option value="50">50개씩 보기</option>
           </select>
         </div>
         <div>
@@ -97,11 +103,11 @@
         </thead>
         <tbody>
           <tr v-for="(val, idx) in listPage.content">
-            <td class="textUnderline" @click="clickBidDetail(val.biNo)" href="#">
-                {{val.biNo}}
+            <td class="textUnderline" @click="clickBidDetail(val.biNo)">
+                <a style="cursor: pointer;">{{val.biNo}}</a>
             </td>
-            <td class="textUnderline text-left" @click="clickBidDetail(val.biNo)" href="#">
-                {{val.biName}}
+            <td class="textUnderline text-left" @click="clickBidDetail(val.biNo)">
+                <a style="cursor: pointer;">{{val.biName}}</a>
             </td >
             <td :class="{ 'textHighlight': isPastDate(val.estCloseDate) }">
               <i class="fa-regular fa-timer"></i>{{val.estStartDate}}

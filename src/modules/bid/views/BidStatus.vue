@@ -48,6 +48,8 @@
               class="inputStyle"
               placeholder=""
               v-model="searchParams.bidNo"
+              @keyup.enter.prevent="search(0)"
+              maxlength="10"
             />
           </div>
           <div class="sbTit mr30 ml50">입찰명</div>
@@ -59,6 +61,8 @@
               class="inputStyle"
               placeholder=""
               v-model="searchParams.bidName"
+              @keyup.enter.prevent="search(0)"
+              maxlength="50"
             />
           </div>
         </div>
@@ -106,6 +110,8 @@
           >
             <option value="10">10개씩 보기</option>
             <option value="20">20개씩 보기</option>
+            <option value="30">30개씩 보기</option>
+            <option value="50">50개씩 보기</option>
           </select>
         </div>
       </div>
@@ -130,19 +136,19 @@
         </thead>
         <tbody>
           <tr v-for="(val, idx) in listPage.content">
-            <td
-              class="textUnderline"
-              @click="clickBidDetail(val.ingTag, val.biNo)"
-              href="#"
-            >
-              {{ val.biNo }}
+            <td class="textUnderline">
+              <a
+                style="cursor: pointer"
+                @click="clickBidDetail(val.ingTag, val.biNo)"
+                >{{ val.biNo }}</a
+              >
             </td>
-            <td
-              class="textUnderline text-left"
-              @click="clickBidDetail(val.ingTag, val.biNo)"
-              href="#"
-            >
-              {{ val.biName }}
+            <td class="textUnderline text-left">
+              <a
+                style="cursor: pointer"
+                @click="clickBidDetail(val.ingTag, val.biNo)"
+                >{{ val.biName }}</a
+              >
             </td>
             <td :class="{ textHighlight: isPastDate(val.estCloseDate) }">
               <i class="fa-regular fa-timer"></i>{{ val.estCloseDate }}
@@ -251,13 +257,23 @@ export default {
   },
   beforeMount() {},
   mounted() {
-    const params = {
+    let params = {
       id: this.$options.name,
       size: "10",
       rebidYn: true,
       dateOverYn: true,
       openBidYn: true,
     };
+    if (this.$route.params.flag === "noticing") {
+      params.dateOverYn = false;
+      params.openBidYn = false;
+    } else if (this.$route.params.flag === "beforeOpening") {
+      params.openBidYn = false;
+    } else if (this.$route.params.flag === "opening") {
+      params.dateOverYn = false;
+      params.rebidYn = false;
+    }
+
     if (this.$store.state.searchParams.id == params.id) {
       this.searchParams = Object.assign(params, this.$store.state.searchParams);
     } else {

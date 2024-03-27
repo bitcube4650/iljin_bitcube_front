@@ -5,20 +5,20 @@
 	<div class="modal-dialog" style="width:100%; max-width:800px">
 		<div class="modal-content">
 			<div class="modal-body">
-				<a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+				<a class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
 				<h2 class="modalTitle">협력사 사용자</h2>
 				
 				<div class="modalSearchBox mt20">
 					<div class="flex align-items-center">
 						<div class="sbTit mr30">사용자명</div>
 						<div class="width150px">
-							<input type="text" v-model="searchParams.userName" class="inputStyle" placeholder="">
+							<input type="text" v-model="searchParams.userName" class="inputStyle" placeholder="" @keyup.enter.prevent="search(0)">
 						</div>
 						<div class="sbTit mr30 ml50">로그인 ID</div>
 						<div class="width150px">
-							<input type="text" v-model="searchParams.userId" class="inputStyle" placeholder="">
+							<input type="text" v-model="searchParams.userId" class="inputStyle" placeholder="" @keyup.enter.prevent="search(0)">
 						</div>
-						<a href="#" @click.prevent="search(0)" class="btnStyle btnSearch">검색</a>
+						<a @click.prevent="search(0)" class="btnStyle btnSearch">검색</a>
 					</div>
 				</div>
 				<table class="tblSkin1 mt30">
@@ -41,12 +41,12 @@
 						<tr v-for="(val, idx) in listPage.content">
 							<td>{{ val.userName }}</td>
 							<td>{{ val.userId }}</td>
-							<td>관리부</td>
-							<td>대표</td>
-							<td>jam@iljin.co.kr</td>
+							<td>{{ val.userBuseo }}</td>
+							<td>{{ val.userPosition }}</td>
+							<td>{{ val.userEmail }}</td>
 							<td>{{ val.userTel }}</td>
 							<td>{{ val.userHp }}</td>
-							<td class="end">업체관리자</td>
+							<td class="end">{{ val.userType == '1' ? '업체관리자' : '사용자'}}</td>
 						</tr>
 					</tbody>
 				</table>
@@ -58,7 +58,7 @@
 				</div>
 				<!-- //pagination -->
 				<div class="modalFooter">
-					<a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
+					<a class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
 				</div>
 			</div>				
 		</div>
@@ -98,7 +98,7 @@ export default {
     async retrieve() {
       try {
         this.$store.commit('loading');
-		const response = await this.$http.post('/api/v1/custuser/userList', this.searchParams);
+		const response = await this.$http.post('/api/v1/custuser/userListForCust', this.searchParams);
         this.listPage = response.data;
         this.$store.commit('finish');
       } catch(err) {

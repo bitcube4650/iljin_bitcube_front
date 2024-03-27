@@ -4,7 +4,7 @@
         <div class="modal-dialog" style="width:100%; max-width:600px">
             <div class="modal-content">
                 <div class="modal-body">
-                    <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+                    <a class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
                     <h2 class="modalTitle">공지사항</h2>
                     <div class="flex align-items-center">
                         <div class="formTit flex-shrink0 width100px">제목</div>
@@ -23,7 +23,7 @@
                         <div class="width100">{{ dataFromMain.bcount }}</div>
                     </div>
                     <div class="modalBoxSt overflow-y-scroll height250px mt30">
-                        <pre v-html="dataFromMain.bcontent" style="background-color: white;"></pre>
+                        <pre v-html="dataFromMain.bcontent" style="background-color: white;overflow: hidden;"></pre>
                     </div>
                     <div class="flex align-items-center mt20">
                         <div class="formTit flex-shrink0 width100px">첨부파일</div>
@@ -33,7 +33,7 @@
                     </div>
 
                     <div class="modalFooter">
-                        <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
+                        <a class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
                     </div>
                 </div>				
             </div>

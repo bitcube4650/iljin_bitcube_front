@@ -21,8 +21,8 @@
 					<div class="formTit flex-shrink0 width170px">공지대상</div>
 					<div class="flex width100">
 						<input type="radio" name="bm2"  v-model="detailData.bco" value="ALL" id="bm2_1" class="radioStyle" :disabled="userAuth != '1' ? true : false"><label for="bm2_1">공통</label>
-						<div>
-							<input type="radio" name="bm2"  v-model="detailData.bco" value="CUST" id="bm2_2" class="radioStyle"><label for="bm2_2" data-toggle="modal" data-target="#AffiliateSelect">계열사</label>
+						<div @click="openModal">
+							<input type="radio" name="bm2"  v-model="detailData.bco" value="CUST" id="bm2_2" class="radioStyle"><label for="bm2_2" data-toggle="modal">계열사</label>
 							<p class="mt5 ml30" v-if="detailData.bco == 'CUST'">
 								<span v-for="(val, index) in groupList" :key="index">
 									{{  val.interrelated.interrelatedNm }}{{ index < groupList.length - 1 ? ', ' : '' }}
@@ -72,7 +72,7 @@
 
 			<div class="text-center mt50">
 				<router-link to="/notice" class="btnStyle btnOutline" title="목록">목록</router-link>
-				<a  data-toggle="modal" data-target="#notiSave" class="btnStyle btnPrimary" title="저장">저장</a>
+				<a  data-toggle="modal" @click="openConfirm" class="btnStyle btnPrimary" title="저장">저장</a>
 			</div>
 		</div>
 		<!-- //contents -->
@@ -280,13 +280,16 @@
 			};
 			this.groupList = [];
 		},
-		saveNotice(){//공지사항 저장
-
+		openConfirm(){//validation check 및 confirm창 띄우기
+			
 			//값 체크
 			if(this.valueCheck()){
-				$('#notiSave').modal('hide');
 				return false;
 			}
+
+			$('#notiSave').modal('show');
+		},
+		saveNotice(){//공지사항 저장
 
 			if(this.updateInsert == 'update'){//수정인 경우
 
@@ -343,6 +346,7 @@
 					.then(response => {
 						alert('수정되었습니다.');
 						$('#notiSave').modal('hide');
+						this.$router.push({name:"notice"});//목록 페이지 이동
 					});
 			} catch(err) {
 				console.log(err);
@@ -444,6 +448,9 @@
 			}
 
 			return false;
+		},
+		openModal(){
+			$('#AffiliateSelect').modal('show');
 		}
     }
   };

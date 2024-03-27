@@ -101,7 +101,9 @@
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">예산금액</div>
-            <div class="width100">{{ this.result.bdAmt }}원</div>
+            <div class="width100">
+              {{ this.result.bdAmt | numberWithCommas }}원
+            </div>
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">입찰담당자</div>
@@ -249,11 +251,15 @@
                   <tr v-for="(val, idx) in tableContent">
                     <td class="text-left">{{ val.name }}</td>
                     <td class="text-left">{{ val.ssize }}</td>
-                    <td class="text-right">{{ val.orderQty }}</td>
+                    <td class="text-right">
+                      {{ val.orderQty | numberWithCommas }}
+                    </td>
                     <td>{{ val.unitcode }}</td>
-                    <td class="text-right">{{ val.orderUc }}</td>
+                    <td class="text-right">
+                      {{ val.orderUc | numberWithCommas }}
+                    </td>
                     <td class="text-right end">
-                      {{ val.orderQty * val.orderUc }}
+                      {{ (val.orderQty * val.orderUc) | numberWithCommas }}
                     </td>
                   </tr>
                 </tbody>
@@ -352,11 +358,14 @@
         </div>
 
         <div class="text-center mt50">
-          <a class="btnStyle btnOutline" title="목록"
-            ><router-link :to="{ name: 'bidStatus' }">목록 </router-link></a
-          >
+          <a class="btnStyle btnOutline" title="목록" @click="movetolist"
+            >목록
+          </a>
           <a
-            v-if="this.loginId === this.result.cuserCode || this.loginId === this.result.estOpenerCode || this.loginId === 'master'"
+            v-if="
+              this.loginId === this.result.cuserCode ||
+              this.loginId === this.result.estOpenerCode
+            "
             data-toggle="modal"
             data-target="#biddingReserve"
             class="btnStyle btnSecondary"
@@ -364,7 +373,10 @@
             >유찰</a
           >
           <a
-            v-if="this.loginId === this.result.estBidderCode || this.loginId === this.result.estOpenerCode || this.loginId === 'master'"
+            v-if="
+              this.loginId === this.result.estBidderCode ||
+              this.loginId === this.result.estOpenerCode
+            "
             data-toggle="modal"
             data-target="#openBid"
             class="btnStyle btnPrimary"
@@ -512,7 +524,7 @@ export default {
       fileContent: [],
       custContent: [],
       estimateContent: [],
-      loginId:"",
+      loginId: "",
 
       lotteDeptList: [
         { value: "A1", label: "익산 E/F" },
@@ -561,6 +573,12 @@ export default {
         { value: "C25", label: "기타" },
       ],
     };
+  },
+  filters: {
+    numberWithCommas(val) {
+      if (!val) return "";
+      else return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
   },
   methods: {
     async retrieve() {
@@ -641,13 +659,36 @@ export default {
           this.$router.push({ name: "bidStatus" });
         });
     },
+    updateSign(att1, att2) {
+      //입회자 클릭시 sign 업데이트
+      this.$http.post("/api/v1/bidstatus/updateSign", {
+        att1: att1,
+        att2: att2,
+        biNo: this.result.biNo,
+      });
+    },
+    movetolist() {
+      this.$router.push({ name: "bidStatus" });
+    },
   },
   beforeMount() {},
   mounted() {
     this.dataFromList = this.$store.state.bidDetailData;
-    this.loginId =  this.$store.state.loginInfo.userId;
+    this.loginId = this.$store.state.loginInfo.userId;
     console.log(this.$store.state.loginInfo);
     this.retrieve();
+
+    let att1 = false;
+    let att2 = false;
+    if (this.loginId === this.result.openAtt1Code) {
+      att1 = true;
+    }
+    if (this.loginId === this.result.openAtt2Code) {
+      att2 = true;
+    }
+    if (att1 || att2) {
+      this.updateSign(att1, att2);
+    }
   },
 };
 </script>

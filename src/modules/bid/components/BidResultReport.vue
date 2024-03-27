@@ -1,7 +1,7 @@
 <template>
   <!-- 입찰결과 보고서 -->
   <div
-    class="modal fade modalStyle"
+    class="modal fade modalStyle printDiv"
     id="resultReport"
     tabindex="-1"
     role="dialog"
@@ -10,7 +10,7 @@
     <div class="modal-dialog" style="width: 100%; max-width: 800px">
       <div class="modal-content">
         <div class="modal-body">
-          <a href="#" class="ModalClose" data-dismiss="modal" title="닫기"
+          <a class="ModalClose" data-dismiss="modal" title="닫기"
             ><i class="fa-solid fa-xmark"></i
           ></a>
           <h2 class="modalTitle">입찰결과 보고서</h2>
@@ -106,7 +106,11 @@
 
           <div class="modalFooter">
             <a class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-            <a class="modalBtnCheck" data-toggle="modal" title="인쇄하기"
+            <a
+              class="modalBtnCheck"
+              data-toggle="modal"
+              title="인쇄하기"
+              @click="fnPrint"
               >인쇄하기</a
             >
           </div>
@@ -127,7 +131,7 @@ export default {
   methods: {
     getRank(index, isWinning) {
       if (isWinning === "Y") {
-        return 1; 
+        return 1;
       } else {
         const sortedRows = this.props[1]
           .filter((row) => row.succYn !== "Y")
@@ -140,6 +144,21 @@ export default {
         return sortedRows.findIndex((row) => row === this.props[1][index]) + 1;
       }
     },
+		fnPrint(){
+			const printContents = document.querySelector('.printDiv').innerHTML;
+			const html = document.querySelector('html');
+			const printDiv = document.createElement("DIV");
+			printDiv.className = "print-div modalStyle";
+			html.appendChild(printDiv);
+			printDiv.innerHTML = printContents;
+			printDiv.querySelector(".modalFooter").style.display = "none";
+			printDiv.querySelector(".ModalClose").style.display = "none";
+			printDiv.querySelector(".modal-dialog").style.cssText = "width:100%; max-width:700px";
+			document.body.style.display = 'none';
+			window.print();
+			document.body.style.display = 'block';
+			$(".print-div").remove();
+		},
   },
   beforeMount() {},
   mounted() {},

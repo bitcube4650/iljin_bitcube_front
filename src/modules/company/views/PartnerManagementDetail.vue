@@ -20,11 +20,11 @@
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">업체유형 1</div>
-					<div class="width100">{{ detail.custType1 }}</div>
+					<div class="width100">{{ detail.custTypeNm1 }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">업체유형 2</div>
-					<div class="width100">{{ detail.custType2 }}</div>
+					<div class="width100">{{ detail.custTypeNm2 }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">회사명</div>
@@ -68,26 +68,26 @@
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">사업자등록증</div>
-					<div class="width100">
-						<a href="javascript:void(0)" class="textUnderline">비트큐브_사업자등록증.jpg</a>
+					<div class="width100" v-if="detail.regnumFile != null && detail.regnumPath != ''">
+						<a @click="downloadRegnumFile" class="textUnderline">{{ detail.regnumFile }}</a>
 					</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">첨부파일</div>
-					<div class="width100">
-						<a href="javascript:void(0)" class="textUnderline">비트큐브_회사소개서.pptx</a>
+					<div class="width100" v-if="detail.bfile != null && detail.bfilePath != ''">
+						<a @click="downloadFile" class="textUnderline">{{ detail.bfile }}</a>
 					</div>
 				</div>
-				<div class="flex align-items-center mt20">
+				<div class="flex align-items-center mt20" v-if="detail.certYn == 'Y'">
 					<div class="formTit flex-shrink0 width170px">상태</div>
 					<div class="width100">정상</div>
 				</div>
-				<div class="flex align-items-center mt20">
+				<div class="flex align-items-center mt20" v-if="detail.certYn == 'D'">
 					<div class="formTit flex-shrink0 width170px">상태</div>
 					<div class="width100 textHighlight">삭제</div>
 				</div>
-				<div class="flex align-items-center mt20">
-					<div class="formTit flex-shrink0 width170px">사유</div>
+				<div class="flex align-items-center mt20" v-if="detail.certYn == 'D'">
+					<div class="formTit flex-shrink0 width170px">{{ detail.etc }}</div>
 					<div class="width100">
 						<textarea class="textareaStyle boxOverflowY" onkeydown="resize(this)" onkeyup="resize(this)" placeholder="">허위 가격 허위 조작</textarea>
 					</div>
@@ -151,15 +151,15 @@
 
 			<div class="text-center mt50">
 				<a href="#" @click.prevent="$router.go(-1)" class="btnStyle btnOutlineRed" title="취소">취소</a>
-				<a href="#" data-toggle="modal" data-target="#companyDel" class="btnStyle btnRed" title="삭제">삭제</a>
-				<router-link :to="'/company/partner/management/'+$route.params.id+'/update'" class="btnStyle btnPrimary" title="수정">수정</router-link>
+				<a href="#" v-if="detail.certYn == 'Y'" data-toggle="modal" data-target="#companyDel" class="btnStyle btnRed" title="삭제">삭제</a>
+				<router-link v-if="detail.certYn == 'Y'" :to="'/company/partner/management/'+$route.params.id+'/update'" class="btnStyle btnPrimary" title="수정">수정</router-link>
 			</div>
 		</div>
 	</div>
 	<!-- //contents -->
 
 	<!-- 업체 삭제 -->
-	<div class="modal fade modalStyle" id="companyDel" tabindex="-1" role="dialog" aria-hidden="true">
+	<div v-if="detail.certYn == 'Y'" class="modal fade modalStyle" id="companyDel" tabindex="-1" role="dialog" aria-hidden="true">
 		<div class="modal-dialog" style="width:100%; max-width:550px">
 			<div class="modal-content">
 				<div class="modal-body">
@@ -188,7 +188,7 @@ export default {
 	name: "PartnerManagementDetail",
 	data() {
 		return {
-			detail: {}
+			detail: {capital:0}
 		};
 	},
 	mounted() {
@@ -227,6 +227,54 @@ export default {
 			.finally(() => {
 				this.$store.commit("finish");
 			});
+		},
+		async downloadRegnumFile(){//파일 다운로드
+
+			try {
+				this.$store.commit('loading');
+				const response = await this.$http.post(
+					"/api/v1/notice/downloadFile",
+					{ fileId: this.detail.regnumPath }, // 서버에서 파일을 식별할 수 있는 고유한 ID 또는 다른 필요한 데이터
+					{ responseType: "blob" } // 응답 데이터를 Blob 형식으로 받기
+				);
+
+				// 파일 다운로드를 위한 처리
+				const url = window.URL.createObjectURL(new Blob([response.data]));
+				const link = document.createElement("a");
+				link.href = url;
+				link.setAttribute("download", this.detail.regnumFile); // 다운로드될 파일명 설정
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+				this.$store.commit('finish');
+			} catch (error) {
+				console.error("Error downloading file:", error);
+				this.$store.commit('finish');
+			}
+		},
+		async downloadFile(){//파일 다운로드
+
+			try {
+				this.$store.commit('loading');
+				const response = await this.$http.post(
+					"/api/v1/notice/downloadFile",
+					{ fileId: this.detail.bfilePath }, // 서버에서 파일을 식별할 수 있는 고유한 ID 또는 다른 필요한 데이터
+					{ responseType: "blob" } // 응답 데이터를 Blob 형식으로 받기
+				);
+
+				// 파일 다운로드를 위한 처리
+				const url = window.URL.createObjectURL(new Blob([response.data]));
+				const link = document.createElement("a");
+				link.href = url;
+				link.setAttribute("download", this.detail.bfile); // 다운로드될 파일명 설정
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+				this.$store.commit('finish');
+			} catch (error) {
+				console.error("Error downloading file:", error);
+				this.$store.commit('finish');
+			}
 		}
 	}
 }

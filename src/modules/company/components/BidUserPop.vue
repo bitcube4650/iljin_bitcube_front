@@ -21,13 +21,8 @@
             <ul>
               <li>
                 <div>
-                  소속사의 개찰권한을 가진 사용자만 조회됩니다. (사용자 조회 후
+                  소속사 사용자를 조회합니다. (사용자 조회 후
                   선택버튼을 누르십시오)
-                </div>
-              </li>
-              <li>
-                <div>
-                  개찰자가 조회되지 않을 경우 관리자에게 연락해 주십시오
                 </div>
               </li>
             </ul>
@@ -44,6 +39,7 @@
                   class="inputStyle"
                   placeholder=""
                   v-model="searchParams.userName"
+                  @keyup.enter.prevent="search(0)"
                 />
               </div>
               <div class="sbTit mr30 ml50">부서명</div>
@@ -55,6 +51,7 @@
                   class="inputStyle"
                   placeholder=""
                   v-model="searchParams.deptName"
+                  @keyup.enter.prevent="search(0)"
                 />
               </div>
               <a class="btnStyle btnSearch" @click.prevent="search(0)">검색</a>

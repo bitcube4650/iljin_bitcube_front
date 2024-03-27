@@ -113,7 +113,9 @@
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">예산금액</div>
-            <div class="width100">{{ this.result.bdAmt }}</div>
+            <div class="width100">
+              {{ this.result.bdAmt | numberWithCommas }}
+            </div>
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">입찰담당자</div>
@@ -261,11 +263,15 @@
                   <tr v-for="(val, idx) in tableContent">
                     <td class="text-left">{{ val.name }}</td>
                     <td class="text-left">{{ val.ssize }}</td>
-                    <td class="text-right">{{ val.orderQty }}</td>
+                    <td class="text-right">
+                      {{ val.orderQty | numberWithCommas }}
+                    </td>
                     <td>{{ val.unitcode }}</td>
-                    <td class="text-right">{{ val.orderUc }}</td>
+                    <td class="text-right">
+                      {{ val.orderUc | numberWithCommas }}
+                    </td>
                     <td class="text-right end">
-                      {{ val.orderQty * val.orderUc }}
+                      {{ (val.orderQty * val.orderUc) | numberWithCommas }}
                     </td>
                   </tr>
                 </tbody>
@@ -301,9 +307,9 @@
         </div>
 
         <div class="text-center mt50">
-          <a href="#" class="btnStyle btnOutline" title="목록"
-            ><router-link :to="{ name: 'bidProgress' }">목록 </router-link></a
-          >
+          <a class="btnStyle btnOutline" title="목록" @click="movetolist"
+            >목록
+          </a>
           <a class="btnStyle btnOutline" title="엑셀변환" @click="excel"
             >엑셀변환</a
           >
@@ -315,7 +321,7 @@
             >공고문 미리보기</a
           >
           <a
-            v-if="this.loginId === this.result.cuserCode  || this.loginId === 'master'"
+            v-if="this.loginId === this.result.cuserCode"
             data-toggle="modal"
             data-target="#biddingDel"
             class="btnStyle btnSecondary"
@@ -330,7 +336,10 @@
             >수정</a
           >
           <a
-            v-if="this.loginId === this.result.cuserCode || this.logingId === this.result.gongoIdCode || this.loginId === 'master'"
+            v-if="
+              this.loginId === this.result.cuserCode ||
+              this.loginId === this.result.gongoIdCode
+            "
             data-toggle="modal"
             data-target="#biddingModal"
             class="btnStyle btnPrimary"
@@ -388,10 +397,7 @@
       <div class="modal-dialog" style="width: 100%; max-width: 550px">
         <div class="modal-content">
           <div class="modal-body">
-            <a
-              class="ModalClose"
-              data-dismiss="modal"
-              title="닫기"
+            <a class="ModalClose" data-dismiss="modal" title="닫기"
               ><i class="fa-solid fa-xmark"></i
             ></a>
             <h2 class="modalTitle">입찰계획 삭제</h2>
@@ -513,6 +519,13 @@ export default {
       ],
     };
   },
+
+  filters: {
+    numberWithCommas(val) {
+      if (!val) return "";
+      else return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
+  },
   beforeMount() {},
   mounted() {
     this.dataFromList = this.$store.state.bidDetailData;
@@ -621,34 +634,39 @@ export default {
 
       this.$store.commit("loading");
       this.$http
-      .post("/api/v1/excel/bid/progressDetail/downLoad", this.detail, { responseType: 'blob' }) // responseType을 blob으로 설정하여 파일 다운로드 요청을 보냅니다.
-      .then((response) => {
-        if (response.status === 200) { // 응답이 성공적으로 도착한 경우
-          const url = window.URL.createObjectURL(new Blob([response.data])); // 응답 데이터를 Blob 형식으로 변환하여 URL을 생성합니다.
-          const link = document.createElement('a');
-          link.href = url;
-          link.setAttribute('download', this.detail.fileName + '.xlsx'); // 다운로드할 파일명을 설정합니다.
-          document.body.appendChild(link);
-          link.click();
-          window.URL.revokeObjectURL(url); // 임시 URL을 해제합니다.
-          this.$router.push({ name: "bidProgress" }); // 파일 다운로드 후 페이지를 이동합니다.
-        } else {
-          this.$swal({ // 오류 처리
+        .post("/api/v1/excel/bid/progressDetail/downLoad", this.detail, {
+          responseType: "blob",
+        }) // responseType을 blob으로 설정하여 파일 다운로드 요청을 보냅니다.
+        .then((response) => {
+          if (response.status === 200) {
+            // 응답이 성공적으로 도착한 경우
+            const url = window.URL.createObjectURL(new Blob([response.data])); // 응답 데이터를 Blob 형식으로 변환하여 URL을 생성합니다.
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", this.detail.fileName + ".xlsx"); // 다운로드할 파일명을 설정합니다.
+            document.body.appendChild(link);
+            link.click();
+            window.URL.revokeObjectURL(url); // 임시 URL을 해제합니다.
+            this.$router.push({ name: "bidProgress" }); // 파일 다운로드 후 페이지를 이동합니다.
+          } else {
+            this.$swal({
+              // 오류 처리
+              type: "warning",
+              text: "엑셀 변환 중 오류가 발생했습니다.",
+            });
+          }
+        })
+        .catch((error) => {
+          // 오류 처리
+          console.error("Error:", error);
+          this.$swal({
             type: "warning",
             text: "개찰 중 오류가 발생했습니다.",
           });
-        }
-      })
-      .catch((error) => { // 오류 처리
-        console.error("Error:", error);
-        this.$swal({
-          type: "warning",
-          text: "개찰 중 오류가 발생했습니다.",
+        })
+        .finally(() => {
+          this.$store.commit("finish"); // 로딩 상태 종료
         });
-      })
-      .finally(() => {
-        this.$store.commit("finish"); // 로딩 상태 종료
-      });
     },
 
     calculateTotal() {
@@ -657,6 +675,9 @@ export default {
         total += val.orderQty * val.orderUc;
       });
       return total;
+    },
+    movetolist() {
+      this.$router.push({ name: "bidProgress" });
     },
 
     async downloadFile(filePath, fileNm) {

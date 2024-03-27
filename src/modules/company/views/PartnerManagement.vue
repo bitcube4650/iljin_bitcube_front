@@ -23,12 +23,14 @@
 			<div class="flex align-items-center">
 				<div class="sbTit mr30">업체명</div>
 				<div class="width150px">
-					<input type="text" name="" id="" class="inputStyle" placeholder="">
+					<input type="text" v-model="searchParams.custName" class="inputStyle" placeholder="">
 				</div>
 				<div class="sbTit mr30 ml50">상태</div>
 				<div class="width120px">
-					<select name="" class="selectStyle">
-						<option value="">정상</option>
+					<select v-model="searchParams.certYn" class="selectStyle">
+						<option value="">전체</option>
+						<option value="Y">정상</option>
+						<option value="D">삭제</option>
 					</select>
 				</div>
 				<div class="sbTit mr30 ml50">업체유형</div>
@@ -126,12 +128,13 @@ export default {
 		};
 	},
 	mounted() {
-		const params = {id: this.$options.name , size: '10'};
+		const params = {id: this.$options.name , certYn: 'Y', size: '10'};
 		if (this.$store.state.searchParams.id == params.id) {
 			this.searchParams = Object.assign(params, this.$store.state.searchParams);
 		} else {
 			this.searchParams = params;
 		}
+		if (this.$route.query.certYn) this.searchParams.certYn = this.$route.query.certYn;
 		this.retrieve();
 	},
 	methods: {

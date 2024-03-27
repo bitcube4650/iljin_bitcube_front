@@ -35,100 +35,100 @@
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">업체유형 1</div>
-						<div class="width100">공공장소 청소 및 유사 서비스업 품목류</div>
+						<div class="width100">{{ detail.custTypeNm1 }}</div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">업체유형 2</div>
-						<div class="width100">사업 시설 유지관리 및 고용 서비스업 품목류</div>
+						<div class="width100">{{ detail.custTypeNm2 }}</div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">회사명</div>
-						<div class="width100">비트큐브</div>
+						<div class="width100">{{ detail.custName }}</div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">대표자명</div>
-						<div class="width100">강대표</div>
+						<div class="width100">{{ detail.presName }}</div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">사업자등록번호</div>
-						<div class="width100">123 - 12 - 12345</div>
+						<div class="width100">{{ detail.regnum }}</div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">법인번호</div>
-						<div class="width100">123456 - 1234567</div>
+						<div class="width100">{{ detail.presJuminNo }}</div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">자본금</div>
-						<div class="width100">10,000,000 원</div>
+						<div class="width100">{{ detail.capital.toLocaleString() }} 원</div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">설립년도</div>
-						<div class="width100">2021 년</div>
+						<div class="width100">{{ detail.foundYear }} 년</div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">대표전화</div>
-						<div class="width100">02-1234-1234</div>
+						<div class="width100">{{ detail.tel }}</div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">팩스</div>
-						<div class="width100"></div>
+						<div class="width100">{{ detail.fax }}</div>
 					</div>
 					<div class="flex mt20">
 						<div class="formTit flex-shrink0 width170px">회사주소</div>
 						<div class="width100">
-							<p>12345</p>
-							<p>서울시 마포구 도화동</p>
-							<p>50-1 일진빌딩 304호</p>
+							<p>{{ detail.zipcode }}</p>
+							<p>{{ detail.addr }}</p>
+							<p>{{ detail.addrDetail }}</p>
 						</div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">사업자등록증</div>
-						<div class="width100">
-							<a href="#" class="textUnderline">비트큐브_사업자등록증.jpg</a>
+						<div class="width100" v-if="detail.regnumFile != null && detail.regnumPath != ''">
+							<a @click="downloadRegnumFile" class="textUnderline">{{ detail.regnumFile }}</a>
 						</div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">첨부파일</div>
-						<div class="width100">
-							<a href="#" class="textUnderline">비트큐브_회사소개서.pptx</a>
+						<div class="width100" v-if="detail.bfile != null && detail.bfilePath != ''">
+							<a @click="downloadFile" class="textUnderline">{{ detail.bfile }}</a>
 						</div>
 					</div>
 				</div>
 
 				<div class="text-center mt30">
 					<a href="#" data-toggle="modal" data-target="#withdrawal1" class="btnStyle btnOutlineRed" title="회원탈퇴">회원탈퇴</a>
-					<a href="#" @click="clickPartnerCompUpdate" data-toggle="modal" class="btnStyle btnPrimary" title="수정">수정</a>
+					<router-link to="/company/partner/update"  class="btnStyle btnPrimary" title="수정">수정</router-link>
 				</div>
 
 				<h3 class="h3Tit mt50">관리자 정보</h3>
 				<div class="boxSt mt20">
 					<div class="flex align-items-center">
 						<div class="formTit flex-shrink0 width170px">이름</div>
-						<div class="width100">이순신</div>
+						<div class="width100">{{ detail.userName }}</div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">이메일</div>
-						<div class="width100">james@bitcube.co.kr</div>
+						<div class="width100">{{ detail.userEmail }}</div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">아이디</div>
-						<div class="width100">jameskang</div>
+						<div class="width100">{{ detail.userId }}</div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">휴대폰</div>
-						<div class="width100">010-1234-1234</div>
+						<div class="width100">{{ detail.userHp }}</div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">유선전화</div>
-						<div class="width100">02-123-1234</div>
+						<div class="width100">{{ detail.userTel }}</div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">직급</div>
-						<div class="width100">대리</div>
+						<div class="width100">{{ detail.userPosition }}</div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">부서</div>
-						<div class="width100">개발부</div>
+						<div class="width100">{{ detail.userBuseo }}</div>
 					</div>
 				</div>
 
@@ -187,34 +187,78 @@
 	<!-- //본문 -->
 </template>
   <script>
-  import _ from "lodash";
-  import Menu from "@/components/Menu.vue";
-  import Header from "@/components/Header.vue";
-  import Footer from "@/components/Footer.vue";
-  
-
-  
   export default {
     name: "partnerCompInfo",
     components: {
-      Menu,
-      Header,
-      Footer
     },
     data() {
       return {
-
+			detail: {capital:0}
       };
     },
-    methods: {
-		clickPartnerCompUpdate(){
-			this.$router.push({name:"partnerCompUpdate"});
-		}
-     
-    },
-    beforeMount() {},
-    mounted() {
+	mounted() {
+		this.retrieve();
+	},
+	methods: {
+		async retrieve() {
+			try {
+				this.$store.commit('loading');
+				const response = await this.$http.post('/api/v1/cust/info');
+				this.detail = response.data;
+				this.$store.commit('finish');
+			} catch(err) {
+				console.log(err)
+				this.$store.commit('finish');
+			}
+		},
+		async downloadRegnumFile(){//파일 다운로드
 
-    },
-  };
-  </script>
+			try {
+				this.$store.commit('loading');
+				const response = await this.$http.post(
+					"/api/v1/notice/downloadFile",
+					{ fileId: this.detail.regnumPath }, // 서버에서 파일을 식별할 수 있는 고유한 ID 또는 다른 필요한 데이터
+					{ responseType: "blob" } // 응답 데이터를 Blob 형식으로 받기
+				);
+
+				// 파일 다운로드를 위한 처리
+				const url = window.URL.createObjectURL(new Blob([response.data]));
+				const link = document.createElement("a");
+				link.href = url;
+				link.setAttribute("download", this.detail.regnumFile); // 다운로드될 파일명 설정
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+				this.$store.commit('finish');
+			} catch (error) {
+				console.error("Error downloading file:", error);
+				this.$store.commit('finish');
+			}
+		},
+		async downloadFile(){//파일 다운로드
+
+			try {
+				this.$store.commit('loading');
+				const response = await this.$http.post(
+					"/api/v1/notice/downloadFile",
+					{ fileId: this.detail.bfilePath }, // 서버에서 파일을 식별할 수 있는 고유한 ID 또는 다른 필요한 데이터
+					{ responseType: "blob" } // 응답 데이터를 Blob 형식으로 받기
+				);
+
+				// 파일 다운로드를 위한 처리
+				const url = window.URL.createObjectURL(new Blob([response.data]));
+				const link = document.createElement("a");
+				link.href = url;
+				link.setAttribute("download", this.detail.bfile); // 다운로드될 파일명 설정
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+				this.$store.commit('finish');
+			} catch (error) {
+				console.error("Error downloading file:", error);
+				this.$store.commit('finish');
+			}
+		}
+	}
+}
+</script>

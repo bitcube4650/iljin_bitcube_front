@@ -25,6 +25,7 @@ export default new Vuex.Store({
         noticeDetailData: null,
         bidDetailData: null,
         bidUpdateData: null,
+        pwdOrInfo: ''
     },
     mutations: {
         searchParams(state, params) {
@@ -52,6 +53,9 @@ export default new Vuex.Store({
         setBidUpdateData(state, data){
             state.bidUpdateData = data;
         },
+        updatePwdOrInfo(state, data){
+            state.pwdOrInfo = data;
+        }
     },
     getters: {
         CONSTANTS: state => {

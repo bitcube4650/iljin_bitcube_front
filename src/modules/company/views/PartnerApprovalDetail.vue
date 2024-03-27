@@ -20,11 +20,11 @@
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">업체유형 1</div>
-					<div class="width100">{{ detail.custType1 }}</div>
+					<div class="width100">{{ detail.custTypeNm1 }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">업체유형 2</div>
-					<div class="width100">{{ detail.custType2 }}</div>
+					<div class="width100">{{ detail.custTypeNm2 }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">회사명</div>

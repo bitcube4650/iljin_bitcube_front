@@ -316,7 +316,9 @@
             </li>
           </ul>
         </div>
-        <div class="boxSt mt20">
+
+        <!--파일등록 type 테이블-->
+        <div class="boxSt mt20" v-if="this.result.insMode === '파일등록'">
           <table class="tblSkin1">
             <colgroup>
               <col style="" />
@@ -352,6 +354,7 @@
                     type="checkbox"
                     v-model="selectedItems"
                     :value="val.custName"
+                    @change="updateSelectedRows"
                   /><label :for="idx"></label>
                 </td>
                 <td
@@ -380,8 +383,6 @@
                       text-decoration: underline;
                       cursor: pointer;
                     "
-                    data-toggle="modal"
-                    data-target="#bmDetail"
                     >상세</span
                   >
                   <span v-else></span>
@@ -389,21 +390,150 @@
                 <td>{{ val.submitDate }}</td>
                 <td>{{ val.userName }}</td>
                 <td>
-                  <img
-                    src="/images/icon_etc.svg"
-                    class="iconImg"
-                    alt="etc"
-                    data-toggle="modal"
-                    data-target="#bmDetail"
-                  />
+                  <img src="/images/icon_etc.svg" class="iconImg" alt="etc" />
                 </td>
                 <td class="end">
                   <a
-                    v-if="val.esmtYn === '2'"
+                    v-if="
+                      (val.esmtYn === '2' &&
+                        this.loginId === this.result.estOpenerCode) ||
+                      (val.esmtYn === '2' &&
+                        this.loginId === this.result.estBidderCode)
+                    "
                     class="btnStyle btnSecondary btnSm"
+                    data-toggle="modal"
+                    data-target="#bidSucc"
                     title="낙찰"
+                    @click="setInfo(val.custName, val.custCode, val.esmtAmt)"
                     >낙찰</a
                   >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!--직접입력 type 테이블-->
+        <div class="boxSt mt20" v-if="this.result.insMode === '직접입력'">
+          <table class="tblSkin1">
+            <colgroup>
+              <col style="" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>
+                  <input
+                    type="checkbox"
+                    id="ckAll"
+                    class="checkStyle checkOnly"
+                    v-model="selectAll"
+                    @change="selectAllItems"
+                  />
+                  <label for="ckAll"></label>
+                </th>
+                <th>입찰참가업체명</th>
+                <th>견적금액(총액)</th>
+                <th>확인</th>
+                <th>제출일시</th>
+                <th>담당자</th>
+                <th>기타첨부파일</th>
+                <th class="end">선정</th>
+              </tr>
+            </thead>
+            <tbody v-for="(val, i) in custContent" :key="i">
+              <tr>
+                <td>
+                  <input
+                    :id="i"
+                    class="checkStyle checkOnly"
+                    type="checkbox"
+                    v-model="selectedItems"
+                    :value="val.custName"
+                    @change="updateSelectedRows"
+                  /><label :for="i"></label>
+                </td>
+                <td
+                  data-toggle="modal"
+                  data-target="#submitHistPop"
+                  class="text-left textUnderline"
+                  @click="
+                    $refs.submitHistPop.initModal(
+                      val.biNo,
+                      val.custCode,
+                      val.custName,
+                      val.userName,
+                      val.esmtCurr
+                    )
+                  "
+                >
+                  {{ val.custName }}
+                </td>
+                <td>{{ val.esmtCurr }}{{ val.esmtAmt }}</td>
+                <td>
+                  <span v-if="val.esmtYn === '1'">공고확인</span>
+                  <span
+                    v-else-if="val.esmtYn === '2'"
+                    style="
+                      color: blue;
+                      text-decoration: underline;
+                      cursor: pointer;
+                    "
+                    @click="toggleItemTable(i, val.biNo, val.custCode)"
+                    >상세</span
+                  >
+                  <span v-else></span>
+                </td>
+                <td>{{ val.submitDate }}</td>
+                <td>{{ val.userName }}</td>
+                <td>
+                  <img src="/images/icon_etc.svg" class="iconImg" alt="etc" />
+                </td>
+                <td class="end">
+                  <a
+                    v-if="
+                      (val.esmtYn === '2' &&
+                        this.loginId === this.result.estOpenerCode) ||
+                      (val.esmtYn === '2' &&
+                        this.loginId === this.result.estBidderCode)
+                    "
+                    class="btnStyle btnSecondary btnSm"
+                    data-toggle="modal"
+                    data-target="#bidSucc"
+                    title="낙찰"
+                    @click="setInfo(val.custName, val.custCode, val.esmtAmt)"
+                    >낙찰</a
+                  >
+                </td>
+              </tr>
+              <tr v-show="showItemTable && showItemTable[i]">
+                <td colspan="8">
+                  <table class="tblSkin1">
+                    <colgroup>
+                      <col style="" />
+                    </colgroup>
+                    <thead>
+                      <tr>
+                        <th>품목명</th>
+                        <th>규격</th>
+                        <th>수량</th>
+                        <th>단위</th>
+                        <th>견적단가</th>
+                        <th>견적금액</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(val, i) in itemContent" :key="i">
+                        <td>{{ val.name }}</td>
+                        <td>{{ val.ssize }}</td>
+                        <td>{{ val.orderQty }}</td>
+                        <td>{{ val.unitcode }}</td>
+                        <td>
+                          {{ parseInt(val.esmtUc) / parseInt(val.orderQty) }}
+                        </td>
+                        <td>{{ val.esmtUc }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </td>
               </tr>
             </tbody>
@@ -424,8 +554,7 @@
           <a
             v-if="
               this.loginId === this.result.cuserCode ||
-              this.loginId === this.result.estOpenerCode ||
-              this.loginId === 'master'
+              this.loginId === this.result.estOpenerCode
             "
             data-toggle="modal"
             data-target="#biddingReserve"
@@ -433,16 +562,7 @@
             title="유찰"
             >유찰</a
           >
-          <a
-            v-if="
-              this.loginId === this.result.estBidderCode ||
-              this.loginId === this.result.estOpenerCode ||
-              this.loginId === 'master'
-            "
-            data-toggle="modal"
-            data-target="#openBid"
-            class="btnStyle btnPrimary"
-            title="선택업체 재입찰"
+          <a @click="rebid" class="btnStyle btnPrimary" title="선택업체 재입찰"
             >선택업체 재입찰</a
           >
         </div>
@@ -501,10 +621,10 @@
     </div>
     <!-- //유찰 -->
 
-    <!-- 개찰 -->
+    <!-- 낙찰 -->
     <div
       class="modal fade modalStyle"
-      id="openBid"
+      id="bidSucc"
       tabindex="-1"
       role="dialog"
       aria-hidden="true"
@@ -515,54 +635,46 @@
             <a class="ModalClose" data-dismiss="modal" title="닫기"
               ><i class="fa-solid fa-xmark"></i
             ></a>
-            <h2 class="modalTitle">개찰</h2>
+            <h2 class="modalTitle">낙찰</h2>
             <div class="modalTopBox">
               <ul>
-                <div>개찰하시겠습니까?</div>
+                <li>
+                  <div>
+                    [{{ custName }}] 업체로 낙찰 처리합니다.<br />
+                    아해 낙찰 시 추가합의 사항이 있을 경우 입력해 주십시오.<br />
+                    낙찰 하시겠습니까?
+                  </div>
+                </li>
               </ul>
             </div>
+            <textarea
+              class="textareaStyle height150px mt20"
+              onkeydown="resize(this)"
+              onkeyup="resize(this)"
+              placeholder="추가합의 사항(필수아님)"
+              v-model="detail.reason"
+            ></textarea>
             <div class="modalFooter">
               <a class="modalBtnClose" data-dismiss="modal" title="취소"
                 >취소</a
               >
-              <a class="modalBtnCheck" data-toggle="modal" title="개찰">개찰</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- //개찰 -->
-
-    <!-- 업체견적사항상세 확인 -->
-    <div
-      class="modal fade modalStyle"
-      id="bmDetail"
-      tabindex="-1"
-      role="dialog"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" style="width: 100%; max-width: 420px">
-        <div class="modal-content">
-          <div class="modal-body">
-            <a class="ModalClose" data-dismiss="modal" title="닫기"
-              ><i class="fa-solid fa-xmark"></i
-            ></a>
-            <div class="alertText2">
-              개찰 전 견적 내용은 확인할 수 없습니다.
-            </div>
-            <div class="modalFooter">
-              <a class="modalBtnClose" data-dismiss="modal" title="확인"
-                >확인</a
+              <a
+                class="modalBtnCheck"
+                data-toggle="modal"
+                title="낙찰"
+                @click="bidSucc"
+                >낙찰</a
               >
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- //업체견적사항상세 확인 -->
+    <!-- //낙찰 -->
 
     <!-- 개찰결과 보고서 -->
-    <BidResultReport ref="bidResultReport"
+    <BidResultReport
+      ref="bidResultReport"
       :props="[this.result, this.custContent]"
     />
     <!-- //개찰결과 보고서 -->
@@ -602,6 +714,12 @@ export default {
       loginId: "",
       selectAll: false, // 전체 선택 여부를 관리하는 변수
       selectedItems: [], // 선택된 항목을 저장하는 배열
+      selectedRows: [],
+      showItemTable: {},
+      itemContent: [],
+      custName: "",
+      custCode: "",
+      esmtAmt: 0,
 
       lotteDeptList: [
         { value: "A1", label: "익산 E/F" },
@@ -687,6 +805,14 @@ export default {
         this.selectedItems = []; // 선택된 항목 초기화
       }
     },
+    updateSelectedRows() {
+      // selectedItems 배열에 있는 custName을 가지고 있는 row만 추출
+      this.selectedRows = this.custContent.filter((item) =>
+        this.selectedItems.includes(item.custName)
+      );
+
+      console.log(this.selectedRows);
+    },
 
     async downloadFile(filePath, fileNm) {
       console.log(filePath);
@@ -736,6 +862,80 @@ export default {
         })
         .finally(() => {
           $("#biddingReserve").modal("hide");
+          this.$store.commit("finish");
+          this.$router.push({ name: "bidStatus" });
+        });
+    },
+
+    rebid() {
+      this.detail.result = this.result;
+      this.detail.result.bdAmt = parseInt(this.result.bdAmt);
+      this.detail.tableContent = this.tableContent;
+      this.detail.fileContent = this.fileContent;
+      this.detail.custContent = this.selectedRows;
+
+      this.$store.commit("setBidUpdateData", this.detail);
+      console.log(this.detail);
+      this.$router.push({ name: "rebid" });
+    },
+
+    toggleItemTable(index, biNo, custCode) {
+      this.itemList(biNo, custCode);
+      // showItemTable 배열에 해당 인덱스에 대한 값이 없으면 새로 추가하고 true로 설정합니다.
+      if (this.$data.showItemTable === undefined) {
+        this.$data.showItemTable = {};
+      }
+      if (this.$data.showItemTable[index] === undefined) {
+        this.$set(this.showItemTable, index, true);
+      } else {
+        // 해당 인덱스에 대한 값이 이미 있으면 토글합니다.
+        this.$set(this.showItemTable, index, !this.showItemTable[index]);
+      }
+    },
+    async itemList(biNo, custCode) {
+      this.searchParams.biNo = biNo;
+      this.searchParams.custCode = custCode;
+      try {
+        this.$store.commit("loading");
+        const response = await this.$http.post(
+          "/api/v1/bidstatus/itemlist",
+          this.searchParams
+        );
+        this.itemContent = response.data;
+        this.$store.commit("finish");
+      } catch (err) {
+        console.log(err);
+        this.$store.commit("finish");
+      }
+
+      console.log(this.itemContent);
+    },
+
+    setInfo(custName, custCode, esmtAmt) {
+      this.custName = custName;
+      this.custCode = custCode;
+      this.esmtAmt = parseInt(esmtAmt);
+    },
+
+    bidSucc() {
+      this.result.custCode = this.custcode;
+      this.result.esmtAmt = this.esmtAmt;
+      this.result.type = "succ";
+      this.result.interNm = this.result.interrelatedNm;
+      this.$store.commit("loading");
+      this.$http
+        .post("/api/v1/bidstatus/bidSucc", this.detail)
+        .then((response) => {
+          if (response.data.code == "OK") {
+          } else {
+            this.$swal({
+              type: "warning",
+              text: "낙찰 처리중 오류가 발생했습니다.",
+            });
+          }
+        })
+        .finally(() => {
+          $("#bidSucc").modal("hide");
           this.$store.commit("finish");
           this.$router.push({ name: "bidStatus" });
         });

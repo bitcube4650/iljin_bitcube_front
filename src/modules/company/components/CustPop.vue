@@ -34,6 +34,8 @@
                     class="inputStyle"
                     placeholder=""
                     v-model="searchParams.custName"
+                    @keyup.enter.prevent="search(0)"
+                    maxlength="50"
                   />
                 </div>
                 <div class="sbTit mr30 ml50">대표자명</div>
@@ -45,6 +47,8 @@
                     class="inputStyle"
                     placeholder=""
                     v-model="searchParams.chairman"
+                    @keyup.enter.prevent="search(0)"
+                    maxlength="25"
                   />
                 </div>
                 <a class="btnStyle btnSearch" @click.prevent="search(0)"

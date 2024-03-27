@@ -5,7 +5,7 @@
     <div class="conHeader">
       <ul class="conHeaderCate">
         <li>전자입찰</li>
-        <li>입찰계획 수정</li>
+        <li>재입찰</li>
       </ul>
     </div>
     <!-- //conHeader -->
@@ -46,20 +46,8 @@
                 class="inputStyle"
                 placeholder=""
                 v-model="dataFromList.result.itemName"
-                @input="dataFromList.result.itemCode = $event.target.value"
                 disabled
               />
-              <a
-                class="btnStyle btnSecondary ml10"
-                title="조회"
-                @click="
-                  itemPop = 'custType1';
-                  $refs.itemPop.initModal();
-                "
-                data-toggle="modal"
-                data-target="#itemPop"
-                >조회</a
-              >
             </div>
           </div>
           <div class="flex align-items-center mt20">
@@ -70,24 +58,11 @@
               <input
                 type="radio"
                 name="bm1"
-                value="A"
                 id="bm1_1"
                 class="radioStyle"
                 checked=""
-                v-model="dataFromList.result.biModeCode"
-                data-toggle="modal"
-                v-bind:data-target="dataFromList.result.biModeCode === 'B' ? '#bmGeneral' : ''"
-              /><label for="bm1_1">지명경쟁입찰</label>
-              <input
-                type="radio"
-                name="bm1"
-                value="B"
-                id="bm1_2"
-                class="radioStyle"     
-                v-model="dataFromList.result.biModeCode"
-                data-toggle="modal"
-                v-bind:data-target="dataFromList.result.biModeCode === 'A' ? '#bmGeneral' : ''"
-              /><label for="bm1_2">일반경쟁입찰</label>
+                :value="dataFromList.result.biModeCode"
+              /><label for="bm1_1">{{ this.dataFromList.result.biMode }}</label>
             </div>
           </div>
           <div class="flex align-items-center mt20">
@@ -122,11 +97,18 @@
               현장설명일시 <span class="star">*</span>
             </div>
             <div class="width100">
-              <Calendar @update-date="fnUpdateSpotDate" calendarId="spotDate" classProps="datepicker inputStyle maxWidth140px" :initDate="datePart"></Calendar>
+              <Calendar
+                @update-date="fnUpdateSpotDate"
+                calendarId="spotDate"
+                classProps="datepicker inputStyle readonly maxWidth140px"
+                :initDate="datePart"
+                disabled
+              ></Calendar>
               <input
                 type="time"
-                class="inputStyle maxWidth140px"
+                class="inputStyle readonly maxWidth140px"
                 v-model="timePart"
+                disabled
               />
             </div>
           </div>
@@ -150,7 +132,11 @@
               낙찰자결정방법 <span class="star">*</span>
             </div>
             <div class="width100">
-              <select name="" class="selectStyle maxWidth200px" v-model="dataFromList.result.succDeciMethCode">
+              <select
+                name=""
+                class="selectStyle maxWidth200px"
+                v-model="dataFromList.result.succDeciMethCode"
+              >
                 <option value="1">최저가</option>
                 <option value="2">최고가</option>
                 <option value="3">내부적격심사</option>
@@ -162,35 +148,28 @@
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">입찰참가업체</div>
             <div class="flex align-items-center width100">
-              <div class="overflow-y-scroll boxStSm width100" >
-                <a v-if="dataFromList.custContent.length ===0"
-                    >선택된 참가업체 없음</a>
-                <div v-if="dataFromList.result.biModeCode==='A'" v-for="(val, idx) in dataFromList.custContent" :key="idx">   
-                <a
-                    @click.prevent="$refs.custUserPop.initModal(val.custCode)"
-                    data-toggle="modal"
-                    data-target="#custUserPop"
-                    class="textUnderline"
-                    >{{ val.custName }}</a
-                  ><i class="fa-regular fa-xmark textHighlight" @click="removeCust(idx)"></i></a>
-                  <span v-if="idx !== dataFromList.custContent.length - 1">, </span>   
-                </div>
-                <div v-if="dataFromList.result.biModeCode==='B'">
-                    <a>가입회원사 전체</a>
-                    </div>
-              </div>
-              <a
-                data-toggle="modal"
-                data-target="#custPop"
-                class="btnStyle btnSecondary ml10"
-                title="업체선택"
-                @click="$refs.custPop.initModal();"
-                v-show="dataFromList.result.biModeCode==='A'"
-                >업체선택</a
+              <div
+                class="overflow-y-scroll boxStSm width100"
+                style="display: inline"
               >
+                <div v-for="(val, idx) in dataFromList.custContent" :key="idx">
+                  <div v-if="val.custName !== null">
+                    <a>{{ val.custName }}</a>
+                    <span v-if="idx !== dataFromList.custContent.length - 1"
+                      >,
+                    </span>
+                  </div>
+                  <div v-else-if="val.custName == null">
+                    <a>미등록업체</a>
+                    <span v-if="idx !== dataFromList.custContent.length - 1"
+                      >,
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          
+
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">금액기준</div>
             <div class="width100">
@@ -238,22 +217,58 @@
           </div>
         </div>
 
-        <h3 class="h3Tit mt50" v-if="dataFromList.result.interrelatedCustCode==='02'">입찰분류</h3>
-        <div class="boxSt mt20" v-if="dataFromList.result.interrelatedCustCode==='02'">
-          <div class="flex align-items-center" >
+        <h3
+          class="h3Tit mt50"
+          v-if="dataFromList.result.interrelatedCustCode === '02'"
+        >
+          입찰분류
+        </h3>
+        <div
+          class="boxSt mt20"
+          v-if="dataFromList.result.interrelatedCustCode === '02'"
+        >
+          <div class="flex align-items-center">
             <div class="formTit flex-shrink0 width170px">분류군</div>
             <div class="flex align-items-center width100">
-              <select name="" class="selectStyle" v-model="dataFromList.result.matDept">
-                <option value=null>사업부</option>
-                <option v-for="dept in dataFromList.lotteDeptList" :value="dept.value">{{ dept.label }}</option>
+              <select
+                name=""
+                class="selectStyle"
+                v-model="dataFromList.result.matDept"
+              >
+                <option value="null">사업부</option>
+                <option
+                  v-for="dept in dataFromList.lotteDeptList"
+                  :value="dept.value"
+                >
+                  {{ dept.label }}
+                </option>
               </select>
-              <select name="" class="selectStyle" style="margin: 0 10px" v-model="dataFromList.result.matProc">
-                <option value=null>공정</option>
-                <option v-for="proc in dataFromList.lotteProcList" :value="proc.value">{{ proc.label }}</option>
+              <select
+                name=""
+                class="selectStyle"
+                style="margin: 0 10px"
+                v-model="dataFromList.result.matProc"
+              >
+                <option value="null">공정</option>
+                <option
+                  v-for="proc in dataFromList.lotteProcList"
+                  :value="proc.value"
+                >
+                  {{ proc.label }}
+                </option>
               </select>
-              <select name="" class="selectStyle" v-model="dataFromList.result.matCls">
-                <option value=null>분류</option>
-                <option v-for="cls in dataFromList.lotteClsList" :value="cls.value">{{ cls.label }}</option>
+              <select
+                name=""
+                class="selectStyle"
+                v-model="dataFromList.result.matCls"
+              >
+                <option value="null">분류</option>
+                <option
+                  v-for="cls in dataFromList.lotteClsList"
+                  :value="cls.value"
+                >
+                  {{ cls.label }}
+                </option>
               </select>
             </div>
           </div>
@@ -308,8 +323,19 @@
                 제출시작일시 <span class="star">*</span>
               </div>
               <div class="flex align-items-center width100">
-                <Calendar @update-date="fnUpdateStartDate" calendarId="startDate" classProps="datepicker inputStyle" :initDate="datePart1"></Calendar>
-                <input type="time" class="inputStyle ml10" v-model="timePart1"/>
+                <Calendar
+                  @update-date="fnUpdateStartDate"
+                  calendarId="startDate"
+                  classProps="datepicker readonly inputStyle"
+                  :initDate="datePart1"
+                  disabled
+                ></Calendar>
+                <input
+                  type="time"
+                  class="readonly inputStyle ml10"
+                  v-model="timePart1"
+                  disabled
+                />
               </div>
             </div>
             <div class="flex align-items-center width100 ml80">
@@ -317,14 +343,25 @@
                 제출마감일시 <span class="star">*</span>
               </div>
               <div class="flex align-items-center width100">
-                <Calendar @update-date="fnUpdateCloseDate" calendarId="closeDate" classProps="datepicker inputStyle" :initDate="datePart2"></Calendar>
-                <input type="time" class="inputStyle ml10" v-model="timePart2"/>
+                <Calendar
+                  @update-date="fnUpdateCloseDate"
+                  calendarId="closeDate"
+                  classProps="datepicker readonly inputStyle"
+                  :initDate="datePart2"
+                  disabled
+                ></Calendar>
+                <input
+                  type="time"
+                  class="readonly inputStyle ml10"
+                  v-model="timePart2"
+                  disabled
+                />
               </div>
             </div>
           </div>
           <div class="flex align-items-center mt10">
             <div class="flex align-items-center width100">
-              <div class="formTit flex-shrink0 width170px">개찰자 <span class="star">*</span></div>
+              <div class="formTit flex-shrink0 width170px">개찰자</div>
               <div class="flex align-items-center width100">
                 <input
                   type="text"
@@ -335,18 +372,10 @@
                   v-model="dataFromList.result.estOpener"
                   disabled
                 />
-                <a
-                  data-toggle="modal"
-                  data-target="#bidOpenUserPop"
-                  class="btnStyle btnSecondary ml10"
-                  title="선택"
-                  @click="$refs.bidOpenUserPop.initModal(dataFromList.result.interrelatedCustCode);"
-                  >선택</a
-                >
               </div>
             </div>
             <div class="flex align-items-center width100 ml80">
-              <div class="formTit flex-shrink0 width170px">입찰공고자 <span class="star">*</span></div>
+              <div class="formTit flex-shrink0 width170px">입찰공고자</div>
               <div class="flex align-items-center width100">
                 <input
                   type="text"
@@ -357,22 +386,13 @@
                   v-model="dataFromList.result.gongoId"
                   disabled
                 />
-                <a
-                  id="gongoId"
-                  data-toggle="modal"
-                  data-target="#bidUserPop"
-                  class="btnStyle btnSecondary ml10"
-                  title="선택"
-                  @click="$refs.bidUserPop.initModal('gongoId', dataFromList.result.interrelatedCustCode);"
-                  >선택</a
-                >
               </div>
             </div>
           </div>
           <div class="flex align-items-center mt10">
             <div class="flex align-items-center width100">
-              <div class="formTit flex-shrink0 width170px">낙찰자 <span class="star">*</span></div>
-              <div class="flex align-items-center width100">
+              <div class="formTit flex-shrink0 width170px">낙찰자</div>
+              <div class="flex align-items-center width270px">
                 <input
                   type="text"
                   name=""
@@ -382,37 +402,9 @@
                   v-model="dataFromList.result.estBidder"
                   disabled
                 />
-                <a
-                  data-toggle="modal"
-                  data-target="#biddingUserPop"
-                  class="btnStyle btnSecondary ml10"
-                  title="선택"
-                  @click="$refs.biddingUserPop.initModal(dataFromList.result.interrelatedCustCode);"
-                  >선택</a
-                >
               </div>
             </div>
-            <div class="flex align-items-center width100 ml80">
-              <div class="formTit flex-shrink0 width170px" style="display: none;"></div>
-              <div class="flex align-items-center width100">
-                <input
-                  type="text"
-                  name=""
-                  id=""
-                  class="inputStyle"
-                  placeholder=""
-                  disabled
-                  style="display: none;"
-                />
-                <a
-                  class="btnStyle btnSecondary ml10"
-                  title="선택"
-                  style="display: none;"
-                  >선택</a
-                >
-              </div>
-            </div>
-            </div>
+          </div>
           <div class="flex align-items-center mt10">
             <div class="flex align-items-center width100">
               <div class="formTit flex-shrink0 width170px">입회자1</div>
@@ -426,15 +418,6 @@
                   v-model="dataFromList.result.openAtt1"
                   disabled
                 />
-                <a
-                id="openAtt1"
-                  data-toggle="modal"
-                  data-target="#bidUserPop"
-                  class="btnStyle btnSecondary ml10"
-                  title="선택"
-                  @click="$refs.bidUserPop.initModal('openAtt1', dataFromList.result.interrelatedCustCode);"
-                  >선택</a
-                >
               </div>
             </div>
             <div class="flex align-items-center width100 ml80">
@@ -449,15 +432,6 @@
                   v-model="dataFromList.result.openAtt2"
                   disabled
                 />
-                <a
-                id="openAtt2"
-                  data-toggle="modal"
-                  data-target="#bidUserPop"
-                  class="btnStyle btnSecondary ml10"
-                  title="선택"
-                  @click="$refs.bidUserPop.initModal('openAtt2', dataFromList.result.interrelatedCustCode);"
-                  >선택</a
-                >
               </div>
             </div>
           </div>
@@ -468,28 +442,17 @@
                 <input
                   type="radio"
                   name="bm2"
-                  value="1"
+                  :value="dataFromList.result.insModeCode"
                   id="bm2_1"
                   class="radioStyle"
                   checked=""
-                  v-model="dataFromList.result.insModeCode"
-                  data-toggle="modal"
-                  v-bind:data-target="dataFromList.result.insModeCode === '2' ? '#bmFile' : ''"
-                /><label for="bm2_1">파일등록</label>
-                <input
-                  type="radio"
-                  name="bm2"
-                  value="2"
-                  id="bm2_2"
-                  class="radioStyle"
-                  v-model="dataFromList.result.insModeCode"
-                  data-toggle="modal"
-                  v-bind:data-target="dataFromList.result.insModeCode === '1' ? '#bmFile' : ''"
-                /><label for="bm2_2">내역직접등록</label>
+                /><label for="bm2_1">{{
+                  this.dataFromList.result.insMode
+                }}</label>
               </div>
             </div>
             <div class="flex align-items-center width100 ml80">
-              <div class="formTit flex-shrink0 width170px">납품조건 <span class="star">*</span></div>
+              <div class="formTit flex-shrink0 width170px">납품조건</div>
               <div class="width100">
                 <input
                   type="text"
@@ -502,107 +465,7 @@
               </div>
             </div>
           </div>
-          <div class="flex mt10" v-show="dataFromList.result.insModeCode==='2'">
-            <div class="formTit flex-shrink0 width170px">
-              세부내역 <span class="star">*</span
-              ><a
-                class="btnStyle btnSecondary ml10"
-                title="추가"
-                @click="addEmptyRow"
-                >추가</a
-              >
-            </div>
-            <div class="width100">
-              <table class="tblSkin1">
-                <colgroup>
-                  <col style="" />
-                </colgroup>
-                <thead>
-                  <tr>
-                    <th>품목명</th>
-                    <th>규격</th>
-                    <th>수량</th>
-                    <th>단위</th>
-                    <th>실행단가</th>
-                    <th>합계</th>
-                    <th class="end">삭제</th>
-                  </tr>
-                </thead>
-                <tbody>
-                   <tr v-for="(val, idx) in dataFromList.tableContent">
-                    <td>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        class="inputStyle inputSm"
-                        placeholder=""
-                        v-model="val.name"
-                        maxlength="100"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        class="inputStyle inputSm"
-                        placeholder=""
-                        v-model="val.ssize"
-                        maxlength="25"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        class="inputStyle inputSm"
-                        placeholder=""
-                        v-model="val.orderQty"
-                        maxlength="12"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        class="inputStyle inputSm"
-                        placeholder=""
-                        v-model="val.unitcode"
-                        maxlength="25"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        class="inputStyle inputSm text-right"
-                        placeholder=""
-                        v-model="val.orderUc"
-                        maxlength="12"
-                      />
-                    </td>
-                    <td class="text-right">{{ val.orderQty*val.orderUc }}</td>
-                    <td class="text-right end">
-                      <a
-                        class="btnStyle btnSecondary btnSm"
-                        title="삭제"
-                        @click="deleteRow(idx)"
-                        >삭제</a
-                      >
-                    </td>
-                   </tr>
-                </tbody>
-              </table>
-              <p class="text-right mt10">
-                <strong>총합계 : {{ totalSum | numberWithCommas }}</strong>
-              </p>
-            </div>
-          </div>
-          <div class="flex mt10" v-show="dataFromList.result.insModeCode==='1'">
+          <div class="flex mt10" v-if="dataFromList.result.insModeCode === '1'">
             <div class="formTit flex-shrink0 width170px">
               세부내역 <span class="star">*</span>
               <!-- 툴팁 -->
@@ -627,7 +490,12 @@
               <!-- 다중파일 업로드 -->
               <div class="upload-boxWrap">
                 <div class="upload-box">
-                  <input type="file" ref="insFile" id="file-input" @change="changeFile"/>
+                  <input
+                    type="file"
+                    ref="insFile"
+                    id="file-input"
+                    @change="changeFile"
+                  />
                   <div class="uploadTxt">
                     <i class="fa-regular fa-upload"></i>
                     <div>
@@ -665,7 +533,12 @@
               <!-- 다중파일 업로드 -->
               <div class="upload-boxWrap">
                 <div class="upload-box">
-                  <input type="file" ref="innerFile" id="file-input2" @change="changeFile"/>
+                  <input
+                    type="file"
+                    ref="innerFile"
+                    id="file-input2"
+                    @change="changeFile"
+                  />
                   <div class="uploadTxt">
                     <i class="fa-regular fa-upload"></i>
                     <div>
@@ -701,7 +574,12 @@
               <!-- 다중파일 업로드 -->
               <div class="upload-boxWrap">
                 <div class="upload-box">
-                  <input type="file" ref="outerFile" id="file-input3" @change="changeFile"/>
+                  <input
+                    type="file"
+                    ref="outerFile"
+                    id="file-input3"
+                    @change="changeFile"
+                  />
                   <div class="uploadTxt">
                     <i class="fa-regular fa-upload"></i>
                     <div>
@@ -715,31 +593,173 @@
               <!-- //다중파일 업로드 -->
             </div>
           </div>
-          
+          <div class="flex mt10" v-if="dataFromList.result.insModeCode === '2'">
+            <div class="formTit flex-shrink0 width170px">
+              세부내역 <span class="star">*</span
+              ><a
+                class="btnStyle btnSecondary ml10"
+                title="추가"
+                @click="addEmptyRow"
+                >추가</a
+              >
+            </div>
+            <div class="width100">
+              <table class="tblSkin1">
+                <colgroup>
+                  <col style="" />
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>품목명</th>
+                    <th>규격</th>
+                    <th>수량</th>
+                    <th>단위</th>
+                    <th>실행단가</th>
+                    <th>합계</th>
+                    <th class="end">삭제</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(val, idx) in dataFromList.tableContent">
+                    <td>
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        class="inputStyle inputSm"
+                        placeholder=""
+                        v-model="val.name"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        class="inputStyle inputSm"
+                        placeholder=""
+                        v-model="val.ssize"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        class="inputStyle inputSm"
+                        placeholder=""
+                        v-model="val.orderQty"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        class="inputStyle inputSm"
+                        placeholder=""
+                        v-model="val.unitcode"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        class="inputStyle inputSm text-right"
+                        placeholder=""
+                        v-model="val.orderUc"
+                      />
+                    </td>
+                    <td class="text-right">{{ val.orderQty * val.orderUc }}</td>
+                    <td class="text-right end">
+                      <a
+                        class="btnStyle btnSecondary btnSm"
+                        title="삭제"
+                        @click="deleteRow(idx)"
+                        >삭제</a
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <p class="text-right mt10">
+                <strong>총합계 : {{ totalSum | numberWithCommas }}</strong>
+              </p>
+            </div>
+          </div>
         </div>
-
         <div class="text-center mt50">
-          <a
-            class="btnStyle btnOutline"
-            title="목록"
-            @click="movetolist"
-            >목록</a>
+          <a class="btnStyle btnOutline" title="목록" @click="movetolist"
+            >목록</a
+          >
           <a
             data-toggle="modal"
-            data-target="#save"
+            data-target="#reBidding"
             class="btnStyle btnPrimary"
-            title="저장"
-            >저장</a
+            title="재입찰"
+            >재입찰</a
           >
         </div>
       </div>
     </div>
     <!-- //contents -->
 
-    <!-- 일반경쟁입찰 -->
+    <!-- 재입찰 -->
     <div
       class="modal fade modalStyle"
-      id="bmGeneral"
+      id="reBidding"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" style="width: 100%; max-width: 550px">
+        <div class="modal-content">
+          <div class="modal-body">
+            <a class="ModalClose" data-dismiss="modal" title="닫기"
+              ><i class="fa-solid fa-xmark"></i
+            ></a>
+            <h2 class="modalTitle">입찰계획 삭제</h2>
+            <div class="modalTopBox">
+              <ul>
+                <li>
+                  <div>
+                    재입찰 처리 합니다. 재입찰 시 선택한 참가업체에게 재입찰
+                    메일이 발송됩니다.<br />재입찰 하시겠습니까?
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <textarea
+              class="textareaStyle height150px mt20"
+              onkeydown="resize(this)"
+              onkeyup="resize(this)"
+              placeholder="재입찰 사유 필수 입력 (200자 이내)"
+              v-model="this.dataFromList.result.whyA3"
+            ></textarea>
+            <div class="modalFooter">
+              <a class="modalBtnClose" data-dismiss="modal" title="취소"
+                >취소</a
+              >
+              <a
+                class="modalBtnCheck"
+                data-toggle="modal"
+                data-target="#reBidding2"
+                title="재입찰"
+                @click="rebid"
+                >재입찰</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- //재입찰 -->
+
+    <!-- 재입찰 후 -->
+    <div
+      class="modal fade modalStyle"
+      id="reBidding2"
       tabindex="-1"
       role="dialog"
       aria-hidden="true"
@@ -747,113 +767,20 @@
       <div class="modal-dialog" style="width: 100%; max-width: 420px">
         <div class="modal-content">
           <div class="modal-body">
-            <a
-              class="ModalClose"
-              data-dismiss="modal"
-              title="닫기"
-              ><i class="fa-solid fa-xmark" @click="selectBid('named')"></i
-            ></a>
-            <div class="alertText2">
-              일반경쟁입찰을 선택하면 입찰은 등록되어 있는 모든 협력업체를
-              대상으로 하고 참가업체가 선택되어 있다면 초기화 됩니다.<br /><br />일반경쟁입찰을
-              선택 하시겠습니까?
-            </div>
-            <div class="modalFooter">
-              <a
-                class="modalBtnClose"
-                data-dismiss="modal"
-                title="취소"
-                @click="selectBid('cancel')"
-                >취소</a
-              >
-              <a
-                class="modalBtnCheck"
-                data-toggle="modal"
-                title="선택"
-                @click="selectBid('ok')"
-                >선택</a
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- //일반경쟁입찰 -->
-    <!-- 파일등록 -->
-    <div
-      class="modal fade modalStyle"
-      id="bmFile"
-      tabindex="-1"
-      role="dialog"
-      aria-hidden="true"
-      
-    >
-      <div class="modal-dialog" style="width: 100%; max-width: 420px" >
-        <div class="modal-content" >
-          <div class="modal-body">
-            <a
-              class="ModalClose"
-              data-dismiss="modal"
-              title="닫기"
+            <a class="ModalClose" data-dismiss="modal" title="닫기"
               ><i class="fa-solid fa-xmark"></i
             ></a>
-            <div class="alertText2">
-              내역방식을 변경하면 이전에 선택한
-              세부내역이 초기화됩니다.
-              변경 하시겠습니까?
-            </div>
+            <div class="alertText2">재입찰 처리 하였습니다.</div>
             <div class="modalFooter">
-              <a
-                class="modalBtnClose"
-                data-dismiss="modal"
-                title="취소"
-                @click="selectIns('cancel')"
-                >취소</a
-              >
-              <a
-                class="modalBtnCheck"
-                data-toggle="modal"
-                title="선택"
-                @click="selectIns('ok')"
-                >선택</a
+              <a class="modalBtnClose" data-dismiss="modal" title="닫기"
+                >닫기</a
               >
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!-- //파일등록 -->
-
-    		<!-- 입찰계획 저장 -->
-		<div class="modal fade modalStyle" id="save" tabindex="-1" role="dialog" aria-hidden="true">
-			<div class="modal-dialog" style="width:100%; max-width:420px">
-				<div class="modal-content">
-					<div class="modal-body">
-						<a  class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-						<div class="alertText2">입찰계획을 수정하면 수정 History에<br>수정이력이 남습니다.<br>저장 하시겠습니까?</div>
-						<div class="modalFooter">
-							<a  class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
-							<a  @click="save" class="modalBtnCheck" data-toggle="modal" title="저장">저장</a>
-						</div>
-					</div>				
-				</div>
-			</div>
-		</div>
-		<!-- //입찰계획 저장 -->
-
-    <!-- 품목 조회 -->
-    <item-pop ref="itemPop" @callbackFunc="callbackItem" />
-    <!-- //업체 조회 -->
-    <cust-pop ref="custPop" @callbackFunc="callbackCust" />
-    <!-- 협력사 사용자 조회-->
-    <cust-user-pop ref="custUserPop" />
-    <!-- 개찰자 조회-->
-    <bid-open-user-pop ref="bidOpenUserPop" @callbackFunc="callbackOpenUser"/>
-    <!-- 낙찰자 조회-->
-    <bidding-user-pop ref="biddingUserPop" @callbackFunc="callbackBiddingUser"/>
-    <!-- 입찰관련 일반사용자 조회-->
-    <bid-user-pop ref="bidUserPop" @callbackFunc="callbackUser"/>
-
+    <!-- //재입찰 후 -->
   </div>
   <!-- //본문 -->
 </template>
@@ -869,7 +796,7 @@ import BiddingUserPop from "@/modules/company/components/BiddingUserPop.vue";
 import Calendar from "@/components/Calendar.vue";
 
 export default {
-  name: "bidProgressUpdate",
+  name: "rebid",
   components: {
     ItemPop,
     CustPop,
@@ -894,6 +821,8 @@ export default {
       timePart2: "",
       selectedFile: null, //업로드한 파일
       filek: [],
+      file0: [],
+      file1: [],
     };
   },
   computed: {
@@ -914,61 +843,6 @@ export default {
   },
 
   methods: {
-    callbackItem(data) {
-      this.dataFromList.result.itemCode = data.itemCode;
-      this.dataFromList.result.itemName = data.itemName;
-      this.$forceUpdate();
-    },
-    callbackCust(data) {
-      const existingCust = this.dataFromList.custContent.find(
-        (item) => item.custCode === data.custCode
-      );
-
-      if (!existingCust) {
-        this.dataFromList.custContent.push({
-          biNo: this.dataFromList.result.biNo,
-          custCode: data.custCode,
-          custName: data.custName,
-        });
-        console.log(1111111111111, this.dataFromList.custContent);
-        this.$forceUpdate();
-      } else {
-        this.$swal({
-          type: "warning",
-          text: "이미 등록한 업체입니다.",
-        });
-      }
-      this.$forceUpdate();
-    },
-    callbackOpenUser(data) {
-      this.dataFromList.result.estOpener = data.userName;
-      this.dataFromList.result.estOpenerCode = data.userId;
-      this.$forceUpdate();
-    },
-    callbackBiddingUser(data) {
-      this.dataFromList.result.estBidder = data.userName;
-      this.dataFromList.result.estBidderCode = data.userId;
-      this.$forceUpdate();
-    },
-    callbackUser({ data, buttonId }) {
-      console.log(buttonId);
-      switch (buttonId) {
-        case "gongoId":
-          this.dataFromList.result.gongoId = data.userName;
-          this.dataFromList.result.gongoIdCode = data.userId;
-          break;
-        case "openAtt1":
-          this.dataFromList.result.openAtt1 = data.userName;
-          this.dataFromList.result.openAtt1Code = data.userId;
-          break;
-        case "openAtt2":
-          this.dataFromList.result.openAtt2 = data.userName;
-          this.dataFromList.result.openAtt2Code = data.userId;
-          break;
-      }
-
-      this.$forceUpdate();
-    },
     assignDataFromList() {
       this.datePart = this.dataFromList.result.spotDate.substring(0, 10);
       this.timePart = this.dataFromList.result.spotDate.substring(11, 16);
@@ -980,9 +854,7 @@ export default {
       this.timePart2 = this.dataFromList.result.estCloseDate.substring(11, 16);
     },
     removeCust(index) {
-      console.log(this.dataFromList.custContent);
       this.dataFromList.custContent.splice(index, 1);
-      this.$forceUpdate();
     },
 
     formatInput(event) {
@@ -994,51 +866,6 @@ export default {
         .toString()
         .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       return formattedValue === "" ? "" : formattedValue; // 값이 비어있을 경우 처리
-    },
-    selectBid(mode) {
-      if (mode === "cancel") {
-        if (this.dataFromList.result.biModeCode === "A")
-          this.dataFromList.result.biModeCode = "B";
-        else this.dataFromList.result.biModeCode = "A";
-      } else if (mode === "ok") {
-        if (this.dataFromList.result.biModeCode === "A") {
-          this.dataFromList.result.biModeCode = "A";
-        } else {
-          this.dataFromList.custContent = this.originCustData;
-          console.log(this.originCustData);
-          this.$forceUpdate();
-        }
-      }
-      this.$forceUpdate();
-      $("#bmGeneral").modal("hide");
-    },
-
-    selectIns(mode) {
-      if (mode === "cancel") {
-        if (this.dataFromList.result.insModeCode === "1")
-          this.dataFromList.result.insModeCode = "2";
-        else this.dataFromList.result.insModeCode = "1";
-      } else if (mode === "ok") {
-        if (this.dataFromList.result.insModeCode === "1") {
-          this.dataFromList.result.insModeCode = "1";
-          this.dataFromList.tableContent = this.originTableData;
-          this.$forceUpdate();
-        } else {
-          this.dataFromList.result.insModeCode = "2";
-          this.dataFromList.fileContent.forEach((item) => {
-            if (item.fileFlagKo === "세부내역") {
-              const matchingItem = this.originFileData.find(
-                (data) => data.fileFlagKo === "세부내역"
-              );
-              if (matchingItem) {
-                item = matchingItem;
-              }
-            }
-          });
-        }
-      }
-      this.$forceUpdate();
-      $("#bmFile").modal("hide");
     },
 
     addEmptyRow() {
@@ -1078,8 +905,14 @@ export default {
             });
           } else if (fileFlagKo === "대내용") {
             preview = preview2;
+            this.file0.push({
+              selectedFile: fileData.fileNm,
+            });
           } else if (fileFlagKo === "대외용") {
             preview = preview3;
+            this.file1.push({
+              selectedFile: fileData.fileNm,
+            });
           }
 
           preview.innerHTML += `
@@ -1123,33 +956,12 @@ export default {
         alert("입찰명을 입력해주세요.");
         return false;
       }
-      if (
-        !this.dataFromList.result.itemCode ||
-        this.dataFromList.result.itemCode === ""
-      ) {
-        alert("품목을 선택해주세요.");
-        return false;
-      }
-      if (
-        !this.dataFromList.result.biModeCode ||
-        this.dataFromList.result.biModeCode === ""
-      ) {
-        alert("입찰방식을 선택해주세요.");
-        return false;
-      }
 
       this.dataFromList.result.spotDate = this.datePart + " " + this.timePart;
       this.dataFromList.result.estStartDate =
         this.datePart1 + " " + this.timePart1;
       this.dataFromList.result.estCloseDate =
         this.datePart2 + " " + this.timePart2;
-      if (
-        !this.dataFromList.result.spotDate ||
-        this.dataFromList.result.spotDate === ""
-      ) {
-        alert("현장설명일시를 입력해주세요.");
-        return false;
-      }
       if (
         !this.dataFromList.result.spotArea ||
         this.dataFromList.result.spotArea === ""
@@ -1159,46 +971,11 @@ export default {
       }
       if (
         !this.dataFromList.result.succDeciMethCode ||
-        this.dataFromList.result.succDeciMethCode === "0000-00-00 00:00"
+        this.dataFromList.result.succDeciMethCode === ""
       ) {
         alert("낙찰자 결정방법을 선택해주세요.");
         return false;
       }
-      if (
-        !this.dataFromList.result.estStartDate ||
-        this.dataFromList.result.estStartDate === "0000-00-00 00:00"
-      ) {
-        alert("제출시작일시를 입력해주세요.");
-        return false;
-      }
-      if (
-        !this.dataFromList.result.estCloseDate ||
-        this.dataFromList.result.estCloseDate === "0000-00-00 00:00"
-      ) {
-        alert("제출마감일시를 입력해주세요.");
-        return false;
-      }
-
-      if (!this.bidContent.estOpener || this.bidContent.estOpener === "") {
-        alert("개찰자를 선택해주세요.");
-        return false;
-      }
-
-      if (!this.bidContent.gongoId || this.bidContent.gongoId === "") {
-        alert("입찰공고자를 선택해주세요.");
-        return false;
-      }
-
-      if (!this.bidContent.estBidder || this.bidContent.estBidder === "") {
-        alert("낙찰자를 선택해주세요.");
-        return false;
-      }
-
-      if (!this.bidContent.supplyCond || this.bidContent.supplyCond === "") {
-        alert("납품조건을 입력해주세요.");
-        return false;
-      }
-
       if (this.dataFromList.result.insModeCode === "2") {
         if (this.dataFromList.tableContent.length === 0) {
           alert("세부내역을 작성해주세요.");
@@ -1215,22 +992,30 @@ export default {
           return false;
         }
       }
+
+      if (!this.dataFromList.result.whyA3) {
+        alert("재입찰 사유를 작성해주세요.");
+        return false;
+      }
+
       return true;
     },
-    save() {
+    rebid() {
       if (!this.validationCheck()) {
-        $("#save").modal("hide");
+        $("#reBidding").modal("hide");
         console.log("false");
         return false;
       }
       console.log(this.dataFromList.result);
+      this.dataFromList.detail.type = "rebid";
+      this.dataFromList.detail.interNm = this.result.interrelatedNm;
       this.$store.commit("loading");
       this.$http
-        .post("/api/v1/bid/updateBid", this.dataFromList.result)
+        .post("/api/v1/bidstatus/rebid", this.dataFromList.result) 
         .then((response) => {
           if (this.dataFromList.result.biModeCode === "A") {
             this.$http.post(
-              "/api/v1/bid/updateBidCust",
+              "/api/v1/bidstatus/rebidCust",
               this.dataFromList.custContent
             );
           }
@@ -1246,18 +1031,20 @@ export default {
           } else {
             this.$swal({
               type: "warning",
-              text: "수정 중 오류가 발생했습니다.",
+              text: "재입찰 중 오류가 발생했습니다.",
             });
           }
         })
         .finally(() => {
-          $("#save").modal("hide");
-          this.$router.push({ name: "bidProgressDetail" });
+          $("#reBidding").modal("hide");
+          $("#reBidding2").modal("hide");
+          this.$store.commit("searchParams", {});
+          this.$router.push({ name: "bidStatus" });
           this.$store.commit("finish");
         });
     },
     movetolist() {
-      this.$router.push({ name: "bidProgress" });
+      this.$router.push({ name: "openDetail" });
     },
 
     sendFileContent() {
@@ -1355,15 +1142,6 @@ export default {
   },
   beforeMount() {
     this.dataFromList = this.$store.state.bidUpdateData;
-    if (!this.originCustData) {
-      this.originCustData = this.dataFromList.custContent.slice();
-    }
-    if (!this.originFileData) {
-      this.originFileData = this.dataFromList.fileContent.slice();
-    }
-    if (!this.originTableData) {
-      this.originTableData = this.dataFromList.tableContent.slice();
-    }
   },
   mounted() {
     fileInput.applyFile();

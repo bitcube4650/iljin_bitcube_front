@@ -39,6 +39,7 @@
                 class="inputStyle"
                 placeholder=""
                 v-model="bidContent.biName"
+                maxlength="50"
               />
             </div>
           </div>
@@ -177,14 +178,17 @@
             <div class="formTit flex-shrink0 width170px">입찰참가업체</div>
             <div class="flex align-items-center width100">
               <div class="overflow-y-scroll boxStSm width100" style="display: inline">
+                <a v-if="custContent.length ===0"
+                    >선택된 참가업체 없음</a>
                 <div  v-for="(val, idx) in custContent">   
+                  
                 <a
                     @click.prevent="$refs.custUserPop.initModal(val.custCode)"
                     data-toggle="modal"
                     data-target="#custUserPop"
                     class="textUnderline"
                     >{{ val.custName }}</a
-                  ><i class="fa-regular fa-xmark" @click="removeCust(idx)"></i></a>
+                  ><i class="fa-regular fa-xmark textHighlight" @click="removeCust(idx)"></i></a>
                   <span v-if="idx !== custContent.length - 1">, </span>
                 </div>
                 </div>
@@ -343,7 +347,7 @@
           </div>
           <div class="flex align-items-center mt10">
             <div class="flex align-items-center width100">
-              <div class="formTit flex-shrink0 width170px">개찰자</div>
+              <div class="formTit flex-shrink0 width170px">개찰자 <span class="star">*</span></div>
               <div class="flex align-items-center width100">
                 <input
                   type="text"
@@ -365,7 +369,7 @@
               </div>
             </div>
             <div class="flex align-items-center width100 ml80">
-              <div class="formTit flex-shrink0 width170px">입찰공고자</div>
+              <div class="formTit flex-shrink0 width170px">입찰공고자 <span class="star">*</span></div>
               <div class="flex align-items-center width100">
                 <input
                   type="text"
@@ -389,8 +393,8 @@
           </div>
            <div class="flex align-items-center mt10">
             <div class="flex align-items-center width100">
-              <div class="formTit flex-shrink0 width170px">낙찰자</div>
-              <div class="flex align-items-center width270px">
+              <div class="formTit flex-shrink0 width170px">낙찰자 <span class="star">*</span></div>
+              <div class="flex align-items-center width100">
                 <input
                   type="text"
                   name=""
@@ -406,6 +410,26 @@
                   class="btnStyle btnSecondary ml10"
                   title="선택"
                   @click="$refs.biddingUserPop.initModal(bidContent.interrelatedCustCode);"
+                  >선택</a
+                >
+              </div>
+            </div>
+            <div class="flex align-items-center width100 ml80">
+              <div class="formTit flex-shrink0 width170px" style="display: none;"></div>
+              <div class="flex align-items-center width100">
+                <input
+                  type="text"
+                  name=""
+                  id=""
+                  class="inputStyle"
+                  placeholder=""
+                  disabled
+                  style="display: none;"
+                />
+                <a
+                  class="btnStyle btnSecondary ml10"
+                  title="선택"
+                  style="display: none;"
                   >선택</a
                 >
               </div>
@@ -485,7 +509,7 @@
               </div>
             </div>
             <div class="flex align-items-center width100 ml80">
-              <div class="formTit flex-shrink0 width170px">납품조건</div>
+              <div class="formTit flex-shrink0 width170px">납품조건 <span class="star">*</span></div>
               <div class="width100">
                 <input
                   type="text"
@@ -498,7 +522,107 @@
               </div>
             </div>
           </div>
-          <div class="flex mt10" v-if="bidContent.insModeCode==='1'">
+          <div class="flex mt10" v-show="bidContent.insModeCode==='2'">
+            <div class="formTit flex-shrink0 width170px">
+              세부내역 <span class="star">*</span
+              ><a
+                class="btnStyle btnSecondary ml10"
+                title="추가"
+                @click="addEmptyRow"
+                >추가</a
+              >
+            </div>
+            <div class="width100">
+              <table class="tblSkin1">
+                <colgroup>
+                  <col style="" />
+                </colgroup>
+                <thead>
+                  <tr>
+                    <th>품목명</th>
+                    <th>규격</th>
+                    <th>수량</th>
+                    <th>단위</th>
+                    <th>실행단가</th>
+                    <th>합계</th>
+                    <th class="end">삭제</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(val, idx) in tableContent">
+                    <td>
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        class="inputStyle inputSm"
+                        placeholder=""
+                        v-model="val.name"
+                        maxlength="100"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        class="inputStyle inputSm"
+                        placeholder=""
+                        v-model="val.ssize"
+                        maxlength="25"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        class="inputStyle inputSm"
+                        placeholder=""
+                        v-model="val.orderQty"
+                        maxlength="12"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        class="inputStyle inputSm"
+                        placeholder=""
+                        v-model="val.unitcode"
+                        maxlength="25"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        class="inputStyle inputSm text-right"
+                        placeholder=""
+                        v-model="val.orderUc"
+                        maxlength="12"
+                      />
+                    </td>
+                    <td class="text-right">{{ val.orderQty*val.orderUc }}</td>
+                    <td class="text-right end">
+                      <a
+                        class="btnStyle btnSecondary btnSm"
+                        title="삭제"
+                        @click="deleteRow(idx)"
+                        >삭제</a
+                      >
+                    </td>
+                   </tr>
+                </tbody>
+              </table>
+              <p class="text-right mt10">
+                <strong>총합계 : {{ totalSum | numberWithCommas }}</strong>
+              </p>
+            </div>
+          </div>
+          <div class="flex mt10" v-show="bidContent.insModeCode==='1'">
             <div class="formTit flex-shrink0 width170px">
               세부내역 <span class="star">*</span>
               <!-- 툴팁 -->
@@ -539,7 +663,7 @@
           </div>
           <div class="flex mt10">
             <div class="formTit flex-shrink0 width170px">
-              첨부파일(대내용) <span class="star">*</span>
+              첨부파일(대내용)
               <!-- 툴팁 -->
               <i class="fas fa-question-circle toolTipSt ml5">
                 <div class="toolTipText" style="width: 320px">
@@ -577,7 +701,7 @@
           </div>
           <div class="flex mt10">
             <div class="formTit flex-shrink0 width170px">
-              첨부파일(대외용) <span class="star">*</span>
+              첨부파일(대외용)
               <!-- 툴팁 -->
               <i class="fas fa-question-circle toolTipSt ml5">
                 <div class="toolTipText" style="width: 300px">
@@ -611,101 +735,7 @@
               <!-- //다중파일 업로드 -->
             </div>
           </div>
-          <div class="flex mt10" v-if="bidContent.insModeCode==='2'">
-            <div class="formTit flex-shrink0 width170px">
-              세부내역 <span class="star">*</span
-              ><a
-                class="btnStyle btnSecondary ml10"
-                title="추가"
-                @click="addEmptyRow"
-                >추가</a
-              >
-            </div>
-            <div class="width100">
-              <table class="tblSkin1">
-                <colgroup>
-                  <col style="" />
-                </colgroup>
-                <thead>
-                  <tr>
-                    <th>품목명</th>
-                    <th>규격</th>
-                    <th>수량</th>
-                    <th>단위</th>
-                    <th>실행단가</th>
-                    <th>합계</th>
-                    <th class="end">삭제</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(val, idx) in tableContent">
-                    <td>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        class="inputStyle inputSm"
-                        placeholder=""
-                        v-model="val.name"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        class="inputStyle inputSm"
-                        placeholder=""
-                        v-model="val.ssize"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        class="inputStyle inputSm"
-                        placeholder=""
-                        v-model="val.orderQty"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        class="inputStyle inputSm"
-                        placeholder=""
-                        v-model="val.unitcode"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        class="inputStyle inputSm text-right"
-                        placeholder=""
-                        v-model="val.orderUc"
-                      />
-                    </td>
-                    <td class="text-right">{{ val.orderQty*val.orderUc }}</td>
-                    <td class="text-right end">
-                      <a
-                        class="btnStyle btnSecondary btnSm"
-                        title="삭제"
-                        @click="deleteRow(idx)"
-                        >삭제</a
-                      >
-                    </td>
-                   </tr>
-                </tbody>
-              </table>
-              <p class="text-right mt10">
-                <strong>총합계 : {{ totalSum | numberWithCommas }}</strong>
-              </p>
-            </div>
-          </div>
+
         </div>
 
         <div class="text-center mt50">
@@ -847,6 +877,11 @@
   </div>
   <!-- //본문 -->
 </template>
+<style>
+a + i {
+  margin-left: 10px;
+}
+</style>
 <script>
 import BidPast from "../components/BidPast.vue";
 import fileInput from "../../../../public/js/fileInput.js";
@@ -885,11 +920,8 @@ export default {
         matDept: null,
         matProc: null,
         matCls: null,
-
-        selectedFile: null, //업로드한 파일
-        fileCnt: 0, //업로드한 파일 수
-        fileSize: 0, //파일크기
       },
+
       custContent: [],
       fileContent: [],
       tableContent: [],
@@ -905,8 +937,6 @@ export default {
         userId: "",
       },
       filek: [],
-      file0: [],
-      file1: [],
 
       lotteDeptList: [
         { value: "A1", label: "익산 E/F" },
@@ -978,13 +1008,25 @@ export default {
       this.bidContent.itemName = data.itemName;
       this.$forceUpdate();
     },
+
     callbackCust(data) {
-      this.custContent.push({
-        biNo: this.bidContent.biNo,
-        custCode: data.custCode,
-        custName: data.custName,
-      });
-      this.$forceUpdate();
+      const existingCust = this.custContent.find(
+        (item) => item.custCode === data.custCode
+      );
+
+      if (!existingCust) {
+        this.custContent.push({
+          biNo: this.bidContent.biNo,
+          custCode: data.custCode,
+          custName: data.custName,
+        });
+        this.$forceUpdate();
+      } else {
+        this.$swal({
+          type: "warning",
+          text: "이미 등록한 업체입니다.",
+        });
+      }
     },
     callbackOpenUser(data) {
       this.bidContent.estOpener = data.userName;
@@ -1017,44 +1059,51 @@ export default {
     },
 
     callbackPastBid(data) {
-      this.bidContent.biName = data.biName;
-      this.bidContent.itemCode = data.itemCode;
-      this.bidContent.itemName = data.itemName;
-      this.bidContent.biModeCode = data.biModeCode;
-      if (!data.biModeCode) this.bidContent.biModeCode = "A";
+      this.result = data[0][0];
+      this.tableContent = data[1];
+      this.fileContent = data[2];
+      this.custContent = data[3];
 
-      this.bidContent.specialCond = data.specialCond;
-      this.datePart = data.spotDate.substring(0, 10);
-      this.timePart = data.spotDate.substring(11, 16);
-      this.bidContent.spotArea = data.spotArea;
-      this.bidContent.succDeciMethCode = data.succDeciMethCode;
-      this.bidContent.amtBasis = data.amtBasis;
-      this.bidContent.payCond = data.payCond;
-      this.bidContent.bdAmt = data.bdAmt;
+      this.bidContent.biName = this.result.biName;
+      this.bidContent.itemCode = this.result.itemCode;
+      this.bidContent.itemName = this.result.itemName;
+      this.bidContent.biModeCode = this.result.biModeCode;
+      if (!this.result.biModeCode) this.bidContent.biModeCode = "A";
 
-      this.datePart1 = data.estStartDate.substring(0, 10);
-      this.timePart1 = data.estStartDate.substring(11, 16);
-      this.datePart2 = data.estCloseDate.substring(0, 10);
-      this.timePart2 = estCloseDate.substring(11, 16);
-      this.bidContent.estOpener = data.estOpener;
-      this.bidContent.estOpenerCode = data.estOpenerCode;
-      this.bidContent.gongoId = data.gongoId;
-      this.bidContent.openAtt1 = data.openAtt1;
-      this.bidContent.openAtt1Code = data.openAtt1Code;
-      this.bidContent.openAtt2 = data.openAtt2;
-      this.bidContent.openAtt2Code = data.openAtt2Code;
-      this.bidContent.insModeCode = data.insModeCode;
-      if (!data.insModeCode) this.bidContent.insModeCode = "1";
+      this.bidContent.specialCond = this.result.specialCond;
+      this.datePart = this.result.spotDate.substring(0, 10);
+      this.timePart = this.result.spotDate.substring(11, 16);
+      this.bidContent.spotArea = this.result.spotArea;
+      this.bidContent.succDeciMethCode = this.result.succDeciMethCode;
+      this.bidContent.amtBasis = this.result.amtBasis;
+      this.bidContent.payCond = this.result.payCond;
+      this.bidContent.bdAmt = this.result.bdAmt;
 
-      if (data.interrelatedCustCode === "02") {
-        this.bidContent.matDept = data.matDept;
-        this.bidContent.matProc = data.matProc;
-        this.bidContent.matCls = data.matCls;
-        this.bidContent.matFactory = data.matFactory;
-        this.bidContent.matFactoryLine = data.matFactoryLine;
-        this.bidContent.matFactoryCnt = data.matFactoryCnt;
+      this.datePart1 = this.result.estStartDate.substring(0, 10);
+      this.timePart1 = this.result.estStartDate.substring(11, 16);
+      this.datePart2 = this.result.estCloseDate.substring(0, 10);
+      this.timePart2 = this.result.estCloseDate.substring(11, 16);
+      this.bidContent.estOpener = this.result.estOpener;
+      this.bidContent.estOpenerCode = this.result.estOpenerCode;
+      this.bidContent.gongoId = this.result.gongoId;
+      this.bidContent.gongoIdCode = this.result.gongoIdCode;
+      this.bidContent.openAtt1 = this.result.openAtt1;
+      this.bidContent.openAtt1Code = this.result.openAtt1Code;
+      this.bidContent.openAtt2 = this.result.openAtt2;
+      this.bidContent.openAtt2Code = this.result.openAtt2Code;
+      this.bidContent.insModeCode = this.result.insModeCode;
+      if (!this.result.insModeCode) this.bidContent.insModeCode = "1";
+
+      if (this.result.interrelatedCustCode === "02") {
+        this.bidContent.matDept = this.result.matDept;
+        this.bidContent.matProc = this.result.matProc;
+        this.bidContent.matCls = this.result.matCls;
+        this.bidContent.matFactory = this.result.matFactory;
+        this.bidContent.matFactoryLine = this.result.matFactoryLine;
+        this.bidContent.matFactoryCnt = this.result.matFactoryCnt;
       }
       this.$forceUpdate();
+      $("#bidPast").modal("hide");
     },
 
     selectBid(mode) {
@@ -1084,11 +1133,13 @@ export default {
         if (this.bidContent.insModeCode === "1") {
           this.bidContent.insModeCode = "1";
           this.tableContent = [];
-          this.$forceUpdate();
         } else {
           this.bidContent.insModeCode = "2";
-          this.fileContent = [];
-          this.$forceUpdate();
+          this.fileContent = this.fileContent.filter(function (item) {
+            return item.fileFlag !== "k";
+          });
+          this.filek = [];
+          document.querySelector("#preview").innerHTML = "";
         }
       }
       this.$forceUpdate();
@@ -1144,23 +1195,43 @@ export default {
       }
       if (
         !this.bidContent.succDeciMethCode ||
-        this.bidContent.succDeciMethCode === ""
+        this.bidContent.succDeciMethCode === "0000-00-00 00:00"
       ) {
         alert("낙찰자 결정방법을 선택해주세요.");
         return false;
       }
       if (
         !this.bidContent.estStartDate ||
-        this.bidContent.estStartDate === ""
+        this.bidContent.estStartDate === "0000-00-00 00:00"
       ) {
         alert("제출시작일시를 입력해주세요.");
         return false;
       }
       if (
         !this.bidContent.estCloseDate ||
-        this.bidContent.estCloseDate === ""
+        this.bidContent.estCloseDate === "0000-00-00 00:00"
       ) {
         alert("제출마감일시를 입력해주세요.");
+        return false;
+      }
+
+      if (!this.bidContent.estOpener || this.bidContent.estOpener === "") {
+        alert("개찰자를 선택해주세요.");
+        return false;
+      }
+
+      if (!this.bidContent.gongoId || this.bidContent.gongoId === "") {
+        alert("입찰공고자를 선택해주세요.");
+        return false;
+      }
+
+      if (!this.bidContent.estBidder || this.bidContent.estBidder === "") {
+        alert("낙찰자를 선택해주세요.");
+        return false;
+      }
+
+      if (!this.bidContent.supplyCond || this.bidContent.supplyCond === "") {
+        alert("납품조건을 입력해주세요.");
         return false;
       }
 
@@ -1180,17 +1251,6 @@ export default {
           alert("세부내역파일을 업로드 해주세요.");
           return false;
         }
-      }
-
-      if (this.file0.length === 0) {
-        alert("대내용 첨부파일을 업로드 해주세요.");
-        console.log(this.file1);
-        return false;
-      }
-
-      if (this.file1.length === 0) {
-        alert("대외용 첨부파일을 업로드 해주세요.");
-        return false;
       }
 
       return true;
@@ -1321,9 +1381,6 @@ export default {
           fCustCode: "0",
           selectedFile: event.target.files[0],
         });
-        this.file0.push({
-          selectedFile: event.target.files[0],
-        });
       }
       if (event.target.id === "file-input3") {
         this.fileContent.push({
@@ -1332,10 +1389,8 @@ export default {
           fCustCode: "0",
           selectedFile: event.target.files[0],
         });
-        this.file1.push({
-          selectedFile: event.target.files[0],
-        });
       }
+      this.$forceUpdate();
       console.log(this.filek.length);
       console.log(this.fileContent);
     },
@@ -1358,7 +1413,6 @@ export default {
     this.userInfo.userId = this.$store.state.loginInfo.userId;
     //달력
     cmmn.applyCal();
-
     //파일첨부
     fileInput.applyFile();
   },

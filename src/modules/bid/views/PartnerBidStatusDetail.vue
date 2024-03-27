@@ -160,8 +160,10 @@
                   <tr v-for="(val, idx) in tableContent">
                     <td class="text-left">{{ val.name }}</td>
                     <td class="text-left">{{ val.ssize }}</td>
-                    <td class="text-right">{{ val.orderQty }}</td>
-                    <td>{{ val.unitcode }}</td>
+                    <td class="text-right">
+                      {{ val.orderQty | numberWithCommas }}
+                    </td>
+                    <td>{{ val.unitcode | numberWithCommas }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -204,7 +206,7 @@
           </ul>
         </div>
         <div class="boxSt mt20">
-          <table class="tblSkin1">
+          <table class="tblSkin1" v-if="this.result.insMode === '직접입력'">
             <colgroup>
               <col style="" />
             </colgroup>
@@ -219,69 +221,62 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td class="text-left">페수처리슬러지</td>
-                <td class="text-left">ton</td>
-                <td class="text-right">1</td>
-                <td>ton</td>
-                <td>
+              <tr v-for="(val, idx) in tableContent">
+                <td class="text-left">{{ val.name }}</td>
+                <td class="text-left">{{ val.ssize }}</td>
+                <td class="text-right">{{ val.orderQty }}</td>
+                <td>{{ val.unitcode }}</td>
+                <td class="text-right">
                   <input
                     type="text"
                     name=""
                     id=""
                     class="inputStyle inputSm text-right readonly"
                     placeholder=""
-                  />
-                </td>
-                <td class="end">
-                  <input
-                    type="text"
-                    name=""
-                    id=""
-                    class="inputStyle inputSm text-right"
-                    placeholder=""
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td class="text-left">페수처리슬러지</td>
-                <td class="text-left">ton</td>
-                <td class="text-right">1</td>
-                <td>ton</td>
-                <td>
-                  <input
-                    type="text"
-                    name=""
-                    id=""
-                    class="inputStyle inputSm text-right readonly"
-                    placeholder=""
+                    v-model="val.orderUc"
                     readonly
                   />
                 </td>
-                <td class="end">
+                <td class="text-right">
                   <input
-                    type="text"
+                    type="number"
                     name=""
                     id=""
                     class="inputStyle inputSm text-right"
                     placeholder=""
+                    v-model="tableContent[idx].esmtAmt"
+                    @input="updateTotal"
                   />
                 </td>
               </tr>
             </tbody>
           </table>
-          <div class="flex align-items-center justify-space-end mt10">
+          <div
+            class="flex align-items-center justify-space-end mt10"
+            v-if="this.result.insMode === '직접입력'"
+          >
             <div class="flex align-items-center">
               <div class="formTit flex-shrink0 mr20">총 견적금액</div>
               <div class="flex align-items-center width100">
-                <select name="" class="selectStyle maxWidth140px">
-                  <option value="">한국(KRW)</option>
+                <select
+                  name=""
+                  class="selectStyle maxWidth140px"
+                  v-model="this.curr"
+                >
+                  <option
+                    v-for="(val, idx) in currlist"
+                    :value="val.codeVal"
+                    :key="idx"
+                  >
+                    {{ val.codeName }}
+                  </option>
                 </select>
                 <input
                   type="text"
                   name=""
                   id=""
                   class="inputStyle readonly ml10"
+                  :value="totalAmount"
                   placeholder=""
                   readonly
                 />
@@ -289,13 +284,26 @@
             </div>
           </div>
 
-          <div class="flex align-items-center width100 mt10">
+          <div
+            class="flex align-items-center width100 mt10"
+            v-if="this.result.insMode === '파일등록'"
+          >
             <div class="formTit flex-shrink0 width170px">
               견적금액 <span class="star">*</span>
             </div>
             <div class="flex align-items-center width100">
-              <select name="" class="selectStyle maxWidth140px">
-                <option value="">한국(KRW)</option>
+              <select
+                name=""
+                class="selectStyle maxWidth140px"
+                v-model="this.curr"
+              >
+                <option
+                  v-for="(val, idx) in currlist"
+                  :value="val.codeVal"
+                  :key="idx"
+                >
+                  {{ val.codeName }}
+                </option>
               </select>
               <input
                 type="number"
@@ -304,6 +312,7 @@
                 class="inputStyle"
                 placeholder="숫자만 입력"
                 style="margin: 0 10px"
+                v-model="this.amt"
               />
               <input
                 type="text"
@@ -375,11 +384,7 @@
         </div>
 
         <div class="text-center mt50">
-          <a class="btnStyle btnOutline" title="목록"
-            ><router-link :to="{ name: 'partnerBidStatus' }"
-              >목록
-            </router-link></a
-          >
+          <a class="btnStyle btnOutline" title="목록" @click="movetolist"> 목록 </a>
           <a
             data-toggle="modal"
             data-target="#biddingPreview"
@@ -387,7 +392,12 @@
             title="공고문 미리보기"
             >공고문 미리보기</a
           >
-          <a class="btnStyle btnSecondary" title="수정">견적금액 임시저장</a>
+          <a
+            class="btnStyle btnSecondary"
+            title="수정"
+            v-if="this.result.insMode === '직접입력'"
+            >견적금액 임시저장</a
+          >
           <a class="btnStyle btnPrimary" title="견적서 제출">견적서 제출</a>
         </div>
       </div>
@@ -403,6 +413,7 @@
 </template>
   <script>
 import BidAdvertisement from "@/modules/bid/components/BidAdvertisement.vue";
+import fileInput from "../../../../public/js/fileInput.js";
 
 export default {
   name: "partnerBidStatusDetail",
@@ -419,7 +430,25 @@ export default {
       tableContent: [],
       fileContent: [],
       loginId: "",
+      currlist: [],
+      curr: "",
+      amt: 0,
     };
+  },
+  computed: {
+    totalAmount() {
+      // tableContent 배열의 esmtAmt 속성들의 합을 계산합니다.
+      return this.tableContent.reduce(
+        (acc, cur) => acc + parseFloat(cur.esmtAmt || 0),
+        0
+      );
+    },
+  },
+  filters: {
+    numberWithCommas(val) {
+      if (!val) return "";
+      else return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
   },
   methods: {
     async retrieve() {
@@ -440,7 +469,12 @@ export default {
       }
     },
 
+    validationCheck() {
+      //투찰 전 필수입력요소 체크 로직 추가하기
+    },
+
     bidNotice() {
+      //투찰 로직으로 변경하기
       this.detail.biNo = this.dataFromList;
       console.log(this.detail.biNo);
       this.detail.biName = this.result.biName;
@@ -454,7 +488,7 @@ export default {
           } else {
             this.$swal({
               type: "warning",
-              text: "개찰 중 오류가 발생했습니다.",
+              text: "투찰 중 오류가 발생했습니다.",
             });
           }
         })
@@ -497,12 +531,28 @@ export default {
         this.$store.commit("finish");
       }
     },
+    async init() {
+      try {
+        this.$store.commit("loading");
+        const response = await this.$http.post("/api/v1/bidPtStatus/currlist");
+        this.currlist = response.data;
+        this.$store.commit("finish");
+      } catch (err) {
+        console.log(err);
+        this.$store.commit("finish");
+      }
+    },
     checkBid() {
       console.log(1111111111111, this.searchParams);
       this.$http.post("/api/v1/bidPtStatus/checkBid", this.searchParams);
     },
+        movetolist() {
+      this.$router.push({ name: "partnerBidStatus" });
+    },
   },
   beforeMount() {
+    this.curr = "KRW";
+    this.amt = 0;
     const params = {
       id: this.$options.name,
       biNo: this.$store.state.bidDetailData,
@@ -518,8 +568,11 @@ export default {
     this.loginId = this.$store.state.loginInfo.userId;
     console.log(this.dataFromList);
     this.checkBid();
+    this.init();
     this.retrieve();
   },
-  mounted() {},
+  mounted() {
+    fileInput.applyFile();
+  },
 };
 </script>
