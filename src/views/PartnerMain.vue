@@ -41,7 +41,7 @@
                 </div>
                 <div class="mcl_right">
                     <div class="mainConBox">
-                        <h2 class="h2Tit">입찰완료 (12개월)<a title="입찰 페이지로 이동" class="mainConBoxMore">더보기<i class="fa-solid fa-circle-plus"></i></a></h2>
+                        <h2 class="h2Tit">입찰완료 (12개월)<router-link to="/bid/complete" title="입찰 페이지로 이동" class="mainConBoxMore">더보기<i class="fa-solid fa-circle-plus"></i></router-link></h2>
                         <div class="biddingCompleted">
                             <a class="bcStep1" title="공고되었던 입찰 페이지로 이동" style="cursor: default;">
                                 <i class="fa-light fa-file-lines"></i>
@@ -193,8 +193,12 @@ export default {
         }
     },
     setDetailData(data){//공지사항 상세 팝업 데이터 set
+        this.plusClickNum(data.bno);// 조회수 +1
         this.detailData = data;
         this.detailData.bcontent = this.detailData.bcontent.replace(/(?:\r\n|\r|\n)/g, '<br />');
+    },
+    plusClickNum(bno){// 조회수 +1
+        this.$http.post('/api/v1/notice/updateClickNum', { 'bno': bno});
     },
     async selectPartnerBidCnt() {//전자입찰 건수 조회
 

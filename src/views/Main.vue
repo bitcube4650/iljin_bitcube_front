@@ -217,8 +217,12 @@ export default {
 
     },
     setDetailData(data){//공지사항 상세 팝업 데이터 set
+        this.plusClickNum(data.bno);// 조회수 +1
         this.detailData = data;
         this.detailData.bcontent = this.detailData.bcontent.replace(/(?:\r\n|\r|\n)/g, '<br />');
+    },
+    plusClickNum(bno){// 조회수 +1
+        this.$http.post('/api/v1/notice/updateClickNum', { 'bno': bno});
     },
     moveBiddingPage(keyword){//입찰페이지 이동
         if(keyword == 'planning'){//입찰계획 이동
