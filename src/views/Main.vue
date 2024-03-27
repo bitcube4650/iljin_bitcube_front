@@ -109,7 +109,7 @@ export default {
     }
   },
   mounted() {
-    const params = {id: this.$options.name , title: '', content: '', userName: '', size: '8'};
+    const params = {id: this.$options.name , requestPage: 'main', size: '8'};
     
     //파라미터 초기값 세팅
     if (this.$store.state.searchParams.id == params.id) {

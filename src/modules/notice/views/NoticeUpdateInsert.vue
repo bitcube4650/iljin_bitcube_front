@@ -72,7 +72,7 @@
 
 			<div class="text-center mt50">
 				<router-link to="/notice" class="btnStyle btnOutline" title="목록">목록</router-link>
-				<a  data-toggle="modal" data-target="#notiSave" class="btnStyle btnPrimary" title="저장">저장</a>
+				<a  data-toggle="modal" @click="openConfirm" class="btnStyle btnPrimary" title="저장">저장</a>
 			</div>
 		</div>
 		<!-- //contents -->
@@ -280,13 +280,16 @@
 			};
 			this.groupList = [];
 		},
-		saveNotice(){//공지사항 저장
-
+		openConfirm(){//validation check 및 confirm창 띄우기
+			
 			//값 체크
 			if(this.valueCheck()){
-				$('#notiSave').modal('hide');
 				return false;
 			}
+
+			$('#notiSave').modal('show');
+		},
+		saveNotice(){//공지사항 저장
 
 			if(this.updateInsert == 'update'){//수정인 경우
 
@@ -343,6 +346,7 @@
 					.then(response => {
 						alert('수정되었습니다.');
 						$('#notiSave').modal('hide');
+						this.$router.push({name:"notice"});//목록 페이지 이동
 					});
 			} catch(err) {
 				console.log(err);
