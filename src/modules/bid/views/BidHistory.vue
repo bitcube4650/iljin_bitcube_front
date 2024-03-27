@@ -318,7 +318,7 @@ export default {
             const url = window.URL.createObjectURL(new Blob([response.data])); // 응답 데이터를 Blob 형식으로 변환하여 URL을 생성합니다.
             const link = document.createElement("a");
             link.href = url;
-            link.setAttribute("download", this.detail.fileName + ".xlsx"); // 다운로드할 파일명을 설정합니다.
+            link.setAttribute("download", params.fileName + ".xlsx"); // 다운로드할 파일명을 설정합니다.
             document.body.appendChild(link);
             link.click();
             window.URL.revokeObjectURL(url); // 임시 URL을 해제합니다.
