@@ -104,7 +104,9 @@
             </div>
           </div>
           <div class="flex align-items-center mt20">
-            <div class="formTit flex-shrink0 width170px">입찰참가자격</div>
+            <div class="formTit flex-shrink0 width170px">
+              입찰참가자격 <span class="star">*</span>
+            </div>
             <div class="width100">
               <input
                 type="text"
@@ -178,7 +180,9 @@
             </div>
           </div>
           <div class="flex align-items-center mt20" v-if="bidContent.biModeCode==='A'">
-            <div class="formTit flex-shrink0 width170px">입찰참가업체</div>
+            <div class="formTit flex-shrink0 width170px">
+              입찰참가업체 <span class="star">*</span>
+            </div>
             <div class="flex align-items-center width100">
               <div class="overflow-y-scroll boxStSm width100" style="display: inline">
                 <a v-if="custContent.length ===0"
@@ -490,7 +494,9 @@
           </div>
           <div class="flex align-items-center mt10">
             <div class="flex align-items-center width100">
-              <div class="formTit flex-shrink0 width170px">내역방식</div>
+              <div class="formTit flex-shrink0 width170px">
+                내역방식 <span class="star">*</span>
+              </div>
               <div class="width100">
                 <input
                   type="radio"
@@ -1029,7 +1035,7 @@ export default {
       this.$forceUpdate();
     },
 
-    callbackCust(data) {
+    callbackCust(data) {//입찰참거업체 업체등록
       const existingCust = this.custContent.find(
         (item) => item.custCode === data.custCode
       );
@@ -1199,8 +1205,12 @@ export default {
         alert("품목을 선택해주세요.");
         return false;
       }
-      if (!this.bidContent || this.bidContent === "") {
+      if (!this.bidContent.biModeCode || this.bidContent.biModeCode === "") {
         alert("입찰방식을 선택해주세요.");
+        return false;
+      }
+      if (!this.bidContent.bidJoinSpec || this.bidContent.bidJoinSpec === "") {
+        alert("입찰참가자격을 선택해주세요.");
         return false;
       }
       if (!this.datePart || this.datePart === "") {
@@ -1217,6 +1227,10 @@ export default {
       }
       if (!this.bidContent.succDeciMethCode || this.bidContent.succDeciMethCode === "") {
         alert("낙찰자 결정방법을 선택해주세요.");
+        return false;
+      }
+      if (this.custContent.length === 0 && this.bidContent.biModeCode === "A") {
+        alert("입찰참가업체를 선택해주세요.");
         return false;
       }
       if (!this.bidContent.amtBasis || this.bidContent.amtBasis === "") {
@@ -1272,6 +1286,7 @@ export default {
         return false;
       }
 
+      //세부내역 내역집적등록인 경우
       if (this.bidContent.insModeCode === "2") {
         if (this.tableContent.length === 0) {
           alert("세부내역을 작성해주세요.");
@@ -1283,6 +1298,7 @@ export default {
         }
       }
 
+      //세부내역 파일등록 경우
       var fileTag = document.getElementById('file-input');//세부내역 파일 태그
       if (this.bidContent.insModeCode === "1") {
         if (fileTag.files.length === 0) {
@@ -1311,6 +1327,7 @@ export default {
                 element.biNo = vm.bidContent.biNo;
             });
 
+            //지명경쟁 협력사 등록
             await this.$http.post("/api/v1/bid/updateBidCust", custContent);
 
             //지명경쟁 협력사의 모든 대상자 이메일 insert

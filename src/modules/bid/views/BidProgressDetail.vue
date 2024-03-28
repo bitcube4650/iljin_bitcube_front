@@ -539,9 +539,9 @@ export default {
           "/api/v1/bid/progresslistDetail",
           this.dataFromList
         );
-        console.log('this.dataFromList',this.dataFromList);
-        console.log('response.data',response.data);
+
         this.result = response.data[0][0];
+
         this.tableContent = response.data[1];
         this.total = this.calculateTotal();
         this.fileContent = response.data[2];
