@@ -23,31 +23,34 @@
                 <div class="flex align-items-center">
                     <div class="sbTit width100px">입찰완료일</div>
                     <div class="flex align-items-center width280px">
-                        <input type="text" id="startDay" class="datepicker inputStyle" title="월 입력란">
+                        <Calendar @update-date="fnUpdateStartDate" calendarId="startDate" classProps="datepicker inputStyle" :initDate="searchParams.startDate"></Calendar>
                         <span style="margin:0 10px">~</span>
-                        <input type="text" id="endDay" class="datepicker inputStyle" title="월 입력란">
+                        <Calendar @update-date="fnUpdateEndDate" calendarId="endDate" classProps="datepicker inputStyle" :initDate="searchParams.endDate"></Calendar>
                     </div>
-                    <div class="sbTit width80px ml50">계열사</div>
-                    <div class="flex align-items-center width280px">
-                        <select name="" class="selectStyle">
+                    <div class="sbTit width80px ml50" v-if="groupAuth4">계열사</div>
+                    <div class="flex align-items-center width280px" v-if="groupAuth4">
+                        <select v-model="searchParams.interrelatedCustCode" class="selectStyle">
                             <option value="">전체</option>
+                            <option  v-for="(cust, idx) in interrelatedCustCode" :key="idx" :value="cust.interrelatedCustCode">{{ cust.interrelatedNm }}</option>
                         </select>
                     </div>
-                    <a class="btnStyle btnSearch">검색</a>
+                    <a @click="fnSearchInit(0)" class="btnStyle btnSearch">검색</a>
                 </div>
             </div>
             <!-- //searchBox -->
 
             <div class="flex align-items-center justify-space-between mt40">
                 <div class="width100">
-                    전체 : <span class="textMainColor"><strong>00</strong></span>건
-                    <select name="" class="selectStyle maxWidth140px ml20">
-                        <option value="">10개씩 보기</option>
-                        <option value="">20개씩 보기</option>
+                    전체 : <span class="textMainColor"><strong>{{ listPage.totalElements ? listPage.totalElements.toLocaleString() : 0 }}</strong></span>건
+                    <select @change="fnSearchInit(0)" v-model="searchParams.size" class="selectStyle maxWidth140px ml20">
+                        <option value="10">10개씩 보기</option>
+                        <option value="20">20개씩 보기</option>
+                        <option value="30">30개씩 보기</option>
+                        <option value="50">50개씩 보기</option>
                     </select>
                 </div>
                 <div class="flex-shrink0">
-                    <a href="" class="btnStyle btnPrimary" title="엑셀 다운로드">엑셀 다운로드 <i class="fa-light fa-arrow-down-to-line ml10"></i></a>
+                    <a @click="fnExceldown" class="btnStyle btnPrimary" title="엑셀 다운로드">엑셀 다운로드 <i class="fa-light fa-arrow-down-to-line ml10"></i></a>
                 </div>
             </div>
 
@@ -69,38 +72,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td></td>
-                        <td class="text-left">일진전기</td>
-                        <td class="text-right">10,000,000</td>
-                        <td class="text-right">9,000,000</td>
-                        <td>비트큐브</td>
-                        <td><a data-toggle="modal" data-target="#companiesNum" class="textUnderline" title="투찰 정보 페이지가 열림">2</a></td>
-                        <td>2023-12-16</td>
-                        <td>2023-12-18</td>
-                        <td class="end">강감찬</td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td class="text-left">일진전기</td>
-                        <td class="text-right">10,000,000</td>
-                        <td class="text-right">9,000,000</td>
-                        <td>비트큐브</td>
-                        <td><a data-toggle="modal" data-target="#companiesNum" class="textUnderline" title="투찰 정보 페이지가 열림">2</a></td>
-                        <td>2023-12-16</td>
-                        <td>2023-12-18</td>
-                        <td class="end">강감찬</td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td class="text-left">일진전기</td>
-                        <td class="text-right">10,000,000</td>
-                        <td class="text-right">9,000,000</td>
-                        <td>비트큐브</td>
-                        <td><a data-toggle="modal" data-target="#companiesNum" class="textUnderline" title="투찰 정보 페이지가 열림">2</a></td>
-                        <td>2023-12-16</td>
-                        <td>2023-12-18</td>
-                        <td class="end">강감찬</td>
+                    <tr v-for="(data, index) in listPage.content" :key="index">
+                        <td>{{ data.biNo }}</td>
+                        <td class="text-left">{{ data.biName }}</td>
+                        <td class="text-right">{{ data.bdAmt | numberWithCommas }}</td>
+                        <td class="text-right">{{ data.succAmt | numberWithCommas }}</td>
+                        <td>{{ data.custName }}</td>
+                        <td><a @click="$refs.joinCustList.initModal(data.biNo)" data-toggle="modal" data-target="#companiesNum" class="textUnderline" title="투찰 정보 페이지가 열림">{{ data.joinCustCnt | numberWithCommas }}</a></td>
+                        <td>{{ data.estStartDate }}</td>
+                        <td>{{ data.estCloseDate }}</td>
+                        <td class="end">{{ data.userName }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -108,49 +89,148 @@
             <!-- pagination -->
             <div class="row mt40">
                 <div class="col-xs-12">
-                    <div class="pagination1 text-center">
-                        <a title="10페이지 이전 페이지로 이동"><i class="fa-light fa-chevrons-left"></i></a>
-                        <a title="이전 페이지로 이동"><i class="fa-light fa-chevron-left"></i></a>
-                        <a title="1페이지로 이동" class="number active">1</a>
-                        <a title="2페이지로 이동" class="number">2</a>
-                        <a title="3페이지로 이동" class="number">3</a>
-                        <a title="4페이지로 이동" class="number">4</a>
-                        <a title="5페이지로 이동" class="number">5</a>
-                        <a title="다음 페이지로 이동"><i class="fa-light fa-chevron-right"></i></a>
-                        <a title="10페이지 다음 페이지로 이동"><i class="fa-light fa-chevrons-right"></i></a>
-                    </div>
+                    <pagination @searchFunc="fnSearchInit" :page="listPage"/>
                 </div>
             </div>
             <!-- //pagination -->
 
         </div>
         <!-- //contents -->
+
+        <!-- 투찰정보 팝업 -->
+        <joinCustList ref="joinCustList" />
     </div>
     <!-- //본문 -->
 </template>
-  <script>
-  import cmmn from "../../../../public/js/common.js"
+<script>
+import Pagination from "@/components/Pagination.vue";
+import Calendar from "@/components/Calendar.vue";
+import cmmn from "../../../../public/js/common.js";
+import joinCustList from "@/modules/bid/components/BidJoinCustListPop.vue";
 
-  
-  export default {
+export default {
     name: "biddingDetail",
     components: {
-
+        Pagination,
+        Calendar,
+        joinCustList,
     },
     data() {
-      return {
-
-      };
+        return {
+            searchParams: {						//조회조건
+                size : 10						//10개씩 보기
+            ,	page : 0						//클릭한 페이지번호
+            ,   startDate : ''                  //조회조건 : 입찰완료 - 시작일
+            ,   endDate : ''                    //조회조건 : 입찰완료 - 종료일
+            ,   interrelatedCustCode : ''       //조회조건 : 계열사코드
+            },
+            listPage: {},						//리스트
+            interrelatedCustCode: [],           //감사사용자 계열사리스트 
+            groupAuth4 : false
+        };
+    },
+    filters: {
+        numberWithCommas(val) {
+            if (!val) return "";
+            else return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        },
     },
     methods: {
+        //감사사용자 계열사 코드 리스트
+        fnSrcInterreleatedCustCode(){
 
+            this.$store.commit('loading');
+            this.$http.post('/api/v1/statistics/interrelatedCustCodeList', {}).then((response) => {
+                if(response.data.code != '999'){
+                    this.interrelatedCustCode = response.data.data;
+                }else{
+                    this.$swal({
+                        type: "warning",
+                        text: response.data.msg,
+                    });
+                }
+            }).finally(() => {
+                this.$store.commit("finish");
+            });
+
+        },
+        //조회조건 날짜 셋팅
+        fnUpdateEndDate(val){
+            this.searchParams.endDate = val;
+        },
+        fnUpdateStartDate(val){
+            this.searchParams.startDate = val;
+        },
+        //통계 리스트 조회
+        fnSearchInit(page) {
+            
+            if (page >= 0) this.searchParams.page = page;
+            this.retrieve();
+            
+        },
+        async retrieve() {
+            
+            this.$store.commit('loading');
+            await this.$http.post('/api/v1/statistics/bidDetailList', this.searchParams).then((response) => {
+                if(response.data.code != '999'){
+                    this.listPage = response.data.data;
+                }else{
+                    this.$swal({
+                        type: "warning",
+                        text: response.data.msg,
+                    });
+                }
+            }).finally(() => {
+                this.$store.commit("finish");
+            });
+        
+        },
+        fnExceldown(){
+            let time = cmmn.formatDate(new Date(), "yyyy_mm_dd");
+            let params = Object.assign({}, this.searchParams);
+            params.fileName = "입찰_상세_내역_" + time;
+
+            this.$store.commit("loading");
+            this.$http.post("/api/v1/excel/statistics/bidDetailList/downLoad", params, {responseType: "blob",}).then((response) => {
+                if (response.status === 200) {
+                    // 응답이 성공적으로 도착한 경우
+                    const url = window.URL.createObjectURL(new Blob([response.data])); // 응답 데이터를 Blob 형식으로 변환하여 URL을 생성합니다.
+                    const link = document.createElement("a");
+                    link.href = url;
+                    link.setAttribute("download", params.fileName + ".xlsx"); // 다운로드할 파일명을 설정합니다.
+                    document.body.appendChild(link);
+                    link.click();
+                    window.URL.revokeObjectURL(url); // 임시 URL을 해제합니다.
+                } else {
+                    this.$swal({
+                    // 오류 처리
+                    type: "warning",
+                    text: "엑셀 다운로드 중 오류가 발생했습니다.",
+                    });
+                }
+            }).catch((error) => {
+                // 오류 처리
+                console.error("Error:", error);
+                this.$swal({
+                    type: "warning",
+                    text: "엑셀 다운로드 중 오류가 발생했습니다.",
+                });
+            }).finally(() => {
+                this.$store.commit("finish"); // 로딩 상태 종료
+            });
+        }
     },
     beforeMount() {},
     mounted() {
-        //달력
-        cmmn.applyCal()
-        $('#startDay').datepicker('setDate', '-1M')
-        $('#endDay').datepicker('setDate', 'today')
+        //감사사용자일경우 추가셋팅
+        if(this.$store.state.loginInfo.userAuth == '4'){
+            this.groupAuth4 = true;
+            this.fnSrcInterreleatedCustCode();
+        }
+        //검색조건 날짜 초기셋팅
+        this.searchParams.endDate = cmmn.getCurretDate();
+        this.searchParams.startDate = cmmn.strDateAddDay(this.searchParams.endDate, -30);
+        this.fnSearchInit(0);
     },
-  };
-  </script>
+};
+</script>
