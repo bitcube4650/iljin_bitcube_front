@@ -67,28 +67,28 @@
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">회사명 <span class="star">*</span></div>
-						<div class="width100"><input type="text" v-model="detail.custName" class="inputStyle maxWidth-max-content" placeholder=""></div>
+						<div class="width100"><input type="text" v-model="detail.custName" class="inputStyle maxWidth-max-content" maxlength="100"></div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">대표자명 <span class="star">*</span></div>
-						<div class="width100"><input type="text" v-model="detail.presName" class="inputStyle maxWidth-max-content" placeholder=""></div>
+						<div class="width100"><input type="text" v-model="detail.presName" class="inputStyle maxWidth-max-content" maxlength="50"></div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">사업자등록번호 <span class="star">*</span></div>
 						<div class="flex align-items-center width100">
-							<input type="text" v-model="detail.regnum1" @keypress="onlyNumber" maxlength="3" class="inputStyle maxWidth-max-content" placeholder="">
+							<input type="text" v-model="detail.regnum1" @keypress="onlyNumber" maxlength="3" class="inputStyle maxWidth-max-content">
 							<span style="margin:0 10px">-</span>
-							<input type="text" v-model="detail.regnum2" @keypress="onlyNumber" maxlength="2" class="inputStyle maxWidth-max-content" placeholder="">
+							<input type="text" v-model="detail.regnum2" @keypress="onlyNumber" maxlength="2" class="inputStyle maxWidth-max-content">
 							<span style="margin:0 10px">-</span>
-							<input type="text" v-model="detail.regnum3" @keypress="onlyNumber" maxlength="5" class="inputStyle maxWidth-max-content" placeholder="">
+							<input type="text" v-model="detail.regnum3" @keypress="onlyNumber" maxlength="5" class="inputStyle maxWidth-max-content">
 						</div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">법인번호 <span class="star">*</span></div>
 						<div class="flex align-items-center width100">
-							<input type="text" v-model="detail.presJuminNo1" @keypress="onlyNumber" maxlength="6" class="inputStyle maxWidth-max-content" placeholder="">
+							<input type="text" v-model="detail.presJuminNo1" @keypress="onlyNumber" maxlength="6" class="inputStyle maxWidth-max-content">
 							<span style="margin:0 10px">-</span>
-							<input type="text" v-model="detail.presJuminNo2" @keypress="onlyNumber" maxlength="7" class="inputStyle maxWidth-max-content" placeholder="">
+							<input type="text" v-model="detail.presJuminNo2" @keypress="onlyNumber" maxlength="7" class="inputStyle maxWidth-max-content">
 						</div>
 					</div>
 					<div class="flex align-items-center mt10">
@@ -108,13 +108,13 @@
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">대표전화 <span class="star">*</span></div>
 						<div class="width100">
-							<input type="text" v-model="detail.tel" maxlength="13" class="inputStyle maxWidth-max-content"  placeholder="">
+							<input type="text" v-model="detail.tel" maxlength="13" class="inputStyle maxWidth-max-content" >
 						</div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">팩스</div>
 						<div class="width100">
-							<input type="text" v-model="detail.fax" maxlength="13" class="inputStyle maxWidth-max-content" placeholder="">
+							<input type="text" v-model="detail.fax" maxlength="13" class="inputStyle maxWidth-max-content">
 						</div>
 					</div>
 					<div class="flex mt10">
@@ -124,8 +124,8 @@
 								<input type="text" v-model="detail.zipcode" class="inputStyle maxWidth-max-content readonly" placeholder="주소 조회 클릭" readonly>
 								<a href="#" @click="$refs.addrPop.initModal()" data-toggle="modal" data-target="#addrPop" class="btnStyle btnSecondary flex-shrink0 ml10" title="주소 조회">주소 조회</a>
 							</div>
-							<div class="mt5"><input type="text" v-model="detail.addr" class="inputStyle readonly" placeholder="" readonly></div>
-							<div class="mt5"><input type="text" v-model="detail.addrDetail" class="inputStyle" placeholder="상세 주소 입력"></div>
+							<div class="mt5"><input type="text" v-model="detail.addr" maxlength="100" class="inputStyle readonly" readonly></div>
+							<div class="mt5"><input type="text" v-model="detail.addrDetail" maxlength="100" class="inputStyle" placeholder="상세 주소 입력"></div>
 						</div>
 					</div>
 					<div class="flex mt10">
@@ -197,12 +197,12 @@
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">D업체평가</div>
 					<div class="width100">
-						<textarea class="textareaStyle boxOverflowY" v-model="detail.careContent"></textarea>
+						<textarea class="textareaStyle boxOverflowY" v-model="detail.careContent" maxlength="2000"></textarea>
 					</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">관리단위</div>
-					<div class="width100"><input type="text" class="inputStyle" v-model="detail.custValuation"></div>
+					<div class="width100"><input type="text" class="inputStyle" v-model="detail.custValuation" maxlength="100"></div>
 				</div>
 			</div>
 
@@ -211,32 +211,32 @@
                 <div class="flex align-items-center">
                     <div class="formTit flex-shrink0 width170px">이름 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" v-model="detail.userName" class="inputStyle maxWidth-max-content" placeholder="">
+                        <input type="text" v-model="detail.userName" class="inputStyle maxWidth-max-content" maxlength="50">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">이메일 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" v-model="detail.userEmail" class="inputStyle maxWidth-max-content" placeholder="ex) sample@iljin.co.kr">
+                        <input type="text" v-model="detail.userEmail" maxlength="100" class="inputStyle maxWidth-max-content" placeholder="ex) sample@iljin.co.kr">
                     </div>
                 </div>
                 <div v-if="this.$route.params.id == null" class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">아이디 <span class="star">*</span></div>
                     <div class="flex align-items-center width100">
-                        <input type="text" v-model="detail.userId" @keypress="chgUserId" class="inputStyle maxWidth-max-content" placeholder="영문, 숫자 입력(8자 이내) 후 중복확인">
+                        <input type="text" v-model="detail.userId" maxlength="20" @keypress="chgUserId" class="inputStyle maxWidth-max-content" placeholder="영문, 숫자 입력(8자 이내) 후 중복확인">
                         <a href="#" @click.prevent="idcheck" class="btnStyle btnSecondary flex-shrink0 ml10" title="중복 확인">중복 확인</a>
                     </div>
                 </div>
                 <div v-if="this.$route.params.id == null" class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">비밀번호 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="password" v-model="detail.userPwd" class="inputStyle maxWidth-max-content" placeholder="대/소문자, 숫자, 특수문자 2 이상 조합(길이 8~16자리)">
+                        <input type="password" v-model="detail.userPwd" maxlength="100" class="inputStyle maxWidth-max-content" placeholder="대/소문자, 숫자, 특수문자 2 이상 조합(길이 8~16자리)">
                     </div>
                 </div>
                 <div v-if="this.$route.params.id == null" class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">비밀번호 확인 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="password" v-model="detail.userPwdConfirm" class="inputStyle maxWidth-max-content" placeholder="비밀번호와 동일해야 합니다.">
+                        <input type="password" v-model="detail.userPwdConfirm" maxlength="100" class="inputStyle maxWidth-max-content" placeholder="비밀번호와 동일해야 합니다.">
                     </div>
                 </div>
 				<div v-if="this.$route.params.id != null" class="flex align-items-center mt10">
@@ -246,25 +246,25 @@
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">휴대폰 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" v-model="detail.userHp" class="inputStyle maxWidth-max-content" placeholder="">
+                        <input type="text" v-model="detail.userHp" maxlength="20" class="inputStyle maxWidth-max-content">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">유선전화 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" v-model="detail.userTel" class="inputStyle maxWidth-max-content" placeholder="">
+                        <input type="text" v-model="detail.userTel" maxlength="20" class="inputStyle maxWidth-max-content">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">직급</div>
                     <div class="width100">
-                        <input type="text" v-model="detail.userPosition" class="inputStyle maxWidth-max-content" placeholder="">
+                        <input type="text" v-model="detail.userPosition" maxlength="50" class="inputStyle maxWidth-max-content">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">부서</div>
                     <div class="width100">
-                        <input type="text" v-model="detail.userBuseo" class="inputStyle maxWidth-max-content" placeholder="">
+                        <input type="text" v-model="detail.userBuseo" maxlength="50" class="inputStyle maxWidth-max-content">
                     </div>
                 </div>
             </div>
@@ -349,7 +349,7 @@ export default {
 		async retrieve(custCode) {
 			try {
 				this.$store.commit('loading');
-				const response = await this.$http.post('/api/v1/cust/management/'+(custCode ? custCode : this.$route.params.id));
+				const response = await this.$http.post('/api/v1/cust/approval/'+(custCode ? custCode : this.$route.params.id));
 				this.detail = response.data;
 				if (custCode) {
 					this.detail.custCode = null;
@@ -499,6 +499,9 @@ export default {
 					this.$swal({type: "warning",text: "비밀번호를 정확히 입력해주세요."});
 					return;
 				}
+				if( !this.fnPwdvaildation(this.detail.userPwd) ){
+					return;
+				}	
 			}
 			if (this.detail.userHp == null || this.detail.userHp == '') {
 				this.$swal({type: "warning",text: "휴대폰을 입력해주세요."});
@@ -636,6 +639,27 @@ export default {
 			}
 			this.bfile = event.target.files[0];
 			this.bfileCnt = event.target.files.length;
+		},
+		// 비밀번호 유효성 체크
+		fnPwdvaildation(userPwd){
+			const password = userPwd;
+			const hasUpperCase = /[A-Z]/.test(password);//대문자
+			const hasLowerCase = /[a-z]/.test(password);//소문자
+			const hasDigit = /\d/.test(password);//숫자
+			const hasSpecialChar = /[!@#$%^&*()\-_=+{};:,<.>]/.test(password);//특수문자
+
+			var isValidPassword = (hasUpperCase && hasLowerCase && hasDigit) || (hasUpperCase && hasLowerCase && hasSpecialChar) || (hasDigit && hasSpecialChar);
+			var isValidLength = password.length >= 8 && password.length <= 16;
+
+			if(!isValidPassword){
+				this.$swal({type: "warning",text: "대/소문자, 숫자, 특수문자중에서 2가지 이상 조합되어야 합니다."});
+				return;
+			}else if(!isValidLength){
+				this.$swal({type: "warning",text: "비밀번호는 8자 이상 16자 이하로 작성해주세요."});
+				return;
+			}
+			return true;
+
 		},
 	}
 };
