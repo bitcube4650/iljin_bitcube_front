@@ -217,7 +217,9 @@
             </div>
           </div>
           <div class="flex align-items-center mt20">
-            <div class="formTit flex-shrink0 width170px">금액기준</div>
+            <div class="formTit flex-shrink0 width170px">
+              금액기준 <span class="star">*</span>
+            </div>
             <div class="width100">
               <input
                 type="text"
@@ -753,7 +755,7 @@
           >
           <a
             data-toggle="modal"
-            data-target="#save"
+            @click="openConfirm"
             class="btnStyle btnPrimary"
             title="저장"
             >저장</a
@@ -935,6 +937,7 @@ export default {
         matDept: null,
         matProc: null,
         matCls: null,
+        amtBasis: 'VAT 별도'
       },
 
       bdAmt: '',
@@ -1075,17 +1078,19 @@ export default {
       this.$forceUpdate();
     },
 
-    callbackPastBid(data) {
+    callbackPastBid(data) {//과거입찰 가져오기에서 선택시
+      console.log('callbackPastBid' , data);
+
       this.result = data[0][0];
-      this.tableContent = data[1];
-      this.fileContent = data[2];
-      this.custContent = data[3];
+      this.tableContent = data[1];//입찰정보
+      //this.fileContent = data[2];//파일정보
+      this.custContent = data[3];//지명경쟁인 경우 지명된 협력사 정보
 
       this.bidContent.biName = this.result.biName;
       this.bidContent.itemCode = this.result.itemCode;
       this.bidContent.itemName = this.result.itemName;
-      this.bidContent.biModeCode = this.result.biModeCode;
-      if (!this.result.biModeCode) this.bidContent.biModeCode = "A";
+      this.bidContent.biModeCode = this.result.biModeCode;//입찰방식
+      if (!this.result.biModeCode) this.bidContent.biModeCode = "A";//"A" - 지명경쟁, "B" - 일반경쟁
 
       this.bidContent.specialCond = this.result.specialCond;
       this.datePart = this.result.spotDate.substring(0, 10);
@@ -1108,8 +1113,8 @@ export default {
       this.bidContent.openAtt1Code = this.result.openAtt1Code;
       this.bidContent.openAtt2 = this.result.openAtt2;
       this.bidContent.openAtt2Code = this.result.openAtt2Code;
-      this.bidContent.insModeCode = this.result.insModeCode;
-      if (!this.result.insModeCode) this.bidContent.insModeCode = "1";
+      this.bidContent.insModeCode = this.result.insModeCode;//내역방식
+      if (!this.result.insModeCode) this.bidContent.insModeCode = "1";// "1" - 파일등록, "2" - 내역집적등록
 
       if (this.result.interrelatedCustCode === "02") {
         this.bidContent.matDept = this.result.matDept;
@@ -1123,7 +1128,7 @@ export default {
       $("#bidPast").modal("hide");
     },
 
-    selectBid(mode) {
+    selectBid(mode) {//입찰방식 확인창 선택시
 
       if (mode === "cancel") {
         if (this.bidContent.biModeCode === "A")
@@ -1141,7 +1146,7 @@ export default {
       $("#bmGeneral").modal("hide");
     },
 
-    selectIns(mode) {
+    selectIns(mode) {//내역방식 confirm 창 선택시
       if (mode === "cancel") {
         if (this.bidContent.insModeCode === "1")
           this.bidContent.insModeCode = "2";
@@ -1212,6 +1217,10 @@ export default {
       }
       if (!this.bidContent.succDeciMethCode || this.bidContent.succDeciMethCode === "") {
         alert("낙찰자 결정방법을 선택해주세요.");
+        return false;
+      }
+      if (!this.bidContent.amtBasis || this.bidContent.amtBasis === "") {
+        alert("금액기준을 입력해주세요.");
         return false;
       }
       if (!this.datePart1 || this.datePart1 === "") {
@@ -1286,11 +1295,6 @@ export default {
     },
     save() {
       var vm = this;
-
-      if (!this.validationCheck()) {
-        $("#save").modal("hide");
-        return false;
-      }
  
       //insert 전에 숫자에 천단위로 있는 콤마 제거
       this.bidContent.bdAmt = this.bdAmt.replace(/[^\d-]/g, '');
@@ -1298,7 +1302,8 @@ export default {
       this.$store.commit("loading");
       this.$http
         .post("/api/v1/bid/insertBid", this.bidContent)
-        .then((response) => {
+        .then(async (response) => {
+          //지명경쟁
           if (this.bidContent.biModeCode === "A") {
             //등록되는 입찰 bino로 set
             var custContent = this.custContent;
@@ -1306,17 +1311,23 @@ export default {
                 element.biNo = vm.bidContent.biNo;
             });
 
-            this.$http.post("/api/v1/bid/updateBidCust", custContent);
-            this.$http.post("/api/v1/bid/updateEmail", {
+            await this.$http.post("/api/v1/bid/updateBidCust", custContent);
+
+            //지명경쟁 협력사의 모든 대상자 이메일 insert
+            await this.$http.post("/api/v1/bid/updateEmail", {
               biNo: this.bidContent.biNo,
               type: "insert",
               interCd: this.bidContent.interrelatedCustCode,
             });
           }
-          if (this.bidContent.insModeCode === "2") {
-            this.$http.post("/api/v1/bid/updateBidItem", this.tableContent);
-          }
-          this.sendFileContent();
+
+          //내역방식
+          if (this.bidContent.insModeCode === "2") {//내역직접등록
+            await this.$http.post("/api/v1/bid/updateBidItem", this.tableContent);
+          }else if(this.bidContent.insModeCode === "1"){//파일등록
+            this.sendFileContent();
+          }  
+          
           if (response.data.code == "OK") {
             this.$store.commit("searchParams", {});
           } else {
@@ -1335,7 +1346,7 @@ export default {
         
     },
 
-    async newBiNo() {
+    async newBiNo() {//새로추가할 bino 가져오기
       this.$http
         .post("/api/v1/bid/newBiNo")
         .then((response) => {
@@ -1347,12 +1358,12 @@ export default {
         });
     },
 
-    movetolist() {
+    movetolist() {//목록으로 이동
       this.$store.commit("searchParams", {});
       this.$router.push({ name: "bidProgress" });
     },
 
-    sendFileContent() {
+    sendFileContent() {//파일 업로드
       this.fileContent.forEach((fileData) => {
         const formData = new FormData();
         if(fileData.selectedFile != null && fileData.selectedFile != undefined && fileData.selectedFile != ''){
@@ -1448,6 +1459,14 @@ export default {
     initDetailFile(){//내역직접등록 라디오 버튼 클릭시 세부내역 파일 초기화
       var fileTag = document.getElementById('file-input'); // 파일 입력 태그 가져오기
       fileTag.value = ''; // 파일 값 초기화
+    },
+    openConfirm(){//저장 전 valid 체크 및 확인창 띄우기
+      if (!this.validationCheck()) {
+        $("#save").modal("hide");
+        return false;
+      }else{
+        $("#save").modal("show");
+      }
     }
   },
   beforeMount() {},

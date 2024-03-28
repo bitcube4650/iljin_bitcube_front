@@ -23,7 +23,7 @@ export default {
               preview.innerHTML += `
                 <p id="${file.lastModified}">
                   ${file.name}
-                  <button data-index='${file.lastModified}' class='file-remove'>삭제</button>
+                  <button data-index='${file.lastModified}' id='removeBtn' class='file-remove'>삭제</button>
                 </p>`;
             });
           });
@@ -34,7 +34,7 @@ export default {
   
       removeFile() {
         document.addEventListener('click', (e) => {
-          if (e.target.className !== 'file-remove') return;
+          if (e.target.id !== 'removeBtn') return;
           const removeTargetId = e.target.dataset.index;
           const removeTarget = document.getElementById(removeTargetId);
           const files = document.querySelector('#file-input').files;
@@ -79,7 +79,7 @@ export default {
               preview.innerHTML += `
                 <p id="${file.lastModified}">
                   ${file.name}
-                  <button data-index='${file.lastModified}' class='file-remove'>삭제</button>
+                  <button data-index='${file.lastModified}' id='removeBtn2' class='file-remove'>삭제</button>
                 </p>`;
             });
           });
@@ -90,7 +90,7 @@ export default {
   
       removeFile() {
         document.addEventListener('click', (e) => {
-          if (e.target.className !== 'file-remove') return;
+          if (e.target.id !== 'removeBtn2') return;
           const removeTargetId = e.target.dataset.index;
           const removeTarget = document.getElementById(removeTargetId);
           const files = document.querySelector('#file-input2').files;
@@ -138,7 +138,7 @@ export default {
               preview.innerHTML += `
                 <p id="${file.lastModified}">
                   ${file.name}
-                  <button data-index='${file.lastModified}' class='file-remove'>삭제</button>
+                  <button data-index='${file.lastModified}' id='removeBtn3' class='file-remove'>삭제</button>
                 </p>`;
             });
           });
@@ -149,7 +149,7 @@ export default {
   
       removeFile() {
         document.addEventListener('click', (e) => {
-          if (e.target.className !== 'file-remove') return;
+          if (e.target.id !== 'removeBtn3') return;
           const removeTargetId = e.target.dataset.index;
           const removeTarget = document.getElementById(removeTargetId);
           const files = document.querySelector('#file-input3').files;
@@ -197,18 +197,18 @@ export default {
                       preview.innerHTML += `
                           <p id="${file.lastModified}">
                               ${file.name}
-                              <button data-index='${file.lastModified}' class='file-remove'>삭제</button>
+                              <button data-index='${file.lastModified}' id='removeBtn4' class='file-remove'>삭제</button>
                           </p>`;
                   });
               });
   
-              this.removeFile(fileInput, preview);
+              this.removeFile(fileInput);
             }
         },
   
-        removeFile(fileInput, preview) {
+        removeFile(fileInput) {
             document.addEventListener('click', (e) => {
-                if (e.target.className !== 'file-remove') return;
+                if (e.target.id !== 'removeBtn4') return;
                 const removeTargetId = e.target.dataset.index;
                 const removeTarget = document.getElementById(removeTargetId);
                 const files = fileInput.files;

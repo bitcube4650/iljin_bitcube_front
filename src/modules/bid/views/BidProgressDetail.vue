@@ -684,7 +684,7 @@ export default {
       try {
         this.$store.commit("loading");
         const response = await this.$http.post(
-          "/api/v1/notice/downloadFile",
+          "/api/v1/bid/downloadFile",
           { fileId: filePath }, // 서버에서 파일을 식별할 수 있는 고유한 ID 또는 다른 필요한 데이터
           { responseType: "blob" } // 응답 데이터를 Blob 형식으로 받기
         );
