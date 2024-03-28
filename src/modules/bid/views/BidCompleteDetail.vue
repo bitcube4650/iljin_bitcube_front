@@ -171,7 +171,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="flex align-items-center mt20" v-if="data.whyA3">
+					<div class="flex align-items-center mt20" v-if="data.ingTag == 'A3' && data.whyA3">
 						<div class="formTit flex-shrink0 width170px">재입찰사유</div>
 						<div class="width100">{{ data.whyA3 }}</div>
 					</div>
@@ -241,8 +241,8 @@
 												<td class="text-left">{{ spec.ssize }}</td>
 												<td class="text-right">{{ spec.orderQty | numberWithCommas }}</td>
 												<td>{{ spec.unitcode }}</td>
-												<td class="text-right">{{ spec.esmtUc / spec.orderQty | numberWithCommas}}</td>
-												<td class="text-right end">{{ spec.esmtUc | numberWithCommas}}</td>
+												<td class="text-right">{{ spec.esmtUc / spec.orderQty | numberWithCommas }}</td>
+												<td class="text-right end">{{ spec.esmtUc | numberWithCommas }}</td>
 											</tr>
 										</tbody>
 									</table>
@@ -344,17 +344,16 @@ export default {
 			if(val == 'A'){ return '지명경쟁입찰'}
 			else if(val == 'B'){ return '일반경쟁입찰'}
 		},
-		ftIngTag(val){
-			if(val == 'A5'){ return '입찰완료'}
-			else if(val == 'A7'){ return '유찰'}
-		},
 		ftInsMode(val){
 			if(val == '1'){ return '파일등록'}
 			else if(val == '2'){ return '직접입력'}
 		},
 		numberWithCommas(val) {
 			if(!val) return '';
-			else return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			else {
+				val = Math.round(val);
+				return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			}
 		},
 		ftFileFlag(val){
 			if(val == '0'){ return '대내용'}

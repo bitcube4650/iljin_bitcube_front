@@ -53,6 +53,8 @@
                     <select @change="fnSearchInit(0)" v-model="searchParams.size" class="selectStyle maxWidth140px ml20">
                         <option value="10">10개씩 보기</option>
                         <option value="20">20개씩 보기</option>
+                        <option value="30">30개씩 보기</option>
+                        <option value="50">50개씩 보기</option>
                     </select>
                 </div>
             </div>
