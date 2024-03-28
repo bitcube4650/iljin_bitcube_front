@@ -44,7 +44,7 @@
           전체 : <span class="textMainColor"><strong>{{ biInfoList.length }}</strong></span>건
         </div>
         <div class="flex-shrink0">
-          <a class="btnStyle btnPrimary" title="엑셀 다운로드">엑셀 다운로드 <i class="fa-light fa-arrow-down-to-line ml10"></i></a>
+          <a @click="excelDown" class="btnStyle btnPrimary" title="엑셀 다운로드">엑셀 다운로드 <i class="fa-light fa-arrow-down-to-line ml10"></i></a>
         </div>
       </div>
 
@@ -129,7 +129,7 @@
       
     },
     methods:{
-      //협락사 리스트 불러 오는 메소드
+      //계열사 리스트 불러 오는 메소드
       async selectCoInterList(){
         const vm = this
         try {
@@ -189,9 +189,53 @@
           vm.$store.commit("finish");
         }
       },
+      //회사명 클릭 시 입찰 상세내역으로 이동하는 메소드
       moveDetail(interrelatedCustCode){
         const vm = this
         vm.$router.push({name:"performanceDetail" , params: { 'interrelatedCustCode': interrelatedCustCode,'startDay' : vm.routerStartDay,'endDay' : vm.routerEndDay }});//상세 페이지 이동
+      },
+      //excelDown
+      excelDown(){
+        const time = cmmn.formatDate(new Date(), "yyyy_mm_dd");
+        const params = {
+          biInfoList : this.biInfoList,
+          fileName : "회사별 입찰실적" + time
+        }
+
+        this.$store.commit("loading");
+        this.$http
+          .post("/api/v1/excel/statistics/biInfoList/downLoad", params, {
+            responseType: "blob",
+          })
+          .then((response) => {
+            if (response.status === 200) {
+              // 응답이 성공적으로 도착한 경우
+              const url = window.URL.createObjectURL(new Blob([response.data])); // 응답 데이터를 Blob 형식으로 변환하여 URL을 생성합니다.
+              const link = document.createElement("a");
+              link.href = url;
+              link.setAttribute("download", params.fileName + ".xlsx"); // 다운로드할 파일명을 설정합니다.
+              document.body.appendChild(link);
+              link.click();
+              window.URL.revokeObjectURL(url); // 임시 URL을 해제합니다.
+            } else {
+              this.$swal({
+                // 오류 처리
+                type: "warning",
+                text: "엑셀 다운로드 중 오류가 발생했습니다.",
+              });
+            }
+          })
+          .catch((error) => {
+            // 오류 처리
+            console.error("Error:", error);
+            this.$swal({
+              type: "warning",
+              text: "엑셀 다운로드 중 오류가 발생했습니다.",
+            });
+          })
+          .finally(() => {
+            this.$store.commit("finish"); // 로딩 상태 종료
+          });
       }
     }
   };
