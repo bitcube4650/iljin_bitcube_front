@@ -1056,7 +1056,7 @@ export default {
       this.$forceUpdate();
     },
     callbackUser({ data, buttonId }) {
-      console.log(buttonId);
+
       switch (buttonId) {
         case "gongoId":
           this.bidContent.gongoId = data.userName;
@@ -1124,7 +1124,7 @@ export default {
     },
 
     selectBid(mode) {
-      console.log(this.$store.state.loginInfo);
+
       if (mode === "cancel") {
         if (this.bidContent.biModeCode === "A")
           this.bidContent.biModeCode = "B";
@@ -1285,9 +1285,10 @@ export default {
       return true;
     },
     save() {
+      var vm = this;
+
       if (!this.validationCheck()) {
         $("#save").modal("hide");
-        console.log("false");
         return false;
       }
  
@@ -1299,8 +1300,13 @@ export default {
         .post("/api/v1/bid/insertBid", this.bidContent)
         .then((response) => {
           if (this.bidContent.biModeCode === "A") {
-            console.log("부가작업 시작");
-            this.$http.post("/api/v1/bid/updateBidCust", this.custContent);
+            //등록되는 입찰 bino로 set
+            var custContent = this.custContent;
+            custContent.forEach(function(element) {
+                element.biNo = vm.bidContent.biNo;
+            });
+
+            this.$http.post("/api/v1/bid/updateBidCust", custContent);
             this.$http.post("/api/v1/bid/updateEmail", {
               biNo: this.bidContent.biNo,
               type: "insert",
@@ -1326,6 +1332,7 @@ export default {
           this.$store.commit("finish");
         });
         
+        
     },
 
     async newBiNo() {
@@ -1333,7 +1340,7 @@ export default {
         .post("/api/v1/bid/newBiNo")
         .then((response) => {
           this.bidContent.biNo = response.data;
-          console.log(this.bidContent.biNo);
+
         })
         .catch((error) => {
           console.error("Error fetching biNo:", error);
@@ -1421,8 +1428,7 @@ export default {
         });
       }
       this.$forceUpdate();
-      console.log(this.filek.length);
-      console.log(this.fileContent);
+
     },
     fnUpdateSpotDate(val) {
       this.datePart = val;

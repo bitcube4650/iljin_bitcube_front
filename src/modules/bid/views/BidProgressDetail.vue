@@ -39,12 +39,11 @@
           <div class="flex mt20">
             <div class="formTit flex-shrink0 width170px">특수조건</div>
             <div class="width100">
-              <div
+              <pre
                 class="boxStSm width100 boxOverflowY"
                 v-if="this.result.specialCond !== null"
-              >
-                {{ this.result.specialCond }}
-              </div>
+                style="background-color: white;"
+              >{{ this.result.specialCond }}</pre>
               <div class="boxStSm width100 boxOverflowY" v-else>
                 <!-- null인 경우 빈 문자열 표시 -->
                 없음
@@ -414,8 +413,6 @@
             </div>
             <textarea
               class="textareaStyle height150px mt20"
-              onkeydown="resize(this)"
-              onkeyup="resize(this)"
               placeholder="삭제사유 필수 입력"
               v-model="detail.reason"
             ></textarea>
@@ -542,6 +539,8 @@ export default {
           "/api/v1/bid/progresslistDetail",
           this.dataFromList
         );
+        console.log('this.dataFromList',this.dataFromList);
+        console.log('response.data',response.data);
         this.result = response.data[0][0];
         this.tableContent = response.data[1];
         this.total = this.calculateTotal();
