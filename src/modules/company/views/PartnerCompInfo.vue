@@ -28,9 +28,7 @@
 							<!-- //툴팁 -->
 						</div>
 						<div class="width100">
-							<div class="overflow-y-scroll boxStSm width100" style="height:80px">
-								일진건설<br>일진머티리얼즈<br>일진유니스코<br>일진다이아몬드
-							</div>
+							<div class="overflow-y-scroll boxStSm width100" style="height:80px" v-html="detail.interrelatedNm"></div>
 						</div>
 					</div>
 					<div class="flex align-items-center mt20">
@@ -96,7 +94,7 @@
 				</div>
 
 				<div class="text-center mt30">
-					<a href="#" data-toggle="modal" data-target="#withdrawal1" class="btnStyle btnOutlineRed" title="회원탈퇴">회원탈퇴</a>
+					<a href="#" @click.prevent="clearPwd" data-toggle="modal" data-target="#pwdCheckPop" class="btnStyle btnOutlineRed" title="회원탈퇴">회원탈퇴</a>
 					<router-link to="/company/partner/update"  class="btnStyle btnPrimary" title="수정">수정</router-link>
 				</div>
 
@@ -137,7 +135,7 @@
 		<!-- //contents -->
 
 		<!-- 회원탈퇴 비밀번호 확인 -->
-		<div class="modal fade modalStyle" id="withdrawal1" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal fade modalStyle" id="pwdCheckPop" tabindex="-1" role="dialog" aria-hidden="true">
 			<div class="modal-dialog" style="width:100%; max-width:510px">
 				<div class="modal-content">
 					<div class="modal-body">
@@ -146,14 +144,14 @@
 						<div class="flex align-items-center">
 							<div class="formTit flex-shrink0 width100px">비밀번호</div>
 							<div class="width100">
-								<input type="password" name="" id="" class="inputStyle" placeholder="">
+								<input type="password" v-model="detail.userPwd" class="inputStyle">
 							</div>
 						</div>
 						<p class="text-center mt20"><i class="fa-light fa-circle-info"></i> 안전을 위해서 비밀번호를 입력해 주십시오</p>
 
 						<div class="modalFooter">
 							<a href="#" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
-							<a href="#" class="modalBtnCheck" data-toggle="modal" data-target="#withdrawal2" title="확인">확인</a>
+							<a href="#" @click.prevent="pwdcheck" class="modalBtnCheck" title="확인">확인</a>
 						</div>
 					</div>				
 				</div>
@@ -162,7 +160,7 @@
 		<!-- 회원탈퇴 비밀번호 확인 -->
 
 		<!-- 회원탈퇴 -->
-		<div class="modal fade modalStyle" id="withdrawal2" tabindex="-1" role="dialog" aria-hidden="true">
+		<div class="modal fade modalStyle" id="leavePop" tabindex="-1" role="dialog" aria-hidden="true">
 			<div class="modal-dialog" style="width:100%; max-width:550px">
 				<div class="modal-content">
 					<div class="modal-body">
@@ -173,10 +171,10 @@
 								<li><div>탈퇴사유를 입력해 주십시오.<br>탈퇴처리 시 로그아웃 처리 되고 다시 로그인 할 수 없습니다.<br>탈퇴 하시겠습니까</div></li>
 							</ul>
 						</div>
-						<textarea class="textareaStyle height150px mt20" onkeydown="resize(this)" onkeyup="resize(this)" placeholder="탈퇴사유 필수 입력"></textarea>
+						<textarea class="textareaStyle height150px mt20" v-model="detail.etc" placeholder="탈퇴사유 필수 입력"></textarea>
 						<div class="modalFooter">
 							<a href="#" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
-							<a href="#" class="modalBtnCheck" data-toggle="modal" title="회원탈퇴">회원탈퇴</a>
+							<a href="javascript:return false" @click.prevent="leave"  class="modalBtnCheck" title="회원탈퇴">회원탈퇴</a>
 						</div>
 					</div>				
 				</div>
@@ -258,7 +256,60 @@
 				console.error("Error downloading file:", error);
 				this.$store.commit('finish');
 			}
-		}
+		},
+		clearPwd() {
+			this.detail.userPwd = null;
+			this.detail.etc = null;
+      		this.$forceUpdate();
+		},
+		pwdcheck() {
+			if (this.detail.userPwd == null || this.detail.userPwd == '') {
+				this.$swal({type: "warning",text: "비밀번호를 입력해주세요."});
+				return;
+			}
+			this.$store.commit('loading');
+			this.$http
+			.post('/api/v1/cust/pwdcheck', this.detail)
+			.then((response) => {
+				if (response.data.code == 'OK') {
+					$("#pwdCheckPop").modal("hide"); 
+					$("#leavePop").modal("show"); 
+				} else {
+					this.detail.userPwd = null;
+					this.$swal({type: "info",text: "비밀번호가 틀립니다. 다시 입력해주세요."});
+				}
+			})
+			.finally(() => {
+				this.$store.commit("finish");
+			});
+		},
+		leave() {
+			if (this.detail.etc == null || this.detail.etc == '') {
+				this.$swal({type: "warning",text: "탈퇴사유를 입력해주세요."});
+				return;
+			}
+			this.$store.commit("loading");
+			this.$http
+			.post('/api/v1/cust/leave', this.detail)
+			.then((response) => {
+				if (response.data.code == 'OK') {
+					$("#leavePop").modal("hide"); 
+					$("#commonAlertMsg").html('회원탈퇴되었습니다.');
+      				$("#commonAlertPop").modal("show"); 
+					var $this = this;
+					setTimeout(function(){
+						$this.$store.commit('logout');
+						$this.$cookie.delete('loginInfo');//로그인 유저정보 삭제
+						$this.$router.push('/');
+					}, 1000);
+				} else {
+					this.$swal({type: "warning",text: "회원탈퇴 중 오류가 발생했습니다."});
+				}
+			})
+			.finally(() => {
+				this.$store.commit("finish");
+			});
+		},
 	}
 }
 </script>

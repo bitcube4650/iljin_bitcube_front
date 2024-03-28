@@ -28,9 +28,7 @@
 							<!-- //툴팁 -->
 						</div>
 						<div class="width100">
-							<div class="overflow-y-scroll boxStSm width100" style="height:80px">
-								일진건설<br>일진머티리얼즈<br>일진유니스코<br>일진다이아몬드
-							</div>
+							<div class="overflow-y-scroll boxStSm width100" style="height:80px" v-html="detail.interrelatedNm"></div>
 						</div>
 					</div>
 					<div class="flex align-items-center mt20">
