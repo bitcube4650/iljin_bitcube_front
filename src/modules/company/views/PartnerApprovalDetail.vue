@@ -214,7 +214,7 @@ export default {
 			}
 			this.$store.commit("loading");
 			this.$http
-			.post('/api/v1/cust/del', this.detail)
+			.post('/api/v1/cust/back', this.detail)
 			.then((response) => {
 				if (response.data.code == 'OK') {
 					$("#commonAlertMsg").html('반려되었습니다.');

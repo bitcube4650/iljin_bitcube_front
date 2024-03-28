@@ -147,7 +147,7 @@
 						</div>
 					</div>
 					<div class="flex mt10">
-						<div class="formTit flex-shrink0 width170px">첨부파일 <span class="star">*</span>
+						<div class="formTit flex-shrink0 width170px">첨부파일
 							<!-- 툴팁 -->
 							<i class="fas fa-question-circle toolTipSt ml5">
 								<div class="toolTipText" style="width:420px">
@@ -188,21 +188,21 @@
 				<div class="flex align-items-center">
 					<div class="formTit flex-shrink0 width170px">업체등급</div>
 					<div class="width100">
-						<input type="radio" name="bm2" value="" id="bm2_1" class="radioStyle" checked=""><label for="bm2_1">A등급</label>
-						<input type="radio" name="bm2" value="" id="bm2_2" class="radioStyle"><label for="bm2_2">B등급</label>
-						<input type="radio" name="bm2" value="" id="bm2_3" class="radioStyle"><label for="bm2_3">C등급</label>
-						<input type="radio" name="bm2" value="" id="bm2_4" class="radioStyle"><label for="bm2_4">D등급</label>
+						<input type="radio" v-model="detail.custLevel" value="A" id="chkA" class="radioStyle"><label for="chkA">A등급</label>
+						<input type="radio" v-model="detail.custLevel" value="B" id="chkB" class="radioStyle"><label for="chkB">B등급</label>
+						<input type="radio" v-model="detail.custLevel" value="C" id="chkC" class="radioStyle"><label for="chkC">C등급</label>
+						<input type="radio" v-model="detail.custLevel" value="D" id="chkD" class="radioStyle"><label for="chkD">D등급</label>
 					</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">D업체평가</div>
 					<div class="width100">
-						<textarea class="textareaStyle boxOverflowY" onkeydown="resize(this)" onkeyup="resize(this)" placeholder=""></textarea>
+						<textarea class="textareaStyle boxOverflowY" v-model="detail.careContent"></textarea>
 					</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">관리단위</div>
-					<div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder=""></div>
+					<div class="width100"><input type="text" class="inputStyle" v-model="detail.custValuation"></div>
 				</div>
 			</div>
 

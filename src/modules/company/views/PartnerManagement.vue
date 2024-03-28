@@ -38,6 +38,7 @@
 					<input type="text" v-model="searchParams.custTypeNm1" class="inputStyle width280px readonly" placeholder="우측 검색 버튼을 클릭해 주세요" readonly>
 					<input type="hidden" v-model="searchParams.custTypeCode1"/>
 					<a href="#" @click="$refs.itemPop.initModal()" data-toggle="modal" data-target="#itemPop" class="btnStyle btnSecondary ml10" title="조회">조회</a>
+					<button @click="clearCustType1()" v-show="searchParams.custTypeCode1 != null" type="button" class="btnStyle btnOutline" title="삭제">삭제</button>
 				</div>
 				<a href="#" @click.prevent="search(0)" class="btnStyle btnSearch">검색</a>
 			</div>
@@ -153,6 +154,11 @@ export default {
 				console.log(err)
 				this.$store.commit('finish');
 			}
+		},
+		clearCustType1() {
+			this.searchParams.custTypeCode1 = null;
+			this.searchParams.custTypeNm1 = null;
+			this.$forceUpdate()
 		},
 		callbackItem(data) {
 			this.searchParams.custTypeCode1 = data.itemCode;

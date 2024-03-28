@@ -87,10 +87,8 @@
 					<div class="width100 textHighlight">삭제</div>
 				</div>
 				<div class="flex align-items-center mt20" v-if="detail.certYn == 'D'">
-					<div class="formTit flex-shrink0 width170px">{{ detail.etc }}</div>
-					<div class="width100">
-						<textarea class="textareaStyle boxOverflowY" onkeydown="resize(this)" onkeyup="resize(this)" placeholder="">허위 가격 허위 조작</textarea>
-					</div>
+					<div class="formTit flex-shrink0 width170px">사유</div>
+					<div class="width100">{{ detail.etc }}</div>
 				</div>
 			</div>
 
@@ -99,21 +97,19 @@
 				<div class="flex align-items-center">
 					<div class="formTit flex-shrink0 width170px">업체등급</div>
 					<div class="width100">
-						<input type="radio" name="bm2" value="" id="bm2_1" class="radioStyle" checked=""><label for="bm2_1">A등급</label>
-						<input type="radio" name="bm2" value="" id="bm2_2" class="radioStyle"><label for="bm2_2">B등급</label>
-						<input type="radio" name="bm2" value="" id="bm2_3" class="radioStyle"><label for="bm2_3">C등급</label>
-						<input type="radio" name="bm2" value="" id="bm2_4" class="radioStyle"><label for="bm2_4">D등급</label>
+						<input type="radio" v-model="detail.custLevel" value="A" id="chkA" class="radioStyle"><label for="chkA">A등급</label>
+						<input type="radio" v-model="detail.custLevel" value="B" id="chkB" class="radioStyle"><label for="chkB">B등급</label>
+						<input type="radio" v-model="detail.custLevel" value="C" id="chkC" class="radioStyle"><label for="chkC">C등급</label>
+						<input type="radio" v-model="detail.custLevel" value="D" id="chkD" class="radioStyle"><label for="chkD">D등급</label>
 					</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">D업체평가</div>
-					<div class="width100">
-						<textarea class="textareaStyle boxOverflowY" onkeydown="resize(this)" onkeyup="resize(this)" placeholder=""></textarea>
-					</div>
+					<div class="width100">{{ detail.careContent }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">관리단위</div>
-					<div class="width100"><input type="text" name="" id="" class="inputStyle" placeholder=""></div>
+					<div class="width100">{{ detail.custValuation }}</div>
 				</div>
 			</div>
 
@@ -152,7 +148,7 @@
 			<div class="text-center mt50">
 				<a href="#" @click.prevent="$router.go(-1)" class="btnStyle btnOutlineRed" title="취소">취소</a>
 				<a href="#" v-if="detail.certYn == 'Y'" data-toggle="modal" data-target="#companyDel" class="btnStyle btnRed" title="삭제">삭제</a>
-				<router-link v-if="detail.certYn == 'Y'" :to="'/company/partner/management/'+$route.params.id+'/update'" class="btnStyle btnPrimary" title="수정">수정</router-link>
+				<router-link v-if="detail.certYn == 'Y'" :to="'/company/partner/management/'+$route.params.id+'/update'" class="btnStyle btnPrimary" title="수정 이동">수정 이동</router-link>
 			</div>
 		</div>
 	</div>
