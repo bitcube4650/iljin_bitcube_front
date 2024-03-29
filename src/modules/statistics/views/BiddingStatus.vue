@@ -28,23 +28,17 @@
             </div>
             <div class="sbTit width80px ml50">계열사</div>
             <div class="flex align-items-center width280px">
-              <select name="" class="selectStyle">
+              <select @change="selectbidPresentList" v-model="coInter" class="selectStyle">
                 <option value="">전체</option>
+                <option v-for="(data,idx) in coInterList" :key="idx" :value="data.interrelatedCustCode">{{data.interrelatedNm}}</option>
               </select>
             </div>
-            <a class="btnStyle btnSearch">검색</a>
+            <a @click="selectbidPresentList" class="btnStyle btnSearch">검색</a>
           </div>
         </div>
         <!-- //searchBox -->
 
         <div class="flex align-items-center justify-space-between mt40">
-          <div class="width100">
-            전체 : <span class="textMainColor"><strong>00</strong></span>건
-            <select name="" class="selectStyle maxWidth140px ml20">
-              <option value="">10개씩 보기</option>
-              <option value="">20개씩 보기</option>
-            </select>
-          </div>
           <div class="flex flex-shrink0">
             <p class="align-self-end mr20">(단위 : 백만원)</p>
             <a href="" class="btnStyle btnPrimary" title="엑셀 다운로드">엑셀 다운로드 <i class="fa-light fa-arrow-down-to-line ml10"></i></a>
@@ -80,77 +74,37 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td class="text-left">일진전기</td>
-              <td class="text-right">1</td>
-              <td class="text-right">10,000,000</td>
-              <td class="text-right">1</td>
-              <td class="text-right">10,000,000</td>
-              <td class="text-right">1</td>
-              <td class="text-right">10,000,000</td>
-              <td class="text-right">4.0</td>
-              <td class="text-right">10</td>
+            <tr v-for="(data ,idx) in bidPresentList" :key="idx" >
+              <td class="text-left" ><a @click="moveDetail(data.interrelatedCustCode)" class="textUnderline">{{ data.interrelatedNm }}</a></td>
+              <td class="text-right">{{data.planCnt.toLocaleString() }}</td>
+              <td class="text-right">{{data.planAmt.toLocaleString() }}</td>
+              <td class="text-right">{{data.ingCnt.toLocaleString() }}</td>
+              <td class="text-right">{{data.ingAmt.toLocaleString() }}</td>
+              <td class="text-right">{{data.succCnt.toLocaleString() }}</td>
+              <td class="text-right">{{data.succAmt.toLocaleString() }}</td>
+              <td class="text-right">{{data.custCnt.toLocaleString() }}</td>
+              <td class="text-right">{{data.regCustCnt }}</td>
               <td class="end"></td>
             </tr>
-            <tr>
-              <td class="text-left">일진전기</td>
-              <td class="text-right">1</td>
-              <td class="text-right">10,000,000</td>
-              <td class="text-right">1</td>
-              <td class="text-right">10,000,000</td>
-              <td class="text-right">1</td>
-              <td class="text-right">10,000,000</td>
-              <td class="text-right">4.0</td>
-              <td class="text-right">10</td>
-              <td class="end"></td>
-            </tr>
-            <tr>
-              <td class="text-left">일진전기</td>
-              <td class="text-right">1</td>
-              <td class="text-right">10,000,000</td>
-              <td class="text-right">1</td>
-              <td class="text-right">10,000,000</td>
-              <td class="text-right">1</td>
-              <td class="text-right">10,000,000</td>
-              <td class="text-right">4.0</td>
-              <td class="text-right">10</td>
-              <td class="end"></td>
+            <tr v-show="bidPresentList.length == 0 ">
+              <td colspan="6">조회된 데이터가 없습니다.</td>
             </tr>
           </tbody>
           <tfoot>
             <tr>
               <th class="text-left">계</th>
-              <th class="text-right">1,017</th>
-              <th class="text-right">110,001,000</th>
-              <th class="text-right">1,017</th>
-              <th class="text-right">110,001,000</th>
-              <th class="text-right">1,017</th>
-              <th class="text-right">110,001,000</th>
-              <th class="text-right">4</th>
-              <th class="text-right">60</th>
+              <th class="text-right">{{ biInfoSum.planCnt}}</th>
+              <th class="text-right">{{ biInfoSum.planAmt}}</th>
+              <th class="text-right">{{ biInfoSum.ingCnt}}</th>
+              <th class="text-right">{{ biInfoSum.ingAmt}}</th>
+              <th class="text-right">{{ biInfoSum.succCnt}}</th>
+              <th class="text-right">{{ biInfoSum.succAmt}}</th>
+              <th class="text-right">{{ biInfoSum.custCnt}}</th>
+              <th class="text-right">{{ biInfoSum.regCustCnt}}</th>
               <th class="end"></th>
             </tr>
           </tfoot>
         </table>
-
-        <!-- pagination -->
-        <div class="row mt40">
-          <div class="col-xs-12">
-            <div class="pagination1 text-center">
-              <a title="10페이지 이전 페이지로 이동"><i class="fa-light fa-chevrons-left"></i></a>
-              <a title="이전 페이지로 이동"><i class="fa-light fa-chevron-left"></i></a>
-              <a title="1페이지로 이동" class="number active">1</a>
-              <a title="2페이지로 이동" class="number">2</a>
-              <a title="3페이지로 이동" class="number">3</a>
-              <a title="4페이지로 이동" class="number">4</a>
-              <a title="5페이지로 이동" class="number">5</a>
-              <a title="다음 페이지로 이동"><i class="fa-light fa-chevron-right"></i></a>
-              <a title="10페이지 다음 페이지로 이동"><i class="fa-light fa-chevrons-right"></i></a>
-            </div>
-          </div>
-        </div>
-        <!-- //pagination -->
-
       </div>
       <!-- //contents -->
     </div>
@@ -166,18 +120,93 @@
     },
     data() {
       return {
-
+        coInterList : [], //  계열사 리스트
+        coInter : '', // 선택된 계열사
+        bidPresentList : [], // 리스트
+        biInfoSum : {}, // 하단 합계
       };
     },
+    async mounted() {
+      //달력
+      cmmn.applyCal();
+      $('#startDay').datepicker('setDate', '-1M');
+      $('#endDay').datepicker('setDate', 'today' );
+      this.selectbidPresentList();
+    },
     methods: {
+      //계열사 리스트 불러 오는 메소드
+      async selectCoInterList(){
+        const vm = this
+        try {
+          vm.$store.commit("loading");
+          const response = await vm.$http.post(
+            "/api/v1/statistics/coInterList",
+          );
+          vm.coInterList = response.data[0]
 
+          vm.$store.commit("finish");
+        } catch (err) {
+          console.log(err);
+          vm.$store.commit("finish");
+        }
+      },
+      //리스트 조회
+      async selectbidPresentList(){
+        const vm = this
+        
+        let params = {
+          coInter : vm.coInter == '' ?  vm.coInter : vm.coInterList.map(item => item.interrelatedCustCode),
+          startDay : $('#startDay').val(),
+          endDay : $('#endDay').val()
+        }
+
+        if(this.$store.state.loginInfo.userAuth == 1){
+          params.coInter = vm.coInter
+        }else{
+          if(vm.coInter == ''){
+            params.coInter =  vm.coInterList.map(item => item.interrelatedCustCode).join(',')
+          }else{
+            params.coInter = vm.coInter
+            params.coInterVal = 'Y'
+          }
+        }
+
+        try {
+          vm.$store.commit("loading");
+          const response = await vm.$http.post(
+            "/api/v1/statistics/bidPresentList", params
+          );
+          console.log(response)
+          const data = response.data[0]
+
+          console.log('data')
+          console.log(this.data)
+
+          vm.bidPresentList = data.slice(0, data.length - 1)
+
+          console.log('bidPresentList')
+          console.log(this.bidPresentList)
+
+          vm.biInfoSum = data[data.length - 1];
+          if(vm.biInfoSum != undefined){
+            vm.biInfoSum.planCnt = vm.biInfoSum.planCnt.toLocaleString()
+            vm.biInfoSum.planAmt = vm.biInfoSum.planAmt.toLocaleString()
+            vm.biInfoSum.ingCnt = vm.biInfoSum.ingCnt.toLocaleString()
+            vm.biInfoSum.ingAmt = vm.biInfoSum.ingAmt.toLocaleString()
+            vm.biInfoSum.succCnt = vm.biInfoSum.succCnt.toLocaleString()
+            vm.biInfoSum.succAmt = vm.biInfoSum.succAmt.toLocaleString()
+            vm.biInfoSum.custCnt = vm.biInfoSum.custCnt.toLocaleString()
+            vm.biInfoSum.regCustCnt = vm.biInfoSum.regCustCnt
+          }
+          vm.routerStartDay = $('#startDay').val()
+          vm.routerEndDay = $('#endDay').val()
+          vm.$store.commit("finish");
+        } catch (err) {
+          console.log(err);
+          vm.$store.commit("finish");
+        }
     },
     beforeMount() {},
-    mounted() {
-      //달력
-      cmmn.applyCal()
-      $('#startDay').datepicker('setDate', '-1M')
-      $('#endDay').datepicker('setDate', 'today' )
-    },
-  };
+  }
+}
   </script>
