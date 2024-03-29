@@ -5,7 +5,7 @@
     <div class="conHeader">
       <ul class="conHeaderCate">
         <li>전자입찰</li>
-        <li>입찰이력</li>
+        <li>낙찰이력</li>
       </ul>
     </div>
     <!-- //conHeader -->
