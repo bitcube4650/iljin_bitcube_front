@@ -91,7 +91,9 @@
             </div>
           </div>
           <div class="flex align-items-center mt20">
-            <div class="formTit flex-shrink0 width170px">입찰참가자격</div>
+            <div class="formTit flex-shrink0 width170px">
+              입찰참가자격 <span class="star">*</span>
+            </div>
             <div class="width100">
               <input
                 type="text"
@@ -100,6 +102,7 @@
                 class="inputStyle"
                 placeholder=""
                 v-model="dataFromList.result.bidJoinSpec"
+                maxlength="100"
               />
             </div>
           </div>
@@ -113,6 +116,7 @@
                   onkeyup="resize(this)"
                   placeholder=""
                   v-model="dataFromList.result.specialCond"
+                  @input="limitText"
                 ></textarea>
               </div>
             </div>
@@ -142,6 +146,7 @@
                 class="inputStyle"
                 placeholder=""
                 v-model="dataFromList.result.spotArea"
+                maxlength="80"
               />
             </div>
           </div>
@@ -160,7 +165,9 @@
             </div>
           </div>
           <div class="flex align-items-center mt20">
-            <div class="formTit flex-shrink0 width170px">입찰참가업체</div>
+            <div class="formTit flex-shrink0 width170px">
+              입찰참가업체 <span v-if="dataFromList.result.biModeCode==='A'" class="star">*</span>
+            </div>
             <div class="flex align-items-center width100">
               <div class="overflow-y-scroll boxStSm width100" >
                 <a v-if="dataFromList.custContent.length ===0"
@@ -192,7 +199,9 @@
           </div>
           
           <div class="flex align-items-center mt20">
-            <div class="formTit flex-shrink0 width170px">금액기준</div>
+            <div class="formTit flex-shrink0 width170px">
+              금액기준 <span class="star">*</span>
+            </div>
             <div class="width100">
               <input
                 type="text"
@@ -221,13 +230,12 @@
             <div class="formTit flex-shrink0 width170px">예산금액</div>
             <div class="flex align-items-center width100">
               <input
-                type="number"
+                type="text"
                 name=""
                 id=""
                 class="inputStyle maxWidth200px"
                 placeholder=""
-                @input="formatInput"
-                v-model="dataFromList.result.bdAmt"
+                v-model="bdAmt"
               />
               <div class="ml10">원</div>
             </div>
@@ -726,7 +734,7 @@
             >목록</a>
           <a
             data-toggle="modal"
-            data-target="#save"
+            @click="openConfirm"
             class="btnStyle btnPrimary"
             title="저장"
             >저장</a
@@ -879,6 +887,15 @@ export default {
     BiddingUserPop,
     Calendar,
   },
+  watch: {
+    bdAmt(newValue) {
+      // 숫자 이외의 문자 제거 (숫자, 마이너스 기호만 허용)
+      this.bdAmt = newValue.toString().replace(/[^\d-]/g, '');
+      
+      // 천 단위로 콤마 추가
+      this.bdAmt = this.bdAmt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+  },
   data() {
     return {
       detail: {},
@@ -894,6 +911,7 @@ export default {
       timePart2: "",
       selectedFile: null, //업로드한 파일
       filek: [],
+      bdAmt: ""
     };
   },
   computed: {
@@ -914,12 +932,12 @@ export default {
   },
 
   methods: {
-    callbackItem(data) {
+    callbackItem(data) {//품목정보 set
       this.dataFromList.result.itemCode = data.itemCode;
       this.dataFromList.result.itemName = data.itemName;
       this.$forceUpdate();
     },
-    callbackCust(data) {
+    callbackCust(data) {//업체정보 set
       const existingCust = this.dataFromList.custContent.find(
         (item) => item.custCode === data.custCode
       );
@@ -930,7 +948,7 @@ export default {
           custCode: data.custCode,
           custName: data.custName,
         });
-        console.log(1111111111111, this.dataFromList.custContent);
+
         this.$forceUpdate();
       } else {
         this.$swal({
@@ -940,18 +958,18 @@ export default {
       }
       this.$forceUpdate();
     },
-    callbackOpenUser(data) {
+    callbackOpenUser(data) {//개찰자 정보 set
       this.dataFromList.result.estOpener = data.userName;
       this.dataFromList.result.estOpenerCode = data.userId;
       this.$forceUpdate();
     },
-    callbackBiddingUser(data) {
+    callbackBiddingUser(data) {//낙찰자 정보 set
       this.dataFromList.result.estBidder = data.userName;
       this.dataFromList.result.estBidderCode = data.userId;
       this.$forceUpdate();
     },
-    callbackUser({ data, buttonId }) {
-      console.log(buttonId);
+    callbackUser({ data, buttonId }) {//사용자 정보 set
+
       switch (buttonId) {
         case "gongoId":
           this.dataFromList.result.gongoId = data.userName;
@@ -969,7 +987,7 @@ export default {
 
       this.$forceUpdate();
     },
-    assignDataFromList() {
+    assignDataFromList() {//날짜 및 시간 정보 set
       this.datePart = this.dataFromList.result.spotDate.substring(0, 10);
       this.timePart = this.dataFromList.result.spotDate.substring(11, 16);
 
@@ -979,33 +997,25 @@ export default {
       this.datePart2 = this.dataFromList.result.estCloseDate.substring(0, 10);
       this.timePart2 = this.dataFromList.result.estCloseDate.substring(11, 16);
     },
-    removeCust(index) {
-      console.log(this.dataFromList.custContent);
+    removeCust(index) {//입찰참가업체 삭제
+
       this.dataFromList.custContent.splice(index, 1);
       this.$forceUpdate();
     },
-
-    formatInput(event) {
-      const value = event.target.value.replace(/\D/g, ""); // 숫자만 추출
-      event.target.value = this.formatNumber(value);
-    },
-    formatNumber(value) {
-      const formattedValue = value
-        .toString()
-        .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-      return formattedValue === "" ? "" : formattedValue; // 값이 비어있을 경우 처리
-    },
-    selectBid(mode) {
+    selectBid(mode) {//입찰방식 confirm창 선택
       if (mode === "cancel") {
+        //취소시 되돌림
         if (this.dataFromList.result.biModeCode === "A")
           this.dataFromList.result.biModeCode = "B";
         else this.dataFromList.result.biModeCode = "A";
       } else if (mode === "ok") {
-        if (this.dataFromList.result.biModeCode === "A") {
+        if (this.dataFromList.result.biModeCode === "A") {//지명경쟁
           this.dataFromList.result.biModeCode = "A";
-        } else {
+        } else {//일반경쟁
+
+          //지명경쟁업체 원래값으로 초기화
           this.dataFromList.custContent = this.originCustData;
-          console.log(this.originCustData);
+
           this.$forceUpdate();
         }
       }
@@ -1013,7 +1023,7 @@ export default {
       $("#bmGeneral").modal("hide");
     },
 
-    selectIns(mode) {
+    selectIns(mode) {//세부내역 confirm창 선택
       if (mode === "cancel") {
         if (this.dataFromList.result.insModeCode === "1")
           this.dataFromList.result.insModeCode = "2";
@@ -1041,7 +1051,7 @@ export default {
       $("#bmFile").modal("hide");
     },
 
-    addEmptyRow() {
+    addEmptyRow() {//세부내역 직접 입력 데이터 로우 추가
       const seq = this.dataFromList.tableContent.length + 1;
 
       this.dataFromList.tableContent.push({
@@ -1056,10 +1066,10 @@ export default {
       });
       this.$forceUpdate();
     },
-    deleteRow(index) {
+    deleteRow(index) {//세부내역 직접 입력 데이터 로우 삭제
       this.dataFromList.tableContent.splice(index, 1);
     },
-    fileSetting() {
+    fileSetting() {//기존에 업로드 한 파일 set
       var preview1 = document.querySelector("#preview");
       var preview2 = document.querySelector("#preview2");
       var preview3 = document.querySelector("#preview3");
@@ -1137,17 +1147,25 @@ export default {
         alert("입찰방식을 선택해주세요.");
         return false;
       }
-
-      this.dataFromList.result.spotDate = this.datePart + " " + this.timePart;
-      this.dataFromList.result.estStartDate =
-        this.datePart1 + " " + this.timePart1;
-      this.dataFromList.result.estCloseDate =
-        this.datePart2 + " " + this.timePart2;
       if (
-        !this.dataFromList.result.spotDate ||
-        this.dataFromList.result.spotDate === ""
+        !this.dataFromList.result.bidJoinSpec ||
+        this.dataFromList.result.bidJoinSpec === ""
       ) {
-        alert("현장설명일시를 입력해주세요.");
+        alert("입찰참가자격을을 선택해주세요.");
+        return false;
+      }
+      if (
+        !this.datePart ||
+        this.datePart === ""
+      ) {
+        alert("현장설명일시 날짜를 입력해주세요.");
+        return false;
+      }
+      if (
+        !this.timePart ||
+        this.timePart === ""
+      ) {
+        alert("현장설명일시 시간을 입력해주세요.");
         return false;
       }
       if (
@@ -1159,88 +1177,131 @@ export default {
       }
       if (
         !this.dataFromList.result.succDeciMethCode ||
-        this.dataFromList.result.succDeciMethCode === "0000-00-00 00:00"
+        this.dataFromList.result.succDeciMethCode === ""
       ) {
         alert("낙찰자 결정방법을 선택해주세요.");
         return false;
       }
-      if (
-        !this.dataFromList.result.estStartDate ||
-        this.dataFromList.result.estStartDate === "0000-00-00 00:00"
-      ) {
-        alert("제출시작일시를 입력해주세요.");
+      if (this.dataFromList.custContent.length === 0 && this.dataFromList.result.biModeCode === "A") {
+        alert("입찰참가업체를 선택해주세요.");
+        return false;
+      }
+      if (!this.dataFromList.result.amtBasis || this.dataFromList.result.amtBasis === "") {
+        alert("금액기준을 입력해주세요.");
         return false;
       }
       if (
-        !this.dataFromList.result.estCloseDate ||
-        this.dataFromList.result.estCloseDate === "0000-00-00 00:00"
+        !this.datePart1 ||
+        this.datePart1 === ""
       ) {
-        alert("제출마감일시를 입력해주세요.");
+        alert("제출시작일시 날짜를 입력해주세요.");
+        return false;
+      }
+      if (
+        !this.timePart1 ||
+        this.timePart1 === ""
+      ) {
+        alert("제출시작일시 시간을 입력해주세요.");
+        return false;
+      }
+      if (
+        !this.datePart2 ||
+        this.datePart2 === ""
+      ) {
+        alert("제출마감일시 날짜를 입력해주세요.");
+        return false;
+      }
+      if (
+        !this.timePart2 ||
+        this.timePart2 === ""
+      ) {
+        alert("제출마감일시 시간을 입력해주세요.");
         return false;
       }
 
-      if (!this.bidContent.estOpener || this.bidContent.estOpener === "") {
+      var startDateTime = new Date(`${this.datePart1}T${this.timePart1}`);
+      var closeDateTime = new Date(`${this.datePart2}T${this.timePart2}`);
+
+      if (startDateTime > closeDateTime) {
+        alert("제출시작일시가 제출마감일시보다 큽니다.");
+        return false;
+      }
+
+      this.dataFromList.result.spotDate = this.datePart + " " + this.timePart;
+      this.dataFromList.result.estStartDate = this.datePart1 + " " + this.timePart1;
+      this.dataFromList.result.estCloseDate = this.datePart2 + " " + this.timePart2;
+      
+      if (!this.dataFromList.result.estOpener || this.dataFromList.result.estOpener === "") {
         alert("개찰자를 선택해주세요.");
         return false;
       }
 
-      if (!this.bidContent.gongoId || this.bidContent.gongoId === "") {
+      if (!this.dataFromList.result.gongoId || this.dataFromList.result.gongoId === "") {
         alert("입찰공고자를 선택해주세요.");
         return false;
       }
 
-      if (!this.bidContent.estBidder || this.bidContent.estBidder === "") {
+      if (!this.dataFromList.result.estBidder || this.dataFromList.result.estBidder === "") {
         alert("낙찰자를 선택해주세요.");
         return false;
       }
-
-      if (!this.bidContent.supplyCond || this.bidContent.supplyCond === "") {
+      if (!this.dataFromList.result.supplyCond || this.dataFromList.result.supplyCond === "") {
         alert("납품조건을 입력해주세요.");
         return false;
       }
+      
+      
+      
 
+      //세부내역 내역집적등록인 경우
       if (this.dataFromList.result.insModeCode === "2") {
         if (this.dataFromList.tableContent.length === 0) {
           alert("세부내역을 작성해주세요.");
           return false;
         } else {
-          this.dataFromList.tableContents =
-            this.dataFromList.tableContent.filter((item) => item.name !== null);
+          this.dataFromList.tableContents = this.dataFromList.tableContent.filter(
+            (item) => item.name !== null
+          );
         }
       }
 
+      //세부내역 파일등록 경우
       if (this.dataFromList.result.insModeCode === "1") {
         if (this.filek.length === 0) {
           alert("세부내역파일을 업로드 해주세요.");
           return false;
         }
       }
+
       return true;
     },
     save() {
-      if (!this.validationCheck()) {
-        $("#save").modal("hide");
-        console.log("false");
-        return false;
-      }
-      console.log(this.dataFromList.result);
+ 
+      //update 전에 숫자에 천단위로 있는 콤마 제거
+      this.dataFromList.result.bdAmt = this.bdAmt.replace(/[^\d-]/g, '');
+
       this.$store.commit("loading");
       this.$http
         .post("/api/v1/bid/updateBid", this.dataFromList.result)
-        .then((response) => {
+        .then(async (response) => {
+          //지명경쟁
           if (this.dataFromList.result.biModeCode === "A") {
-            this.$http.post(
+
+            //지명경쟁 협력사 등록
+            await this.$http.post(
               "/api/v1/bid/updateBidCust",
               this.dataFromList.custContent
             );
           }
-          if (this.dataFromList.result.insModeCode === "2") {
-            this.$http.post(
+          if (this.dataFromList.result.insModeCode === "2") {//내역직접등록
+            await this.$http.post(
               "/api/v1/bid/updateBidItem",
               this.dataFromList.tableContent
             );
+          }else if(this.dataFromList.result.insModeCode === "1"){//파일등록
+            this.sendFileContent();
           }
-          this.sendFileContent();
+          
           if (response.data.code == "OK") {
             this.$store.commit("searchParams", {});
           } else {
@@ -1256,11 +1317,11 @@ export default {
           this.$store.commit("finish");
         });
     },
-    movetolist() {
+    movetolist() {//목록이동
       this.$router.push({ name: "bidProgress" });
     },
 
-    sendFileContent() {
+    sendFileContent() {//파일 업로드
       this.dataFromList.fileContent.forEach((fileData) => {
         const formData = new FormData();
 
@@ -1286,7 +1347,6 @@ export default {
       // 	return false;
       // }
 
-      console.log(event.target.files[0]);
 
       let fileFlag = "";
       switch (event.target.id) {
@@ -1341,7 +1401,6 @@ export default {
         });
       }
 
-      console.log(this.dataFromList.fileContent);
     },
     fnUpdateSpotDate(val) {
       this.datePart = val;
@@ -1352,9 +1411,28 @@ export default {
     fnUpdateCloseDate(val) {
       this.datePart2 = val;
     },
+    limitText() {//특수조건 글자수 제한
+      if (this.dataFromList.result.specialCond.length > 400) {
+          // 최대 길이 초과 시 입력을 막음
+          this.dataFromList.result.specialCond = this.dataFromList.result.specialCond.slice(0, 400);
+      }
+    },
+    initDetailFile(){//내역직접등록 라디오 버튼 클릭시 세부내역 파일 초기화
+      var fileTag = document.getElementById('file-input'); // 파일 입력 태그 가져오기
+      fileTag.value = ''; // 파일 값 초기화
+    },
+    openConfirm(){//저장 전 valid 체크 및 확인창 띄우기
+      if (!this.validationCheck()) {
+        $("#save").modal("hide");
+        return false;
+      }else{
+        $("#save").modal("show");
+      }
+    }
   },
   beforeMount() {
     this.dataFromList = this.$store.state.bidUpdateData;
+    this.bdAmt = this.dataFromList.result.bdAmt;
     if (!this.originCustData) {
       this.originCustData = this.dataFromList.custContent.slice();
     }
@@ -1368,11 +1446,10 @@ export default {
   mounted() {
     fileInput.applyFile();
     cmmn.applyCal();
+    
+    this.assignDataFromList();//날짜 및 시간 정보 set
 
-    this.assignDataFromList();
-
-    console.log(this.dataFromList);
-    this.fileSetting();
+    this.fileSetting();//기존에 업로드 한 파일 set
   },
 };
 </script>

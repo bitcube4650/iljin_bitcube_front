@@ -23,7 +23,7 @@
 			<div class="flex align-items-center">
 				<div class="sbTit mr30">업체명</div>
 				<div class="width150px">
-					<input type="text" v-model="searchParams.custName" class="inputStyle" placeholder="">
+					<input type="text" v-model="searchParams.custName" class="inputStyle" @keydown.enter="search(0)">
 				</div>
 				<div class="sbTit mr30 ml50">상태</div>
 				<div class="width120px">
@@ -38,7 +38,7 @@
 					<input type="text" v-model="searchParams.custTypeNm1" class="inputStyle width280px readonly" placeholder="우측 검색 버튼을 클릭해 주세요" readonly>
 					<input type="hidden" v-model="searchParams.custTypeCode1"/>
 					<a href="#" @click="$refs.itemPop.initModal()" data-toggle="modal" data-target="#itemPop" class="btnStyle btnSecondary ml10" title="조회">조회</a>
-					<button @click="clearCustType1()" v-show="searchParams.custTypeCode1 != null" type="button" class="btnStyle btnOutline" title="삭제">삭제</button>
+					<button @click="clearCustType1" v-show="searchParams.custTypeCode1 != null" type="button" class="btnStyle btnOutline" title="삭제">삭제</button>
 				</div>
 				<a href="#" @click.prevent="search(0)" class="btnStyle btnSearch">검색</a>
 			</div>
@@ -51,6 +51,8 @@
 				<select v-model="searchParams.size" @change="search(0)" class="selectStyle maxWidth140px ml20">
 					<option value="10">10개씩 보기</option>
 					<option value="20">20개씩 보기</option>
+					<option value="30">30개씩 보기</option>
+					<option value="50">50개씩 보기</option>
 				</select>
 			</div>
 			<div class="flex-shrink0">
