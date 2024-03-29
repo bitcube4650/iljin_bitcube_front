@@ -39,9 +39,12 @@
         <!-- //searchBox -->
 
         <div class="flex align-items-center justify-space-between mt40">
+          <div class="width100">
+            
+          </div>
           <div class="flex flex-shrink0">
-            <p class="align-self-end mr20">(단위 : 백만원)</p>
-            <a href="" class="btnStyle btnPrimary" title="엑셀 다운로드">엑셀 다운로드 <i class="fa-light fa-arrow-down-to-line ml10"></i></a>
+            <p class="align-self-end mr20"></p>
+            <a @click="excelDown" href="" class="btnStyle btnPrimary" title="엑셀 다운로드">엑셀 다운로드 <i class="fa-light fa-arrow-down-to-line ml10"></i></a>
           </div>
         </div>
 
@@ -75,7 +78,7 @@
           </thead>
           <tbody>
             <tr v-for="(data ,idx) in bidPresentList" :key="idx" >
-              <td class="text-left" ><a @click="moveDetail(data.interrelatedCustCode)" class="textUnderline">{{ data.interrelatedNm }}</a></td>
+              <td class="text-left" >{{ data.interrelatedNm }}</td>
               <td class="text-right">{{data.planCnt.toLocaleString() }}</td>
               <td class="text-right">{{data.planAmt.toLocaleString() }}</td>
               <td class="text-right">{{data.ingCnt.toLocaleString() }}</td>
@@ -93,12 +96,12 @@
           <tfoot>
             <tr>
               <th class="text-left">계</th>
-              <th class="text-right">{{ biInfoSum.planCnt}}</th>
-              <th class="text-right">{{ biInfoSum.planAmt}}</th>
-              <th class="text-right">{{ biInfoSum.ingCnt}}</th>
-              <th class="text-right">{{ biInfoSum.ingAmt}}</th>
-              <th class="text-right">{{ biInfoSum.succCnt}}</th>
-              <th class="text-right">{{ biInfoSum.succAmt}}</th>
+              <th class="text-right">{{ biInfoSum.planCnt.toLocaleString()}}</th>
+              <th class="text-right">{{ biInfoSum.planAmt.toLocaleString()}}</th>
+              <th class="text-right">{{ biInfoSum.ingCnt.toLocaleString()}}</th>
+              <th class="text-right">{{ biInfoSum.ingAmt.toLocaleString()}}</th>
+              <th class="text-right">{{ biInfoSum.succCnt.toLocaleString()}}</th>
+              <th class="text-right">{{ biInfoSum.succAmt.toLocaleString()}}</th>
               <th class="text-right">{{ biInfoSum.custCnt}}</th>
               <th class="text-right">{{ biInfoSum.regCustCnt}}</th>
               <th class="end"></th>
@@ -123,7 +126,7 @@
         coInterList : [], //  계열사 리스트
         coInter : '', // 선택된 계열사
         bidPresentList : [], // 리스트
-        biInfoSum : {}, // 하단 합계
+        biInfoSum : {planCnt:0, planAmt:0, ingCnt:0, ingAmt:0, succCnt:0, succAmt:0, custCnt:0, regCustCnt:0}, // 하단 합계
       };
     },
     async mounted() {
@@ -131,6 +134,7 @@
       cmmn.applyCal();
       $('#startDay').datepicker('setDate', '-1M');
       $('#endDay').datepicker('setDate', 'today' );
+      this.selectCoInterList();
       this.selectbidPresentList();
     },
     methods: {
@@ -156,6 +160,7 @@
         
         let params = {
           coInter : vm.coInter == '' ?  vm.coInter : vm.coInterList.map(item => item.interrelatedCustCode),
+          //coInter : vm.coInter,
           startDay : $('#startDay').val(),
           endDay : $('#endDay').val()
         }
@@ -176,28 +181,29 @@
           const response = await vm.$http.post(
             "/api/v1/statistics/bidPresentList", params
           );
-          console.log(response)
           const data = response.data[0]
+          vm.bidPresentList = data;
+          
+          vm.biInfoSum.planCnt = 0;
+          vm.biInfoSum.planAmt = 0;
+          vm.biInfoSum.ingCnt = 0;
+          vm.biInfoSum.ingAmt = 0;
+          vm.biInfoSum.succCnt = 0;
+          vm.biInfoSum.succAmt = 0;
+          vm.biInfoSum.custCnt = 0;
+          vm.biInfoSum.regCustCnt = 0;
 
-          console.log('data')
-          console.log(this.data)
-
-          vm.bidPresentList = data.slice(0, data.length - 1)
-
-          console.log('bidPresentList')
-          console.log(this.bidPresentList)
-
-          vm.biInfoSum = data[data.length - 1];
-          if(vm.biInfoSum != undefined){
-            vm.biInfoSum.planCnt = vm.biInfoSum.planCnt.toLocaleString()
-            vm.biInfoSum.planAmt = vm.biInfoSum.planAmt.toLocaleString()
-            vm.biInfoSum.ingCnt = vm.biInfoSum.ingCnt.toLocaleString()
-            vm.biInfoSum.ingAmt = vm.biInfoSum.ingAmt.toLocaleString()
-            vm.biInfoSum.succCnt = vm.biInfoSum.succCnt.toLocaleString()
-            vm.biInfoSum.succAmt = vm.biInfoSum.succAmt.toLocaleString()
-            vm.biInfoSum.custCnt = vm.biInfoSum.custCnt.toLocaleString()
-            vm.biInfoSum.regCustCnt = vm.biInfoSum.regCustCnt
+          for(var i = 0; i < data.length; i++){
+            vm.biInfoSum.planCnt += data[i].planCnt;
+            vm.biInfoSum.planAmt += data[i].planAmt;
+            vm.biInfoSum.ingCnt += data[i].ingCnt;            
+            vm.biInfoSum.ingAmt += data[i].ingAmt;
+            vm.biInfoSum.succCnt += data[i].succCnt;
+            vm.biInfoSum.succAmt += data[i].succAmt;
+            vm.biInfoSum.custCnt += data[i].custCnt;
+            vm.biInfoSum.regCustCnt += data[i].regCustCnt;
           }
+
           vm.routerStartDay = $('#startDay').val()
           vm.routerEndDay = $('#endDay').val()
           vm.$store.commit("finish");
@@ -206,7 +212,66 @@
           vm.$store.commit("finish");
         }
     },
+    
+      //excelDown
+      excelDown(){
+        const time = cmmn.formatDate(new Date(), "yyyy_mm_dd");
+
+        let params = {
+          coInter : vm.coInter == '' ?  vm.coInter : vm.coInterList.map(item => item.interrelatedCustCode),
+          startDay : $('#startDay').val(),
+          endDay : $('#endDay').val(),
+          biInfoList : this.biInfoListExcel,
+          fileName : "입찰현황" + time
+        }
+
+        if(this.$store.state.loginInfo.userAuth == 1){
+          params.coInter = vm.coInter
+        }else{
+          if(vm.coInter == ''){
+            params.coInter =  vm.coInterList.map(item => item.interrelatedCustCode).join(',')
+          }else{
+            params.coInter = vm.coInter
+            params.coInterVal = 'Y'
+          }
+        }
+
+        this.$store.commit("loading");
+        this.$http
+          .post("/api/v1/excel/statistics/bidPresentList/downLoad", params, {
+            responseType: "blob",
+          })
+          .then((response) => {
+            if (response.status === 200) {
+              // 응답이 성공적으로 도착한 경우
+              const url = window.URL.createObjectURL(new Blob([response.data])); // 응답 데이터를 Blob 형식으로 변환하여 URL을 생성합니다.
+              const link = document.createElement("a");
+              link.href = url;
+              link.setAttribute("download", params.fileName + ".xlsx"); // 다운로드할 파일명을 설정합니다.
+              document.body.appendChild(link);
+              link.click();
+              window.URL.revokeObjectURL(url); // 임시 URL을 해제합니다.
+            } else {
+              this.$swal({
+                // 오류 처리
+                type: "warning",
+                text: "엑셀 다운로드 중 오류가 발생했습니다.",
+              });
+            }
+          })
+          .catch((error) => {
+            // 오류 처리
+            console.error("Error:", error);
+            this.$swal({
+              type: "warning",
+              text: "엑셀 다운로드 중 오류가 발생했습니다.",
+            });
+          })
+          .finally(() => {
+            this.$store.commit("finish"); // 로딩 상태 종료
+          });
+      }
+    },
     beforeMount() {},
   }
-}
   </script>
