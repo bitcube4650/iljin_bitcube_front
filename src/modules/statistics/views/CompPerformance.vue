@@ -83,10 +83,10 @@
         <tfoot>
           <tr v-if="biInfoList.length > 0">
             <th class="text-left">계</th>
-            <th class="text-right">{{ biInfoSum.cnt}}</th>
-            <th class="text-right">{{ biInfoSum.bdAnt}}</th>
-            <th class="text-right">{{ biInfoSum.succAmt}}</th>
-            <th :class="biInfoSum.mamt.includes('-') ? 'text-right textHighlight' : 'text-right'">{{ biInfoSum.mamt}}</th>
+            <th class="text-right">{{ biInfoSum.cnt.toLocaleString()}}</th>
+            <th class="text-right">{{ biInfoSum.bdAnt.toLocaleString()}}</th>
+            <th class="text-right">{{ biInfoSum.succAmt.toLocaleString()}}</th>
+            <th :class=" 0 > biInfoSum.mamt  ? 'text-right textHighlight' : 'text-right'">{{ biInfoSum.mamt.toLocaleString()}}</th>
             <th class="end"></th>
           </tr>
         </tfoot>
@@ -113,6 +113,7 @@
         biInfoSum : {}, // 회사별 입찰실적 하단 합계
         routerStartDay :  '', // 상세로 이동할 때 시작일
         routerEndDay :  '', // 상세로 이동할 때 종료일
+        biInfoListExcel : [] // 회사별 입찰실적 리스트 총 합까지 엑셀로 보내기 위한 변수
       };
     },
     async mounted() {
@@ -171,22 +172,24 @@
           const response = await vm.$http.post(
             "/api/v1/statistics/biInfoList", params
           );
-          const data = response.data[0]
+          const data = response.data[0].concat()
+          vm.biInfoListExcel = data
           vm.biInfoList = data.slice(0, data.length - 1)
-
           vm.biInfoSum = data[data.length - 1];
+          /*
           if(vm.biInfoSum != undefined){
             vm.biInfoSum.cnt = vm.biInfoSum.cnt.toLocaleString()
             vm.biInfoSum.bdAnt = vm.biInfoSum.bdAnt.toLocaleString()
             vm.biInfoSum.succAmt = vm.biInfoSum.succAmt.toLocaleString()
             vm.biInfoSum.mamt = vm.biInfoSum.mamt.toLocaleString()
           }
+          */
           vm.routerStartDay = $('#startDay').val()
           vm.routerEndDay = $('#endDay').val()
-          vm.$store.commit("finish");
+          vm.$store.commit("finish")
         } catch (err) {
           console.log(err);
-          vm.$store.commit("finish");
+          vm.$store.commit("finish")
         }
       },
       //회사명 클릭 시 입찰 상세내역으로 이동하는 메소드
@@ -198,7 +201,7 @@
       excelDown(){
         const time = cmmn.formatDate(new Date(), "yyyy_mm_dd");
         const params = {
-          biInfoList : this.biInfoList,
+          biInfoList : this.biInfoListExcel,
           fileName : "회사별 입찰실적" + time
         }
 
