@@ -90,7 +90,7 @@
               <td class="end"></td>
             </tr>
             <tr v-show="bidPresentList.length == 0 ">
-              <td colspan="6">조회된 데이터가 없습니다.</td>
+              <td colspan="10">조회된 데이터가 없습니다.</td>
             </tr>
           </tbody>
           <tfoot>
@@ -169,10 +169,9 @@
           params.coInter = vm.coInter
         }else{
           if(vm.coInter == ''){
-            params.coInter =  vm.coInterList.map(item => item.interrelatedCustCode).join(',')
+            params.coInter =  vm.coInterList.map(item => item.interrelatedCustCode)
           }else{
             params.coInter = vm.coInter
-            params.coInterVal = 'Y'
           }
         }
 
@@ -182,8 +181,24 @@
             "/api/v1/statistics/bidPresentList", params
           );
           const data = response.data[0]
-          vm.bidPresentList = data;
-          
+          if(data.length > 1){
+            vm.bidPresentList = data.slice(0, data.length - 1);
+
+            vm.biInfoSum.planCnt = 0;
+            vm.biInfoSum.planAmt = 0;
+            vm.biInfoSum.ingCnt = 0;
+            vm.biInfoSum.ingAmt = 0;
+            vm.biInfoSum.succCnt = 0;
+            vm.biInfoSum.succAmt = 0;
+            vm.biInfoSum.custCnt = 0;
+            vm.biInfoSum.regCustCnt = 0;
+
+            vm.biInfoSum = data[data.length - 1];
+            // console.log(vm.biInfoSum);
+          }
+
+          vm.$store.commit("finish");
+        } catch (err) {
           vm.biInfoSum.planCnt = 0;
           vm.biInfoSum.planAmt = 0;
           vm.biInfoSum.ingCnt = 0;
@@ -193,21 +208,6 @@
           vm.biInfoSum.custCnt = 0;
           vm.biInfoSum.regCustCnt = 0;
 
-          for(var i = 0; i < data.length; i++){
-            vm.biInfoSum.planCnt += data[i].planCnt;
-            vm.biInfoSum.planAmt += data[i].planAmt;
-            vm.biInfoSum.ingCnt += data[i].ingCnt;            
-            vm.biInfoSum.ingAmt += data[i].ingAmt;
-            vm.biInfoSum.succCnt += data[i].succCnt;
-            vm.biInfoSum.succAmt += data[i].succAmt;
-            vm.biInfoSum.custCnt += data[i].custCnt;
-            vm.biInfoSum.regCustCnt += data[i].regCustCnt;
-          }
-
-          vm.routerStartDay = $('#startDay').val()
-          vm.routerEndDay = $('#endDay').val()
-          vm.$store.commit("finish");
-        } catch (err) {
           console.log(err);
           vm.$store.commit("finish");
         }
