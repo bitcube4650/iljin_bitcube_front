@@ -409,7 +409,6 @@ export default {
 			this.$http
 			.post('/api/v1/couser/idcheck', this.detail)
 			.then((response) => {
-				$("#joinBtn").modal("hide"); 
 				if (response.data.code == 'OK') {
 					this.$swal({type: "info",text: "입력한 아이디를 사용할 수 있습니다."});
 					this.detail.idcheck = true;
