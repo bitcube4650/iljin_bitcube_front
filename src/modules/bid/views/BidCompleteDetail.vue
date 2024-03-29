@@ -81,6 +81,40 @@
 					</div>
 				</div>
 
+				<template v-if="data.interrelatedCustCode == '02'">
+				<h3 class="h3Tit mt50">입찰분류</h3>
+				<div class="boxSt mt20">
+					<div class="flex align-items-center">
+						<div class="formTit flex-shrink0 width170px">분류군</div>
+						<div class="flex align-items-center width100">
+							<select class="selectStyle" disabled>
+								<option value="">{{ data.matDept }}</option>
+							</select>
+							<select class="selectStyle" style="margin:0 10px" disabled>
+								<option value="">{{ data.matProc }}</option>
+							</select>
+							<select class="selectStyle" disabled>
+								<option value="">{{ data.matCls }}</option>
+							</select>
+						</div>
+					</div>
+					<div class="flex align-items-center mt20">
+						<div class="formTit flex-shrink0 width170px">공장동</div>
+						<div class="width100">{{ data.matFactory }}</div>
+					</div>
+					<div class="flex align-items-center mt20">
+						<div class="flex align-items-center width100">
+							<div class="formTit flex-shrink0 width170px">라인</div>
+							<div class="width100">{{ data.matFactoryLine }}</div>
+						</div>
+						<div class="flex align-items-center width100 ml80">
+							<div class="formTit flex-shrink0 width170px">호기</div>
+							<div class="width100">{{ data.matFactoryCnt }}</div>
+						</div>
+					</div>
+				</div>
+				</template>
+
 				<h3 class="h3Tit mt50">입찰공고 추가등록 사항</h3>
 				<div class="boxSt mt20">
 					<div class="flex align-items-center">
