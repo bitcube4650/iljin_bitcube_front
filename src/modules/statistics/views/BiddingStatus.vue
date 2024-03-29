@@ -44,7 +44,7 @@
           </div>
           <div class="flex flex-shrink0">
             <p class="align-self-end mr20"></p>
-            <a @click="excelDown" href="" class="btnStyle btnPrimary" title="엑셀 다운로드">엑셀 다운로드 <i class="fa-light fa-arrow-down-to-line ml10"></i></a>
+            <a @click="excelDown" class="btnStyle btnPrimary" title="엑셀 다운로드">엑셀 다운로드 <i class="fa-light fa-arrow-down-to-line ml10"></i></a>
           </div>
         </div>
 
@@ -213,63 +213,63 @@
         }
     },
     
-      //excelDown
-      excelDown(){
-        const time = cmmn.formatDate(new Date(), "yyyy_mm_dd");
+    //excelDown
+    excelDown(){
+      const vm = this
+      const time = cmmn.formatDate(new Date(), "yyyy_mm_dd");
 
-        let params = {
-          coInter : vm.coInter == '' ?  vm.coInter : vm.coInterList.map(item => item.interrelatedCustCode),
-          startDay : $('#startDay').val(),
-          endDay : $('#endDay').val(),
-          biInfoList : this.biInfoListExcel,
-          fileName : "입찰현황" + time
-        }
+      const params = {
+        coInter : vm.coInter == '' ?  vm.coInter : vm.coInterList.map(item => item.interrelatedCustCode),
+        startDay : $('#startDay').val(),
+        endDay : $('#endDay').val(),
+        fileName : "입찰현황" + time
+      }
 
-        if(this.$store.state.loginInfo.userAuth == 1){
-          params.coInter = vm.coInter
+      if(this.$store.state.loginInfo.userAuth == 1){
+        params.coInter = vm.coInter
+      }else{
+        if(vm.coInter == ''){
+          params.coInter =  vm.coInterList.map(item => item.interrelatedCustCode).join(',')
         }else{
-          if(vm.coInter == ''){
-            params.coInter =  vm.coInterList.map(item => item.interrelatedCustCode).join(',')
-          }else{
-            params.coInter = vm.coInter
-            params.coInterVal = 'Y'
-          }
+          params.coInter = vm.coInter
+          params.coInterVal = 'Y'
         }
+      }
 
-        this.$store.commit("loading");
-        this.$http
-          .post("/api/v1/excel/statistics/bidPresentList/downLoad", params, {
-            responseType: "blob",
-          })
-          .then((response) => {
-            if (response.status === 200) {
-              // 응답이 성공적으로 도착한 경우
-              const url = window.URL.createObjectURL(new Blob([response.data])); // 응답 데이터를 Blob 형식으로 변환하여 URL을 생성합니다.
-              const link = document.createElement("a");
-              link.href = url;
-              link.setAttribute("download", params.fileName + ".xlsx"); // 다운로드할 파일명을 설정합니다.
-              document.body.appendChild(link);
-              link.click();
-              window.URL.revokeObjectURL(url); // 임시 URL을 해제합니다.
-            } else {
-              this.$swal({
-                // 오류 처리
-                type: "warning",
-                text: "엑셀 다운로드 중 오류가 발생했습니다.",
-              });
-            }
-          })
-          .catch((error) => {
-            // 오류 처리
-            console.error("Error:", error);
+      this.$store.commit("loading");
+      this.$http
+        .post("/api/v1/excel/statistics/bidPresentList/downLoad", params, {
+          responseType: "blob",
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            // 응답이 성공적으로 도착한 경우
+            const url = window.URL.createObjectURL(new Blob([response.data])); // 응답 데이터를 Blob 형식으로 변환하여 URL을 생성합니다.
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", params.fileName + ".xlsx"); // 다운로드할 파일명을 설정합니다.
+            document.body.appendChild(link);
+            link.click();
+            window.URL.revokeObjectURL(url); // 임시 URL을 해제합니다.
+          } else {
             this.$swal({
+              // 오류 처리
               type: "warning",
               text: "엑셀 다운로드 중 오류가 발생했습니다.",
             });
-          })
-          .finally(() => {
-            this.$store.commit("finish"); // 로딩 상태 종료
+          }
+        })
+        .catch((error) => {
+          // 오류 처리
+          console.error("Error:", error);
+          this.$swal({
+            type: "warning",
+            text: "엑셀 다운로드 중 오류가 발생했습니다.",
           });
+        })
+        .finally(() => {
+          this.$store.commit("finish"); // 로딩 상태 종료
+        });
       }
     },
     beforeMount() {},
