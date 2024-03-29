@@ -37,7 +37,7 @@
 							<!-- //툴팁 -->
 						</div>
 					</div>
-					<div v-if="this.$route.params.id == null" class="flex align-items-center mt20">
+					<div v-if="this.$route.params.id == null && this.detail.custCode == null" class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">업체유형 1 <span class="star">*</span></div>
 						<div class="flex align-items-center width100">
                         <input type="text" v-model="detail.custTypeNm1" class="inputStyle readonly" placeholder="우측 검색 버튼을 클릭해 주세요" readonly>
@@ -45,7 +45,7 @@
 						<a hhref="#" @click="itemPop='custType1';$refs.itemPop.initModal()" data-toggle="modal" data-target="#itemPop" class="btnStyle btnSecondary ml10" title="조회">조회</a>
 						</div>
 					</div>
-					<div v-if="this.$route.params.id == null" class="flex align-items-center mt20">
+					<div v-if="this.$route.params.id == null && this.detail.custCode == null" class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">업체유형 2</div>
 						<div class="flex align-items-center width100">
                         <input type="text" v-model="detail.custTypeNm2" class="inputStyle readonly" placeholder="우측 검색 버튼을 클릭해 주세요" readonly>
@@ -57,13 +57,13 @@
 						<div class="formTit flex-shrink0 width170px">승인 계열사</div>
 						<div class="width100">{{ detail.interrelatedNm }}</div>
 					</div>
-					<div v-if="this.$route.params.id != null" class="flex align-items-center mt20">
+					<div v-if="this.$route.params.id != null || this.detail.custCode != null" class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">업체유형 1</div>
-						<div class="width100">{{ detail.custType1 }}</div>
+						<div class="width100">{{ detail.custTypeNm1 }}</div>
 					</div>
-					<div v-if="this.$route.params.id != null" class="flex align-items-center mt20">
+					<div v-if="this.$route.params.id != null || this.detail.custCode != null" class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">업체유형 2</div>
-						<div class="width100">{{ detail.custType2 }}</div>
+						<div class="width100">{{ detail.custTypeNm2 }}</div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">회사명 <span class="star">*</span></div>
@@ -183,8 +183,8 @@
 				</div>
 			</div>
 			
-			<h3 v-if="this.$route.params.id != null" class="h3Tit mt50">계열사 관리항목</h3>
-			<div v-if="this.$route.params.id != null" class="boxSt mt20">
+			<h3 v-if="this.$route.params.id != null || this.detail.custCode != null" class="h3Tit mt50">계열사 관리항목</h3>
+			<div v-if="this.$route.params.id != null || this.detail.custCode != null" class="boxSt mt20">
 				<div class="flex align-items-center">
 					<div class="formTit flex-shrink0 width170px">업체등급</div>
 					<div class="width100">
@@ -220,26 +220,26 @@
                         <input type="text" v-model="detail.userEmail" maxlength="100" class="inputStyle maxWidth-max-content" placeholder="ex) sample@iljin.co.kr">
                     </div>
                 </div>
-                <div v-if="this.$route.params.id == null" class="flex align-items-center mt10">
+                <div v-if="this.$route.params.id == null && this.detail.custCode == null" class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">아이디 <span class="star">*</span></div>
                     <div class="flex align-items-center width100">
                         <input type="text" v-model="detail.userId" maxlength="20" @keypress="chgUserId" class="inputStyle maxWidth-max-content" placeholder="영문, 숫자 입력(8자 이내) 후 중복확인">
                         <a href="#" @click.prevent="idcheck" class="btnStyle btnSecondary flex-shrink0 ml10" title="중복 확인">중복 확인</a>
                     </div>
                 </div>
-                <div v-if="this.$route.params.id == null" class="flex align-items-center mt10">
+                <div v-if="this.$route.params.id == null && this.detail.custCode == null" class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">비밀번호 <span class="star">*</span></div>
                     <div class="width100">
                         <input type="password" v-model="detail.userPwd" maxlength="100" class="inputStyle maxWidth-max-content" placeholder="대/소문자, 숫자, 특수문자 2 이상 조합(길이 8~16자리)">
                     </div>
                 </div>
-                <div v-if="this.$route.params.id == null" class="flex align-items-center mt10">
+                <div v-if="this.$route.params.id == null && this.detail.custCode == null" class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">비밀번호 확인 <span class="star">*</span></div>
                     <div class="width100">
                         <input type="password" v-model="detail.userPwdConfirm" maxlength="100" class="inputStyle maxWidth-max-content" placeholder="비밀번호와 동일해야 합니다.">
                     </div>
                 </div>
-				<div v-if="this.$route.params.id != null" class="flex align-items-center mt10">
+				<div v-if="this.$route.params.id != null || this.detail.custCode != null" class="flex align-items-center mt10">
 					<div class="formTit flex-shrink0 width170px">아이디</div>
 					<div class="width100">{{ detail.userId }}</div>
 				</div>
@@ -271,7 +271,7 @@
 
 			<div class="text-center mt50">
 				<a href="#" @click.prevent="$router.go(-1)" class="btnStyle btnOutline" title="취소">취소</a>
-				<a href="#" @click.prevent="validate" class="btnStyle btnPrimary" title="회원가입 신청">{{ this.$route.params.id == null ? '회원가입 신청' : '저장' }}</a>
+				<a href="#" @click.prevent="validate" class="btnStyle btnPrimary" title="회원가입 신청">{{ this.$route.params.id == null && this.detail.custCode == null ? '회원가입 신청' : '저장' }}</a>
 			</div>
 		</div>
 	</div>
@@ -287,7 +287,7 @@
 					<div v-if="this.$route.params.id != null" class="alertText2">수정하신 정보로 저장됩니다.<br>저장 시 수정이력도 저장됩니다.<br><br>저장 하시겠습니까?</div>
 					<div class="modalFooter">
 						<a href="#" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
-						<a href="#" @click.prevent="save" class="modalBtnCheck" title="신청">{{ this.$route.params.id == null ? '신청' : '저장' }}</a>
+						<a href="#" @click.prevent="save" class="modalBtnCheck" title="신청">{{ this.$route.params.id == null && this.detail.custCode == null ? '신청' : '저장' }}</a>
 					</div>
 				</div>				
 			</div>
@@ -349,11 +349,12 @@ export default {
 		async retrieve(custCode) {
 			try {
 				this.$store.commit('loading');
-				const response = await this.$http.post('/api/v1/cust/approval/'+(custCode ? custCode : this.$route.params.id));
-				this.detail = response.data;
+				var url = '/api/v1/cust/management/' + this.$route.params.id;
 				if (custCode) {
-					this.detail.custCode = null;
+					url = '/api/v1/cust/approval/' + custCode;
 				}
+				const response = await this.$http.post(url);
+				this.detail = response.data;
 				//기존에 첨부되어있는 파일 나타내기
 				if(this.detail.regnumFile != null && this.detail.regnumPath != null){
 					var preview = document.querySelector('#preview');
@@ -481,7 +482,7 @@ export default {
 				this.$swal({type: "warning",text: "아이디를 입력해주세요."});
 				return;
 			}
-			if (this.$route.params.id == null) {
+			if (this.$route.params.id == null && this.detail.custCode == null) {
 				if (this.detail.idcheck == false) {
 					this.$swal({type: "warning",text: "아이디 중복확인을 확인해주세요."});
 					return;

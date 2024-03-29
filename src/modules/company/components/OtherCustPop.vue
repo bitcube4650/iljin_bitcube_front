@@ -21,6 +21,7 @@
 						</div>
 						<input type="hidden" v-model="searchParams.custType" @keyup.enter.prevent="search(0)"/>
 						<a hhref="#" @click="$parent.callPop()" data-toggle="modal" data-target="#itemPop" class="btnStyle btnSecondary ml10" title="조회">조회</a>
+						<button @click="clearCustType" v-show="searchParams.custType != null" type="button" class="btnStyle btnOutline" title="삭제">삭제</button>
 						<div class="sbTit mr30 ml50">업체명</div>
 						<div class="width150px">
 							<input type="text" v-model="searchParams.custName" class="inputStyle" placeholder="" @keyup.enter.prevent="search(0)">
@@ -109,6 +110,11 @@ export default {
 	select(data) {
       this.$emit('callbackFunc', data);
       $("#otherCustPop").modal("hide"); 
+	},
+	clearCustType() {
+		this.searchParams.custType = null;
+		this.searchParams.custTypeNm = null;
+		this.$forceUpdate()
 	},
     async retrieve() {
       try {
