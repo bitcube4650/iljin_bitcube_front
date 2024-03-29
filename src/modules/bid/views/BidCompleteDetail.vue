@@ -456,6 +456,15 @@ export default {
 		},
 		//실제계약금액 저장
 		fnSave(){
+
+			if(cmmn.isEmpty(this.realAmt)){
+				this.$swal({
+					type: "warning",
+					text: "실제계약금액을 입력해주세요.",
+				});
+				return false;
+			}
+
 			let params = {
 				realAmt : this.realAmt
 			,	biNo : this.biNo

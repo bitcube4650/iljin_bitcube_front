@@ -151,9 +151,13 @@ export default {
         fnSearchInit(page) {
             
             if(!this.searchParams.succBi && !this.searchParams.failBi){
-                alert("완료상태를 선택해주세요.");
+                this.$swal({
+                    type: "warning",
+                    text: "완료상태를 선택해주세요.",
+                });
                 return false;
             }
+            
             if (page >= 0) this.searchParams.page = page;
             this.retrieve();
             
