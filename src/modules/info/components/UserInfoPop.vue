@@ -251,7 +251,7 @@ export default {
 		}
 
 		this.$http
-			.post('/api/v1/couser/idcheck', this.detail)
+			.post('/api/v1/cust/idcheck', this.detail)
 			.then((response) => {
 				if (response.data.code == 'OK') {
 					this.$swal({type: "success",text: "사용 가능한 로그인ID입니다."});

@@ -408,7 +408,7 @@ export default {
 			}
 			this.$store.commit('loading');
 			this.$http
-			.post('/api/v1/couser/idcheck', this.detail)
+			.post('/api/v1/cust/idcheck', this.detail)
 			.then((response) => {
 				if (response.data.code == 'OK') {
 					this.$swal({type: "info",text: "입력한 아이디를 사용할 수 있습니다."});
@@ -468,6 +468,11 @@ export default {
 			}
 			if (this.detail.addr == null || this.detail.addr == '') {
 				this.$swal({type: "warning",text: "회사주소를 입력해주세요."});
+				return;
+			}
+			var regnumFileRemoveCnt = $('#preview .file-remove').length;//올려진 파일을 삭제하는 버튼 개수
+			if(this.regnumFileCnt == 0 || regnumFileRemoveCnt == 0){//업로드 한 파일이 없는 경우
+				this.$swal({type: "warning",text: "사업자등록증을 선택해주세요."});
 				return;
 			}
 			if (this.detail.userName == null || this.detail.userName == '') {

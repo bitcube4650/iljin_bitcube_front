@@ -15,7 +15,8 @@ export default new Vuex.Store({
             userId: '',
             userName: '',
             userAuth: '',
-            token: ''
+            token: '',
+            sso: false
         },
         searchParams: {},
         isLoading: false,

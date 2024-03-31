@@ -10,17 +10,17 @@
               <!--<img src="/images/loginLogo_jtv.svg" class="img-responsive" alt="전주방송 로고">-->
             </div>
             <h1><img src="/images/loginLogo.svg" class="img-responsive" alt="일진그룹 로고"></h1>
-            <input type="text" v-model="loginInfo.loginId" autocomplete="name" name="username" placeholder="사번" autofocus="" class="loginInputStyle">
+            <input type="text" v-model="loginInfo.loginId" autocomplete="name" name="username" placeholder="아이디" autofocus="" class="loginInputStyle">
             <input type="password" v-model="loginInfo.loginPw" autocomplete="new-password" name="password" @keypress.enter="login" class="loginInputStyle mt10" placeholder="비밀번호">
             <div class="loginFindWrap">
-              <input type="checkbox" id="chkID" name="chkID" class="loginCheckStyle"><label for="chkID">아이디 저장</label>
+              <input type="checkbox" id="chkID" v-model="rememberMe" class="loginCheckStyle"><label for="chkID">아이디 저장</label>
               <ul class="loginFind">
                 <li><a href="#" @click="$refs.idSearchPop.initModal()" data-toggle="modal" data-target="#idSearch" title="아이디 찾기">아이디 찾기</a></li>
                 <li><a href="#" @click="$refs.pwSearchPop.initModal()" data-toggle="modal" data-target="#pwSearch" title="비밀번호 찾기">비밀번호 찾기</a></li>
               </ul>
             </div>
             <div class="loginBtnWrap">
-              <a  @click="login" data-target="#loginAlert" class="btnLoginPrimary" title="로그인">로그인</a>
+              <a  @click.prevent="login" class="btnLoginPrimary" title="로그인">로그인</a>
               <router-link to="/signup"  class="btnLoginOutline mt10" title="회원가입">회원가입</router-link>
             </div>
           </div>
@@ -127,7 +127,8 @@ export default {
         userName: '',
         userAuth: '',
         token: ''
-      }
+      },
+      rememberMe: false
     }
   },
   methods: {
@@ -135,14 +136,27 @@ export default {
       $("#loginAlert").modal("show"); 
     },
     async login() {  
+      if (this.loginInfo.loginId == null || this.loginInfo.loginId == '') {
+        this.$swal({type: "warning",text: "아이디를 입력해 주십시오"});
+        return;
+      }
+      if (this.loginInfo.loginPw == null || this.loginInfo.loginPw == '') {
+        this.$swal({type: "warning",text: "비밀번호를 입력해 주십시오"});
+        return;
+      }
       try {
         this.$store.commit('loading');
         const response = await this.$http.post('/login', this.loginInfo);
         const loginInfo = Object.assign({}, response.data);
-        loginInfo.loginPw = 'Not Use';
         
         this.$store.commit('login', loginInfo);
         this.$cookie.set('loginInfo', JSON.stringify(loginInfo));
+        console.log(this.rememberMe);
+        if (this.rememberMe) {
+          this.$cookie.set('rememberUserId', loginInfo.userId);
+        } else {
+          this.$cookie.delete('rememberUserId');
+        }
         this.$http.defaults.headers['x-auth-token'] = loginInfo.token;
         this.$store.commit('finish');
       } catch(err) {
@@ -171,6 +185,11 @@ export default {
     }
   },
   mounted() {
+    var userId = this.$cookie.get('rememberUserId');
+    if (userId) {
+      this.rememberMe = true;
+      this.loginInfo.loginId = userId;
+    } 
     $(document).ready(function() {
       //select
       const label = document.querySelectorAll('.selLabel');

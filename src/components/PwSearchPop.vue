@@ -114,7 +114,7 @@ export default {
       .post('/login/pwSearch', this.pwSearch)
       .then((response) => {
         $("#pwSearchConfirm").modal("hide"); 
-        if (response.data.code == 'ok') {
+        if (response.data.code == 'OK') {
           $("#pwSearch").modal("hide");
           this.$swal({
             type: "info",
@@ -123,7 +123,7 @@ export default {
         } else {
           this.$swal({
             type: "warning",
-            text: "비밀번호를 찾을 수 없습니다."
+            html: "입력한 정보가 등록된 정보와 상이합니다.<br/>다시 입력해 주십시오"
           });
 
         }

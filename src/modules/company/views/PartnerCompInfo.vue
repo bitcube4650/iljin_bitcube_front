@@ -296,10 +296,10 @@
 					$("#leavePop").modal("hide"); 
 					$("#commonAlertMsg").html('회원탈퇴되었습니다.');
       				$("#commonAlertPop").modal("show"); 
+					this.$store.commit('logout');
+					this.$cookie.delete('loginInfo');//로그인 유저정보 삭제
 					var $this = this;
 					setTimeout(function(){
-						$this.$store.commit('logout');
-						$this.$cookie.delete('loginInfo');//로그인 유저정보 삭제
 						$this.$router.push('/');
 					}, 1000);
 				} else {

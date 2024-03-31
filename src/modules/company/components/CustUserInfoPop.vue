@@ -130,7 +130,7 @@ export default {
 		}
 		this.$store.commit('loading');
 		this.$http
-		.post('/api/v1/couser/idcheck', this.detail)
+		.post('/api/v1/cust/idcheck', this.detail)
 		.then((response) => {
 			if (response.data.code == 'OK') {
 				this.$swal({type: "info",text: "입력한 아이디를 사용할 수 있습니다."});

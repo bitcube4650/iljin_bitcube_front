@@ -21,7 +21,7 @@
                 <div class="flex align-items-center">
                     <div class="formTit flex-shrink0 width170px">가입희망 계열사 <span class="star">*</span></div>
                     <div class="width100">
-                        <select v-model="custUser.interrelatedCustCode" class="selectStyle">
+                        <select v-model="detail.interrelatedCustCode" class="selectStyle">
                             <option value="">계열사를 선택해 주세요</option>
                             <option :value="val.interrelatedCustCode" v-for="(val, idx) in interrelatedList">{{ val.interrelatedNm }}</option>
                         </select>
@@ -30,84 +30,80 @@
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">업체유형 1 <span class="star">*</span></div>
                     <div class="flex align-items-center width100">
-                        <input type="text" v-model="custUser.custTypeNm1" class="inputStyle readonly" placeholder="우측 검색 버튼을 클릭해 주세요" readonly>
-                        <input type="hidden" v-model="custUser.custTypeCode1"/>
-                        <a href="#" @click="itemPop='custType1';$refs.itemPop.initModal()" data-toggle="modal" data-target="#itemPop" class="btnStyle btnSecondary ml10" title="조회">조회</a>
+                    <input type="text" v-model="detail.custTypeNm1" class="inputStyle readonly" placeholder="우측 검색 버튼을 클릭해 주세요" readonly>
+                    <input type="hidden" v-model="detail.custType1"/>
+                    <a hhref="#" @click="itemPop='custType1';$refs.itemPop.initModal()" data-toggle="modal" data-target="#itemPop" class="btnStyle btnSecondary ml10" title="조회">조회</a>
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">업체유형 2</div>
                     <div class="flex align-items-center width100">
-                        <input type="text" v-model="custUser.custTypeNm2" class="inputStyle readonly" placeholder="우측 검색 버튼을 클릭해 주세요" readonly>
-                        <input type="hidden" v-model="custUser.custTypeCode2"/>
-                        <a hhref="#" @click="itemPop='custType2';$refs.itemPop.initModal()" data-toggle="modal" data-target="#itemSelect" class="btnStyle btnSecondary ml10" title="조회">조회</a>
+                    <input type="text" v-model="detail.custTypeNm2" class="inputStyle readonly" placeholder="우측 검색 버튼을 클릭해 주세요" readonly>
+                    <input type="hidden" v-model="detail.custType1"/>
+                        <a hhref="#" @click="itemPop='custType2';$refs.itemPop.initModal()" data-toggle="modal" data-target="#itemPop" class="btnStyle btnSecondary ml10" title="조회">조회</a>
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">회사명 <span class="star">*</span></div>
-                    <div class="width100">
-                        <input type="text" v-model="custUser.custName" class="inputStyle" placeholder="">
-                    </div>
+                    <div class="width100"><input type="text" v-model="detail.custName" class="inputStyle" maxlength="100"></div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">대표자명 <span class="star">*</span></div>
-                    <div class="width100">
-                        <input type="text" v-model="custUser.presName" class="inputStyle" placeholder="">
-                    </div>
+                    <div class="width100"><input type="text" v-model="detail.presName" class="inputStyle" maxlength="50"></div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">사업자등록번호 <span class="star">*</span></div>
                     <div class="flex align-items-center width100">
-                        <input type="text" v-model="custUser.regnum1" @keypress="onlyNumber" maxlength="3" class="inputStyle" placeholder="">
+                        <input type="text" v-model="detail.regnum1" @keypress="onlyNumber" maxlength="3" class="inputStyle">
                         <span style="margin:0 10px">-</span>
-                        <input type="text" v-model="custUser.regnum2" @keypress="onlyNumber" maxlength="2" class="inputStyle" placeholder="">
+                        <input type="text" v-model="detail.regnum2" @keypress="onlyNumber" maxlength="2" class="inputStyle">
                         <span style="margin:0 10px">-</span>
-                        <input type="text" v-model="custUser.regnum2" @keypress="onlyNumber" maxlength="5" class="inputStyle" placeholder="">
+                        <input type="text" v-model="detail.regnum3" @keypress="onlyNumber" maxlength="5" class="inputStyle">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">법인번호 <span class="star">*</span></div>
                     <div class="flex align-items-center width100">
-                        <input type="text" v-model="custUser.presJumnNo1" @keypress="onlyNumber" maxlength="6" class="inputStyle" placeholder="">
+                        <input type="text" v-model="detail.presJuminNo1" @keypress="onlyNumber" maxlength="6" class="inputStyle">
                         <span style="margin:0 10px">-</span>
-                        <input type="text" v-model="custUser.presJumnNo2" @keypress="onlyNumber" maxlength="7" class="inputStyle" placeholder="">
+                        <input type="text" v-model="detail.presJuminNo2" @keypress="onlyNumber" maxlength="7" class="inputStyle">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">자본금 <span class="star">*</span></div>
                     <div class="flex align-items-center width100">
-                        <input type="text" v-model="custUser.capital" class="inputStyle" placeholder="ex) 10,000,000">
+                        <input type="text" v-model="detail.capital" @keypress="onlyNumber" maxlength="11" class="inputStyle" placeholder="ex) 10,000,000">
                         <div class="ml10">원</div>
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">설립년도 <span class="star">*</span></div>
                     <div class="flex align-items-center width100">
-                        <input type="text" v-model="custUser.foundYear" class="inputStyle" placeholder="ex) 2021">
+                        <input type="text" v-model="detail.foundYear" @keypress="onlyNumber" maxlength="4" class="inputStyle" placeholder="ex) 2021">
                         <div class="ml10">년</div>
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">대표전화 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" v-model="custUser.tel" class="inputStyle" placeholder="">
+                        <input type="text" v-model="detail.tel" maxlength="13" class="inputStyle" >
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">팩스</div>
                     <div class="width100">
-                        <input type="text" v-model="custUser.fax" class="inputStyle" placeholder="">
+                        <input type="text" v-model="detail.fax" maxlength="13" class="inputStyle">
                     </div>
                 </div>
                 <div class="flex mt10">
                     <div class="formTit flex-shrink0 width170px">회사주소 <span class="star">*</span></div>
                     <div class="width100">
                         <div class="flex align-items-center width100">
-                            <input type="text" v-model="custUser.zipcode" class="inputStyle readonly" placeholder="주소 조회 클릭" readonly>
+                            <input type="text" v-model="detail.zipcode" class="inputStyle readonly" placeholder="주소 조회 클릭" readonly>
                             <a href="#" @click="$refs.addrPop.initModal()" data-toggle="modal" data-target="#addrPop" class="btnStyle btnSecondary flex-shrink0 ml10" title="주소 조회">주소 조회</a>
                         </div>
-                        <div class="mt5"><input type="text" v-model="custUser.addr" class="inputStyle readonly" placeholder="" readonly></div>
-                        <div class="mt5"><input type="text" v-model="custUser.addrDetail" class="inputStyle" placeholder="상세 주소 입력"></div>
+                        <div class="mt5"><input type="text" v-model="detail.addr" maxlength="100" class="inputStyle readonly" readonly></div>
+                        <div class="mt5"><input type="text" v-model="detail.addrDetail" maxlength="100" class="inputStyle" placeholder="상세 주소 입력"></div>
                     </div>
                 </div>
                 <div class="flex mt10">
@@ -116,7 +112,7 @@
                         <!-- 다중파일 업로드 -->
                         <div class="upload-boxWrap">
                             <div class="upload-box">
-                                <input type="file" id="file-input">
+                                <input type="file" ref="uploadedRegnumFile" id="file-input" @change="changeRegnumFile">
                                 <div class="uploadTxt">
                                     <i class="fa-regular fa-upload"></i>
                                     <div>클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br>파일 최대 10MB (등록 파일 개수 최대 1개)</div>
@@ -129,7 +125,7 @@
                     </div>
                 </div>
                 <div class="flex mt10">
-                    <div class="formTit flex-shrink0 width170px">첨부파일 <span class="star">*</span>
+                    <div class="formTit flex-shrink0 width170px">첨부파일
                         <!-- 툴팁 -->
                         <i class="fas fa-question-circle toolTipSt ml5">
                             <div class="toolTipText" style="width:420px">
@@ -146,7 +142,7 @@
                         <!-- 다중파일 업로드 -->
                         <div class="upload-boxWrap">
                             <div class="upload-box">
-                                <input type="file" id="file-input2">
+                                <input type="file" ref="uploadedbfile" id="file-input2" @change="changebfile">
                                 <div class="uploadTxt">
                                     <i class="fa-regular fa-upload"></i>
                                     <div>클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br>파일 최대 10MB (등록 파일 개수 최대 1개)</div>
@@ -160,63 +156,65 @@
                 </div>
             </div>
 
-
-
             <h3 class="h3Tit mt50">관리자 정보</h3>
             <div class="boxSt mt20">
                 <div class="flex align-items-center">
                     <div class="formTit flex-shrink0 width170px">이름 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" v-model="custUser.userName" class="inputStyle" placeholder="우측 검색 버튼을 클릭해 주세요">
+                        <input type="text" v-model="detail.userName" class="inputStyle" maxlength="50">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">이메일 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" v-model="custUser.userEmail" class="inputStyle" placeholder="ex) sample@iljin.co.kr">
+                        <input type="text" v-model="detail.userEmail" maxlength="100" class="inputStyle" placeholder="ex) sample@iljin.co.kr">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">아이디 <span class="star">*</span></div>
                     <div class="flex align-items-center width100">
-                        <input type="text" v-model="custUser.userId" class="inputStyle" placeholder="영문, 숫자 입력(8자 이내) 후 중복확인">
-                        <a href="javascript:void(0)" class="btnStyle btnSecondary flex-shrink0 ml10" title="중복 확인">중복 확인</a>
+                        <input type="text" v-model="detail.userId" maxlength="20" @keypress="chgUserId" class="inputStyle" placeholder="영문, 숫자 입력(8자 이내) 후 중복확인">
+                        <a href="#" @click.prevent="idcheck" class="btnStyle btnSecondary flex-shrink0 ml10" title="중복 확인">중복 확인</a>
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">비밀번호 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="password" v-model="custUser.userPwd" class="inputStyle" placeholder="대/소문자, 숫자, 특수문자 2 이상 조합(길이 8~16자리)">
+                        <input type="password" v-model="detail.userPwd" maxlength="100" class="inputStyle" placeholder="대/소문자, 숫자, 특수문자 2 이상 조합(길이 8~16자리)">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">비밀번호 확인 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="password" v-model="custUser.userPwdConfirm" class="inputStyle" placeholder="비밀번호와 동일해야 합니다.">
+                        <input type="password" v-model="detail.userPwdConfirm" maxlength="100" class="inputStyle" placeholder="비밀번호와 동일해야 합니다.">
                     </div>
                 </div>
+				<div v-if="this.$route.params.id != null || this.detail.custCode != null" class="flex align-items-center mt10">
+					<div class="formTit flex-shrink0 width170px">아이디</div>
+					<div class="width100">{{ detail.userId }}</div>
+				</div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">휴대폰 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" v-model="custUser.userHp" class="inputStyle" placeholder="">
+                        <input type="text" v-model="detail.userHp" maxlength="20" class="inputStyle">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">유선전화 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" v-model="custUser.userTel" class="inputStyle" placeholder="">
+                        <input type="text" v-model="detail.userTel" maxlength="20" class="inputStyle">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">직급</div>
                     <div class="width100">
-                        <input type="text" v-model="custUser.userPositic" class="inputStyle" placeholder="">
+                        <input type="text" v-model="detail.userPosition" maxlength="50" class="inputStyle">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">부서</div>
                     <div class="width100">
-                        <input type="text" nv-model="custUser.buseo" class="inputStyle" placeholder="">
+                        <input type="text" v-model="detail.userBuseo" maxlength="50" class="inputStyle">
                     </div>
                 </div>
             </div>
@@ -287,6 +285,7 @@
 </template>
 
 <script>
+import fileInput from "../../public/js/fileInput.js"
 import ItemPop from "@/components/ItemPop.vue";
 import AddrPop from "@/components/AddrPop.vue";
 import EnrollmentProcess from "@/components/EnrollmentProcess.vue";
@@ -302,88 +301,293 @@ export default {
   },
   data() {
     return {
-        custUser: {
-            interrelatedCustCode: '',
-            zipcode: ''
-        },
+        interrelatedList: [],
+        detail: {interrelatedCustCode:''},
         itemPop: null,
-        interrelatedList: []
+        otherCustType: null,
+        regnumFile : null,  // 업로드한 파일
+        regnumFileCnt : 0,  // 업로드한 파일 수
+        regnumFileSize : 0, // 파일크기
+        bfile : null,       // 업로드한 파일
+        bfileCnt : 0,       // 업로드한 파일 수
+        bfileSize : 0       // 파일크기
     }
   },
   mounted() {
     this.init();
+    //파일첨부
+    fileInput.applyFile('#fileRegnumFile','#previewRegnumFile');
+    fileInput.applyFile('#filebfile','#previewbfile');
   },
   methods: {
-    onlyNumber(e) {
-      if (!/\d/.test(event.key) && event.key !== '.') return e.preventDefault();
-    },
-    async init() {
-      try {
-        this.$store.commit('loading');
-        const response = await this.$http.post('/login/interrelatedList');
-        this.interrelatedList = response.data;
-        this.$store.commit('finish');
-      } catch(err) {
-        console.log(err)
-        this.$store.commit('finish');
-      }
-    },
-    validate() {  
-      if (this.custUser.interrelatedCustCode == null || this.custUser.interrelatedCustCode == '') {
-        this.$swal({type: "warning",text: "가입희망 계열사를 선택해주세요."});
-        return;
-      }
-      /*
-      if (this.custUser.custTypeCode1 == '') {
-        this.$swal({type: "warning",text: "업체유형 1을 선택해주세요."});
-        return;
-      }
-      if (this.custUser.custTypeCode2 == '') {
-        this.$swal({type: "warning",text: "업체유형 2을 선택해주세요."});
-        return;
-      }
-      */
-      if (this.custUser.custName == null || this.custUser.custName == '') {
-        this.$swal({type: "warning",text: "회사명을 입력해주세요."});
-        return;
-      }
-      $("#joinBtn").modal("show"); 
-    },
-    save() {  
-      this.$store.commit("loading");
-      this.$http
-      .post('/login/custSave', this.custUser)
-      .then((response) => {
-        $("#joinBtn").modal("hide"); 
-        if (response.data.code == 'ok') {
-            this.custUser = {
-                interrelatedCustCode: ''
+		onlyNumber(e) {
+		if (!/\d/.test(event.key) && event.key !== '.') return e.preventDefault();
+		},
+		async init() {
+            try {
+                this.$store.commit('loading');
+                const response = await this.$http.post('/login/interrelatedList');
+                this.interrelatedList = response.data;
+                this.$store.commit('finish');
+            } catch(err) {
+                console.log(err)
+                this.$store.commit('finish');
             }
-            $("#joinBtn2").modal("show"); 
-        } else {
-          this.$swal({type: "warning",text: "회원가입 신청 중 오류가 발생했습니다."});
-        }
-      })
-      .finally(() => {
-        this.$store.commit("finish");
-      });
-    },
-    callbackItem(data) {
-        if (this.itemPop == 'custType1') {
-            this.custUser.custTypeCode1 = data.itemCode;
-            this.custUser.custTypeNm1 = data.itemName;
-        } else {
-            this.custUser.custTypeCode2 = data.itemCode;
-            this.custUser.custTypeNm2 = data.itemName;
-        }
-        this.$forceUpdate()
-    },
-    callbackAddr(data) {
-        this.custUser.zipcode = data.zipcode;
-        this.custUser.addr = data.addr;
-        this.custUser.addrDetail = data.addrDetail;
-        this.$forceUpdate()
-    }
+		},
+		chgUserId() {
+			this.detail.idcheck = false;
+		},
+		idcheck() {
+			if (this.detail.userId == null || this.detail.userId == '') {
+				this.$swal({type: "warning",text: "아이디를 입력해주세요."});
+				return;
+			}
+			this.$store.commit('loading');
+			this.$http
+			.post('/login/idcheck', this.detail)
+			.then((response) => {
+				if (response.data.code == 'OK') {
+					this.$swal({type: "info",text: "입력한 아이디를 사용할 수 있습니다."});
+					this.detail.idcheck = true;
+				} else {
+					this.$swal({type: "warning",text: "입력한 아이디를 사용할 수 없습니다."});
+				}
+			})
+			.finally(() => {
+				this.$store.commit("finish");
+			});
+		},
+		validate() {  
+			if (this.detail.custType1 == null || this.detail.custType1 == '') {
+				this.$swal({type: "warning",text: "업체유형1을 선택해주세요."});
+				return;
+			}
+			if (this.detail.custName == null || this.detail.custName == '') {
+				this.$swal({type: "warning",text: "회사명을 입력해주세요."});
+				return;
+			}
+			if (this.detail.presName == null || this.detail.presName == '') {
+				this.$swal({type: "warning",text: "대표자명을 입력해주세요."});
+				return;
+			}
+			if (this.detail.regnum1 == null || this.detail.regnum1 == '' || this.detail.regnum2 == null || this.detail.regnum2 == '' || this.detail.regnum3 == null || this.detail.regnum3 == '') {
+				this.$swal({type: "warning",text: "사업자등록번호를 입력해주세요."});
+				return;
+			}
+			if (this.detail.regnum1.length != 3 || this.detail.regnum2.length != 2 || this.detail.regnum3.length != 5) {
+				this.$swal({type: "warning",text: "사업자등록번호를 정확히 입력해주세요."});
+				return;
+			}
+			if (this.detail.presJuminNo1 == null || this.detail.presJuminNo1 == '' || this.detail.presJuminNo2 == null || this.detail.presJuminNo2 == '') {
+				this.$swal({type: "warning",text: "법인번호를 입력해주세요."});
+				return;
+			}
+			if (this.detail.presJuminNo1.length != 6 || this.detail.presJuminNo2.length != 7) {
+				this.$swal({type: "warning",text: "법인번호를 정확히 입력해주세요."});
+				return;
+			}
+			if (this.detail.capital == null || this.detail.capital == '') {
+				this.$swal({type: "warning",text: "자본금을 입력해주세요."});
+				return;
+			}
+			if (this.detail.foundYear == null || this.detail.foundYear == '') {
+				this.$swal({type: "warning",text: "설립년도를 입력해주세요."});
+				return;
+			}
+			if (this.detail.foundYear.length != 4) {
+				this.$swal({type: "warning",text: "설립년도를 정확히 입력해주세요."});
+				return;
+			}
+			if (this.detail.tel == null || this.detail.tel == '') {
+				this.$swal({type: "warning",text: "대표전화를 입력해주세요."});
+				return;
+			}
+			if (this.detail.addr == null || this.detail.addr == '') {
+				this.$swal({type: "warning",text: "회사주소를 입력해주세요."});
+				return;
+			}
+			var regnumFileRemoveCnt = $('#preview .file-remove').length;//올려진 파일을 삭제하는 버튼 개수
+			if(this.regnumFileCnt == 0 || regnumFileRemoveCnt == 0){//업로드 한 파일이 없는 경우
+				this.$swal({type: "warning",text: "사업자등록증을 선택해주세요."});
+				return;
+			}
+			if (this.detail.userName == null || this.detail.userName == '') {
+				this.$swal({type: "warning",text: "이름을 입력해주세요."});
+				return;
+			}
+			if (this.detail.userEmail == null || this.detail.userEmail == '') {
+				this.$swal({type: "warning",text: "이메일을 입력해주세요."});
+				return;
+			}
+			if (this.detail.userId == null || this.detail.userId == '') {
+				this.$swal({type: "warning",text: "아이디를 입력해주세요."});
+				return;
+			}
+			if (this.$route.params.id == null && this.detail.custCode == null) {
+				if (this.detail.idcheck == false) {
+					this.$swal({type: "warning",text: "아이디 중복확인을 확인해주세요."});
+					return;
+				}
+				if (this.detail.userPwd == null || this.detail.userPwd == '') {
+					this.$swal({type: "warning",text: "비밀번호를 입력해주세요."});
+					return;
+				}
+				if (this.detail.userPwdConfirm == null || this.detail.userPwdConfirm == '') {
+					this.$swal({type: "warning",text: "비밀번호 확인을 입력해주세요."});
+					return;
+				}
+				if (this.detail.userPwd != this.detail.userPwdConfirm) {
+					this.$swal({type: "warning",text: "비밀번호를 정확히 입력해주세요."});
+					return;
+				}
+				if( !this.fnPwdvaildation(this.detail.userPwd) ){
+					return;
+				}	
+			}
+			if (this.detail.userHp == null || this.detail.userHp == '') {
+				this.$swal({type: "warning",text: "휴대폰을 입력해주세요."});
+				return;
+			}
+			if (this.detail.userTel == null || this.detail.userTel == '') {
+				this.$swal({type: "warning",text: "유선전화를 입력해주세요."});
+				return;
+			}
+			$("#joinBtn").modal("show"); 
+		},
+		save() {  
+			this.$store.commit("loading");
+			var formData = new FormData();
+
+			var regnumFileRemoveCnt = $('#preview .file-remove').length;//올려진 파일을 삭제하는 버튼 개수
+			if(this.regnumFileCnt == 0 || regnumFileRemoveCnt == 0){//업로드 한 파일이 없는 경우
+				this.$refs.uploadedRegnumFile.value = null;
+				this.regnumFile = null;
+			}
+			var bfileRemoveCnt = $('#preview2 .file-remove').length;//올려진 파일을 삭제하는 버튼 개수
+			if(this.bfileCnt == 0 || bfileRemoveCnt == 0){//업로드 한 파일이 없는 경우
+				this.$refs.uploadedbfile.value = null;
+				this.bfile = null;
+			}
+
+    		formData.append('regnumFile', this.regnumFile);
+    		formData.append('bfile', this.bfile);
+			formData.append('data', new Blob([JSON.stringify(this.detail)], { type: 'application/json' }));
+
+			this.$http
+			.post('/login/custSave', formData)
+			.then((response) => {
+				$("#joinBtn").modal("hide"); 
+				if (response.data.code == 'OK') {
+      				$("#joinBtn2").modal("show"); 
+                    var $this = this;
+					setTimeout(function(){
+						$this.$router.push('/');
+					}, 2000);
+				} else {
+					this.$swal({type: "warning",text: "저장 처리 중 오류가 발생했습니다."});
+				}
+			})
+			.finally(() => {
+				this.$store.commit("finish");
+			});
+		},
+		callbackItem(data) {
+			if (this.itemPop == 'custType1') {
+				this.detail.custType1 = data.itemCode;
+				this.detail.custTypeNm1 = data.itemName;
+			} else if (this.itemPop == 'custType2') {
+				this.detail.custType2 = data.itemCode;
+				this.detail.custTypeNm2 = data.itemName;
+			}
+            this.$forceUpdate()
+		},
+		callbackAddr(data) {
+			this.detail.zipcode = data.zipcode;
+			this.detail.addr = data.addr;
+			this.detail.addrDetail = data.addrDetail;
+			this.$forceUpdate()
+		},
+		checkRegnumFileSize() {//파일크기 확인
+			const input = this.$refs.uploadedRegnumFile;
+			if (input.files.length > 0) {
+				const file = input.files[0];
+				this.regnumFileSize = file.size;
+				// 원하는 용량 제한 설정 (10MB)
+				const maxSize = 10 * 1024 * 1024;
+				if (this.regnumFileSize > maxSize) {
+					alert('파일 크기가 10MB를 초과했습니다.');
+					// 파일 초기화 또는 다른 조치를 취할 수 있습니다.
+					this.$refs.uploadedRegnumFile.value = null;
+					this.regnumFileSize = null;
+					var previewRegnumFile = document.querySelector('#preview');
+					previewRegnumFile.innerHTML = '';
+					return true;
+				}
+			}
+			return false;
+		},
+		changeRegnumFile(evnet){//바뀐 파일 regnumFile에 담기
+			//파일 변경시 기존 처음에 첨부되었던 파일정보 사라짐
+			this.detail.regnumFile = null;
+			this.detail.regnumPath = null;
+			//파일 사이즈 체크
+			if(this.checkRegnumFileSize()){
+				return false;
+			}
+			this.regnumFile = event.target.files[0];
+			this.regnumFileCnt = event.target.files.length;
+		},
+		checkbfileSize() {//파일크기 확인
+			const input = this.$refs.uploadedbfile;
+			if (input.files.length > 0) {
+				const file = input.files[0];
+				this.regnumFileSize = file.size;
+				// 원하는 용량 제한 설정 (10MB)
+				const maxSize = 10 * 1024 * 1024;
+				if (this.regnumFileSize > maxSize) {
+					alert('파일 크기가 10MB를 초과했습니다.');
+					// 파일 초기화 또는 다른 조치를 취할 수 있습니다.
+					this.$refs.uploadedbfile.value = null;
+					this.regnumFileSize = null;
+					var previewbfile = document.querySelector('#preview2');
+					previewbfile.innerHTML = '';
+					return true;
+				}
+			}
+			return false;
+		},
+		changebfile(evnet){//바뀐 파일 regnumFile에 담기
+			//파일 변경시 기존 처음에 첨부되었던 파일정보 사라짐
+			this.detail.bfile = null;
+			this.detail.bfilePath = null;
+			//파일 사이즈 체크
+			if(this.checkbfileSize()){
+				return false;
+			}
+			this.bfile = event.target.files[0];
+			this.bfileCnt = event.target.files.length;
+		},
+		// 비밀번호 유효성 체크
+		fnPwdvaildation(userPwd){
+			const password = userPwd;
+			const hasUpperCase = /[A-Z]/.test(password);//대문자
+			const hasLowerCase = /[a-z]/.test(password);//소문자
+			const hasDigit = /\d/.test(password);//숫자
+			const hasSpecialChar = /[!@#$%^&*()\-_=+{};:,<.>]/.test(password);//특수문자
+
+			var isValidPassword = (hasUpperCase && hasLowerCase && hasDigit) || (hasUpperCase && hasLowerCase && hasSpecialChar) || (hasDigit && hasSpecialChar);
+			var isValidLength = password.length >= 8 && password.length <= 16;
+
+			if(!isValidPassword){
+				this.$swal({type: "warning",text: "대/소문자, 숫자, 특수문자중에서 2가지 이상 조합되어야 합니다."});
+				return;
+			}else if(!isValidLength){
+				this.$swal({type: "warning",text: "비밀번호는 8자 이상 16자 이하로 작성해주세요."});
+				return;
+			}
+			return true;
+
+		},
   }
 }
 </script>
