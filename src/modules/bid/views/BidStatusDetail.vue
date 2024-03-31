@@ -463,7 +463,7 @@
               <a class="modalBtnClose" data-dismiss="modal" title="취소"
                 >취소</a
               >
-              <a class="modalBtnCheck" data-toggle="modal" title="개찰">개찰</a>
+              <a class="modalBtnCheck" @click="bidOpening" data-toggle="modal" title="개찰">개찰</a>
             </div>
           </div>
         </div>
@@ -670,6 +670,25 @@ export default {
     movetolist() {
       this.$router.push({ name: "bidStatus" });
     },
+    bidOpening(){
+      this.$store.commit("loading");
+      this.$http
+        .post("/api/v1/bidstatus/bidOpening", this.detail)
+        .then((response) => {
+          if (response.data.code == "OK") {
+          } else {
+            this.$swal({
+              type: "warning",
+              text: "개찰 처리중 오류가 발생했습니다.",
+            });
+          }
+        })
+        .finally(() => {
+          $("#biddingReserve").modal("hide");
+          this.$store.commit("finish");
+          this.$router.push({ name: "bidStatus" });
+        });
+    }
   },
   beforeMount() {},
   mounted() {

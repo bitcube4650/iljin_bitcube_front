@@ -101,9 +101,9 @@
             <div class="width100">{{ this.result.whyA3 }}</div>
           </div>
         </div>
-
-        <h3 class="h3Tit mt50">전자입찰 제출 내역</h3>
-        <div class="conTopBox mt20">
+        <!--견적을 이미 제출한 경우-->
+        <h3 class="h3Tit mt50" v-if="this.custContent[0].esmtYn == '2'">전자입찰 제출 내역</h3>
+        <div class="conTopBox mt20" v-if="this.custContent[0].esmtYn == '2'">
           <ul class="dList">
             <li>
               <div>
@@ -114,7 +114,7 @@
             <li><div>첨부파일은 세부내역 작성에 참고 될 자료들입니다.</div></li>
           </ul>
         </div>
-        <div class="boxSt mt20">
+        <div class="boxSt mt20" v-if="this.custContent[0].esmtYn == '2'">
           <div class="flex align-items-center">
             <div class="flex align-items-center width100">
               <div class="formTit flex-shrink0 width170px">제출시작일시</div>
@@ -125,10 +125,7 @@
               <div class="width100">{{ this.result.estCloseDate }}</div>
             </div>
           </div>
-          <div
-            class="flex align-items-center mt20"
-            v-if="this.result.insMode === '파일등록'"
-          >
+          <div class="flex align-items-center mt20" v-if="this.result.insMode === '파일등록'">
             <div class="formTit flex-shrink0 width170px">세부내역</div>
             <div class="width100">
               <a
@@ -172,30 +169,20 @@
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">첨부파일</div>
             <div class="width100">
-              <div
-                v-for="(val, idx) in fileContent"
-                v-if="
-                  val.fileFlagKo === '대외용' || val.fileFlagKo === '대내용'
-                "
-                :key="idx"
-              >
-                <div
-                  :class="val.fileFlagKo === '대외용' ? 'textHighlight' : 'mt5'"
-                >
+              <div v-for="(val, idx) in custContent" :key="idx" >
+                <div class="mt5"><!--'textHighlight' : 'mt5'-->
                   <span class="mr20">{{ val.fileFlagKo }}</span>
-                  <a
-                    @click="downloadFile(val.filePath, val.fileNm)"
-                    class="textUnderline"
-                    >{{ val.fileNm }}</a
-                  >
+                  <a @click="downloadFile(val.etcPath, val.etcFile)" class="textUnderline" >{{ val.etcFile }}</a>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        <h3 class="h3Tit mt50">견적 제출</h3>
-        <div class="conTopBox mt20">
+        <!--//견적을 이미 제출한 경우-->
+        
+        <!--견적을 아직 제출 안한 경우-->
+        <h3 class="h3Tit mt50" v-if="this.custContent[0].esmtYn != '2'">견적 제출</h3>
+        <div class="conTopBox mt20" v-if="this.custContent[0].esmtYn != '2'">
           <ul class="dList">
             <li>
               <div>
@@ -205,7 +192,7 @@
             </li>
           </ul>
         </div>
-        <div class="boxSt mt20">
+        <div class="boxSt mt20" v-if="this.custContent[0].esmtYn != '2'">
           <table class="tblSkin1" v-if="this.result.insMode === '직접입력'">
             <colgroup>
               <col style="" />
@@ -239,13 +226,12 @@
                 </td>
                 <td class="text-right">
                   <input
-                    type="number"
+                    type="text"
                     name=""
                     id=""
                     class="inputStyle inputSm text-right"
                     placeholder=""
                     v-model="tableContent[idx].esmtAmt"
-                    @input="updateTotal"
                   />
                 </td>
               </tr>
@@ -306,13 +292,13 @@
                 </option>
               </select>
               <input
-                type="number"
+                type="text"
                 name=""
                 id=""
                 class="inputStyle"
                 placeholder="숫자만 입력"
                 style="margin: 0 10px"
-                v-model="this.amt"
+                v-model="amt"
               />
               <input
                 type="text"
@@ -324,7 +310,7 @@
               />
             </div>
           </div>
-          <div class="flex mt10">
+          <div class="flex mt10" v-if="this.result.insMode === '파일등록'">
             <div class="formTit flex-shrink0 width170px">
               견적내역파일 <span class="star">*</span>
               <!-- 툴팁 -->
@@ -349,17 +335,17 @@
             </div>
             <div class="width100">
               <!-- 다중파일 업로드 -->
-              <div class="upload-box">
-                <input type="file" id="file-input" />
-                <div class="uploadTxt">
-                  <i class="fa-regular fa-upload"></i>
-                  <div>
-                    클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br />파일
-                    최대 10MB (등록 파일 개수 최대 1개)
+              <div class="upload-boxWrap">
+                <div class="upload-box">
+                  <input type="file" id="file-input" @change="fileInputChange">
+                  <div class="uploadTxt">
+                    <i class="fa-regular fa-upload"></i>
+                    <div>클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br>파일 최대 10MB (등록 파일 개수 최대 1개)</div>
                   </div>
                 </div>
+                <div class="uploadPreview" id="preview">
+                </div>
               </div>
-              <div class="uploadPreview" id="preview"></div>
               <!-- //다중파일 업로드 -->
             </div>
           </div>
@@ -367,21 +353,22 @@
             <div class="formTit flex-shrink0 width170px">기타첨부</div>
             <div class="width100">
               <!-- 다중파일 업로드 -->
-              <div class="upload-box">
-                <input type="file" id="file-input2" />
-                <div class="uploadTxt">
-                  <i class="fa-regular fa-upload"></i>
-                  <div>
-                    클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br />파일
-                    최대 10MB (등록 파일 개수 최대 1개)
+              <div class="upload-boxWrap">
+                <div class="upload-box">
+                  <input type="file" id="file-input2" @change="fileInput2Change">
+                  <div class="uploadTxt">
+                    <i class="fa-regular fa-upload"></i>
+                    <div>클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br>파일 최대 10MB (등록 파일 개수 최대 1개)</div>
                   </div>
                 </div>
+                <div class="uploadPreview" id="preview2">
+                </div>
               </div>
-              <div class="uploadPreview" id="preview2"></div>
               <!-- //다중파일 업로드 -->
             </div>
           </div>
         </div>
+        <!--//견적을 아직 제출 안한 경우-->
 
         <div class="text-center mt50">
           <a class="btnStyle btnOutline" title="목록" @click="movetolist"> 목록 </a>
@@ -398,11 +385,43 @@
             v-if="this.result.insMode === '직접입력'"
             >견적금액 임시저장</a
           >
-          <a class="btnStyle btnPrimary" title="견적서 제출">견적서 제출</a>
+          <a @click="openConfirm" class="btnStyle btnPrimary" title="견적서 제출">견적서 제출</a>
         </div>
       </div>
     </div>
     <!-- //contents -->
+
+    <!-- 개찰 -->
+    <div
+      class="modal fade modalStyle"
+      id="suggestBid"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" style="width: 100%; max-width: 550px">
+        <div class="modal-content">
+          <div class="modal-body">
+            <a class="ModalClose" data-dismiss="modal" title="닫기"
+              ><i class="fa-solid fa-xmark"></i
+            ></a>
+            <h2 class="modalTitle">투찰</h2>
+            <div class="modalTopBox">
+              <ul>
+                <div>견적서를 제출하시겠습니까?</div>
+              </ul>
+            </div>
+            <div class="modalFooter">
+              <a class="modalBtnClose" data-dismiss="modal" title="취소"
+                >취소</a
+              >
+              <a class="modalBtnCheck" @click="bidSubmitting" data-toggle="modal" title="개찰">개찰</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- //개찰 -->
 
     <!--공고문 미리보기 팝업-->
     <BidAdvertisement
@@ -424,16 +443,43 @@ export default {
     return {
       total: 0,
       detail: {},
-      dataFromList: {}, //목록에서 받아온 데이터
+      dataFromList: '', //입찰번호
       searchParams: {},
       result: [],
       tableContent: [],
       fileContent: [],
+      custContent:[],
       loginId: "",
       currlist: [],
-      curr: "",
+      curr: "KRW",
       amt: 0,
+      file1: {},//견적세부파일
+      file2: {}//기타파일
     };
+  },
+  async beforeMount() {
+    
+  },
+  async mounted() {
+
+    const params = {
+      id: this.$options.name,
+      biNo: this.$store.state.bidDetailData
+    };
+    if (this.$store.state.searchParams.id == params.id) {
+      this.searchParams = Object.assign(params, this.$store.state.searchParams);
+    } else {
+      this.searchParams = params;
+    }
+
+    this.dataFromList = this.$store.state.bidDetailData;//입찰번호
+    this.loginId = this.$store.state.loginInfo.userId;//유저 아이디
+
+    this.checkBid();//업체공고확인 처리
+    this.init();
+    await this.retrieve();
+    fileInput.applyFile();
+
   },
   computed: {
     totalAmount() {
@@ -458,10 +504,11 @@ export default {
           "/api/v1/bid/progresslistDetail",
           this.dataFromList
         );
-        this.result = response.data[0][0];
-        this.tableContent = response.data[1];
+        this.result = response.data[0][0];//입찰정보
+        this.tableContent = response.data[1];//직접입력정보
         this.total = this.calculateTotal();
-        this.fileContent = response.data[2];
+        this.fileContent = response.data[2];//파일입력정보
+        this.custContent = response.data[3]//협력사투찰정보
         this.$store.commit("finish");
       } catch (err) {
         console.log(err);
@@ -472,33 +519,6 @@ export default {
     validationCheck() {
       //투찰 전 필수입력요소 체크 로직 추가하기
     },
-
-    bidNotice() {
-      //투찰 로직으로 변경하기
-      this.detail.biNo = this.dataFromList;
-      console.log(this.detail.biNo);
-      this.detail.biName = this.result.biName;
-      this.detail.type = "open";
-      this.detail.interNm = this.result.interrelatedNm;
-      this.$store.commit("loading");
-      this.$http
-        .post("/api/v1/bid/bidNotice", this.detail)
-        .then((response) => {
-          if (response.data.code == "OK") {
-          } else {
-            this.$swal({
-              type: "warning",
-              text: "투찰 중 오류가 발생했습니다.",
-            });
-          }
-        })
-        .finally(() => {
-          $("#biddingModal").modal("hide");
-          this.$store.commit("finish");
-          this.$router.push({ name: "bidProgress" });
-        });
-    },
-
     calculateTotal() {
       let total = 0;
       this.tableContent.forEach((val) => {
@@ -542,37 +562,70 @@ export default {
         this.$store.commit("finish");
       }
     },
-    checkBid() {
-      console.log(1111111111111, this.searchParams);
+    checkBid() {//업체공고확인
       this.$http.post("/api/v1/bidPtStatus/checkBid", this.searchParams);
     },
-        movetolist() {
+    movetolist() {
       this.$router.push({ name: "partnerBidStatus" });
     },
-  },
-  beforeMount() {
-    this.curr = "KRW";
-    this.amt = 0;
-    const params = {
-      id: this.$options.name,
-      biNo: this.$store.state.bidDetailData,
-      custCode: this.$store.state.loginInfo.custCode,
-    };
-    if (this.$store.state.searchParams.id == params.id) {
-      this.searchParams = Object.assign(params, this.$store.state.searchParams);
-    } else {
-      this.searchParams = params;
-    }
+    openConfirm(){//valid 체크 및 투찰 확인창 오픈
 
-    this.dataFromList = this.$store.state.bidDetailData;
-    this.loginId = this.$store.state.loginInfo.userId;
-    console.log(this.dataFromList);
-    this.checkBid();
-    this.init();
-    this.retrieve();
-  },
-  mounted() {
-    fileInput.applyFile();
-  },
+      $('#suggestBid').modal('show');
+
+    },
+    bidSubmitting(){//투찰
+      $('#suggestBid').modal('hide');
+      var formData = new FormData();
+
+      this.detail.biNo = this.dataFromList;//입찰번호
+      this.detail.insModeCode = this.result.insModeCode;//파일등록인지 직접입력인지
+      this.detail.amt =  this.amt;//파일입력 방식인 경우 견적금액
+      this.detail.tableContent = this.tableContent;//직접입력 방식인 경우 품목당 견적금액
+      //this.detail.biName = this.result.biName;
+      //this.detail.type = "open";
+      //this.detail.interNm = this.result.interrelatedNm;
+      
+      if(this.result.insModeCode === '2'){//직접입력인 경우
+        this.detail.amt = this.calculateTotal();//각 품목당 견적금액 더한 값
+      }
+      this.detail.amt = String(this.detail.amt);
+      console.log('tableContent', this.tableContent);
+
+      formData.append('data', JSON.stringify(this.detail));
+      formData.append('file1', this.file1);
+      formData.append('file2', this.file2);
+
+      this.$store.commit("loading");
+      this.$http
+        .post("/api/v1/bidPtStatus/bidSubmitting", formData)
+        .then((response) => {
+          if (response.data.code == "OK") {
+          } else {
+            /*
+            this.$swal({
+              type: "warning",
+              text: "개찰 처리중 오류가 발생했습니다.",
+            });
+            */
+          }
+        })
+        .finally(() => {
+          this.$store.commit("finish");
+         // this.$router.push({ name: "bidStatus" });
+        });
+
+    },
+    fileInputChange(event){//견적세부파일
+      this.file1 = event.target.files[0];
+      console.log(this.file1);
+    },
+    fileInput2Change(event){//기타파일
+      this.file2 = event.target.files[0];
+      console.log(this.file2);
+    },
+    sendFile(){
+      var formData = new FormData();
+    }
+  }
 };
 </script>

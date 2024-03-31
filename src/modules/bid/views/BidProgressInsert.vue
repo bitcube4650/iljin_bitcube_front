@@ -1234,7 +1234,12 @@ export default {
         return false;
       }
       if (!this.bidContent.amtBasis || this.bidContent.amtBasis === "") {
-        alert("금액기준을 입력해주세요.");
+        alert("금액기준을 선택해주세요.");
+        return false;
+      }
+      if (this.bidContent.interrelatedCustCode == "02" 
+          && (!this.bidContent.matDept || !this.bidContent.matProc || !this.bidContent.matCls)) {
+        alert("분류군을 입력해주세요.");
         return false;
       }
       if (!this.datePart1 || this.datePart1 === "") {

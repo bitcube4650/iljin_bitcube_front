@@ -1190,6 +1190,11 @@ export default {
         alert("금액기준을 입력해주세요.");
         return false;
       }
+      if (this.dataFromList.result.interrelatedCustCode == "02" 
+          && (!this.dataFromList.result.matDept || !this.dataFromList.result.matProc || !this.dataFromList.result.matCls)) {
+        alert("분류군을 입력해주세요.");
+        return false;
+      }
       if (
         !this.datePart1 ||
         this.datePart1 === ""
