@@ -22,9 +22,9 @@
           <div class="flex align-items-center">
             <div class="sbTit width100px">조회기간</div>
             <div class="flex align-items-center width280px">
-              <input type="text" id="startDay" class="datepicker inputStyle" title="월 입력란">
+              <input type="text" id="startDay" class="datepicker inputStyle" title="월 입력란" readonly>
               <span style="margin:0 10px">~</span>
-              <input type="text" id="endDay" class="datepicker inputStyle" title="월 입력란">
+              <input type="text" id="endDay" class="datepicker inputStyle" title="월 입력란" readonly>
             </div>
             <div class="sbTit width80px ml50">계열사</div>
             <div class="flex align-items-center width280px">

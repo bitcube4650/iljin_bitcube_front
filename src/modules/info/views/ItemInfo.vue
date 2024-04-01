@@ -41,11 +41,11 @@
 			<div class="flex align-items-center height50px mt10">
 				<div class="sbTit width100px">품목코드</div>
 				<div class="flex align-items-center width250px">
-					<input type="text" v-model="searchParams.itemCode" class="inputStyle" placeholder="">
+					<input type="text" v-model="searchParams.itemCode" class="inputStyle" placeholder="" @keyup.enter.prevent="search(0)">
 				</div>
 				<div class="sbTit width100px ml50">품목명</div>
 				<div class="width250px">
-					<input type="text" v-model="searchParams.itemName" class="inputStyle" placeholder="">
+					<input type="text" v-model="searchParams.itemName" class="inputStyle" placeholder="" @keyup.enter.prevent="search(0)">
 				</div>
 				<a href="#" @click.prevent="search(0)" class="btnStyle btnSearch">검색</a>
 			</div>

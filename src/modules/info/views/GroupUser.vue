@@ -40,11 +40,11 @@
 			<div class="flex align-items-center height50px mt10">
 				<div class="sbTit width100px">사용자명</div>
 				<div class="flex align-items-center width250px">
-					<input type="text" v-model="searchParams.userName" id="" class="inputStyle" placeholder="">
+					<input type="text" v-model="searchParams.userName" id="" class="inputStyle" placeholder="" @keyup.enter.prevent="search(0)">
 				</div>
 				<div class="sbTit width100px ml50">아이디</div>
 				<div class="width250px">
-					<input type="text" v-model="searchParams.userId" class="inputStyle" placeholder="">
+					<input type="text" v-model="searchParams.userId" class="inputStyle" placeholder="" @keyup.enter.prevent="search(0)">
 				</div>
 				<a href="#" @click.prevent="search(0)" class="btnStyle btnSearch">검색</a>
 			</div>
