@@ -241,7 +241,7 @@
 						</thead>
 						<tbody>
 							<template v-for="(cust, idx) in data.custList">
-							<tr>
+							<tr :key="'main_'+idx">
 								<td class="text-left">
 									<a @click="$refs.submitHistPop.initModal(data.biNo, cust.custCode, cust.custName, cust.damdangName, cust.esmtCurr);" class="textUnderline" data-toggle="modal" data-target="#submitHistPop">{{ cust.custName }}</a>
 								</td>
@@ -253,7 +253,7 @@
 								<td class="textHighlight">{{ cust.succYn | ftSuccYn }}</td>
 								<td class="end">{{ cust.updateDate }}</td>
 							</tr>
-							<tr class="detailView">
+							<tr class="detailView" :key="'sub_'+idx">
 								<td colspan="8" class="end">
 									<table class="tblSkin2">
 										<colgroup>
@@ -293,7 +293,7 @@
 
 				<div class="text-center mt50">
 					<a @click="fnBack" class="btnStyle btnOutline" title="목록">목록</a>
-					<a data-toggle="modal" data-target="#resultsReport2" class="btnStyle btnSecondary" title="입찰결과 보고서">입찰결과 보고서</a>
+					<a data-toggle="modal" data-target="#resultsReport" class="btnStyle btnSecondary" title="입찰결과 보고서">입찰결과 보고서</a>
 					<a data-toggle="modal" data-target="#realAmtSave" class="btnStyle btnPrimary" title="실제 계약금액">실제 계약금액
 						<i class="fas fa-question-circle toolTipSt ml5">
 							<div class="toolTipText" style="width: 480px">
@@ -354,10 +354,11 @@
 
 </template>
 <script>
-import report from '../components/BidCompleteResultReport.vue';
+import report from '../components/BidResultReport.vue';
 import CustUserPop from "@/modules/company/components/CustUserPop.vue";
 import SubmitHistPop from "@/modules/company/components/SubmitHistoryPop.vue";
 import cmmn from "../../../../public/js/common.js";
+import mixin from "../service/mixin.js";
 
 export default {
 	name: "bidCompleteDetail",
@@ -373,36 +374,7 @@ export default {
 		,   realAmt : ''
 		}
 	},
-	filters:{
-		ftBiMode(val){
-			if(val == 'A'){ return '지명경쟁입찰'}
-			else if(val == 'B'){ return '일반경쟁입찰'}
-		},
-		ftInsMode(val){
-			if(val == '1'){ return '파일등록'}
-			else if(val == '2'){ return '직접입력'}
-		},
-		numberWithCommas(val) {
-			if(!val) return '';
-			else {
-				val = Math.round(val);
-				return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-			}
-		},
-		ftFileFlag(val){
-			if(val == '0'){ return '대내용'}
-			else if(val == '1'){ return '대외용'}
-		},
-		ftSuccYn(val){
-			if(val == 'Y'){ return '낙찰'}
-			else if(val == 'N'){ return ''}
-		},
-		ftEsmtYn(val){
-			if(val == '0'){ return ''}
-			else if(val == '1'){ return '공고확인'}
-			else if(val == '2'){ return '상세'}
-		}
-	},
+    mixins: [mixin],
 	methods: {
 		//그룹사 입찰완료 상세 조회
 		async fnDataDetail(){
@@ -424,35 +396,6 @@ export default {
 				this.$store.commit("finish");
 			});
 			
-		},
-		//목록으로
-		fnBack(){
-			this.$router.go(-1);
-		},
-		//파일 다운로드
-		async downloadFile(fileInfo){
-
-			try {
-				this.$store.commit('loading');
-				const response = await this.$http.post(
-					"/api/v1/bidComplete/fileDown",
-					{ fileId: fileInfo.filePath }, // 서버에서 파일을 식별할 수 있는 고유한 ID 또는 다른 필요한 데이터
-					{ responseType: "blob" } // 응답 데이터를 Blob 형식으로 받기
-				);
-
-				// 파일 다운로드를 위한 처리
-				const url = window.URL.createObjectURL(new Blob([response.data]));
-				const link = document.createElement("a");
-				link.href = url;
-				link.setAttribute("download", fileInfo.fileNm); // 다운로드될 파일명 설정
-				document.body.appendChild(link);
-				link.click();
-				document.body.removeChild(link);
-				this.$store.commit('finish');
-			} catch (error) {
-				console.error("Error downloading file:", error);
-				this.$store.commit('finish');
-			}
 		},
 		//실제계약금액 저장
 		fnSave(){
@@ -488,26 +431,6 @@ export default {
 				this.$store.commit("finish");
 			});
 		},
-		//파일 다운로드 파라미터 셋팅
-		fnCustSpecFileDown(fileNm, filePath){
-
-			if(!cmmn.isEmpty(fileNm) && !cmmn.isEmpty(filePath)){
-				let fileInfo = {
-					filePath : filePath
-				,   fileNm : fileNm
-				}
-
-				this.downloadFile(fileInfo);
-			}
-		},
-		ftEsmtAmt(cust){
-			if(cmmn.isEmpty(cust.esmtAmt)) return ''
-			else {
-				let esmtCurr = cmmn.defaultIfEmpty(cust.esmtCurr, '');
-				let esmtAmt = cust.esmtAmt;
-				return esmtCurr + (esmtCurr != '' ? ' ' : '') + esmtAmt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-			}
-		}
 	},
 	beforeMount() {
 		this.biNo = this.$route.params.biNo;
