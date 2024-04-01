@@ -5,7 +5,7 @@
 		<div class="modal-dialog" style="width:100%; max-width:800px">
 			<div class="modal-content">
 				<div class="modal-body">
-					<a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+					<a class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
 					<h2 class="modalTitle">품목 선택</h2>
 					<div class="modalTopBox">
 						<ul>
@@ -19,11 +19,11 @@
 							<div style="width:calc(100% - 120px)">
 								<select v-model="searchParams.itemGrp" @change="search(0)" class="selectStyle">
 									<option value="">품목그룹 전체</option>
-                            		<option :value="val.itemGrpCd" v-for="(val, idx) in itemGrpList">{{ val.grpNm }}</option>
+                            		<option :value="val.itemGrpCd" v-for="(val, idx) in itemGrpList" :key="idx">{{ val.grpNm }}</option>
 								</select>
-								<input type="text" v-model="searchParams.itemName" @keydown.enter="search(0)" class="inputStyle mt10" placeholder="품목명 또는 품목코드 입력 조회">
+								<input type="text" v-model.trim="searchParams.itemName" @keydown.enter="search(0)" class="inputStyle mt10" placeholder="품목명 또는 품목코드 입력 조회">
 							</div>
-							<a href="#" @click.prevent="search(0)" class="btnStyle btnSearch">검색</a>
+							<a @click.prevent="search(0)" class="btnStyle btnSearch">검색</a>
 						</div>
 					</div>
 					<table class="tblSkin1 mt30">
@@ -38,10 +38,10 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="(val, idx) in listPage.content">
+							<tr v-for="(val, idx) in listPage.content" :key="idx">
 								<td>{{ val.itemCode }}</td>
 								<td class="text-left">{{ val.itemName }}</td>
-								<td class="end"><a href="#" @click.prevent="select(val)" class="btnStyle btnSecondary btnSm" title="선택">선택</a></td>
+								<td class="end"><a @click.prevent="select(val)" class="btnStyle btnSecondary btnSm" title="선택">선택</a></td>
 							</tr>
 						</tbody>
 					</table>
@@ -53,7 +53,7 @@
 					</div>
 					<!-- //pagination -->
 					<div class="modalFooter">
-						<a href="#" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
+						<a class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
 					</div>
 				</div>				
 			</div>
@@ -82,7 +82,9 @@ export default {
     initModal() {
 	  this.searchParams = {
 			size: '5',
-			itemGrp: ''
+			itemGrp: '',
+			useYn : 'Y',
+			itemName : ''
 		};
       this.init();
 	  this.search(0);
@@ -109,7 +111,14 @@ export default {
     async retrieve() {
       try {
         this.$store.commit('loading');
-		const response = await this.$http.post('/login/itemList', this.searchParams);
+		
+		let params = Object.assign({}, this.searchParams);
+
+		if(this.searchParams.itemName != ''){
+			params.itemCode = this.searchParams.itemName
+		}
+		
+		const response = await this.$http.post('/login/itemList', params);
         this.listPage = response.data;
         this.$store.commit('finish');
       } catch(err) {
