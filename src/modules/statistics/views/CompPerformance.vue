@@ -113,7 +113,6 @@
         biInfoSum : {}, // 회사별 입찰실적 하단 합계
         routerStartDay :  '', // 상세로 이동할 때 시작일
         routerEndDay :  '', // 상세로 이동할 때 종료일
-        biInfoListExcel : [] // 회사별 입찰실적 리스트 총 합까지 엑셀로 보내기 위한 변수
       };
     },
     async mounted() {
@@ -151,7 +150,6 @@
         const vm = this
         
         let params = {
-          coInter : vm.coInter == '' ?  vm.coInter : vm.coInterList.map(item => item.interrelatedCustCode),
           startDay : $('#startDay').val(),
           endDay : $('#endDay').val()
         }
@@ -159,12 +157,7 @@
         if(this.$store.state.loginInfo.userAuth == 1){
           params.coInter = vm.coInter
         }else{
-          if(vm.coInter == ''){
-            params.coInter =  vm.coInterList.map(item => item.interrelatedCustCode).join(',')
-          }else{
-            params.coInter = vm.coInter
-            params.coInterVal = 'Y'
-          }
+          params.coInter = vm.coInter == '' ? vm.coInterList.map(item => item.interrelatedCustCode).join(',') : vm.coInter
         }
 
         try {
@@ -173,7 +166,6 @@
             "/api/v1/statistics/biInfoList", params
           );
           const data = response.data[0].concat()
-          vm.biInfoListExcel = data
           vm.biInfoList = data.slice(0, data.length - 1)
           vm.biInfoSum = data[data.length - 1];
           /*
@@ -199,10 +191,19 @@
       },
       //excelDown
       excelDown(){
+        const vm = this
         const time = cmmn.formatDate(new Date(), "yyyy_mm_dd");
-        const params = {
-          biInfoList : this.biInfoListExcel,
+
+        let params = {
+          startDay : $('#startDay').val(),
+          endDay : $('#endDay').val(),
           fileName : "회사별 입찰실적" + time
+        }
+
+        if(this.$store.state.loginInfo.userAuth == 1){
+          params.coInter = vm.coInter
+        }else{
+          params.coInter = vm.coInter == '' ? vm.coInterList.map(item => item.interrelatedCustCode).join(',') : vm.coInter
         }
 
         this.$store.commit("loading");
