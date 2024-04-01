@@ -30,8 +30,9 @@
         <div class="flex align-items-center height50px mt10">
           <div class="sbTit width100px">품목</div>
           <div class="flex align-items-center">
-            <input type="text" class="inputStyle width250px readonly" v-model="itemName" placeholder="우측 검색 버튼을 클릭해 주세요">
+            <input type="text" class="inputStyle width300px readonly" v-model.trim="itemName" placeholder="우측 검색 버튼을 클릭해 주세요" disabled>
             <a @click="$refs.itemPop.initModal()" data-toggle="modal" data-target="#itemPop" class="btnStyle btnSecondary ml10" title="조회">조회</a>
+            <button @click="clearCustType()" v-show="itemCode != ''" type="button" class="btnStyle btnOutline" title="삭제">삭제</button>
           </div>
           <div class="sbTit mr30 ml50">계열사</div>
           <div class="width250px">
@@ -186,7 +187,7 @@
         const vm = this
         
         let params = {
-          itemCode : vm.itemCode,
+          itemCode : vm.itemName != '' ?  vm.itemCode : '',
           startDay : $('#startDay').val(),
           endDay : $('#endDay').val(),
           size : vm.size,
@@ -270,7 +271,13 @@
           .finally(() => {
             this.$store.commit("finish"); // 로딩 상태 종료
           });
-      }  
+      },
+      clearCustType() {
+        const vm = this
+        vm.itemCode = ''
+        vm.itemName = ''
+        vm.$forceUpdate()
+		  },
     },
   };
   </script>
