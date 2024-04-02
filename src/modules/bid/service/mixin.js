@@ -104,10 +104,14 @@ let mixin = {
 				return esmtCurr + (esmtCurr != '' ? ' ' : '') + esmtAmt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 			}
 		},
-        //목록으로
+        //뒤로
         fnBack() {
             this.$router.go(-1);
         },
+		//페이지 이동
+		fnMovePage(name){
+			this.$router.push({name:name});
+		}
     }
 }
 

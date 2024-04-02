@@ -93,11 +93,11 @@
                         <td class="textUnderline text-left">
                             <a style="cursor: pointer" @click="clickBidDetail(val.ingTag, val.biNo)" >{{ val.biName }}</a>
                         </td>
-                        <td :class="{ textHighlight: isPastDate(val.estCloseDate) }">
+                        <td :class="isPastDate(val.estCloseDate) ? 'textHighlight' : ''">
                             <i class="fa-regular fa-timer"></i>{{ val.estCloseDate }}
                         </td>
                         <td>{{ val.biMode | ftBiMode }}</td>
-                        <td :class="{textHighlight: isPastDate(val.estCloseDate),blueHighlight: val.ingTag === '개찰',}">{{ val.ingTag }}</td>
+                        <td :class="isPastDate(val.estCloseDate) && val.ingTag != '개찰' ? 'textHighlight' : (val.ingTag == '개찰' ? 'blueHighlight' : '')">{{ val.ingTag }}</td>
                         <td>{{ val.insMode | ftInsMode }}</td>
                         <td>
                             <i class="fa-light fa-paper-plane-top"></i>
@@ -105,7 +105,7 @@
                         </td>
                         <td class="end">
                             <i class="fa-light fa-paper-plane-top"></i>
-                            <a :href="'mailto:' + val.openerEmail" class="textUnderline" title="공고자 메일">{{ val.openerId }}</a>
+                            <a :href="'mailto:' + val.openerEmail" class="textUnderline" title="개찰자 메일">{{ val.openerId }}</a>
                         </td>
                     </tr>
                 </tbody>
