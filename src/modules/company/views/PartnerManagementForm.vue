@@ -76,45 +76,45 @@
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">사업자등록번호 <span class="star">*</span></div>
 						<div class="flex align-items-center width100">
-							<input type="text" v-model="detail.regnum1" @keypress="onlyNumber" maxlength="3" class="inputStyle maxWidth-max-content">
+							<input type="text" v-model="detail.regnum1" @keyup="checkReg" @keypress="onlyNumber" maxlength="3" class="inputStyle maxWidth-max-content">
 							<span style="margin:0 10px">-</span>
-							<input type="text" v-model="detail.regnum2" @keypress="onlyNumber" maxlength="2" class="inputStyle maxWidth-max-content">
+							<input type="text" v-model="detail.regnum2" @keyup="checkReg" @keypress="onlyNumber" maxlength="2" class="inputStyle maxWidth-max-content">
 							<span style="margin:0 10px">-</span>
-							<input type="text" v-model="detail.regnum3" @keypress="onlyNumber" maxlength="5" class="inputStyle maxWidth-max-content">
+							<input type="text" v-model="detail.regnum3" @keyup="checkReg" @keypress="onlyNumber" maxlength="5" class="inputStyle maxWidth-max-content">
 						</div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">법인번호 <span class="star">*</span></div>
 						<div class="flex align-items-center width100">
-							<input type="text" v-model="detail.presJuminNo1" @keypress="onlyNumber" maxlength="6" class="inputStyle maxWidth-max-content">
+							<input type="text" v-model="detail.presJuminNo1" @keyup="checkReg" @keypress="onlyNumber" maxlength="6" class="inputStyle maxWidth-max-content">
 							<span style="margin:0 10px">-</span>
-							<input type="text" v-model="detail.presJuminNo2" @keypress="onlyNumber" maxlength="7" class="inputStyle maxWidth-max-content">
+							<input type="text" v-model="detail.presJuminNo2" @keyup="checkReg" @keypress="onlyNumber" maxlength="7" class="inputStyle maxWidth-max-content">
 						</div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">자본금 <span class="star">*</span></div>
 						<div class="flex align-items-center width100">
-							<input type="text" v-model="detail.capital" @keypress="onlyNumber" maxlength="11" class="inputStyle maxWidth-max-content" placeholder="ex) 10,000,000">
+							<input type="text" v-model="detail.fomCapital" @keypress="onlyNumber" @input="formatCapital" maxlength="15" class="inputStyle maxWidth-max-content" placeholder="ex) 10,000,000">
 							<div class="ml10">원</div>
 						</div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">설립년도 <span class="star">*</span></div>
 						<div class="flex align-items-center width100">
-							<input type="text" v-model="detail.foundYear" @keypress="onlyNumber" maxlength="4" class="inputStyle maxWidth-max-content" placeholder="ex) 2021">
+							<input type="text" v-model="detail.foundYear" @keyup="checkReg" @keypress="onlyNumber" maxlength="4" class="inputStyle maxWidth-max-content" placeholder="ex) 2021">
 							<div class="ml10">년</div>
 						</div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">대표전화 <span class="star">*</span></div>
 						<div class="width100">
-							<input type="text" v-model="detail.tel" maxlength="13" class="inputStyle maxWidth-max-content" >
+							<input type="text" v-model="detail.fomTel" @keypress="onlyNumber" @input="formatTel" maxlength="13" class="inputStyle maxWidth-max-content" >
 						</div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">팩스</div>
 						<div class="width100">
-							<input type="text" v-model="detail.fax" maxlength="13" class="inputStyle maxWidth-max-content">
+							<input type="text" v-model="detail.fomFax" @keypress="onlyNumber" @input="formatFax" maxlength="13" class="inputStyle maxWidth-max-content">
 						</div>
 					</div>
 					<div class="flex mt10">
@@ -246,13 +246,13 @@
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">휴대폰 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" v-model="detail.userHp" maxlength="20" class="inputStyle maxWidth-max-content">
+                        <input type="text" v-model="detail.fomUserHp" @keypress="onlyNumber" @input="formatUserHp" maxlength="20" class="inputStyle maxWidth-max-content">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">유선전화 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" v-model="detail.userTel" maxlength="20" class="inputStyle maxWidth-max-content">
+                        <input type="text" vv-model="detail.fomUserTel" @keypress="onlyNumber" @input="formatUserTel" maxlength="20" class="inputStyle maxWidth-max-content">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
@@ -346,6 +346,14 @@ export default {
 		onlyNumber(e) {
 		if (!/\d/.test(event.key) && event.key !== '.') return e.preventDefault();
 		},
+		checkReg(event) {
+			const regExp = /[^0-9a-zA-Z]/g; // 숫자와 영문자만 허용
+			//   const regExp = /[^ㄱ-ㅎ|가-힣]/g; // 한글만 허용
+			const del = event.target;
+			if (regExp.test(del.value)) {
+				del.value = del.value.replace(regExp, '');
+			}
+		},
 		async retrieve(custCode) {
 			try {
 				this.$store.commit('loading');
@@ -355,6 +363,11 @@ export default {
 				}
 				const response = await this.$http.post(url);
 				this.detail = response.data;
+				this.detail.fomCapital = this.formatComma(this.detail.capital);
+				this.detail.fomTel = this.phoneNumAddDash(this.detail.tel);
+				this.detail.fomFax = this.phoneNumAddDash(this.detail.fax);
+				this.detail.fomUserTel = this.phoneNumAddDash(this.detail.userTel);
+				this.detail.fomUserHp = this.hpNumberAddDash(this.detail.userHp);
 				//기존에 첨부되어있는 파일 나타내기
 				if(this.detail.regnumFile != null && this.detail.regnumPath != null){
 					var preview = document.querySelector('#preview');
@@ -466,7 +479,7 @@ export default {
 				this.$swal({type: "warning",text: "대표전화를 입력해주세요."});
 				return;
 			}
-			if (this.detail.addr == null || this.detail.addr == '') {
+			if (this.detail.addrDetail == null || this.detail.addrDetail == '') {
 				this.$swal({type: "warning",text: "회사주소를 입력해주세요."});
 				return;
 			}
@@ -582,7 +595,7 @@ export default {
 		callbackAddr(data) {
 			this.detail.zipcode = data.zipcode;
 			this.detail.addr = data.addr;
-			this.detail.addrDetail = data.addrDetail;
+			//this.detail.addrDetail = data.addrDetail;
 			this.$forceUpdate()
 		},
 		checkRegnumFileSize() {//파일크기 확인
@@ -665,6 +678,148 @@ export default {
 			}
 			return true;
 
+		},
+		formatComma(val){
+			if(!val) return '0';
+			val = val.toString();
+
+			return val.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		},
+		formatUncomma(val){
+			if(!val) return '0';
+			val = val.toString();
+			
+			return val.replace(/[^0-9]/g, '');
+		},
+		phoneNumAddDash(val){
+			if (!val) return '';
+			val = val.toString();
+			val = val.replace(/[^0-9]/g, '')
+
+			let tmp = ''
+			if( val.length < 4){
+			return val;
+			} else if(val.length < 7) {
+			tmp += val.substr(0, 3);
+			tmp += '-';
+			tmp += val.substr(3);
+			return tmp;
+			} else if(val.length == 8) {
+			tmp += val.substr(0, 4);
+			tmp += '-';
+			tmp += val.substr(4);
+			return tmp;
+			} else if(val.length < 10) {
+			if(val.substr(0, 2) =='02') { //02-123-5678
+				tmp += val.substr(0, 2);
+				tmp += '-';
+				tmp += val.substr(2, 3);
+				tmp += '-';
+				tmp += val.substr(5);
+				return tmp;
+			}
+			} else if(val.length < 11) {
+			if(val.substr(0, 2) =='02') { //02-1234-5678
+				tmp += val.substr(0, 2);
+				tmp += '-';
+				tmp += val.substr(2, 4);
+				tmp += '-';
+				tmp += val.substr(6);
+				return tmp;
+			} else { //010-123-4567
+				tmp += val.substr(0, 3);
+				tmp += '-';
+				tmp += val.substr(3, 3);
+				tmp += '-';
+				tmp += val.substr(6);
+				return tmp;
+			}
+			} else { //010-1234-5678
+			tmp += val.substr(0, 3);
+			tmp += '-';
+			tmp += val.substr(3, 4);
+			tmp += '-';
+			tmp += val.substr(7);
+			return tmp;
+			}
+		},
+		//전화번호 입력 시 대시 입력(상단 함수가 오류날 경우 대체사용)
+		hpNumberAddDash(val){
+			if (!val) return '';
+			val = val.toString();
+			val = val.replace(/[^0-9]/g, '')
+			
+			let tmp = ''
+			if( val.length < 4){
+			return val;
+			} else if(val.length <= 7) {
+			tmp += val.substr(0, 3);
+			tmp += '-';
+			tmp += val.substr(3);
+			return tmp;
+			} else if(val.length == 8) {
+			tmp += val.substr(0, 4);
+			tmp += '-';
+			tmp += val.substr(4);
+			return tmp;
+			} else if(val.length < 10) {
+				tmp += val.substr(0, 2);
+				tmp += '-';
+				tmp += val.substr(2, 3);
+				tmp += '-';
+				tmp += val.substr(5);
+				return tmp;
+			} else if(val.length < 11) {
+			if(val.substr(0, 2) =='02') { //02-1234-5678
+				tmp += val.substr(0, 2);
+				tmp += '-';
+				tmp += val.substr(2, 4);
+				tmp += '-';
+				tmp += val.substr(6);
+				return tmp;
+			} else { //010-123-4567
+				tmp += val.substr(0, 3);
+				tmp += '-';
+				tmp += val.substr(3, 3);
+				tmp += '-';
+				tmp += val.substr(6);
+				return tmp;
+			}
+			} else { //010-1234-5678
+			tmp += val.substr(0, 3);
+			tmp += '-';
+			tmp += val.substr(3, 4);
+			tmp += '-';
+			tmp += val.substr(7);
+			return tmp;
+			}
+		},
+		hpNumberRemoveDash(val){
+			if (!val) return '';
+			val = val.toString();
+			val = val.replace(/[^0-9]/g, '');
+
+			return val;
+		},
+		formatCapital() {
+			this.detail.capital = this.formatUncomma(this.detail.fomCapital);
+			this.detail.fomCapital = this.formatComma(this.detail.capital);
+		},
+		formatTel() {
+			this.detail.tel = this.hpNumberRemoveDash(this.detail.fomTel);
+			this.detail.fomTel = this.phoneNumAddDash(this.detail.tel);
+		},
+		formatFax() {
+			this.detail.fax = this.hpNumberRemoveDash(this.detail.fomFax);
+			this.detail.fomFax = this.phoneNumAddDash(this.detail.fax);
+		},
+		formatUserTel() {
+			this.detail.userTel = this.hpNumberRemoveDash(this.detail.fomUserTel);
+			this.detail.fomUserTel = this.phoneNumAddDash(this.detail.userTel);
+		},
+		formatUserHp() {
+			this.detail.userHp = this.hpNumberRemoveDash(this.detail.fomUserHp);
+			this.detail.fomUserHp = this.hpNumberAddDash(this.detail.userHp);
 		},
 	}
 };
