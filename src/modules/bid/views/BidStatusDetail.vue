@@ -52,7 +52,7 @@
 
 
                 <div class="text-center mt50">
-                    <a class="btnStyle btnOutline" title="목록" @click="fnBack">목록</a>
+                    <a class="btnStyle btnOutline" title="목록" @click="fnMovePage('bidStatus')">목록</a>
                     <a v-if="data.ingTag == 'A1' && (data.bidAuth || data.openAuth || (data.createUser == $store.state.loginInfo.userId))" data-toggle="modal" data-target="#biddingReserve" class="btnStyle btnSecondary" title="유찰">유찰</a>
                     <a v-if="data.ingTag == 'A1' && data.openAuth && data.estCloseCheck" data-toggle="modal" data-target="#openBid" class="btnStyle btnPrimary" title="개찰">개찰</a>
                 </div>
