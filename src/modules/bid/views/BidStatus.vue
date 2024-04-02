@@ -105,7 +105,7 @@
                         </td>
                         <td class="end">
                             <i class="fa-light fa-paper-plane-top"></i>
-                            <a :href="'mailto:' + val.gongoEmail" class="textUnderline" title="공고자 메일">{{ val.gongoId }}</a>
+                            <a :href="'mailto:' + val.openerEmail" class="textUnderline" title="공고자 메일">{{ val.openerId }}</a>
                         </td>
                     </tr>
                 </tbody>

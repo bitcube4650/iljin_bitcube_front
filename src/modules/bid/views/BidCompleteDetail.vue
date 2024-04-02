@@ -384,7 +384,7 @@ export default {
 
 			this.$store.commit('loading');
 			await this.$http.post('/api/v1/bidComplete/detail', searchParams).then((response) => {
-				if(response.data.status != '999'){
+				if(response.data.code != '999'){
 					this.data = response.data.data;
 				}else{
 					this.$swal({
@@ -415,7 +415,7 @@ export default {
 			this.$store.commit("loading");
 			this.$http.post("/api/v1/bidComplete/updRealAmt", params).then((response) => {
 				$("#realAmtSave").modal("hide");
-				if(response.data.status != '999'){
+				if(response.data.code != '999'){
 					this.$swal({
 						type: "info",
 						text: "실제계약금액을 저장하였습니다."
