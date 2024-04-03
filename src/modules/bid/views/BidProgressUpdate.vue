@@ -1435,7 +1435,7 @@ export default {
   },
   beforeMount() {
     
-    const dataFromList =  Object.assign({},this.$route.query.bidUpdateData)
+    const dataFromList =  Object.assign({},this.$route.params.bidUpdateData)
     this.dataFromList = dataFromList;
     this.bdAmt = dataFromList.result.bdAmt;
     if (!this.originCustData) {

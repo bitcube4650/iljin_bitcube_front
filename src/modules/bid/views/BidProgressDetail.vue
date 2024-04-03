@@ -593,7 +593,7 @@ export default {
       this.detail.lotteClsList = this.lotteClsList;
 
       this.$store.commit("setBidUpdateData", this.detail);
-      this.$router.push({ name: "bidProgressUpdate" ,query: { 'bidUpdateData': this.detail} });
+      this.$router.push({ name: "bidProgressUpdate" ,params: { 'bidUpdateData': this.detail} });
     },
 
     bidNotice() {
