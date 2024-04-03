@@ -58,7 +58,7 @@
             </div>
             <div class="flex align-items-center mt10">
               <div class="formTit flex-shrink0 width170px">특수조건</div>
-              <div class="width100">{{ props[0].specialCond }}</div>
+              <div class="width100" v-html="formattedSpecialCond"></div>
             </div>
             <div class="flex align-items-center mt10">
               <div class="formTit flex-shrink0 width170px">납품조건</div>
@@ -112,11 +112,11 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(val, idx) in props[1]">
+                    <tr v-for="(val, idx) in props[1]" :key="idx">
                       <td class="text-left">{{ val.name }}</td>
                       <td class="text-left">{{ val.ssize }}</td>
-                      <td class="text-right">{{ val.orderQty }}</td>
-                      <td class="end">{{ val.unitCode }}</td>
+                      <td class="text-right">{{ val.orderQty.toLocaleString() }}</td>
+                      <td class="end">{{ val.unitcode }}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -224,5 +224,10 @@ export default {
   },
   created() {},
   mounted() {},
+  computed:{
+    formattedSpecialCond() {
+    return this.props[0].specialCond.replace(/\n/g, "<br>");
+  }
+  },
 };
 </script>

@@ -69,7 +69,7 @@
             <div class="formTit flex-shrink0 width170px">입찰참가업체</div>
             <div class="width100">
               <div class="boxStSm width100 boxOverflowY">
-                <div v-for="(val, idx) in custContent" style="display: inline">
+                <div v-for="(val, idx) in custContent" style="display: inline" :key="idx">
                   <a
                     v-if="val.custName !== null"
                     @click.prevent="$refs.custUserPop.initModal(val.custCode)"
@@ -133,7 +133,7 @@
             <div class="formTit flex-shrink0 width170px">분류군</div>
             <div class="flex align-items-center width100">
               <select name="" class="selectStyle" disabled>
-                <option v-for="dept in lotteDeptList" :value="dept.value">
+                <option v-for="(dept,idx) in lotteDeptList" :value="dept.value" :key="idx">
                   {{ dept.label }}
                 </option>
               </select>
@@ -143,12 +143,12 @@
                 style="margin: 0 10px"
                 disabled
               >
-                <option v-for="proc in lotteProcList" :value="proc.value">
+                <option v-for="(proc,idx) in lotteProcList" :value="proc.value" :key="idx">
                   {{ proc.label }}
                 </option>
               </select>
               <select name="" class="selectStyle" disabled>
-                <option v-for="cls in lotteClsList" :value="cls.value">
+                <option v-for="(cls,idx) in lotteClsList" :value="cls.value" :key="idx">
                   {{ cls.label }}
                 </option>
               </select>
@@ -229,7 +229,7 @@
               <a
                 class="textUnderline"
                 v-for="(val, idx) in fileContent"
-                v-if="val.fileFlag === 'K'"
+                v-show="val.fileFlag === 'K'"
                 :key="idx"
                 @click="downloadFile(val.filePath, val.fileNm)"
                 >{{ val.fileNm }}</a
@@ -259,7 +259,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(val, idx) in tableContent">
+                  <tr v-for="(val, idx) in tableContent" :key="idx">
                     <td class="text-left">{{ val.name }}</td>
                     <td class="text-left">{{ val.ssize }}</td>
                     <td class="text-right">
@@ -276,7 +276,7 @@
                 </tbody>
               </table>
               <p class="text-right mt10">
-                <strong>총합계 : {{ total }}</strong>
+                <strong>총합계 : {{ total.toLocaleString() }}</strong>
               </p>
             </div>
           </div>
@@ -285,7 +285,7 @@
             <div class="width100">
               <div
                 v-for="(val, idx) in fileContent"
-                v-if="
+                v-show="
                   val.fileFlagKo === '대외용' || val.fileFlagKo === '대내용'
                 "
                 :key="idx"
@@ -594,7 +594,7 @@ export default {
 
       this.$store.commit("setBidUpdateData", this.detail);
       console.log(this.detail);
-      this.$router.push({ name: "bidProgressUpdate" });
+      this.$router.push({ name: "bidProgressUpdate" ,query: { 'bidUpdateData': this.detail} });
     },
 
     bidNotice() {

@@ -172,7 +172,7 @@
               <div class="overflow-y-scroll boxStSm width100" >
                 <a v-if="dataFromList.custContent.length ===0"
                     >선택된 참가업체 없음</a>
-                <div v-if="dataFromList.result.biModeCode==='A'" v-for="(val, idx) in dataFromList.custContent" :key="idx">   
+                <div v-show="dataFromList.result.biModeCode==='A'" v-for="(val, idx) in dataFromList.custContent" :key="idx">   
                 <a
                     @click.prevent="$refs.custUserPop.initModal(val.custCode)"
                     data-toggle="modal"
@@ -253,15 +253,15 @@
             <div class="flex align-items-center width100">
               <select name="" class="selectStyle" v-model="dataFromList.result.matDept">
                 <option value=null>사업부</option>
-                <option v-for="dept in dataFromList.lotteDeptList" :value="dept.value">{{ dept.label }}</option>
+                <option v-for="(dept,idx) in dataFromList.lotteDeptList" :value="dept.value" :key="idx">{{ dept.label }}</option>
               </select>
               <select name="" class="selectStyle" style="margin: 0 10px" v-model="dataFromList.result.matProc">
                 <option value=null>공정</option>
-                <option v-for="proc in dataFromList.lotteProcList" :value="proc.value">{{ proc.label }}</option>
+                <option v-for="(proc,idx) in dataFromList.lotteProcList" :value="proc.value" :key="idx">{{ proc.label }}</option>
               </select>
               <select name="" class="selectStyle" v-model="dataFromList.result.matCls">
                 <option value=null>분류</option>
-                <option v-for="cls in dataFromList.lotteClsList" :value="cls.value">{{ cls.label }}</option>
+                <option v-for="(cls,idx) in dataFromList.lotteClsList" :value="cls.value" :key="idx">{{ cls.label }}</option>
               </select>
             </div>
           </div>
@@ -537,7 +537,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                   <tr v-for="(val, idx) in dataFromList.tableContent">
+                   <tr v-for="(val, idx) in dataFromList.tableContent" :key="idx">
                     <td>
                       <input
                         type="text"
@@ -593,7 +593,7 @@
                         maxlength="12"
                       />
                     </td>
-                    <td class="text-right">{{ val.orderQty*val.orderUc }}</td>
+                    <td class="text-right">{{ (val.orderQty*val.orderUc).toLocaleString()  }}</td>
                     <td class="text-right end">
                       <a
                         class="btnStyle btnSecondary btnSm"
@@ -899,7 +899,7 @@ export default {
   data() {
     return {
       detail: {},
-      dataFromList: {},
+      dataFromList: [],
       originCustData: null,
       originFileData: null,
       originTableData: null,
@@ -1436,16 +1436,18 @@ export default {
     }
   },
   beforeMount() {
-    this.dataFromList = this.$store.state.bidUpdateData;
-    this.bdAmt = this.dataFromList.result.bdAmt;
+    
+    const dataFromList =  Object.assign({},this.$route.query.bidUpdateData)
+    this.dataFromList = dataFromList;
+    this.bdAmt = dataFromList.result.bdAmt;
     if (!this.originCustData) {
-      this.originCustData = this.dataFromList.custContent.slice();
+      this.originCustData = dataFromList.custContent.slice();
     }
     if (!this.originFileData) {
-      this.originFileData = this.dataFromList.fileContent.slice();
+      this.originFileData = dataFromList.fileContent.slice();
     }
     if (!this.originTableData) {
-      this.originTableData = this.dataFromList.tableContent.slice();
+      this.originTableData = dataFromList.tableContent.slice();
     }
   },
   mounted() {

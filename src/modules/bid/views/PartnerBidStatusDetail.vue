@@ -131,7 +131,7 @@
               <a
                 class="textUnderline"
                 v-for="(val, idx) in fileContent"
-                v-if="val.fileFlag === 'K'"
+                v-show="val.fileFlag === 'K'"
                 :key="idx"
                 @click="downloadFile(val.filePath, val.fileNm)"
                 >{{ val.fileNm }}</a
@@ -154,7 +154,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(val, idx) in tableContent">
+                  <tr v-for="(val, idx) in tableContent" :key="idx">
                     <td class="text-left">{{ val.name }}</td>
                     <td class="text-left">{{ val.ssize }}</td>
                     <td class="text-right">
@@ -208,7 +208,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(val, idx) in tableContent">
+              <tr v-for="(val, idx) in tableContent" :key="idx">
                 <td class="text-left">{{ val.name }}</td>
                 <td class="text-left">{{ val.ssize }}</td>
                 <td class="text-right">{{ val.orderQty }}</td>

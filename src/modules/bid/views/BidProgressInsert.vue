@@ -187,7 +187,7 @@
               <div class="overflow-y-scroll boxStSm width100" style="display: inline">
                 <a v-if="custContent.length ===0"
                     >선택된 참가업체 없음</a>
-                <div  v-for="(val, idx) in custContent">   
+                <div  v-for="(val, idx) in custContent" :key="idx">   
                   
                 <a
                     @click.prevent="$refs.custUserPop.initModal(val.custCode)"
@@ -279,15 +279,15 @@
             <div class="flex align-items-center width100">
               <select name="" class="selectStyle" v-model="bidContent.matDept">
                 <option value=null>사업부</option>
-                <option v-for="dept in lotteDeptList" :value="dept.value">{{ dept.label }}</option>
+                <option v-for="(dept,idx) in lotteDeptList" :value="dept.value" :key="idx">{{ dept.label }}</option>
               </select>
               <select name="" class="selectStyle" style="margin: 0 10px" v-model="bidContent.matProc">
                 <option value=null>공정</option>
-                <option v-for="proc in lotteProcList" :value="proc.value">{{ proc.label }}</option>
+                <option v-for="(proc,idx) in lotteProcList" :value="proc.value" :key="idx">{{ proc.label }}</option>
               </select>
               <select name="" class="selectStyle" v-model="bidContent.matCls">
                 <option value=null>분류</option>
-                <option v-for="cls in lotteClsList" :value="cls.value">{{ cls.label }}</option>
+                <option v-for="(cls,idx) in lotteClsList" :value="cls.value" :key="idx">{{ cls.label }}</option>
               </select>
             </div>
           </div>
@@ -563,7 +563,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(val, idx) in tableContent">
+                  <tr v-for="(val, idx) in tableContent" :key="idx">
                     <td>
                       <input
                         type="text"
