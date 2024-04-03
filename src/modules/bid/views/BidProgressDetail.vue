@@ -34,15 +34,15 @@
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">입찰참가자격</div>
-            <div class="width100">{{ this.result.bidJoinSpec }}</div>
+            <div style="word-wrap: break-word; width:900px">{{ this.result.bidJoinSpec }}</div>
           </div>
           <div class="flex mt20">
             <div class="formTit flex-shrink0 width170px">특수조건</div>
             <div class="width100">
               <pre
-                class="boxStSm width100 boxOverflowY"
+                class="boxStSm boxOverflowY"
                 v-if="this.result.specialCond !== null"
-                style="background-color: white;"
+                style="background-color: white;word-wrap: break-word; width:900px;"
               >{{ this.result.specialCond }}</pre>
               <div class="boxStSm width100 boxOverflowY" v-else>
                 <!-- null인 경우 빈 문자열 표시 -->
@@ -56,7 +56,7 @@
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">현장설명장소</div>
-            <div class="width100">{{ this.result.spotArea }}</div>
+            <div style="word-wrap: break-word; width:900px">{{ this.result.spotArea }}</div>
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">낙찰자결정방법</div>
@@ -108,7 +108,7 @@
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">결제조건</div>
-            <div class="width100">{{ this.result.payCond }}</div>
+            <div style="word-wrap: break-word; width:900px">{{ this.result.payCond }}</div>
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">예산금액</div>
