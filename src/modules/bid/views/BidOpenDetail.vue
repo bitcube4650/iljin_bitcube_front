@@ -87,10 +87,10 @@
                 </div>
 
                 <div class="text-center mt50">
-                    <a class="btnStyle btnOutline" title="목록" @click="fnBack">목록</a>
+                    <a class="btnStyle btnOutline" title="목록" @click="fnMovePage('bidStatus')">목록</a>
                     <a class="btnStyle btnOutline" title="개찰결과 보고서" data-toggle="modal" data-target="#resultsReport" >개찰결과 보고서</a>
                     <a data-toggle="modal" data-target="#biddingReserve" class="btnStyle btnSecondary" title="유찰" >유찰</a>
-                    <a @click="rebid" class="btnStyle btnPrimary" title="선택업체 재입찰">선택업체 재입찰</a>
+                    <a @click="fnRebid" class="btnStyle btnOutlineRed" title="선택업체 재입찰">선택업체 재입찰하러 가기</a>
                 </div>
             </div>
         </div>
@@ -172,23 +172,37 @@ export default {
         },
     },
     methods: {
-        rebid() {
-            this.detail.result = this.result;
-            this.detail.result.bdAmt = parseInt(this.result.bdAmt);
-            this.detail.tableContent = this.tableContent;
-            this.detail.fileContent = this.fileContent;
-            this.detail.custContent = this.selectedRows;
+        //재입찰
+        fnRebid(){
 
-            this.$store.commit("setBidUpdateData", this.detail);
-            console.log(this.detail);
-            this.$router.push({ name: "rebid" });
+            if(this.custCheck.length == 0){
+                this.$swal({
+                    type: "warning",
+                    text: "업체를 선택해주세요"
+                })
+                return false;
+            }
+
+            this.$swal({
+                type: "info",
+                text: "선택한 업체로 재입찰을 진행합니다. 재입찰 하시겠습니까?",                
+                showCancelButton: true,
+                confirmButtonText: '재입찰',
+                cancelButtonText: '취소',
+            }).then((result) => {
+                if(result.value){
+                    this.$router.push({name:"rebid", params: { 'biNo': this.biNo, "reCustList" : this.custCheck }});
+                }
+            });
         },
 
         //낙찰
         bidSucc() {
             let params = {
-                succCust : this.succCust
+                biNo : this.biNo
+            ,   succCust : this.succCust.custCode
             ,   succDetail : this.succDetail
+            ,   biName : this.biName                //메일전송에 사용
             }
             this.$store.commit("loading");
             this.$http.post("/api/v1/bidstatus/bidSucc", params).then((response) => {
@@ -199,8 +213,11 @@ export default {
                         text: "낙찰 처리중 오류가 발생했습니다.",
                     });
                 }else{
-
-                    this.fnBack();
+                    this.$swal({
+                        type: "info",
+                        text: "낙찰 처리했습니다.",
+                    });
+                    this.fnMovePage('bidStatus');
                 }
             }).finally(() => {
                 this.$store.commit("finish");

@@ -13,7 +13,7 @@
       <div class="contents">
         <div class="conTopBox">
           <ul class="dList">
-            <li><div>조회 기간은 입찰완료 에만 적용되고 나머지는 기간과 관계없이 현재 상태의 개수와 건수를 나타냅니다.</div></li>
+            <li><div>조회결과의 등록업체 수는 조회기간과 관계없이 각사 별 등록업체 수를 나타냅니다.</div></li>
           </ul>
         </div>
 
@@ -51,10 +51,12 @@
         <table class="tblSkin1 mt10">
           <colgroup>
             <col style="">
+            <col style="width:7%">
             <col style="width:10%">
-            <col style="width:15%">
-            <col style="width:15%">
-            <col style="width:15%">
+            <col style="width:7%">
+            <col style="width:10%">
+            <col style="width:7%">
+            <col style="width:7%">
             <col style="width:10%">
           </colgroup>
           <thead>
@@ -86,7 +88,7 @@
               <td class="text-right">{{data.succCnt.toLocaleString() }}</td>
               <td class="text-right">{{data.succAmt.toLocaleString() }}</td>
               <td class="text-right">{{data.custCnt.toLocaleString() }}</td>
-              <td class="text-right">{{data.regCustCnt }}</td>
+              <td class="text-right">{{data.regCustCnt.toLocaleString() }}</td>
               <td class="end"></td>
             </tr>
             <tr v-show="bidPresentList.length == 0 ">
@@ -102,8 +104,8 @@
               <th class="text-right">{{ biInfoSum.ingAmt.toLocaleString()}}</th>
               <th class="text-right">{{ biInfoSum.succCnt.toLocaleString()}}</th>
               <th class="text-right">{{ biInfoSum.succAmt.toLocaleString()}}</th>
-              <th class="text-right">{{ biInfoSum.custCnt}}</th>
-              <th class="text-right">{{ biInfoSum.regCustCnt}}</th>
+              <th class="text-right">{{ biInfoSum.custCnt.toLocaleString()}}</th>
+              <th class="text-right">{{ biInfoSum.regCustCnt.toLocaleString()}}</th>
               <th class="end"></th>
             </tr>
           </tfoot>
@@ -180,8 +182,9 @@
           const response = await vm.$http.post(
             "/api/v1/statistics/bidPresentList", params
           );
-          const data = response.data[0]
-          if(data.length > 1){
+          const data = response.data[0];
+
+          if(data.length > 0){
             vm.bidPresentList = data.slice(0, data.length - 1);
 
             vm.biInfoSum.planCnt = 0;
@@ -194,7 +197,9 @@
             vm.biInfoSum.regCustCnt = 0;
 
             vm.biInfoSum = data[data.length - 1];
-            // console.log(vm.biInfoSum);
+          } else {
+            vm.bidPresentList = [];
+            vm.biInfoSum = {planCnt:0, planAmt:0, ingCnt:0, ingAmt:0, succCnt:0, succAmt:0, custCnt:0, regCustCnt:0};
           }
 
           vm.$store.commit("finish");
