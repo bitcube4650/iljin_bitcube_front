@@ -87,13 +87,13 @@
           <tbody>
             <tr v-for="(data,idx) in listPage.content" :key="idx">
               <td class="text-left">{{data.biNo}}</td>
-              <td class="text-right">{{ data.biName}}</td>
-              <td class="text-right">{{ data.itemName}}</td>
+              <td class="text-left">{{ data.biName}}</td>
+              <td class="text-left">{{ data.itemName}}</td>
               <td class="text-right">{{ data.bdAmt.toLocaleString() }}</td>
               <td class="text-right">{{ data.succAmt.toLocaleString()}}</td>
               <td class="text-right">{{data.realAmt.toLocaleString()}}</td>
-              <td class="text-left">{{data.custCnt.toLocaleString()}}</td>
-              <td> {{ data.custName }}</td>
+              <td class="text-right">{{data.custCnt.toLocaleString()}}</td>
+              <td class="text-left"> {{ data.custName }}</td>
               <td>{{data.estStartDate}}</td>
               <td class="text-right">{{ data.estCloseDate}}</td>
               <td class="text-right">{{data.esmtAmtMax.toLocaleString()}}</td>
