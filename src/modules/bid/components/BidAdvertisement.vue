@@ -226,7 +226,11 @@ export default {
   mounted() {},
   computed:{
     formattedSpecialCond() {
-    return this.props[0].specialCond.replace(/\n/g, "<br>");
+      if (this.props && this.props[0] && this.props[0].specialCond) {
+        return this.props[0].specialCond.replace(/\n/g, "<br>");
+      } else {
+        return ''; 
+      }
   }
   },
 };

@@ -112,8 +112,6 @@
               <div class="width100">
                 <textarea
                   class="textareaStyle boxOverflowY"
-                  onkeydown="resize(this)"
-                  onkeyup="resize(this)"
                   placeholder=""
                   v-model="dataFromList.result.specialCond"
                   @input="limitText"
