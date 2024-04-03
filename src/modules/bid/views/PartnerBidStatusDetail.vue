@@ -1,631 +1,311 @@
 <template>
   <!-- 본문 -->
   <div class="conRight">
-    <!-- conHeader -->
-    <div class="conHeader">
-      <ul class="conHeaderCate">
-        <li>전자입찰</li>
-        <li>입찰진행 상세</li>
-      </ul>
-    </div>
-    <!-- //conHeader -->
-    <!-- contents -->
-    <div class="contents">
-      <div class="formWidth">
-        <h3 class="h3Tit">입찰에 부치는 사람</h3>
-        <div class="boxSt mt20">
-          <div class="flex align-items-center">
-            <div class="formTit flex-shrink0 width170px">입찰번호</div>
-            <div class="width100">{{ this.dataFromList }}</div>
-          </div>
-          <div class="flex align-items-center mt20">
-            <div class="formTit flex-shrink0 width170px">입찰명</div>
-            <div class="width100">{{ this.result.biName }}</div>
-          </div>
-          <div class="flex align-items-center mt20">
-            <div class="formTit flex-shrink0 width170px">품목</div>
-            <div class="width100">
-              {{ this.result.itemName }}
-            </div>
-          </div>
-        </div>
-
-        <h3 class="h3Tit mt50">입찰방식 및 낙찰자 결정방법</h3>
-        <div class="boxSt mt20">
-          <div class="flex align-items-center">
-            <div class="formTit flex-shrink0 width170px">입찰방식</div>
-            <div class="width100">{{ this.result.biMode }}</div>
-          </div>
-          <div class="flex align-items-center mt20">
-            <div class="formTit flex-shrink0 width170px">낙찰자 결정방법</div>
-            <div class="width100">{{ this.result.succDeciMeth }}</div>
-          </div>
-        </div>
-
-        <h3 class="h3Tit mt50">입찰 참가정보</h3>
-        <div class="boxSt mt20">
-          <div class="flex align-items-center">
-            <div class="formTit flex-shrink0 width170px">입찰참가자격</div>
-            <div class="width100">{{ this.result.bidJoinSpec }}</div>
-          </div>
-          <div class="flex align-items-center mt20">
-            <div class="formTit flex-shrink0 width170px">현장설명일시</div>
-            <div class="width100">{{ this.result.spotDate }}</div>
-          </div>
-          <div class="flex align-items-center mt20">
-            <div class="formTit flex-shrink0 width170px">현장설명장소</div>
-            <div class="width100">{{ this.result.spotArea }}</div>
-          </div>
-          <div class="flex mt20">
-            <div class="formTit flex-shrink0 width170px">특수조건</div>
-            <div class="width100">
-              <div
-                class="overflow-y-scroll boxStSm width100"
-                style="height: 50px"
-              >
-                {{ this.result.specialCond }}
-              </div>
-            </div>
-          </div>
-          <div class="flex align-items-center mt20">
-            <div class="formTit flex-shrink0 width170px">납품조건</div>
-            <div class="width100">{{ this.result.supplyCond }}</div>
-          </div>
-          <div class="flex align-items-center mt20">
-            <div class="formTit flex-shrink0 width170px">금액기준</div>
-            <div class="width100">{{ this.result.amtBasis }}</div>
-          </div>
-          <div class="flex align-items-center mt20">
-            <div class="formTit flex-shrink0 width170px">결제조건</div>
-            <div class="width100">{{ this.result.payCond }}</div>
-          </div>
-        </div>
-
-        <h3 class="h3Tit mt50">참고사항</h3>
-        <div class="boxSt mt20">
-          <div class="flex align-items-center">
-            <div class="flex align-items-center width100">
-              <div class="formTit flex-shrink0 width170px">입찰담당자</div>
-              <div class="width100">{{ this.result.cuser }}</div>
-            </div>
-            <div class="flex align-items-center width100 ml80">
-              <div class="formTit flex-shrink0 width170px">입찰담당부서</div>
-              <div class="width100">{{ this.result.cuserDept }}</div>
-            </div>
-          </div>
-          <div
-            class="flex align-items-center mt20"
-            v-if="result.ingTag === 'A3'"
-          >
-            <div class="formTit flex-shrink0 width170px">재입찰사유</div>
-            <div class="width100">{{ this.result.whyA3 }}</div>
-          </div>
-        </div>
-        <!--견적을 이미 제출한 경우-->
-        <h3 class="h3Tit mt50" v-if="this.custContent[0].esmtYn == '2'">전자입찰 제출 내역</h3>
-        <div class="conTopBox mt20" v-if="this.custContent[0].esmtYn == '2'">
-          <ul class="dList">
-            <li>
-              <div>
-                세부내역파일을 다운받아 내역 작성 후 제출기한 내 등록해 주시기
-                바랍니다.
-              </div>
-            </li>
-            <li><div>첨부파일은 세부내역 작성에 참고 될 자료들입니다.</div></li>
+      <!-- conHeader -->
+      <div class="conHeader">
+          <ul class="conHeaderCate">
+              <li>전자입찰</li>
+              <li>입찰진행 상세</li>
           </ul>
-        </div>
-        <div class="boxSt mt20" v-if="this.custContent[0].esmtYn == '2'">
-          <div class="flex align-items-center">
-            <div class="flex align-items-center width100">
-              <div class="formTit flex-shrink0 width170px">제출시작일시</div>
-              <div class="width100">{{ this.result.estStartDate }}</div>
-            </div>
-            <div class="flex align-items-center width100 ml80">
-              <div class="formTit flex-shrink0 width170px">제출마감일시</div>
-              <div class="width100">{{ this.result.estCloseDate }}</div>
-            </div>
-          </div>
-          <div class="flex align-items-center mt20" v-if="this.result.insMode === '파일등록'">
-            <div class="formTit flex-shrink0 width170px">세부내역</div>
-            <div class="width100">
-              <a
-                class="textUnderline"
-                v-for="(val, idx) in fileContent"
-                v-show="val.fileFlag === 'K'"
-                :key="idx"
-                @click="downloadFile(val.filePath, val.fileNm)"
-                >{{ val.fileNm }}</a
-              >
-            </div>
-          </div>
-          <div class="flex mt20" v-if="this.result.insMode === '직접입력'">
-            <div class="formTit flex-shrink0 width170px">세부내역</div>
-            <div class="width100">
-              <table class="tblSkin1">
-                <colgroup>
-                  <col style="" />
-                </colgroup>
-                <thead>
-                  <tr>
-                    <th>품목명</th>
-                    <th>규격</th>
-                    <th>수량</th>
-                    <th class="end">단위</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="(val, idx) in tableContent" :key="idx">
-                    <td class="text-left">{{ val.name }}</td>
-                    <td class="text-left">{{ val.ssize }}</td>
-                    <td class="text-right">
-                      {{ val.orderQty | numberWithCommas }}
-                    </td>
-                    <td>{{ val.unitcode | numberWithCommas }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="flex align-items-center mt20">
-            <div class="formTit flex-shrink0 width170px">첨부파일</div>
-            <div class="width100">
-              <div v-for="(val, idx) in custContent" :key="idx" >
-                <div class="mt5"><!--'textHighlight' : 'mt5'-->
-                  <span class="mr20">{{ val.fileFlagKo }}</span>
-                  <a @click="downloadFile(val.etcPath, val.etcFile)" class="textUnderline" >{{ val.etcFile }}</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!--//견적을 이미 제출한 경우-->
-        
-        <!--견적을 아직 제출 안한 경우-->
-        <h3 class="h3Tit mt50" v-if="this.custContent[0].esmtYn != '2'">견적 제출</h3>
-        <div class="conTopBox mt20" v-if="this.custContent[0].esmtYn != '2'">
-          <ul class="dList">
-            <li>
-              <div>
-                견적 제출 후 수정할 수 없으니 꼼꼼히 확인하시고 제출하시기
-                바랍니다.
-              </div>
-            </li>
-          </ul>
-        </div>
-        <div class="boxSt mt20" v-if="this.custContent[0].esmtYn != '2'">
-          <table class="tblSkin1" v-if="this.result.insMode === '직접입력'">
-            <colgroup>
-              <col style="" />
-            </colgroup>
-            <thead>
-              <tr>
-                <th>품목명</th>
-                <th>규격</th>
-                <th>수량</th>
-                <th>단위</th>
-                <th>견적단가</th>
-                <th class="end">견적금액</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(val, idx) in tableContent" :key="idx">
-                <td class="text-left">{{ val.name }}</td>
-                <td class="text-left">{{ val.ssize }}</td>
-                <td class="text-right">{{ val.orderQty }}</td>
-                <td>{{ val.unitcode }}</td>
-                <td class="text-right">
-                  <input
-                    type="text"
-                    name=""
-                    id=""
-                    class="inputStyle inputSm text-right readonly"
-                    placeholder=""
-                    v-model="val.orderUc"
-                    readonly
-                  />
-                </td>
-                <td class="text-right">
-                  <input
-                    type="text"
-                    name=""
-                    id=""
-                    class="inputStyle inputSm text-right"
-                    placeholder=""
-                    v-model="tableContent[idx].esmtAmt"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div
-            class="flex align-items-center justify-space-end mt10"
-            v-if="this.result.insMode === '직접입력'"
-          >
-            <div class="flex align-items-center">
-              <div class="formTit flex-shrink0 mr20">총 견적금액</div>
-              <div class="flex align-items-center width100">
-                <select
-                  name=""
-                  class="selectStyle maxWidth140px"
-                  v-model="this.curr"
-                >
-                  <option
-                    v-for="(val, idx) in currlist"
-                    :value="val.codeVal"
-                    :key="idx"
-                  >
-                    {{ val.codeName }}
-                  </option>
-                </select>
-                <input
-                  type="text"
-                  name=""
-                  id=""
-                  class="inputStyle readonly ml10"
-                  :value="totalAmount"
-                  placeholder=""
-                  readonly
-                />
-              </div>
-            </div>
-          </div>
-
-          <div
-            class="flex align-items-center width100 mt10"
-            v-if="this.result.insMode === '파일등록'"
-          >
-            <div class="formTit flex-shrink0 width170px">
-              견적금액 <span class="star">*</span>
-            </div>
-            <div class="flex align-items-center width100">
-              <select
-                name=""
-                class="selectStyle maxWidth140px"
-                v-model="this.curr"
-              >
-                <option
-                  v-for="(val, idx) in currlist"
-                  :value="val.codeVal"
-                  :key="idx"
-                >
-                  {{ val.codeName }}
-                </option>
-              </select>
-              <input
-                type="text"
-                name=""
-                id=""
-                class="inputStyle"
-                placeholder="숫자만 입력"
-                style="margin: 0 10px"
-                v-model="amt"
-              />
-              <input
-                type="text"
-                name=""
-                id=""
-                class="inputStyle readonly"
-                placeholder=""
-                readonly
-              />
-            </div>
-          </div>
-          <div class="flex mt10" v-if="this.result.insMode === '파일등록'">
-            <div class="formTit flex-shrink0 width170px">
-              견적내역파일 <span class="star">*</span>
-              <!-- 툴팁 -->
-              <i class="fas fa-question-circle toolTipSt ml5">
-                <div class="toolTipText" style="width: 370px">
-                  <ul class="dList">
-                    <li>
-                      <div>
-                        전자입찰 등록서류의 세부내역 파일을 다운받아 내역 작성
-                        후 첨부해 주십시오
-                      </div>
-                    </li>
-                    <li class="textHighlight">
-                      <div>
-                        파일형식은 세부내역과 같은 형식으로 작성해 주십시오
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </i>
-              <!-- //툴팁 -->
-            </div>
-            <div class="width100">
-              <!-- 다중파일 업로드 -->
-              <div class="upload-boxWrap">
-                <div class="upload-box">
-                  <input type="file" id="file-input" @change="fileInputChange">
-                  <div class="uploadTxt">
-                    <i class="fa-regular fa-upload"></i>
-                    <div>클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br>파일 최대 10MB (등록 파일 개수 최대 1개)</div>
-                  </div>
-                </div>
-                <div class="uploadPreview" id="preview">
-                </div>
-              </div>
-              <!-- //다중파일 업로드 -->
-            </div>
-          </div>
-          <div class="flex mt10">
-            <div class="formTit flex-shrink0 width170px">기타첨부</div>
-            <div class="width100">
-              <!-- 다중파일 업로드 -->
-              <div class="upload-boxWrap">
-                <div class="upload-box">
-                  <input type="file" id="file-input2" @change="fileInput2Change">
-                  <div class="uploadTxt">
-                    <i class="fa-regular fa-upload"></i>
-                    <div>클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br>파일 최대 10MB (등록 파일 개수 최대 1개)</div>
-                  </div>
-                </div>
-                <div class="uploadPreview" id="preview2">
-                </div>
-              </div>
-              <!-- //다중파일 업로드 -->
-            </div>
-          </div>
-        </div>
-        <!--//견적을 아직 제출 안한 경우-->
-
-        <div class="text-center mt50">
-          <a class="btnStyle btnOutline" title="목록" @click="movetolist"> 목록 </a>
-          <a
-            data-toggle="modal"
-            data-target="#biddingPreview"
-            class="btnStyle btnOutline"
-            title="공고문 미리보기"
-            >공고문 미리보기</a
-          >
-          <a
-            class="btnStyle btnSecondary"
-            title="수정"
-            v-if="this.result.insMode === '직접입력'"
-            >견적금액 임시저장</a
-          >
-          <a @click="openConfirm" class="btnStyle btnPrimary" title="견적서 제출">견적서 제출</a>
-        </div>
       </div>
-    </div>
-    <!-- //contents -->
+      <!-- //conHeader -->
+      <!-- contents -->
+      <div class="contents">
+          <div class="formWidth">
 
-    <!-- 개찰 -->
-    <div
-      class="modal fade modalStyle"
-      id="suggestBid"
-      tabindex="-1"
-      role="dialog"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" style="width: 100%; max-width: 550px">
-        <div class="modal-content">
-          <div class="modal-body">
-            <a class="ModalClose" data-dismiss="modal" title="닫기"
-              ><i class="fa-solid fa-xmark"></i
-            ></a>
-            <h2 class="modalTitle">투찰</h2>
-            <div class="modalTopBox">
-              <ul>
-                <div>견적서를 제출하시겠습니까?</div>
-              </ul>
-            </div>
-            <div class="modalFooter">
-              <a class="modalBtnClose" data-dismiss="modal" title="취소"
-                >취소</a
-              >
-              <a class="modalBtnCheck" @click="bidSubmitting" data-toggle="modal" title="개찰">개찰</a>
-            </div>
+              <partnerBidCommon :data="data"/>
+              
+              <!--견적을 제출 했을 경우-->
+              <template v-if="data.esmtYn == '2'">
+                  <h3 class="h3Tit mt50">견적 제출 정보</h3>
+                  <div class="boxSt mt20" v-if="data.esmtYn != '2'">
+                      <div class="flex align-items-center">
+                          <div class="flex align-items-center width100">
+                              <div class="formTit flex-shrink0 width170px">견적제출일시</div>
+                              <div class="width100">{{ data.updateDate }}</div>
+                          </div>
+                      </div>
+                  </div>
+              </template>
+              <!--견적을 제출 했을 경우-->
+
+              <!--견적을 아직 제출 안한 경우-->
+              <template v-else>
+                  <h3 class="h3Tit mt50">견적 제출</h3>
+                  <div class="conTopBox mt20">
+                      <ul class="dList">
+                          <li><div>견적 제출 후 수정할 수 없으니 꼼꼼히 확인하시고 제출하시기 바랍니다.</div></li>
+                      </ul>
+                  </div>
+                  <div class="boxSt mt20">
+                      <table class="tblSkin1" v-if="data.insMode == '2'">
+                          <colgroup>
+                              <col style="" />
+                          </colgroup>
+                          <thead>
+                              <tr>
+                                  <th>품목명</th>
+                                  <th>규격</th>
+                                  <th>수량</th>
+                                  <th>단위</th>
+                                  <th>견적단가</th>
+                                  <th class="end">견적금액</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr v-for="(val, idx) in tableContent" :key="idx">
+                                  <td class="text-left">{{ val.name }}</td>
+                                  <td class="text-left">{{ val.ssize }}</td>
+                                  <td class="text-right">{{ val.orderQty }}</td>
+                                  <td>{{ val.unitcode }}</td>
+                                  <td class="text-right">
+                                  <input type="text" class="inputStyle inputSm text-right readonly" placeholder="" v-model="val.orderUc" readonly />
+                                  </td>
+                                  <td class="text-right">
+                                  <input type="text" class="inputStyle inputSm text-right" placeholder="" v-model="tableContent[idx].esmtAmt" /> 
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                      <div class="flex align-items-center justify-space-end mt10" v-if="data.insMode == '2'" >
+                          <div class="flex align-items-center">
+                          <div class="formTit flex-shrink0 mr20">총 견적금액</div>
+                              <div class="flex align-items-center width100">
+                                  <select class="selectStyle maxWidth140px" v-model="curr" > 
+                                      <option v-for="(val, idx) in currlist" :value="val.codeVal" :key="idx" >{{ val.codeName }}</option>
+                                  </select>
+                                  <input type="text" class="inputStyle readonly ml10" :value="totalAmount" placeholder="" readonly />
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class="flex align-items-center width100 mt10" v-if="data.insMode == '2'">
+                          <div class="formTit flex-shrink0 width170px">견적금액 <span class="star">*</span></div>
+                          <div class="flex align-items-center width100">
+                              <select name="" class="selectStyle maxWidth140px" v-model="curr" > 
+                                  <option v-for="(val, idx) in currlist" :value="val.codeVal" :key="idx" >{{ val.codeName }}</option>
+                              </select>
+                              <input type="text" class="inputStyle" placeholder="숫자만 입력" style="margin: 0 10px" v-model="amt" /> 
+                              <input type="text" class="inputStyle readonly" placeholder="" readonly />
+                          </div>
+                      </div>
+                      <div class="flex mt10" v-if="data.insMode == '2'">
+                          <div class="formTit flex-shrink0 width170px">견적내역파일 <span class="star">*</span>
+                              <!-- 툴팁 -->
+                              <i class="fas fa-question-circle toolTipSt ml5">
+                                  <div class="toolTipText" style="width: 370px">
+                                      <ul class="dList">
+                                          <li><div>전자입찰 등록서류의 세부내역 파일을 다운받아 내역 작성후 첨부해 주십시오</div></li>
+                                          <li class="textHighlight"><div>파일형식은 세부내역과 같은 형식으로 작성해 주십시오</div></li>
+                                      </ul>
+                                  </div>
+                              </i>
+                              <!-- //툴팁 -->
+                          </div>
+                          <div class="width100">
+                              <!-- 다중파일 업로드 -->
+                              <div class="upload-boxWrap">
+                                  <div class="upload-box">
+                                      <input type="file" id="file-input" @change="fileInputChange">
+                                      <div class="uploadTxt">
+                                          <i class="fa-regular fa-upload"></i>
+                                          <div>클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br>파일 최대 10MB (등록 파일 개수 최대 1개)</div>
+                                      </div>
+                                  </div>
+                                  <div class="uploadPreview" id="preview"></div>
+                              </div>
+                              <!-- //다중파일 업로드 -->
+                          </div>
+                      </div>
+                      <div class="flex mt10">
+                          <div class="formTit flex-shrink0 width170px">기타첨부</div>
+                          <div class="width100">
+                              <!-- 다중파일 업로드 -->
+                              <div class="upload-boxWrap">
+                                  <div class="upload-box">
+                                      <input type="file" id="file-input2" @change="fileInput2Change">
+                                      <div class="uploadTxt">
+                                          <i class="fa-regular fa-upload"></i>
+                                          <div>클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br>파일 최대 10MB (등록 파일 개수 최대 1개)</div>
+                                      </div>
+                                  </div>
+                                  <div class="uploadPreview" id="preview2"></div>
+                              </div>
+                              <!-- //다중파일 업로드 -->
+                          </div>
+                      </div>
+                  </div>
+              </template>
+              <!--//견적을 아직 제출 안한 경우-->
+
+              <div class="text-center mt50">
+                  <a class="btnStyle btnOutline" title="목록" @click="fnMovePage('partnerBidStatus')"> 목록 </a>
+                  <a data-toggle="modal" data-target="#biddingPreview" class="btnStyle btnOutline" title="공고문 미리보기" >공고문 미리보기</a>
+                  <a class="btnStyle btnSecondary" title="수정" v-if="data.insMode == '2'" >견적금액 임시저장</a>
+                  <a @click="fnCheck" class="btnStyle btnPrimary" title="견적서 제출">견적서 제출</a>
+              </div>
           </div>
-        </div>
       </div>
-    </div>
-    <!-- //개찰 -->
+          <!-- //contents -->
 
-    <!--공고문 미리보기 팝업-->
-    <BidAdvertisement
-      :props="[this.result, this.tableContent, this.fileContent]"
-    />
+      <!-- 개찰 -->
+      <div class="modal fade modalStyle" id="suggestBid" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog" style="width: 100%; max-width: 550px">
+              <div class="modal-content">
+                  <div class="modal-body">
+                      <a class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+                      <h2 class="modalTitle">투찰</h2>
+                      <div class="modalTopBox">
+                          <ul><div>견적서를 제출하시겠습니까?</div></ul>
+                      </div>
+                      <div class="modalFooter">
+                          <a class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
+                          <a class="modalBtnCheck" @click="bidSubmitting" data-toggle="modal" title="투찰">투찰</a>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <!-- //개찰 -->
+
+      <!--공고문 미리보기 팝업-->
+      <!-- <BidAdvertisement :props="[this.result, this.tableContent, this.fileContent]"/> -->
   </div>
   <!-- //본문 -->
 </template>
-  <script>
+<script>
+import partnerBidCommon from "../components/PartnerBidCommon.vue"
+import mixin from "../service/mixin.js";
 import BidAdvertisement from "@/modules/bid/components/BidAdvertisement.vue";
 import fileInput from "../../../../public/js/fileInput.js";
 
 export default {
   name: "partnerBidStatusDetail",
   components: {
-    BidAdvertisement,
+      BidAdvertisement,
+      partnerBidCommon
   },
   data() {
-    return {
-      total: 0,
-      detail: {},
-      dataFromList: '', //입찰번호
-      searchParams: {},
-      result: [],
-      tableContent: [],
-      fileContent: [],
-      custContent:[],
-      loginId: "",
-      currlist: [],
-      curr: "KRW",
-      amt: 0,
-      file1: {},//견적세부파일
-      file2: {}//기타파일
-    };
+      return {
+          biNo : '',
+          data : {},
+          submitData : {},
+          file1: {},//견적세부파일
+          file2: {}//기타파일
+      };
   },
-  async beforeMount() {
-    
+  mixins: [mixin],
+  beforeMount() {
+      this.biNo = this.$route.params.biNo;
   },
   async mounted() {
-
-    const params = {
-      id: this.$options.name,
-      biNo: this.$store.state.bidDetailData
-    };
-    if (this.$store.state.searchParams.id == params.id) {
-      this.searchParams = Object.assign(params, this.$store.state.searchParams);
-    } else {
-      this.searchParams = params;
-    }
-
-    this.dataFromList = this.$store.state.bidDetailData;//입찰번호
-    this.loginId = this.$store.state.loginInfo.userId;//유저 아이디
-
-    this.checkBid();//업체공고확인 처리
-    this.init();
-    await this.retrieve();
-    fileInput.applyFile();
-
+      await this.checkBid();
+      await this.retrieve();
+      // fileInput.applyFile();
   },
-  computed: {
-    totalAmount() {
-      // tableContent 배열의 esmtAmt 속성들의 합을 계산합니다.
-      return this.tableContent.reduce(
-        (acc, cur) => acc + parseFloat(cur.esmtAmt || 0),
-        0
-      );
-    },
-  },
-  filters: {
-    numberWithCommas(val) {
-      if (!val) return "";
-      else return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    },
-  },
+  // computed: {
+  //     totalAmount() {
+  //     // tableContent 배열의 esmtAmt 속성들의 합을 계산합니다.
+  //     return this.tableContent.reduce(
+  //         (acc, cur) => acc + parseFloat(cur.esmtAmt || 0),
+  //         0
+  //     );
+  //     },
+  // },
   methods: {
-    async retrieve() {
-      try {
-        this.$store.commit("loading");
-        const response = await this.$http.post(
-          "/api/v1/bid/progresslistDetail",
-          this.dataFromList
-        );
-        this.result = response.data[0][0];//입찰정보
-        this.tableContent = response.data[1];//직접입력정보
-        this.total = this.calculateTotal();
-        this.fileContent = response.data[2];//파일입력정보
-        this.custContent = response.data[3]//협력사투찰정보
-        this.$store.commit("finish");
-      } catch (err) {
-        console.log(err);
-        this.$store.commit("finish");
-      }
-    },
-
-    validationCheck() {
-      //투찰 전 필수입력요소 체크 로직 추가하기
-    },
-    calculateTotal() {
-      let total = 0;
-      this.tableContent.forEach((val) => {
-        total += val.orderQty * val.orderUc;
-      });
-      return total;
-    },
-
-    async downloadFile(filePath, fileNm) {
-      console.log(filePath);
-      try {
-        this.$store.commit("loading");
-        const response = await this.$http.post(
-          "/api/v1/notice/downloadFile",
-          { fileId: filePath }, // 서버에서 파일을 식별할 수 있는 고유한 ID 또는 다른 필요한 데이터
-          { responseType: "blob" } // 응답 데이터를 Blob 형식으로 받기
-        );
-
-        // 파일 다운로드를 위한 처리
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", fileNm); // 다운로드될 파일명 설정
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        this.$store.commit("finish");
-      } catch (error) {
-        console.error("Error downloading file:", error);
-        this.$store.commit("finish");
-      }
-    },
-    async init() {
-      try {
-        this.$store.commit("loading");
-        const response = await this.$http.post("/api/v1/bidPtStatus/currlist");
-        this.currlist = response.data;
-        this.$store.commit("finish");
-      } catch (err) {
-        console.log(err);
-        this.$store.commit("finish");
-      }
-    },
-    checkBid() {//업체공고확인
-      this.$http.post("/api/v1/bidPtStatus/checkBid", this.searchParams);
-    },
-    movetolist() {
-      this.$router.push({ name: "partnerBidStatus" });
-    },
-    openConfirm(){//valid 체크 및 투찰 확인창 오픈
-
-      $('#suggestBid').modal('show');
-
-    },
-    bidSubmitting(){//투찰
-      $('#suggestBid').modal('hide');
-      var formData = new FormData();
-
-      this.detail.biNo = this.dataFromList;//입찰번호
-      this.detail.insModeCode = this.result.insModeCode;//파일등록인지 직접입력인지
-      this.detail.amt =  this.amt;//파일입력 방식인 경우 견적금액
-      this.detail.tableContent = this.tableContent;//직접입력 방식인 경우 품목당 견적금액
-      //this.detail.biName = this.result.biName;
-      //this.detail.type = "open";
-      //this.detail.interNm = this.result.interrelatedNm;
-      
-      if(this.result.insModeCode === '2'){//직접입력인 경우
-        this.detail.amt = this.calculateTotal();//각 품목당 견적금액 더한 값
-      }
-      this.detail.amt = String(this.detail.amt);
-      console.log('tableContent', this.tableContent);
-
-      formData.append('data', JSON.stringify(this.detail));
-      formData.append('file1', this.file1);
-      formData.append('file2', this.file2);
-
-      this.$store.commit("loading");
-      this.$http
-        .post("/api/v1/bidPtStatus/bidSubmitting", formData)
-        .then((response) => {
-          if (response.data.code == "OK") {
-          } else {
-            /*
-            this.$swal({
-              type: "warning",
-              text: "개찰 처리중 오류가 발생했습니다.",
-            });
-            */
+      // async init() {
+      //     try {
+      //         this.$store.commit("loading");
+      //         const response = await this.$http.post("/api/v1/bidPtStatus/currlist");
+      //         this.currlist = response.data;
+      //         this.$store.commit("finish");
+      //     } catch (err) {
+      //         console.log(err);
+      //         this.$store.commit("finish");
+      //     }
+      // },
+      //업체 공고확인
+      async checkBid() {
+          let params = {
+              biNo : this.biNo
           }
-        })
-        .finally(() => {
-          this.$store.commit("finish");
-         // this.$router.push({ name: "bidStatus" });
-        });
-
-    },
-    fileInputChange(event){//견적세부파일
-      this.file1 = event.target.files[0];
-      console.log(this.file1);
-    },
-    fileInput2Change(event){//기타파일
-      this.file2 = event.target.files[0];
-      console.log(this.file2);
-    },
-    sendFile(){
-      var formData = new FormData();
+          this.$http.post("/api/v1/bidPtStatus/checkBid", params);
+      },
+      //데이터 상세 조회
+      async retrieve() {
+          let searchParams = {
+      biNo : this.biNo
     }
+
+    this.$store.commit('loading');
+    await this.$http.post('/api/v1/bidPtStatus/bidStatusDetail', searchParams).then((response) => {
+      if(response.data.code == 'OK'){
+        this.data = response.data.data;
+      }else{
+        this.$swal({
+          type: "warning",
+          text: response.data.msg,
+        });
+      }
+    }).finally(() => {
+      this.$store.commit("finish");
+    });
+          
+      },
+      //필수요소 값 확인
+      validationCheck() {
+      
+      },
+      //투찰 전 체크
+      fnCheck(){
+          if(!this.validationCheck()){
+              return false;
+          }
+          $('#suggestBid').modal('show');
+      },
+      // calculateTotal() {
+      //     let total = 0;
+      //     this.tableContent.forEach((val) => {
+      //         total += val.orderQty * val.orderUc;
+      //     });
+      //     return total;
+      // },
+      
+      bidSubmitting(){//투찰
+          $('#suggestBid').modal('hide');
+          var formData = new FormData();
+
+          // this.detail.biNo = this.dataFromList;//입찰번호
+          // this.detail.insModeCode = this.result.insModeCode;//파일등록인지 직접입력인지
+          // this.detail.amt =  this.amt;//파일입력 방식인 경우 견적금액
+          // this.detail.tableContent = this.tableContent;//직접입력 방식인 경우 품목당 견적금액
+          
+          // if(this.result.insModeCode === '2'){//직접입력인 경우
+          //     this.detail.amt = this.calculateTotal();//각 품목당 견적금액 더한 값
+          // }
+          // this.detail.amt = String(this.detail.amt);
+
+          formData.append('data', JSON.stringify(this.submitData));
+          formData.append('file1', this.file1);
+          formData.append('file2', this.file2);
+
+          this.$store.commit("loading");
+          this.$http.post("/api/v1/bidPtStatus/bidSubmitting", formData).then((response) => {
+              if (response.data.code == "OK") {
+              } else {
+              }
+          })
+          .finally(() => {
+              this.$store.commit("finish");
+          });
+
+      },
+      fileInputChange(event){//견적세부파일
+          this.file1 = event.target.files[0];
+      },
+      fileInput2Change(event){//기타파일
+          this.file2 = event.target.files[0];
+      },
   }
 };
 </script>

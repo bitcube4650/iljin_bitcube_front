@@ -104,6 +104,14 @@ let mixin = {
 				return esmtCurr + (esmtCurr != '' ? ' ' : '') + esmtAmt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 			}
 		},
+        //소숫점처리 및 콤마
+		fnRoundComma(number){
+			if(cmmn.isEmpty(number)) return ''
+			else {
+                number = Math.round(number);
+				return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			}
+		},
         //뒤로
         fnBack() {
             this.$router.go(-1);
