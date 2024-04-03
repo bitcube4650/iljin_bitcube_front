@@ -69,10 +69,10 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(val, idx) in listPage.content">
+                <tr v-for="(val, idx) in listPage.content" :key="idx">
                   <td class="text-left">{{ val.custName }}</td>
                   <td class="text-left">
-                    <div class="text-overflow">
+                    <div class="text-overflow" style="width: 523px;">
                       {{ val.combinedAddr }}
                     </div>
                   </td>
