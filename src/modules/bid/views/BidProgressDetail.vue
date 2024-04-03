@@ -156,7 +156,7 @@
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">공장동</div>
-            <div class="width100">{{ this.result.matFactoryFactory }}</div>
+            <div class="width100">{{ this.result.matFactory }}</div>
           </div>
           <div class="flex align-items-center mt20">
             <div class="flex align-items-center width100">
@@ -527,12 +527,12 @@ export default {
   mounted() {
     this.dataFromList = this.$store.state.bidDetailData;
     this.loginId = this.$store.state.loginInfo.userId;
-    console.log(this.dataFromList);
     this.retrieve();
   },
 
   methods: {
     async retrieve() {
+      console.log( this.dataFromList)
       try {
         this.$store.commit("loading");
         const response = await this.$http.post(
@@ -593,7 +593,6 @@ export default {
       this.detail.lotteClsList = this.lotteClsList;
 
       this.$store.commit("setBidUpdateData", this.detail);
-      console.log(this.detail);
       this.$router.push({ name: "bidProgressUpdate" ,query: { 'bidUpdateData': this.detail} });
     },
 
