@@ -22,7 +22,7 @@
             </div>
             <div class="flex align-items-center mt10">
               <div class="formTit flex-shrink0 width170px">입찰명</div>
-              <div class="width100">{{ props[0].biName }}</div>
+              <div style="width:550px; word-wrap: break-word;">{{ props[0].biName }}</div>
             </div>
             <div class="flex align-items-center mt10">
               <div class="formTit flex-shrink0 width170px">품명</div>
@@ -46,23 +46,23 @@
           <div class="modalBoxSt mt10">
             <div class="flex align-items-center">
               <div class="formTit flex-shrink0 width170px">입찰참가자격</div>
-              <div class="width100">{{ props[0].bidJoinSpec }}</div>
+              <div style="width:550px; word-wrap: break-word;">{{ props[0].bidJoinSpec }}</div>
             </div>
             <div class="flex align-items-center mt10">
               <div class="formTit flex-shrink0 width170px">현장설명일시</div>
-              <div class="width100">{{ props[0].spotDate }}</div>
+              <div style="width:550px; word-wrap: break-word;">{{ props[0].spotDate }}</div>
             </div>
             <div class="flex align-items-center mt10">
               <div class="formTit flex-shrink0 width170px">현장설명장소</div>
-              <div class="width100">{{ props[0].spotArea }}</div>
+              <div style="width:550px; word-wrap: break-word;">{{ props[0].spotArea }}</div>
             </div>
             <div class="flex align-items-center mt10">
               <div class="formTit flex-shrink0 width170px">특수조건</div>
-              <div class="width100" v-html="formattedSpecialCond"></div>
+              <div style="width:550px; word-wrap: break-word;" v-html="formattedSpecialCond"></div>
             </div>
             <div class="flex align-items-center mt10">
               <div class="formTit flex-shrink0 width170px">납품조건</div>
-              <div class="width100">{{ props[0].supplyCond }}</div>
+              <div style="width:550px; word-wrap: break-word;">{{ props[0].supplyCond }}</div>
             </div>
             <div class="flex align-items-center mt10">
               <div class="formTit flex-shrink0 width170px">금액기준</div>
@@ -70,7 +70,7 @@
             </div>
             <div class="flex align-items-center mt10">
               <div class="formTit flex-shrink0 width170px">결제조건</div>
-              <div class="width100">{{ props[0].payCond }}</div>
+              <div style="width:550px; word-wrap: break-word;">{{ props[0].payCond }}</div>
             </div>
           </div>
 
