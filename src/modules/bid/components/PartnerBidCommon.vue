@@ -115,9 +115,7 @@
                                 <th>품목명</th>
                                 <th>규격</th>
                                 <th>수량</th>
-                                <th>단위</th>
-                                <th>실행단가</th>
-                                <th class="end">합계</th>
+                                <th class="end">단위</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -125,9 +123,7 @@
                                 <td class="text-left">{{ spec.name }}</td>
                                 <td class="text-right">{{ spec.ssize }}</td>
                                 <td class="text-right">{{ spec.orderQty | numberWithCommas }}</td>
-                                <td class="text-right">{{ spec.unitcode }}</td>
-                                <td class="text-right">{{ spec.orderUc | numberWithCommas }}</td>
-                                <td class="text-right end">{{ spec.orderQty * spec.orderUc | numberWithCommas }}</td>
+                                <td class="text-right end">{{ spec.unitcode }}</td>
                             </tr>
                         </tbody>
                     </table>
