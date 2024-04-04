@@ -272,6 +272,7 @@ export default {
 		}
 		if (this.detail.isCreate && this.userIdChkYn != 'Y') {
 			this.$swal({type: "warning",text: "로그인ID 중복체크를 진행해주세요."});
+
 			return;
 		}
 		if (this.detail.isCreate && (this.detail.userPwd == null || this.detail.userPwd == '')) {
@@ -286,9 +287,11 @@ export default {
 			this.$swal({type: "warning",text: "비밀번호와 비밀번호 확인의 값이 일치하지 않습니다."});
 			return;
 		}
-		if( !this.fnPwdvaildation(this.detail.userPwd) ){
-			return;
-		}		
+		if( this.detail.isCreate){
+			if( !this.fnPwdvaildation(this.detail.userPwd) ){
+				return;
+			}
+		}
 		if (this.detail.userName == null || this.detail.userName == '') {
 			this.$swal({type: "warning",text: "이름을 입력해주세요."});
 			return;
