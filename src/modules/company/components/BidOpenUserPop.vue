@@ -145,7 +145,7 @@ export default {
           this.searchParams
         );
         this.listPage = response.data;
-        console.log(1111111, this.listPage);
+
         this.$store.commit("finish");
       } catch (err) {
         console.log(err);
