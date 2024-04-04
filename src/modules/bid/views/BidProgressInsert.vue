@@ -278,15 +278,15 @@
             </div>
             <div class="flex align-items-center width100">
               <select name="" class="selectStyle" v-model="bidContent.matDept">
-                <option value=null>사업부</option>
+                <option value=null>사업부를 선택 하세요.</option>
                 <option v-for="(dept,idx) in lotteDeptList" :value="dept.value" :key="idx">{{ dept.label }}</option>
               </select>
               <select name="" class="selectStyle" style="margin: 0 10px" v-model="bidContent.matProc">
-                <option value=null>공정</option>
+                <option value=null>공정을 선택 하세요.</option>
                 <option v-for="(proc,idx) in lotteProcList" :value="proc.value" :key="idx">{{ proc.label }}</option>
               </select>
               <select name="" class="selectStyle" v-model="bidContent.matCls">
-                <option value=null>분류</option>
+                <option value=null>분류를 선택 하세요.</option>
                 <option v-for="(cls,idx) in lotteClsList" :value="cls.value" :key="idx">{{ cls.label }}</option>
               </select>
             </div>
@@ -301,6 +301,7 @@
                 class="inputStyle"
                 placeholder=""
                 v-model="bidContent.matFactory"
+                maxlength="50"
               />
             </div>
           </div>
@@ -315,6 +316,7 @@
                   class="inputStyle"
                   placeholder=""
                   v-model="bidContent.matFactoryLine"
+                  maxlength="25"
                 />
               </div>
             </div>
@@ -328,6 +330,7 @@
                   class="inputStyle"
                   placeholder=""
                   v-model="bidContent.matFactoryCnt"
+                  maxlength="25"
                 />
               </div>
             </div>
@@ -571,7 +574,7 @@
                         id=""
                         class="inputStyle inputSm"
                         placeholder=""
-                        v-model="val.name"
+                        v-model.trim="val.name"
                         maxlength="100"
                       />
                     </td>
@@ -582,7 +585,7 @@
                         id=""
                         class="inputStyle inputSm"
                         placeholder=""
-                        v-model="val.ssize"
+                        v-model.trim="val.ssize"
                         maxlength="25"
                       />
                     </td>
@@ -593,8 +596,9 @@
                         id=""
                         class="inputStyle inputSm"
                         placeholder=""
-                        v-model="val.orderQty"
+                        v-model.trim="val.orderQty"
                         maxlength="12"
+                        @input="changeNumOrderQty(idx)"
                       />
                     </td>
                     <td>
@@ -604,7 +608,7 @@
                         id=""
                         class="inputStyle inputSm"
                         placeholder=""
-                        v-model="val.unitcode"
+                        v-model.trim="val.unitcode"
                         maxlength="25"
                       />
                     </td>
@@ -615,11 +619,12 @@
                         id=""
                         class="inputStyle inputSm text-right"
                         placeholder=""
-                        v-model="val.orderUc"
+                        v-model.trim="val.orderUc"
                         maxlength="12"
+                        @input="changeNumOrderUc(idx)"
                       />
                     </td>
-                    <td class="text-right">{{ val.orderQty*val.orderUc }}</td>
+                    <td class="text-right">{{ (val.orderQty*val.orderUc).toLocaleString() }}</td>
                     <td class="text-right end">
                       <a
                         class="btnStyle btnSecondary btnSm"
@@ -1170,6 +1175,7 @@ export default {
           document.querySelector("#preview").innerHTML = "";
         }
       }
+
       this.$forceUpdate();
       $("#bmFile").modal("hide");
     },
@@ -1182,7 +1188,6 @@ export default {
 
       this.tableContent.push({
         biNo: this.bidContent.biNo,
-        seq: seq,
         name: "",
         ssize: "",
         orderQty: "",
@@ -1198,64 +1203,64 @@ export default {
 
     validationCheck() {
       if (!this.bidContent.biName || this.bidContent.biName === "") {
-        alert("입찰명을 입력해주세요.");
+        alert("입찰명을 입력해 주세요.");
         return false;
       }
       if (!this.bidContent.itemCode || this.bidContent.itemCode === "") {
-        alert("품목을 선택해주세요.");
+        alert("품목을 선택해 주세요.");
         return false;
       }
       if (!this.bidContent.biModeCode || this.bidContent.biModeCode === "") {
-        alert("입찰방식을 선택해주세요.");
+        alert("입찰방식을 선택해 주세요.");
         return false;
       }
       if (!this.bidContent.bidJoinSpec || this.bidContent.bidJoinSpec === "") {
-        alert("입찰참가자격을 선택해주세요.");
+        alert("입찰참가자격을 선택해 주세요.");
         return false;
       }
       if (!this.datePart || this.datePart === "") {
-        alert("현장설명일시 날짜를 입력해주세요.");
+        alert("현장설명일시 날짜를 입력해 주세요.");
         return false;
       }
       if (!this.timePart || this.timePart === "") {
-        alert("현장설명일시 시간을 입력해주세요.");
+        alert("현장설명일시 시간을 입력해 주세요.");
         return false;
       }
       if (!this.bidContent.spotArea || this.bidContent.spotArea === "") {
-        alert("현장설명장소를 입력해주세요.");
+        alert("현장설명장소를 입력해 주세요.");
         return false;
       }
       if (!this.bidContent.succDeciMethCode || this.bidContent.succDeciMethCode === "") {
-        alert("낙찰자 결정방법을 선택해주세요.");
+        alert("낙찰자 결정방법을 선택해 주세요.");
         return false;
       }
       if (this.custContent.length === 0 && this.bidContent.biModeCode === "A") {
-        alert("입찰참가업체를 선택해주세요.");
+        alert("입찰참가업체를 선택해 주세요.");
         return false;
       }
       if (!this.bidContent.amtBasis || this.bidContent.amtBasis === "") {
-        alert("금액기준을 선택해주세요.");
+        alert("금액기준을 선택해 주세요.");
         return false;
       }
       if (this.bidContent.interrelatedCustCode == "02" 
           && (!this.bidContent.matDept || !this.bidContent.matProc || !this.bidContent.matCls)) {
-        alert("분류군을 입력해주세요.");
+        alert("분류군을 입력해 주세요.");
         return false;
       }
       if (!this.datePart1 || this.datePart1 === "") {
-        alert("제출시작일시 날짜를 선택해주세요.");
+        alert("제출시작일시 날짜를 선택해 주세요.");
         return false;
       }
       if (!this.timePart1 || this.timePart1 === "") {
-        alert("제출시작일시 시간을 선택해주세요.");
+        alert("제출시작일시 시간을 선택해 주세요.");
         return false;
       }
       if (!this.datePart2 || this.datePart2 === "") {
-        alert("제출마감일시 날짜를 선택해주세요.");
+        alert("제출마감일시 날짜를 선택해 주세요.");
         return false;
       }
       if (!this.timePart2 || this.timePart2 === "") {
-        alert("제출마감일시 시간을 선택해주세요.");
+        alert("제출마감일시 시간을 선택해 주세요.");
         return false;
       }
 
@@ -1272,42 +1277,72 @@ export default {
       this.bidContent.estCloseDate = this.datePart2 + " " + this.timePart2;
   
       if (!this.bidContent.estOpener || this.bidContent.estOpener === "") {
-        alert("개찰자를 선택해주세요.");
+        alert("개찰자를 선택해 주세요.");
         return false;
       }
 
       if (!this.bidContent.gongoId || this.bidContent.gongoId === "") {
-        alert("입찰공고자를 선택해주세요.");
+        alert("입찰공고자를 선택해 주세요.");
         return false;
       }
 
       if (!this.bidContent.estBidder || this.bidContent.estBidder === "") {
-        alert("낙찰자를 선택해주세요.");
+        alert("낙찰자를 선택해 주세요.");
         return false;
       }
 
       if (!this.bidContent.supplyCond || this.bidContent.supplyCond === "") {
-        alert("납품조건을 입력해주세요.");
+        alert("납품조건을 입력해 주세요.");
         return false;
       }
 
       //세부내역 내역집적등록인 경우
       if (this.bidContent.insModeCode === "2") {
         if (this.tableContent.length === 0) {
-          alert("세부내역을 작성해주세요.");
+          alert("세부내역을 추가해 주세요.");
           return false;
-        } else {
-          this.tableContents = this.tableContent.filter(
-            (item) => item.name !== null
-          );
+        } else if(this.tableContent.length > 0){
+          
+          const nameCheck = this.tableContent.filter(item=> item.name == '')
+          const ssizeCheck = this.tableContent.filter(item=> item.ssize == '')
+          const orderQtyCheck = this.tableContent.filter(item=> item.orderQty == '')
+          const unitcodeCheck = this.tableContent.filter(item=> item.unitcode == '')
+          const orderUcCheck = this.tableContent.filter(item=> item.orderUc == '')
+
+          if(nameCheck.length > 0){
+            alert('세부내역 품목명을 작성해 주세요.');
+            return false;
+          }
+          if(ssizeCheck.length > 0){
+            alert('세부내역 규격을 작성해 주세요.');
+            return false;
+          }
+          if(orderQtyCheck.length > 0){
+            alert('세부내역 수량을 작성해 주세요.');
+            return false;
+          }
+          if(unitcodeCheck.length > 0){
+            alert('세부내역 단위를 작성해 주세요.');
+            return false;
+          }
+          if(orderUcCheck.length > 0){
+            alert('세부내역 실행단가를 작성해 주세요.');
+            return false;
+          }
+
         }
+
+        this.tableContents = this.tableContent.filter(
+          (item) => item.name !== null
+        );
+
       }
 
       //세부내역 파일등록 경우
       var fileTag = document.getElementById('file-input');//세부내역 파일 태그
       if (this.bidContent.insModeCode === "1") {
         if (fileTag.files.length === 0) {
-          alert("세부내역파일을 업로드 해주세요.");
+          alert("세부내역파일을 업로드 해 주세요.");
           return false;
         }
       }
@@ -1345,6 +1380,9 @@ export default {
 
           //내역방식
           if (this.bidContent.insModeCode === "2") {//내역직접등록
+            this.tableContent = tableContent.map((item, idx) => {
+                return { ...item, seq: idx + 1 };
+            });
             await this.$http.post("/api/v1/bid/updateBidItem", this.tableContent);
           }else if(this.bidContent.insModeCode === "1"){//파일등록
             this.sendFileContent();
@@ -1352,12 +1390,21 @@ export default {
           
           if (response.data.code == "OK") {
             this.$store.commit("searchParams", {});
-          } else {
+          } 
+          /*
+          else {
             this.$swal({
               type: "warning",
               text: "수정 중 오류가 발생했습니다.",
             });
           }
+          */
+        }).catch((error) => {
+          console.error(error);
+          this.$swal({
+              type: "warning",
+              text: "수정 중 오류가 발생했습니다.",
+          });
         })
         .finally(() => {
           $("#save").modal("hide");
@@ -1489,6 +1536,14 @@ export default {
       }else{
         $("#save").modal("show");
       }
+    },
+    changeNumOrderQty(idx) {
+      const inputValue = this.tableContent[idx].orderQty.replace(/\D/g, '');
+      this.tableContent[idx].orderQty = inputValue;
+    },
+    changeNumOrderUc(idx) {
+      const inputValue = this.tableContent[idx].orderUc.replace(/\D/g, '');
+      this.tableContent[idx].orderUc = inputValue;
     }
   },
   beforeMount() {},
