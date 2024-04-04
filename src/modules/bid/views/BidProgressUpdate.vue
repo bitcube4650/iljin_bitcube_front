@@ -1010,10 +1010,7 @@ export default {
         if (this.dataFromList.result.biModeCode === "A") {//지명경쟁
           this.dataFromList.result.biModeCode = "A";
         } else {//일반경쟁
-
-          //지명경쟁업체 원래값으로 초기화
-          this.dataFromList.custContent = this.originCustData;
-
+          this.dataFromList.custContent = [];
           this.$forceUpdate();
         }
       }
@@ -1289,13 +1286,18 @@ export default {
         .then(async (response) => {
           //지명경쟁
           if (this.dataFromList.result.biModeCode === "A") {
-
+            this.dataFromList.custContent[0].insertYn = 'Y'
+          }else if(this.dataFromList.result.biModeCode === "B"){
+           if(this.dataFromList.custContent.length == 0){
+            this.dataFromList.custContent.push({biNo : this.dataFromList.result.biNo})
+           }
+          }
             //지명경쟁 협력사 등록
             await this.$http.post(
               "/api/v1/bid/updateBidCust",
               this.dataFromList.custContent
             );
-          }
+
           if (this.dataFromList.result.insModeCode === "2") {//내역직접등록
             await this.$http.post(
               "/api/v1/bid/updateBidItem",
