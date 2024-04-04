@@ -68,7 +68,7 @@
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">자본금 <span class="star">*</span></div>
 						<div class="flex align-items-center width100">
-							<input type="text" v-model="detail.capital" @keypress="onlyNumber" maxlength="11" class="inputStyle maxWidth-max-content" placeholder="ex) 10,000,000">
+							<input type="text" v-model="detail.fomCapital" @keypress="onlyNumber" @input="formatCapital" maxlength="15" class="inputStyle maxWidth-max-content" placeholder="ex) 10,000,000">
 							<div class="ml10">원</div>
 						</div>
 					</div>
@@ -82,13 +82,13 @@
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">대표전화 <span class="star">*</span></div>
 						<div class="width100">
-							<input type="text" v-model="detail.tel" maxlength="13" class="inputStyle maxWidth-max-content"  placeholder="">
+							<input type="text" v-model="detail.fomTel" @keypress="onlyNumber" @input="formatTel" maxlength="13" class="inputStyle maxWidth-max-content" >
 						</div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">팩스</div>
 						<div class="width100">
-							<input type="text" v-model="detail.fax" maxlength="13" class="inputStyle maxWidth-max-content" placeholder="">
+							<input type="text" v-model="detail.fomFax" @keypress="onlyNumber" @input="formatFax" maxlength="13" class="inputStyle maxWidth-max-content">
 						</div>
 					</div>
 					<div class="flex mt10">
@@ -173,11 +173,11 @@
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">휴대폰</div>
-						<div class="width100">{{ detail.userHp }}</div>
+						<div class="width100">{{ detail.fomUserHp }}</div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">유선전화</div>
-						<div class="width100">{{ detail.userTel }}</div>
+						<div class="width100">{{ detail.fomUserTel }}</div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">직급</div>
@@ -255,9 +255,11 @@ export default {
 				this.$store.commit('loading');
 				const response = await this.$http.post('/api/v1/cust/info');
 				this.detail = response.data;
-				if (custCode) {
-					this.detail.custCode = null;
-				}
+				this.detail.fomCapital = this.formatComma(this.detail.capital);
+				this.detail.fomTel = this.phoneNumAddDash(this.detail.tel);
+				this.detail.fomFax = this.phoneNumAddDash(this.detail.fax);
+				this.detail.fomUserTel = this.phoneNumAddDash(this.detail.userTel);
+				this.detail.fomUserHp = this.hpNumberAddDash(this.detail.userHp);
 				//기존에 첨부되어있는 파일 나타내기
 				if(this.detail.regnumFile != null && this.detail.regnumPath != null){
 					var preview = document.querySelector('#preview');
@@ -372,12 +374,7 @@ export default {
 			.then((response) => {
 				$("#joinBtn").modal("hide"); 
 				if (response.data.code == 'OK') {
-					if (this.$route.params.id == null) {
-						$("#commonAlertMsg").html('업체정보를 등록하였습니다..');
-        				this.$store.commit('searchParams',{});  // 페이징 처리를 1로 초기화 
-					} else {
-						$("#commonAlertMsg").html('업체정보를 수정하였습니다.');
-					}
+					$("#commonAlertMsg").html('업체정보를 수정하였습니다.');
       				$("#commonAlertPop").modal("show"); 
         			this.$router.push('/company/partner');
 				} else {
@@ -453,6 +450,148 @@ export default {
 			}
 			this.bfile = event.target.files[0];
 			this.bfileCnt = event.target.files.length;
+		},
+		formatComma(val){
+			if(!val) return '0';
+			val = val.toString();
+
+			return val.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		},
+		formatUncomma(val){
+			if(!val) return '0';
+			val = val.toString();
+			
+			return val.replace(/[^0-9]/g, '');
+		},
+		phoneNumAddDash(val){
+			if (!val) return '';
+			val = val.toString();
+			val = val.replace(/[^0-9]/g, '')
+
+			let tmp = ''
+			if( val.length < 4){
+			return val;
+			} else if(val.length < 7) {
+			tmp += val.substr(0, 3);
+			tmp += '-';
+			tmp += val.substr(3);
+			return tmp;
+			} else if(val.length == 8) {
+			tmp += val.substr(0, 4);
+			tmp += '-';
+			tmp += val.substr(4);
+			return tmp;
+			} else if(val.length < 10) {
+			if(val.substr(0, 2) =='02') { //02-123-5678
+				tmp += val.substr(0, 2);
+				tmp += '-';
+				tmp += val.substr(2, 3);
+				tmp += '-';
+				tmp += val.substr(5);
+				return tmp;
+			}
+			} else if(val.length < 11) {
+			if(val.substr(0, 2) =='02') { //02-1234-5678
+				tmp += val.substr(0, 2);
+				tmp += '-';
+				tmp += val.substr(2, 4);
+				tmp += '-';
+				tmp += val.substr(6);
+				return tmp;
+			} else { //010-123-4567
+				tmp += val.substr(0, 3);
+				tmp += '-';
+				tmp += val.substr(3, 3);
+				tmp += '-';
+				tmp += val.substr(6);
+				return tmp;
+			}
+			} else { //010-1234-5678
+			tmp += val.substr(0, 3);
+			tmp += '-';
+			tmp += val.substr(3, 4);
+			tmp += '-';
+			tmp += val.substr(7);
+			return tmp;
+			}
+		},
+		//전화번호 입력 시 대시 입력(상단 함수가 오류날 경우 대체사용)
+		hpNumberAddDash(val){
+			if (!val) return '';
+			val = val.toString();
+			val = val.replace(/[^0-9]/g, '')
+			
+			let tmp = ''
+			if( val.length < 4){
+			return val;
+			} else if(val.length <= 7) {
+			tmp += val.substr(0, 3);
+			tmp += '-';
+			tmp += val.substr(3);
+			return tmp;
+			} else if(val.length == 8) {
+			tmp += val.substr(0, 4);
+			tmp += '-';
+			tmp += val.substr(4);
+			return tmp;
+			} else if(val.length < 10) {
+				tmp += val.substr(0, 2);
+				tmp += '-';
+				tmp += val.substr(2, 3);
+				tmp += '-';
+				tmp += val.substr(5);
+				return tmp;
+			} else if(val.length < 11) {
+			if(val.substr(0, 2) =='02') { //02-1234-5678
+				tmp += val.substr(0, 2);
+				tmp += '-';
+				tmp += val.substr(2, 4);
+				tmp += '-';
+				tmp += val.substr(6);
+				return tmp;
+			} else { //010-123-4567
+				tmp += val.substr(0, 3);
+				tmp += '-';
+				tmp += val.substr(3, 3);
+				tmp += '-';
+				tmp += val.substr(6);
+				return tmp;
+			}
+			} else { //010-1234-5678
+			tmp += val.substr(0, 3);
+			tmp += '-';
+			tmp += val.substr(3, 4);
+			tmp += '-';
+			tmp += val.substr(7);
+			return tmp;
+			}
+		},
+		hpNumberRemoveDash(val){
+			if (!val) return '';
+			val = val.toString();
+			val = val.replace(/[^0-9]/g, '');
+
+			return val;
+		},
+		formatCapital() {
+			this.detail.capital = this.formatUncomma(this.detail.fomCapital);
+			this.detail.fomCapital = this.formatComma(this.detail.capital);
+		},
+		formatTel() {
+			this.detail.tel = this.hpNumberRemoveDash(this.detail.fomTel);
+			this.detail.fomTel = this.phoneNumAddDash(this.detail.tel);
+		},
+		formatFax() {
+			this.detail.fax = this.hpNumberRemoveDash(this.detail.fomFax);
+			this.detail.fomFax = this.phoneNumAddDash(this.detail.fax);
+		},
+		formatUserTel() {
+			this.detail.userTel = this.hpNumberRemoveDash(this.detail.fomUserTel);
+			this.detail.fomUserTel = this.phoneNumAddDash(this.detail.userTel);
+		},
+		formatUserHp() {
+			this.detail.userHp = this.hpNumberRemoveDash(this.detail.fomUserHp);
+			this.detail.fomUserHp = this.hpNumberAddDash(this.detail.userHp);
 		},
 	},
 };

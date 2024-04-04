@@ -44,7 +44,7 @@
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">자본금</div>
-					<div class="width100">{{ detail.capital.toLocaleString() }} 원</div>
+					<div class="width100">{{ detail.fomCapital }} 원</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">설립년도</div>
@@ -52,11 +52,11 @@
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">대표전화</div>
-					<div class="width100">{{ detail.tel }}</div>
+					<div class="width100">{{ detail.fomTel }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">팩스</div>
-					<div class="width100">{{ detail.fax }}</div>
+					<div class="width100">{{ detail.fomFax }}</div>
 				</div>
 				<div class="flex mt20">
 					<div class="formTit flex-shrink0 width170px">회사주소</div>
@@ -129,11 +129,11 @@
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">휴대폰</div>
-					<div class="width100">{{ detail.userHp }}</div>
+					<div class="width100">{{ detail.fomUserHp }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">유선전화</div>
-					<div class="width100">{{ detail.userTel }}</div>
+					<div class="width100">{{ detail.fomUserTel }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">직급</div>
@@ -196,6 +196,11 @@ export default {
 				this.$store.commit('loading');
 				const response = await this.$http.post('/api/v1/cust/management/'+this.$route.params.id);
 				this.detail = response.data;
+				this.detail.fomCapital = this.formatComma(this.detail.capital);
+				this.detail.fomTel = this.phoneNumAddDash(this.detail.tel);
+				this.detail.fomFax = this.phoneNumAddDash(this.detail.fax);
+				this.detail.fomUserTel = this.phoneNumAddDash(this.detail.userTel);
+				this.detail.fomUserHp = this.hpNumberAddDash(this.detail.userHp);
 				this.$store.commit('finish');
 			} catch(err) {
 				console.log(err)
@@ -271,7 +276,129 @@ export default {
 				console.error("Error downloading file:", error);
 				this.$store.commit('finish');
 			}
-		}
+		},
+		formatComma(val){
+			if(!val) return '0';
+			val = val.toString();
+
+			return val.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		},
+		formatUncomma(val){
+			if(!val) return '0';
+			val = val.toString();
+			
+			return val.replace(/[^0-9]/g, '');
+		},
+		phoneNumAddDash(val){
+			if (!val) return '';
+			val = val.toString();
+			val = val.replace(/[^0-9]/g, '')
+
+			let tmp = ''
+			if( val.length < 4){
+			return val;
+			} else if(val.length < 7) {
+			tmp += val.substr(0, 3);
+			tmp += '-';
+			tmp += val.substr(3);
+			return tmp;
+			} else if(val.length == 8) {
+			tmp += val.substr(0, 4);
+			tmp += '-';
+			tmp += val.substr(4);
+			return tmp;
+			} else if(val.length < 10) {
+			if(val.substr(0, 2) =='02') { //02-123-5678
+				tmp += val.substr(0, 2);
+				tmp += '-';
+				tmp += val.substr(2, 3);
+				tmp += '-';
+				tmp += val.substr(5);
+				return tmp;
+			}
+			} else if(val.length < 11) {
+			if(val.substr(0, 2) =='02') { //02-1234-5678
+				tmp += val.substr(0, 2);
+				tmp += '-';
+				tmp += val.substr(2, 4);
+				tmp += '-';
+				tmp += val.substr(6);
+				return tmp;
+			} else { //010-123-4567
+				tmp += val.substr(0, 3);
+				tmp += '-';
+				tmp += val.substr(3, 3);
+				tmp += '-';
+				tmp += val.substr(6);
+				return tmp;
+			}
+			} else { //010-1234-5678
+			tmp += val.substr(0, 3);
+			tmp += '-';
+			tmp += val.substr(3, 4);
+			tmp += '-';
+			tmp += val.substr(7);
+			return tmp;
+			}
+		},
+		//전화번호 입력 시 대시 입력(상단 함수가 오류날 경우 대체사용)
+		hpNumberAddDash(val){
+			if (!val) return '';
+			val = val.toString();
+			val = val.replace(/[^0-9]/g, '')
+			
+			let tmp = ''
+			if( val.length < 4){
+			return val;
+			} else if(val.length <= 7) {
+			tmp += val.substr(0, 3);
+			tmp += '-';
+			tmp += val.substr(3);
+			return tmp;
+			} else if(val.length == 8) {
+			tmp += val.substr(0, 4);
+			tmp += '-';
+			tmp += val.substr(4);
+			return tmp;
+			} else if(val.length < 10) {
+				tmp += val.substr(0, 2);
+				tmp += '-';
+				tmp += val.substr(2, 3);
+				tmp += '-';
+				tmp += val.substr(5);
+				return tmp;
+			} else if(val.length < 11) {
+			if(val.substr(0, 2) =='02') { //02-1234-5678
+				tmp += val.substr(0, 2);
+				tmp += '-';
+				tmp += val.substr(2, 4);
+				tmp += '-';
+				tmp += val.substr(6);
+				return tmp;
+			} else { //010-123-4567
+				tmp += val.substr(0, 3);
+				tmp += '-';
+				tmp += val.substr(3, 3);
+				tmp += '-';
+				tmp += val.substr(6);
+				return tmp;
+			}
+			} else { //010-1234-5678
+			tmp += val.substr(0, 3);
+			tmp += '-';
+			tmp += val.substr(3, 4);
+			tmp += '-';
+			tmp += val.substr(7);
+			return tmp;
+			}
+		},
+		hpNumberRemoveDash(val){
+			if (!val) return '';
+			val = val.toString();
+			val = val.replace(/[^0-9]/g, '');
+
+			return val;
+		},
 	}
 }
 </script>

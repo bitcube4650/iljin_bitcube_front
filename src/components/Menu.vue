@@ -154,6 +154,7 @@ import cmmn from "../../public/js/common.js";
                 .catch((e) => {
                     console.error(e);
                 })
+            this.$router.push('/');
 
 
         },
