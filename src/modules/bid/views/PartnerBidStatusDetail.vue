@@ -22,7 +22,7 @@
                         <div class="flex align-items-center">
                             <div class="flex align-items-center width100">
                                 <div class="formTit flex-shrink0 width170px">견적제출일시</div>
-                                <div class="width100">{{ data.updateDate }}</div>
+                                <div class="width100">{{ data.custEsmtUpdateDate }}</div>
                             </div>
                         </div>
                     </div>
@@ -396,6 +396,7 @@ export default {
                 biNo : this.biNo
             ,   submitData : this.submitData
             ,   amt : this.amt
+            ,   esmtCurr : this.esmtCurr 
             }
 
             formData.append('data', JSON.stringify(params));

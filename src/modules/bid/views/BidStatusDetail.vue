@@ -120,10 +120,11 @@ export default {
                         type: "info",
                         text: "개찰했습니다.",
                     });
+
+                    this.$router.push({name:"bidOpenDetail", params: { 'biNo': this.biNo }});
                 }
             }).finally(() => {
                 this.$store.commit("finish");
-                this.$router.push({name:"bidOpenDetail", params: { 'biNo': this.biNo }});
             });
         },
         //상세 및 기타첨부파일 열람 시 알림창
