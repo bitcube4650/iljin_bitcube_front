@@ -7,7 +7,7 @@
     role="dialog"
     aria-hidden="true"
   >
-    <div class="modal-dialog" style="width: 100%; max-width: 800px">
+    <div class="modal-dialog" style="width: 100%; max-width: 1000px">
       <div class="modal-content">
         <div class="modal-body">
           <a class="ModalClose" data-dismiss="modal" title="닫기"
@@ -53,7 +53,7 @@
             <thead>
               <tr>
                 <th>입찰번호</th>
-                <th>입찰명</th>
+                <th >입찰명</th>
                 <th>제출마감일시</th>
                 <th>입찰방식</th>
                 <th>상태</th>
@@ -62,14 +62,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(val, idx) in listPage.content">
-                <td>{{ val.biNo }}</td>
-                <td>{{ val.biName }}</td>
-                <td>{{ val.estCloseDate }}</td>
-                <td>{{ val.biMode }}</td>
-                <td>{{ val.ingTag }}</td>
-                <td>{{ val.insMode }}</td>
-                <td class="end">
+              <tr v-for="(val, idx) in listPage.content" :key="idx">
+                <td style="max-width: 104px;">{{ val.biNo }}</td>
+                <td class="text-left" style="max-width:350px; word-wrap: break-word;">{{ val.biName }}</td>
+                <td style="max-width: 136px;">{{ val.estCloseDate }}</td>
+                <td style="max-width: 104px;">{{ val.biMode }}</td>
+                <td style="max-width: 77px;">{{ val.ingTag }}</td>
+                <td style="max-width: 77px;">{{ val.insMode }}</td>
+                <td style="max-width: 107px;" class="end">
                   <a
                     class="btnStyle btnSecondary btnSm"
                     title="선택"
