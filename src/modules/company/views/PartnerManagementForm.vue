@@ -223,7 +223,7 @@
                 <div v-if="this.$route.params.id == null && this.detail.custCode == null" class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">아이디 <span class="star">*</span></div>
                     <div class="flex align-items-center width100">
-                        <input type="text" v-model="detail.userId" maxlength="20" @keypress="chgUserId" class="inputStyle maxWidth-max-content" placeholder="영문, 숫자 입력(8자 이내) 후 중복확인">
+                        <input type="text" v-model="detail.userId" maxlength="20" @keyup="checkReg" @keypress="chgUserId" class="inputStyle maxWidth-max-content" placeholder="영문, 숫자 입력(8자 이내) 후 중복확인">
                         <a href="#" @click.prevent="idcheck" class="btnStyle btnSecondary flex-shrink0 ml10" title="중복 확인">중복 확인</a>
                     </div>
                 </div>
@@ -252,7 +252,7 @@
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">유선전화 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" vv-model="detail.fomUserTel" @keypress="onlyNumber" @input="formatUserTel" maxlength="20" class="inputStyle maxWidth-max-content">
+                        <input type="text" v-model="detail.fomUserTel" @keypress="onlyNumber" @input="formatUserTel" maxlength="20" class="inputStyle maxWidth-max-content">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
@@ -411,8 +411,21 @@ export default {
 				this.$store.commit('finish');
 			}
 		},
-		chgUserId() {
+		chgUserId(event) {
 			this.detail.idcheck = false;
+			const keyCode = event.keyCode;
+			const isValidKey = (
+				(keyCode >= 48 && keyCode <= 57) || // Numbers
+				(keyCode >= 97 && keyCode <= 122) || // Numbers, Keypad
+				(keyCode >= 65 && keyCode <= 90) || // Alphabet
+				(keyCode === 32) || // Space
+				(keyCode === 8) || // BackSpace
+				(keyCode === 189) // Dash
+			);
+			if (!isValidKey) {
+				event.preventDefault();
+				return false;
+			}
 		},
 		idcheck() {
 			if (this.detail.userId == null || this.detail.userId == '') {
