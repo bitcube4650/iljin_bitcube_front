@@ -136,6 +136,7 @@ import bidCommonInfo from "../components/BidStatusCommon.vue";
 import SubmitHistPop from "@/modules/company/components/SubmitHistoryPop.vue";
 import report from "@/modules/bid/components/BidResultReport.vue";
 import mixin from "../service/mixin.js";
+import cmmn from "../../../../public/js/common.js";
 
 export default {
     name: "bidOpenDetail",
