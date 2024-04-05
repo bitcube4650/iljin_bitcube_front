@@ -127,22 +127,28 @@
             </div>
             <div class="flex align-items-center mt20">
                 <div class="flex align-items-center width100">
-                <div class="formTit flex-shrink0 width170px">입회자1</div>
-                <div class="width100">{{ data.openAtt1 }}</div>
+                    <div class="formTit flex-shrink0 width170px">입회자1</div>
+                    <div class="width100" v-if="attSign == 'N'">{{ data.openAtt1 }}</div>
+                    <div class="width100" v-else-if="attSign == 'Y'">{{ data.openAtt1 }}
+                        <span v-if="data.openAtt1Id != ''" :class="data.openAtt1Sign != 'Y' ? 'attCheck' : ''" @click="fnOpenAttSignPop('1', data.openAtt1Id, data.openAtt1Sign)">{{ data.openAtt1Sign | ftOpenAttSign }}</span>
+                    </div>
                 </div>
                 <div class="flex align-items-center width100 ml80">
-                <div class="formTit flex-shrink0 width170px">입회자2</div>
-                <div class="width100">{{ data.openAtt2 }}</div>
+                    <div class="formTit flex-shrink0 width170px">입회자2</div>
+                    <div class="width100" v-if="attSign == 'N'">{{ data.openAtt2 }}</div>
+                    <div class="width100" v-else-if="attSign == 'Y'">{{ data.openAtt2 }}
+                        <span v-if="data.openAtt2Id != ''" :class="data.openAtt2Sign != 'Y' ? 'attCheck' : ''" @click="fnOpenAttSignPop('2', data.openAtt2Id, data.openAtt2Sign)">{{ data.openAtt2Sign | ftOpenAttSign }}</span>
+                    </div>
                 </div>
             </div>
             <div class="flex align-items-center mt20">
                 <div class="flex align-items-center width100">
-                <div class="formTit flex-shrink0 width170px">내역방식</div>
-                <div class="width100">{{ data.insMode }}</div>
+                    <div class="formTit flex-shrink0 width170px">내역방식</div>
+                    <div class="width100">{{ data.insMode }}</div>
                 </div>
                 <div class="flex align-items-center width100 ml80">
-                <div class="formTit flex-shrink0 width170px">납품조건</div>
-                <div class="width100">{{ data.supplyCond }}</div>
+                    <div class="formTit flex-shrink0 width170px">납품조건</div>
+                    <div class="width100">{{ data.supplyCond }}</div>
                 </div>
             </div>
             <div class="flex align-items-center mt20">
@@ -153,7 +159,7 @@
                 <div class="width100" v-if="data.insMode === '2'">
                     <table class="tblSkin1">
                         <colgroup>
-                        <col style="" />
+                            <col style="" />
                         </colgroup>
                         <thead>
                         <tr>
@@ -222,8 +228,43 @@
             </div>
         </div>
         <!-- //유찰 -->
+
+        <!-- 입회자 서명 -->
+        <div class="modal fade modalStyle" id="attSignPop" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" style="width: 100%; max-width: 550px">
+                <div class="modal-content">
+                <div class="modal-body">
+                    <a class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+                    <h2 class="modalTitle">입회자 확인</h2>
+                    <div class="modalTopBox">
+                        <ul>
+                            <div>개찰참석자의 로그인 비밀번호를 입력해주세요.</div>
+                        </ul>
+                    </div>
+                    <div class="flex align-items-center mt20">
+                        <div class="formTit flex-shrink0 width100px">비밀번호</div>
+                        <div class="width100">
+                            <input type="password" @keypress.enter="fnAttSign" v-model="attPw" class="inputStyle" placeholder="">
+                        </div>
+                    </div>
+                    <div class="modalFooter">
+                        <a class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
+                        <a @click="fnAttSign" class="modalBtnCheck" data-toggle="modal" title="확인">확인</a>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <!-- //입회자 서명 -->
     </div>
 </template>
+<style scoped>
+    .attCheck{
+        color: red;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+</style>
 <script>
 import CustUserPop from "@/modules/company/components/CustUserPop.vue";
 import mixin from "../service/mixin.js";
@@ -237,14 +278,32 @@ export default {
         data:{
             type:Object
         ,   default:{}
+        },
+        attSign:{
+            type:String
+        ,   default:'N'
         }
     },
     data() {
         return{
-            reason : ''         //유찰사유
+            reason : '',        //유찰사유
+            whoAtt : '',        //입회자 1? 입회자 2? 
+            attSignId : '',       //입회자 서명 대상자
+            attPw : ''          //입회자 서명 비밀번호
         }
     },
     mixins: [mixin],
+    filters:{
+        ftOpenAttSign(val){
+            if(val == 'Y'){
+                return '[서명 확인]'
+            }else if(val == 'N'){
+                return '[서명 미확인]'
+            }else{
+                return '';
+            }
+        }
+    },
     methods:{
         //유찰처리
         bidFailure() {
@@ -280,6 +339,45 @@ export default {
                 this.$store.commit("finish");
             });
         },
+        fnOpenAttSignPop(att, attSignId, signYn){
+            if(signYn == 'N'){
+                this.whoAtt = att;
+                this.attSignId = attSignId;
+                $("#attSignPop").modal("show");
+            }
+        },
+        fnAttSign(){
+            if (this.attSignId == null || this.attSignId == "" || this.attPw == null || this.attPw == '') {
+                this.$swal({ type: "warning", text: "비밀번호를 입력해주세요." });
+                return false;
+            }
+            
+            let params = {
+                biNo : this.data.biNo
+            ,   att : this.att            //몇번 입회자
+            ,   attSignId : this.attSignId    //입회자 아이디
+            ,   attPw : this.attPw        //입회자 비밀번호
+            }
+            
+            this.$store.commit("loading");
+            this.$http.post("/api/v1/bidstatus/attSign", params).then((response) => {
+                $("#attSignPop").modal("hide");
+                if (response.data.code == "OK") {
+                    if(this.whoAtt == '1'){
+                        this.data.openAtt1Sign = 'Y'
+                    }else if(this.whoAtt == '2'){
+                        this.data.openAtt2Sign = 'Y'
+                    }
+                }else{
+                    this.$swal({
+                        type: "warning",
+                        text: "입회자 서명 중 오류가 발생하였습니다.",
+                    });
+                }
+            }).finally(() => {
+                this.$store.commit("finish");
+            });
+        }
     }
 }
 </script>

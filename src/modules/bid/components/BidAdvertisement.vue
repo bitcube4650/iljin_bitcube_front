@@ -126,7 +126,7 @@
                             <div class="formTit flex-shrink0 width170px">첨부파일</div>
                             <div class="width100">
                                 <div v-for="(val, idx) in data.fileList" :key="idx" @click="downloadFile(val.filePath, val.fileNm)" >
-                                    <span>{{ val.fileFlag | ftFileFlag }}  &nbsp;</span><a class="textUnderline">{{val.fileNm}}</a>
+                                    <a class="textUnderline">{{val.fileNm}}</a>
                                 </div>
                             </div>
                         </div>

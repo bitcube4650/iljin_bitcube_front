@@ -13,7 +13,7 @@
         <div class="contents">
             <div class="formWidth">
                 
-                <bidCommonInfo :data="data"/>
+                <bidCommonInfo :data.sync="data" attSign="Y"/>
 
                 <h3 class="h3Tit mt50">업체견적 사항 <strong class="textHighlight">(개찰 전까지 견적금액 및 내역파일은 암호화되어 보호됩니다)</strong></h3>
                 <div class="conTopBox mt20">
@@ -53,8 +53,8 @@
 
                 <div class="text-center mt50">
                     <a class="btnStyle btnOutline" title="목록" @click="fnMovePage('bidStatus')">목록</a>
-                    <a v-if="data.ingTag == 'A1' && (data.bidAuth || data.openAuth || (data.createUser == $store.state.loginInfo.userId))" data-toggle="modal" data-target="#biddingReserve" class="btnStyle btnSecondary" title="유찰">유찰</a>
-                    <a v-if="data.ingTag == 'A1' && data.openAuth && data.estCloseCheck" data-toggle="modal" data-target="#openBid" class="btnStyle btnPrimary" title="개찰">개찰</a>
+                    <a v-if="(data.ingTag == 'A1' || data.ingTag == 'A3') && (data.bidAuth || data.openAuth || (data.createUser == $store.state.loginInfo.userId))" data-toggle="modal" data-target="#biddingReserve" class="btnStyle btnSecondary" title="유찰">유찰</a>
+                    <a v-if="(data.ingTag == 'A1' || data.ingTag == 'A3') && data.openAuth && data.estCloseCheck" @click="fnCheck" class="btnStyle btnPrimary" title="개찰">개찰</a>
                 </div>
             </div>
         </div>
@@ -88,6 +88,7 @@
 <script>
 import bidCommonInfo from "../components/BidStatusCommon.vue";
 import mixin from "../service/mixin.js";
+import cmmn from "../../../../public/js/common.js";
 
 export default {
     name: "bidStatusDetail",
@@ -103,13 +104,13 @@ export default {
     mixins: [mixin],
     methods: {
         //개찰처리
-        fnOpenBid(){
+        async fnOpenBid(){
             let params = {
                 biNo : this.biNo
             }
             this.$store.commit("loading");
             this.$http.post("/api/v1/bidstatus/bidOpening", params).then((response) => {
-                $("#biddingReserve").modal("hide");
+                $("#openBid").modal("hide");
                 if (response.data.code == "999") {
                     this.$swal({
                         type: "warning",
@@ -120,7 +121,7 @@ export default {
                         type: "info",
                         text: "개찰했습니다.",
                     });
-
+                    this.$store.commit("finish");
                     this.$router.push({name:"bidOpenDetail", params: { 'biNo': this.biNo }});
                 }
             }).finally(() => {
@@ -136,6 +137,23 @@ export default {
                 });
             }
         },
+        fnCheck(){
+            if(cmmn.isEmpty(this.data.openAtt1Id) && this.data.openAtt1Sign != 'Y'){
+                this.$swal({
+                    type: "warning",
+                    text: "입회자1의 서명이 필요합니다.",
+                });
+            }
+
+            if(cmmn.isEmpty(this.data.openAtt2Id) && this.data.openAtt2Sign != 'Y'){
+                this.$swal({
+                    type: "warning",
+                    text: "입회자2의 서명이 필요합니다.",
+                });
+            }
+
+            $("#openBid").modal("show");
+        }
     },
     beforeMount() {
         this.biNo = this.$route.params.biNo;
