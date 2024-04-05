@@ -115,6 +115,10 @@
 									</div>
 								</div>
 								<div class="uploadPreview" id="preview">
+									<p v-if="detail.regnumFile != null && detail.regnumFile != undefined && detail.regnumFile != ''">
+										{{ detail.regnumFile}}
+										<button class='file-remove' @click="changeRegnumFile">삭제</button>
+									</p>
 								</div>
 							</div>
 							<!-- //다중파일 업로드 -->
@@ -145,6 +149,10 @@
 									</div>
 								</div>
 								<div class="uploadPreview" id="preview2">
+									<p v-if="detail.bfile != null && detail.bfile != undefined && detail.bfile != ''">
+										{{ detail.bfile}}
+										<button class='file-remove' @click="changebfile">삭제</button>
+									</p>
 								</div>
 							</div>
 							<!-- //다중파일 업로드 -->
@@ -260,43 +268,6 @@ export default {
 				this.detail.fomFax = this.phoneNumAddDash(this.detail.fax);
 				this.detail.fomUserTel = this.phoneNumAddDash(this.detail.userTel);
 				this.detail.fomUserHp = this.hpNumberAddDash(this.detail.userHp);
-				//기존에 첨부되어있는 파일 나타내기
-				if(this.detail.regnumFile != null && this.detail.regnumPath != null){
-					var preview = document.querySelector('#preview');
-					var fileName = this.detail.regnumFile;
-					// 현재 시간의 타임스탬프 (13자리)
-  					var timestamp = Date.now();
-					preview.innerHTML += `
-										<p id=${timestamp}>
-											${fileName}
-											<button data-index=${timestamp} id='removeFile' class='file-remove'>삭제</button>
-										</p>`;
-
-					//삭제 버튼 클릭시 기존 첨부된 파일 정보 삭제
-					$('#removeFile').click(function(){
-						this.detail.regnumFile = null;
-						this.detail.regnumPath = null;
-
-					}.bind(this));
-				}
-				if(this.detail.bfile != null && this.detail.bfilePath != null){
-					var preview = document.querySelector('#preview2');
-					var fileName = this.detail.bfile;
-					// 현재 시간의 타임스탬프 (13자리)
-  					var timestamp = Date.now();
-					preview.innerHTML += `
-										<p id=${timestamp}>
-											${fileName}
-											<button data-index=${timestamp} id='removeFile2' class='file-remove'>삭제</button>
-										</p>`;
-
-					//삭제 버튼 클릭시 기존 첨부된 파일 정보 삭제
-					$('#removeFile2').click(function(){
-						this.detail.bfile = null;
-						this.detail.bfilePath = null;
-
-					}.bind(this));
-				}
 				this.$store.commit('finish');
 			} catch(err) {
 				console.log(err)
@@ -366,7 +337,7 @@ export default {
 			}
 
     		formData.append('regnumFile', this.regnumFile);
-    		formData.append('bfile', this.bfile);
+    		formData.append('bFile', this.bfile);
 			formData.append('data', new Blob([JSON.stringify(this.detail)], { type: 'application/json' }));
 
 			this.$http
@@ -410,7 +381,7 @@ export default {
 			}
 			return false;
 		},
-		changeRegnumFile(evnet){//바뀐 파일 regnumFile에 담기
+		changeRegnumFile(event){//바뀐 파일 regnumFile에 담기
 			//파일 변경시 기존 처음에 첨부되었던 파일정보 사라짐
 			this.detail.regnumFile = null;
 			this.detail.regnumPath = null;
@@ -418,8 +389,14 @@ export default {
 			if(this.checkRegnumFileSize()){
 				return false;
 			}
-			this.regnumFile = event.target.files[0];
-			this.regnumFileCnt = event.target.files.length;
+
+			if(event.target.files != undefined && event.target.files != null){
+				this.regnumFile = event.target.files[0];
+				this.regnumFileCnt = event.target.files.length;
+			} else {
+				this.regnumFile = null
+				this.regnumFileCnt = 0
+			}
 		},
 		checkbfileSize() {//파일크기 확인
 			const input = this.$refs.uploadedbfile;
@@ -440,7 +417,7 @@ export default {
 			}
 			return false;
 		},
-		changebfile(evnet){//바뀐 파일 regnumFile에 담기
+		changebfile(event){//바뀐 파일 regnumFile에 담기
 			//파일 변경시 기존 처음에 첨부되었던 파일정보 사라짐
 			this.detail.bfile = null;
 			this.detail.bfilePath = null;
@@ -448,8 +425,14 @@ export default {
 			if(this.checkbfileSize()){
 				return false;
 			}
-			this.bfile = event.target.files[0];
-			this.bfileCnt = event.target.files.length;
+			
+			if(event.target.files != undefined && event.target.files != null){
+				this.bfile = event.target.files[0];
+				this.bfileCnt = event.target.files.length;
+			} else {
+				this.bfile = null
+				this.bfileCnt = 0
+			}
 		},
 		formatComma(val){
 			if(!val) return '0';
