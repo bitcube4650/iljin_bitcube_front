@@ -539,7 +539,7 @@ export default {
           "/api/v1/bid/progresslistDetail",
           this.dataFromList
         );
-
+        console.log(response);
         this.result = response.data[0][0];
 
         this.tableContent = response.data[1];
