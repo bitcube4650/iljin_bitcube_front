@@ -325,7 +325,7 @@ export default {
             this.$store.commit("loading");
             this.$http.post("/api/v1/bidstatus/bidFailure", params).then((response) => {
                 $("#biddingReserve").modal("hide");
-                if (response.data.code == "999") {
+                if (response.data.code != "OK") {
                     this.$swal({
                         type: "warning",
                         text: response.data.msg,

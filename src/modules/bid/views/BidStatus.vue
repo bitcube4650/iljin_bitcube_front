@@ -189,7 +189,7 @@ export default {
 
             this.$store.commit("loading");
             await this.$http.post("/api/v1/bidstatus/statuslist", this.searchParams).then(response=>{
-                if(response.data.code != '999'){
+                if(response.data.code == 'OK'){
                     this.listPage = response.data.data;
                 }else{
                     this.$swal({

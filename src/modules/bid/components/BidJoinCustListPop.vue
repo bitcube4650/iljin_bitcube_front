@@ -70,7 +70,7 @@ export default {
             }
             this.$store.commit('loading');
             await this.$http.post("/api/v1/bidComplete/joinCustList", params).then((response) => {
-                if(response.data.code != '999'){
+                if(response.data.code == 'OK'){
                     this.popData = response.data.data;
                 }else{
                     $("#companiesNum").modal("hide");

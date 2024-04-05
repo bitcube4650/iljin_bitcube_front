@@ -143,7 +143,7 @@ export default {
 
             this.$store.commit('loading');
             this.$http.post('/api/v1/statistics/interrelatedCustCodeList', {}).then((response) => {
-                if(response.data.code != '999'){
+                if(response.data.code == 'OK'){
                     this.interrelatedCustCode = response.data.data;
                 }else{
                     this.$swal({
@@ -174,7 +174,7 @@ export default {
             
             this.$store.commit('loading');
             await this.$http.post('/api/v1/statistics/bidDetailList', this.searchParams).then((response) => {
-                if(response.data.code != '999'){
+                if(response.data.code == 'OK'){
                     this.listPage = response.data.data;
                 }else{
                     this.$swal({

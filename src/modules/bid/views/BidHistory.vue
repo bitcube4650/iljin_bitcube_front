@@ -268,7 +268,7 @@ export default {
       await this.$http
         .post("/api/v1/bidComplete/history", this.searchParams)
         .then((response) => {
-          if (response.data.code != "999") {
+          if (response.data.code == "OK") {
             this.listPage = response.data.data;
           } else {
             this.$swal({
@@ -292,7 +292,7 @@ export default {
       await this.$http
         .post("/api/v1/bidComplete/lotteMatCode", {})
         .then((response) => {
-          if (response.data.code != "999") {
+          if (response.data.code == "OK") {
             this.lotteMatCode = response.data.data;
           } else {
             this.$swal({

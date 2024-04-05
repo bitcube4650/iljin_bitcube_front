@@ -165,7 +165,7 @@ export default {
 
 			this.$store.commit('loading');
 			await this.$http.post('/api/v1/bidComplete/partnerDetail', searchParams).then((response) => {
-				if(response.data.code != '999'){
+				if(response.data.code == 'OK'){
 					this.data = response.data.data;
 				}else{
 					this.$swal({
@@ -199,7 +199,7 @@ export default {
 			this.$store.commit("loading");
 			this.$http.post("/api/v1/bidComplete/updBiCustFlag", params).then((response) => {
 				$("#biddingCheck").modal("hide");
-				if(response.data.code != '999'){
+				if(response.data.code == 'OK'){
 					this.$swal({
 						type: "info",
 						text: "승인하였습니다."
