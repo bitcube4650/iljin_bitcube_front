@@ -50,7 +50,7 @@
                         </div>
                         <div class="flex align-items-center mt10">
                             <div class="formTit flex-shrink0 width170px">특수조건</div>
-                            <div style="width:550px; word-wrap: break-word;">{{ data.specialCond }}</div>
+                            <div style="width:550px; word-wrap: break-word;"><pre style="background-color: white;">{{ data.specialCond }}</pre></div>
                         </div>
                         <div class="flex align-items-center mt10">
                             <div class="formTit flex-shrink0 width170px">납품조건</div>

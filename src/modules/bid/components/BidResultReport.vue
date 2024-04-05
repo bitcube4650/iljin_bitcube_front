@@ -27,7 +27,7 @@
 						<div class="flex mt10">
 							<div class="formTit flex-shrink0 width170px">특수조건</div>
 							<div class="width100">
-								{{ data.specialCond }}
+								<pre style="background-color: white;">{{ data.specialCond }}</pre>
 							</div>
 						</div>
 						<div class="flex align-items-center mt10">
