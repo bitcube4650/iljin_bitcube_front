@@ -75,6 +75,13 @@ new Vue({
   store,
   render: h => h(App),
   created() {
+    this.$http.interceptors.request.use(config => {
+      // domain이 어럿이라 각기 다른 domain 처리 
+      config.baseURL = document.location.href.match(/http[s]*:\/\/([a-zA-Z0-9\-\.]*)/)[0] + ':' + process.env.VUE_APP_API_PORT;
+      return config;
+    }, function (error) {
+      return Promise.reject(error);
+    });
     this.$http.interceptors.response.use(response => {
       return response
     }, error => {
