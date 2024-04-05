@@ -497,7 +497,7 @@ export default {
 				return;
 			}
 			var regnumFileRemoveCnt = $('#preview .file-remove').length;//올려진 파일을 삭제하는 버튼 개수
-			if(this.regnumFileCnt == 0 || regnumFileRemoveCnt == 0){//업로드 한 파일이 없는 경우
+			if(regnumFileRemoveCnt == 0){//업로드 한 파일이 없는 경우
 				this.$swal({type: "warning",text: "사업자등록증을 선택해주세요."});
 				return;
 			}
