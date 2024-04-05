@@ -73,7 +73,7 @@
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">예산금액</div>
-						<div class="width100">{{ data.bdAmt | numberWithCommas }} 원</div>
+						<div class="width100">{{ data.bdAmt | numberWithCommas }} <span v-if="data.bdAmt != null && data.bdAmt != undefined && data.bdAmt != ''">원</span></div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">입찰담당자</div>

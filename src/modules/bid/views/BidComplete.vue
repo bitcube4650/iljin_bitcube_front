@@ -86,6 +86,9 @@
                         <td>{{ data.insMode | ftInsMode }}</td>
                         <td class="end"><i class="fa-light fa-paper-plane-top"></i> <a :href="'mailto:'+data.userEmail" class="textUnderline" title="담당자">{{ data.userName }}</a></td>
                     </tr>
+                    <tr v-if="listPage.content.length == 0">
+                        <td class="end" colspan="7">조회된 데이터가 없습니다.</td>
+                    </tr>
                 </tbody>
             </table>
 

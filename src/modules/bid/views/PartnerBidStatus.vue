@@ -97,6 +97,9 @@
                             <a :href="'mailto:' + val.damdangEmail" class="textUnderline" title="담당자 메일">{{ val.damdangName }}</a>
                         </td>
                     </tr>
+                    <tr v-if="listPage.content.length == 0">
+                        <td class="end" colspan="8">조회된 데이터가 없습니다.</td>
+                    </tr>
                 </tbody>
             </table>
 

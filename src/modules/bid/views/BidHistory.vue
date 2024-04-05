@@ -189,6 +189,10 @@
               <td>{{ data.estCloseDate }}</td>
               <td class="end">{{ data.userName }}</td>
             </tr>
+            
+            <tr v-if="listPage.content.length == 0">
+                <td class="end" :colspan="lotteMat ? '15' : '9'">조회된 데이터가 없습니다.</td>
+            </tr>
           </tbody>
         </table>
       </div>

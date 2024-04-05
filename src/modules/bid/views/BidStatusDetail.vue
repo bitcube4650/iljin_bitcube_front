@@ -138,18 +138,22 @@ export default {
             }
         },
         fnCheck(){
-            if(cmmn.isEmpty(this.data.openAtt1Id) && this.data.openAtt1Sign != 'Y'){
+            if(!cmmn.isEmpty(this.data.openAtt1Id) && this.data.openAtt1Sign != 'Y'){
                 this.$swal({
                     type: "warning",
                     text: "입회자1의 서명이 필요합니다.",
                 });
+
+                return false;
             }
 
-            if(cmmn.isEmpty(this.data.openAtt2Id) && this.data.openAtt2Sign != 'Y'){
+            if(!cmmn.isEmpty(this.data.openAtt2Id) && this.data.openAtt2Sign != 'Y'){
                 this.$swal({
                     type: "warning",
                     text: "입회자2의 서명이 필요합니다.",
                 });
+
+                return false;
             }
 
             $("#openBid").modal("show");

@@ -108,6 +108,9 @@
                             <a :href="'mailto:' + val.openerEmail" class="textUnderline" title="개찰자 메일">{{ val.openerId }}</a>
                         </td>
                     </tr>
+                    <tr v-if="listPage.content.length == 0">
+                        <td class="end" colspan="8">조회된 데이터가 없습니다.</td>
+                    </tr>
                 </tbody>
             </table>
 

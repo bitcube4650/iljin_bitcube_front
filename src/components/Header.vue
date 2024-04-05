@@ -25,6 +25,10 @@
 </template>
 <script>
 import cmmn from "../../public/js/common.js"
+import Vue from 'vue'
+import vClickOutside from 'v-click-outside'
+
+Vue.use(vClickOutside)
 
 export default {
     name: 'Header',

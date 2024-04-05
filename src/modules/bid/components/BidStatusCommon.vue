@@ -55,7 +55,7 @@
             </div>
             <div class="flex align-items-center mt20">
                 <div class="formTit flex-shrink0 width170px">예산금액</div>
-                <div class="width100">{{ data.bdAmt | numberWithCommas }}원</div>
+                <div class="width100">{{ data.bdAmt | numberWithCommas }} <span v-if="data.bdAmt != null && data.bdAmt != undefined && data.bdAmt != ''">원</span></div>
             </div>
             <div class="flex align-items-center mt20">
                 <div class="formTit flex-shrink0 width170px">입찰담당자</div>
@@ -230,11 +230,11 @@
         <!-- //유찰 -->
 
         <!-- 입회자 서명 -->
-        <div class="modal fade modalStyle" id="attSignPop" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal fade modalStyle" id="attSignPop" tabindex="-1" role="dialog" aria-hidden="true" v-click-outside="fnAttPwInit">
             <div class="modal-dialog" style="width: 100%; max-width: 550px">
                 <div class="modal-content">
                 <div class="modal-body">
-                    <a class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+                    <a @click="fnAttPwInit" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
                     <h2 class="modalTitle">입회자 확인</h2>
                     <div class="modalTopBox">
                         <ul>
@@ -248,7 +248,7 @@
                         </div>
                     </div>
                     <div class="modalFooter">
-                        <a class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
+                        <a @click="fnAttPwInit" class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
                         <a @click="fnAttSign" class="modalBtnCheck" data-toggle="modal" title="확인">확인</a>
                     </div>
                 </div>
@@ -305,6 +305,9 @@ export default {
         }
     },
     methods:{
+        fnAttPwInit(){
+            this.attPw = '';
+        },
         //유찰처리
         bidFailure() {
             if (this.reason == null || this.reason == "") {
@@ -354,7 +357,7 @@ export default {
             
             let params = {
                 biNo : this.data.biNo
-            ,   att : this.att            //몇번 입회자
+            ,   whoAtt : this.whoAtt            //몇번 입회자
             ,   attSignId : this.attSignId    //입회자 아이디
             ,   attPw : this.attPw        //입회자 비밀번호
             }
@@ -368,7 +371,17 @@ export default {
                     }else if(this.whoAtt == '2'){
                         this.data.openAtt2Sign = 'Y'
                     }
-                }else{
+
+                    this.$swal({
+                        type: "warning",
+                        text: "서명이 완료되었습니다.",
+                    });
+                } else if (response.data.code == "inValid") {
+                    this.$swal({
+                        type: "warning",
+                        text: "입회자 비밀번호가 올바르지 않습니다.",
+                    });
+                } else{
                     this.$swal({
                         type: "warning",
                         text: "입회자 서명 중 오류가 발생하였습니다.",
