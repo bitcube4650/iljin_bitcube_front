@@ -246,7 +246,7 @@
                 class="inputStyle"
                 placeholder=""
                 v-model="bidContent.payCond"
-                maxlength="100"
+                maxlength="50"
               />
             </div>
           </div>
@@ -1015,6 +1015,10 @@ export default {
         { value: "C24", label: "검사설비" },
         { value: "C25", label: "기타" },
       ],
+    fileData : {}, // 내역방식 파일 등록할 때 첨부파일 데이터
+    fileData2 : {}, // 대내용 첨부파일 데이터
+    fileData3 : {}, // 대외용 첨부파일 데이터
+    
     };
   },
   computed: {
@@ -1101,6 +1105,7 @@ export default {
       this.bidContent.itemCode = this.result.itemCode;
       this.bidContent.itemName = this.result.itemName;
       this.bidContent.biModeCode = this.result.biModeCode;//입찰방식
+      this.bidContent.bidJoinSpec = this.result.bidJoinSpec
       if (!this.result.biModeCode) this.bidContent.biModeCode = "A";//"A" - 지명경쟁, "B" - 일반경쟁
 
       this.bidContent.specialCond = this.result.specialCond;
@@ -1120,11 +1125,14 @@ export default {
       this.bidContent.estOpenerCode = this.result.estOpenerCode;
       this.bidContent.gongoId = this.result.gongoId;
       this.bidContent.gongoIdCode = this.result.gongoIdCode;
+      this.bidContent.estBidder = this.result.estBidder
+      this.bidContent.estBidderCode = this.result.estBidderCode
       this.bidContent.openAtt1 = this.result.openAtt1;
       this.bidContent.openAtt1Code = this.result.openAtt1Code;
       this.bidContent.openAtt2 = this.result.openAtt2;
       this.bidContent.openAtt2Code = this.result.openAtt2Code;
       this.bidContent.insModeCode = this.result.insModeCode;//내역방식
+      this.bidContent.supplyCond = this.result.supplyCond
       if (!this.result.insModeCode) this.bidContent.insModeCode = "1";// "1" - 파일등록, "2" - 내역집적등록
 
       if (this.result.interrelatedCustCode === "02") {
@@ -1354,7 +1362,70 @@ export default {
  
       //insert 전에 숫자에 천단위로 있는 콤마 제거
       this.bidContent.bdAmt = this.bdAmt.replace(/[^\d-]/g, '');
+      let custContent = {}
+      let updateEmail = {}
+      if (this.bidContent.biModeCode === "A") {
+          //등록되는 입찰 bino로 set
+          custContent = this.custContent;
+          
+          custContent.forEach(function(element) {
+              element.biNo = vm.bidContent.biNo;
+          })
+          updateEmail = {
+            biNo: this.bidContent.biNo,
+            type: "insert",
+            interCd: this.bidContent.interrelatedCustCode,
+          }
+      }
 
+
+
+      //내역방식
+      if(this.bidContent.insModeCode === "2") {//내역직접등록
+        this.tableContent = this.tableContent.map((item, idx) => {
+          return { ...item, seq: idx + 1 };
+       });
+      }
+
+      let fd = new FormData()
+      fd.append("bidContent", this.bidContent)
+      fd.append("custContent", custContent)
+      fd.append("updateEmail", updateEmail)
+      fd.append("tableContent", this.tableContent)
+      
+      if(this.bidContent.insModeCode === "1"){
+        fd.append("fileData", this.fileData)
+        console.log('세부')
+      }
+
+      if(Object.keys(this.fileData2).length != 0){
+        console.log(1)
+        fd.append("fileData2", this.fileData2)
+      }
+      if(Object.keys(this.fileData3).length != 0){
+        console.log(2)
+        fd.append("fileData3", this.fileData3)
+      }
+
+      const params = {
+        bidContent : this.bidContent,
+        custContent : custContent,
+        updateEmail : updateEmail,
+        tableContent : this.tableContent,
+        fileData : this.fileData,
+        fileData2 : this.fileData2,
+        fileData3 : this.fileData3,
+      }
+      console.log(fd)
+      console.log(params)
+      
+/*
+      this.$store.commit("loading");
+      const response = vm.$http.post(
+        "/api/v1/bid/insertBid", params
+      );
+*/
+      /*
       this.$store.commit("loading");
       this.$http
         .post("/api/v1/bid/insertBid", this.bidContent)
@@ -1380,7 +1451,7 @@ export default {
 
           //내역방식
           if (this.bidContent.insModeCode === "2") {//내역직접등록
-            this.tableContent = tableContent.map((item, idx) => {
+            this.tableContent = this.tableContent.map((item, idx) => {
                 return { ...item, seq: idx + 1 };
             });
             await this.$http.post("/api/v1/bid/updateBidItem", this.tableContent);
@@ -1389,9 +1460,9 @@ export default {
           }  
           
           if (response.data.code == "OK") {
-            this.$store.commit("searchParams", {});
+            this.$router.push({ name: "bidProgress" });
+            this.$store.commit("finish");
           } 
-          /*
           else {
             this.$swal({
               type: "warning",
@@ -1399,22 +1470,26 @@ export default {
             });
           }
           */
+
+
+
+
+        /*
+
         }).catch((error) => {
           console.error(error);
           this.$swal({
               type: "warning",
               text: "수정 중 오류가 발생했습니다.",
           });
+          this.$store.commit("finish");
         })
         .finally(() => {
           $("#save").modal("hide");
-          this.$router.push({ name: "bidProgress" });
           this.$store.commit("finish");
         });
-        
-        
+        */
     },
-
     async newBiNo() {//새로추가할 bino 가져오기
       this.$http
         .post("/api/v1/bid/newBiNo")
@@ -1481,31 +1556,32 @@ export default {
 
       // 새로운 파일 정보 추가
       if (event.target.id === "file-input") {
-        this.fileContent.push({
+        this.fileData= {
           biNo: this.bidContent.biNo,
           fileFlag: "K",
           fCustCode: "0",
           selectedFile: event.target.files[0],
-        });
+        }
         this.filek.push({
           selectedFile: event.target.files[0],
         });
       }
       if (event.target.id === "file-input2") {
-        this.fileContent.push({
+        this.fileData2= {
           biNo: this.bidContent.biNo,
-          fileFlag: "0",
+          fileFlag: "K",
           fCustCode: "0",
           selectedFile: event.target.files[0],
-        });
+        }
+        
       }
       if (event.target.id === "file-input3") {
-        this.fileContent.push({
+        this.fileData3= {
           biNo: this.bidContent.biNo,
-          fileFlag: "1",
+          fileFlag: "K",
           fCustCode: "0",
           selectedFile: event.target.files[0],
-        });
+        }
       }
       this.$forceUpdate();
 
