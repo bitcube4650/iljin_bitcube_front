@@ -120,7 +120,7 @@
                             <div class="flex align-items-center width100">
                                 <input type="radio" name="bm2" v-model="detail.faqType" value="1" id="bm2_1" class="radioStyle"><label for="bm2_1">가입관련</label>
                                 <input type="radio" name="bm2" v-model="detail.faqType" value="2" id="bm2_2" class="radioStyle"><label for="bm2_2">입찰관련</label>
-                                <input type="radio" name="bm2" v-model="detail.faqType" value="3" id="bm2_2" class="radioStyle"><label for="bm2_2">인증서관련</label>
+                                <input type="radio" name="bm2" v-model="detail.faqType" value="3" id="bm2_3" class="radioStyle"><label for="bm2_3">인증서관련</label>
                             </div>
                         </div>
                         <div class="flex mt20">
@@ -199,7 +199,7 @@
 			}
 		},
         goDetail(data){//상세정보 데이터 반영
-            this.detail = data;
+            this.detail = Object.assign({}, data);
             this.detail.updateInsert = 'update';
         },
         goInsert(){//등록전 초기화

@@ -57,10 +57,10 @@
                                 <tr v-for="(val, idx) in submitData" :key="idx">
                                     <td class="text-left">{{ val.name }}</td>
                                     <td class="text-left">{{ val.ssize }}</td>
-                                    <td class="text-right">{{ val.orderQty }}</td>
+                                    <td class="text-right">{{ val.orderQty | numberWithCommas }}</td>
                                     <td>{{ val.unitcode }}</td>
                                     <td class="text-right">
-                                        <div class="inputStyle readonly"><span v-text="fnRoundComma(val.esmtUc / val.orderQty)"></span></div>
+                                        <div class="inputStyle readonly"><span v-text="fnCalcOrderUc(val.esmtUc, val.orderQty)"></span></div>
                                     </td>
                                     <td class="text-right">
                                         <input type="text" class="inputStyle inputSm text-right" placeholder="" v-model="val.esmtUc" @keyup="fnTotalAmt" /> 
@@ -180,6 +180,7 @@
 <script>
 import partnerBidCommon from "../components/PartnerBidCommon.vue"
 import mixin from "../service/mixin.js";
+import cmmn from "../../../../public/js/common.js";
 import BidAdvertisement from "@/modules/bid/components/BidAdvertisement.vue";
 
 export default {
@@ -210,7 +211,12 @@ export default {
         await this.checkBid();
         await this.fnCodeInit();
         await this.retrieve();
-        // fileInput.applyFile();
+    },
+    watch:{
+        amt(val){
+            let amt = val.toString().replace(/[^-0-9]/g, '');
+            this.amt = amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        }
     },
     methods: {
         async fnCodeInit() {
@@ -309,7 +315,7 @@ export default {
                 let bool = false;
                 for(let i = 0 ; i < this.submitData.length ; i++){
                     let esmtUc = this.submitData[i].esmtUc;
-                    if(esmtUc == ''){
+                    if(cmmn.isEmpty(esmtUc)){
                         bool = true;
                         break;
                     }
@@ -318,7 +324,7 @@ export default {
                 if(bool){
                     this.$swal({
                         type: "warning",
-                        text: "품목의 견적금액이 비어있는 란이 있습니다. 견적금액을 입력해주세요",
+                        text: "품목의 견적금액을 모두 입력해주세요",
                     });
 
                     return false;
@@ -374,7 +380,7 @@ export default {
                     esmtUc = esmtUc.replace(/[^-0-9]/g, '');
                     total += Number(esmtUc);
 
-                    // submitData[i].esmtUc = vm.fnRoundComma(esmtUc);
+                    submitData[i].esmtUc = vm.fnRoundComma(esmtUc);
                 }
             }
             
@@ -385,6 +391,19 @@ export default {
         },
         //투찰
         bidSubmitting(){
+
+            let currDate = new Date();
+            let currDateTime = currDate.getTime();
+            let estCloseDate = new Date(this.data.estCloseDate);
+            let estCloseTime = estCloseDate.getTime();
+            if(estCloseTime < currDateTime){
+                this.$swal({
+                    type: "warning",
+                    text: "견적제출시간이 아닙니다. 제출마감일시를 확인해주세요.",
+                });
+                return false;
+            }
+
             $('#suggestBid').modal('hide');
 
             let cookieNm = this.biNo+"_"+this.$store.state.loginInfo.custCode;
@@ -392,11 +411,20 @@ export default {
 
             var formData = new FormData();
 
+            let submitData = Object.assign([], this.submitData);
+            for(let i = 0 ; i < submitData.length ; i++){
+                let esmtUc = submitData[i].esmtUc;
+                if(esmtUc != null && esmtUc != undefined){
+                    submitData[i].esmtUc = esmtUc.replace(/[^-0-9]/g, '');
+                }
+            }
+
             let params = {
                 biNo : this.biNo
-            ,   submitData : this.submitData
-            ,   amt : this.amt
+            ,   submitData : submitData
+            ,   amt : this.amt.replace(/[^-0-9]/g, '')
             ,   esmtCurr : this.esmtCurr 
+            ,   insModeCode : this.data.insMode
             }
 
             formData.append('data', JSON.stringify(params));
@@ -429,6 +457,17 @@ export default {
         fileInput2Change(event){//기타파일
             this.etcFile = event.target.files[0];
         },
+        fnCalcOrderUc(esmtUc, orderQty){
+            if(!cmmn.isEmpty(esmtUc) && !cmmn.isEmpty(orderQty)){
+                
+                let esmtReplace = esmtUc.replace(/[^-0-9]/g, '');
+                let result = this.fnRoundComma(esmtReplace / orderQty);
+
+                return result;
+            }else{
+                return '';
+            }
+        }
     }
 };
 </script>

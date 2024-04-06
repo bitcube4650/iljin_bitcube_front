@@ -27,9 +27,9 @@
                         <span style="margin:0 10px">~</span>
                         <Calendar @update-date="fnUpdateEndDate" calendarId="endDate" classProps="datepicker inputStyle" :initDate="searchParams.endDate"></Calendar>
                     </div>
-                    <div class="sbTit width80px ml50" v-if="groupAuth4">계열사</div>
-                    <div class="flex align-items-center width280px" v-if="groupAuth4">
-                        <select v-model="searchParams.interrelatedCustCode" class="selectStyle">
+                    <div class="sbTit width80px ml50">계열사</div>
+                    <div class="flex align-items-center width280px">
+                        <select v-model="searchParams.interrelatedCustCode" class="selectStyle" @change="fnSearchInit(0)">
                             <option value="">전체</option>
                             <option  v-for="(cust, idx) in interrelatedCustCode" :key="idx" :value="cust.interrelatedCustCode">{{ cust.interrelatedNm }}</option>
                         </select>
@@ -83,6 +83,9 @@
                         <td>{{ data.estCloseDate }}</td>
                         <td class="end">{{ data.userName }}</td>
                     </tr>
+                    <tr v-if="listPage.content.length == 0">
+                        <td class="end" colspan="9">조회된 데이터가 없습니다.</td>
+                    </tr>
                 </tbody>
             </table>
 
@@ -126,7 +129,6 @@ export default {
             },
             listPage: {},						//리스트
             interrelatedCustCode: [],           //감사사용자 계열사리스트 
-            groupAuth4 : false
         };
     },
     filters: {
@@ -141,7 +143,7 @@ export default {
 
             this.$store.commit('loading');
             this.$http.post('/api/v1/statistics/interrelatedCustCodeList', {}).then((response) => {
-                if(response.data.code != '999'){
+                if(response.data.code == 'OK'){
                     this.interrelatedCustCode = response.data.data;
                 }else{
                     this.$swal({
@@ -172,7 +174,7 @@ export default {
             
             this.$store.commit('loading');
             await this.$http.post('/api/v1/statistics/bidDetailList', this.searchParams).then((response) => {
-                if(response.data.code != '999'){
+                if(response.data.code == 'OK'){
                     this.listPage = response.data.data;
                 }else{
                     this.$swal({
@@ -222,11 +224,7 @@ export default {
     },
     beforeMount() {},
     mounted() {
-        //감사사용자일경우 추가셋팅
-        if(this.$store.state.loginInfo.userAuth == '4'){
-            this.groupAuth4 = true;
-            this.fnSrcInterreleatedCustCode();
-        }
+        this.fnSrcInterreleatedCustCode();
         //검색조건 날짜 초기셋팅
         this.searchParams.endDate = cmmn.getCurretDate();
         this.searchParams.startDate = cmmn.strDateAddDay(this.searchParams.endDate, -30);

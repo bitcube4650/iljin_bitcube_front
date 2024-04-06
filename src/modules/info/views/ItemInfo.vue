@@ -87,8 +87,11 @@
 					<td class="text-left"><a href="#" @click.prevent="$refs.itemInfoPop.initModal(val.itemCode)"  data-toggle="modal" data-target="#itemInfoPop" class="textUnderline notiTitle" :title="val.itemName">{{ val.itemName }}</a></td>
 					<td class="text-left">{{ val.itemGrp != null ? val.itemGrp.grpNm : '' }}</td>
 					<td :class="val.useYn == 'Y' ? '' : 'textHighlight'">{{ val.useYn == 'Y' ? '사용' : '미사용' }}</td>
-					<td>{{ val.createUser.userName }}</td>
+					<td>{{ val.createUser }}</td>
 					<td class="end">{{ val.createDate }}</td>
+				</tr>
+				<tr v-show="listPage.content.length == 0 ">
+					<td colspan="6">조회된 데이터가 없습니다.</td>
 				</tr>
 			</tbody>
 		</table>
@@ -124,7 +127,7 @@ export default {
 		return {
 			itemGrpList: [],	
 			searchParams: {},	
-			listPage: {}
+			listPage: {content : []}
 		};
 	},
 	mounted() {

@@ -208,7 +208,7 @@ export default {
             this.$store.commit("loading");
             this.$http.post("/api/v1/bidstatus/bidSucc", params).then((response) => {
                 $("#bidSucc").modal("hide");
-                if (response.data.code === "999") {
+                if (response.data.code != "OK") {
                     this.$swal({
                         type: "warning",
                         text: "낙찰 처리중 오류가 발생했습니다.",

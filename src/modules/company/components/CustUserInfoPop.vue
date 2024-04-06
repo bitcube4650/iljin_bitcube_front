@@ -6,7 +6,7 @@
 			<div class="modal-content">
 				<div class="modal-body">
 					<a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-					<h2 class="modalTitle">사용자 {{ detail.isCreate ? '등록111' : '수정' }}</h2>
+					<h2 class="modalTitle">사용자 {{ detail.isCreate ? '등록' : '수정' }}</h2>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width120px">이름 <span class="star">*</span></div>
 						<div class="width100"><input type="text" v-model="detail.userName" class="inputStyle" placeholder=""></div>

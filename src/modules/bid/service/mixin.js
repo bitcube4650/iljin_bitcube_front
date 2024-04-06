@@ -85,6 +85,8 @@ let mixin = {
 		},
 		//파일 다운로드 파라미터 셋팅
 		fnCustSpecFileDown(fileNm, filePath){
+			console.log(fileNm)
+			console.log(filePath);
 			if(!cmmn.isEmpty(fileNm) && !cmmn.isEmpty(filePath)){
 				let fileInfo = {
 					filePath : filePath

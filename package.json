@@ -40,6 +40,7 @@
         "save": "^2.4.0",
         "sweetalert2": "^7.33.1",
         "swiper": "^4.5.1",
+        "v-click-outside": "^3.2.0",
         "vue": "^2.6.12",
         "vue-class-component": "^7.2.6",
         "vue-cookie": "^1.1.4",

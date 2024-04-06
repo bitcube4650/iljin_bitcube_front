@@ -665,8 +665,8 @@
             <div class="width100">
               <!-- 다중파일 업로드 -->
               <div class="upload-boxWrap">
-                <div class="upload-box">
-                  <input type="file" ref="insFile" id="file-input" @change="changeFile"/>
+                <div class="upload-box" v-if="!insFile">
+                  <input type="file" id="file-input" @change="fileInputChangeInsFile"/>
                   <div class="uploadTxt">
                     <i class="fa-regular fa-upload"></i>
                     <div>
@@ -675,7 +675,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="uploadPreview" id="preview"></div>
+                <div class="uploadPreview" id="preview" v-if="insFile"><p style="line-height:80px;">{{ insFile.name }}<button id="removeBtn" class="file-remove" @click="insFile = ''">삭제</button></p></div>
               </div>
               <!-- //다중파일 업로드 -->
             </div>
@@ -703,8 +703,8 @@
             <div class="width100">
               <!-- 다중파일 업로드 -->
               <div class="upload-boxWrap">
-                <div class="upload-box">
-                  <input type="file" ref="innerFile" id="file-input2" @change="changeFile"/>
+                <div class="upload-box" v-if="!innerFile">
+                  <input type="file" id="file-input2" @change="fileInputChangeInnerFile"/>
                   <div class="uploadTxt">
                     <i class="fa-regular fa-upload"></i>
                     <div>
@@ -713,7 +713,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="uploadPreview" id="preview2"></div>
+                <div class="uploadPreview" id="preview2" v-if="innerFile"><p style="line-height:80px;">{{ innerFile.name }}<button id="removeBtn" class="file-remove" @click="innerFile = ''">삭제</button></p></div>
               </div>
               <!-- //다중파일 업로드 -->
             </div>
@@ -739,8 +739,8 @@
             <div class="width100">
               <!-- 다중파일 업로드 -->
               <div class="upload-boxWrap">
-                <div class="upload-box">
-                  <input type="file" ref="outerFile" id="file-input3" @change="changeFile"/>
+                <div class="upload-box" v-if="!outerFile">
+                  <input type="file" id="file-input3" @change="fileInputChangeOuterFile"/>
                   <div class="uploadTxt">
                     <i class="fa-regular fa-upload"></i>
                     <div>
@@ -749,7 +749,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="uploadPreview" id="preview3"></div>
+                <div class="uploadPreview" id="preview3" v-if="outerFile"><p style="line-height:80px;">{{ outerFile.name }}<button id="removeBtn" class="file-remove" @click="outerFile = ''">삭제</button></p></div>
               </div>
               <!-- //다중파일 업로드 -->
             </div>
@@ -1018,8 +1018,10 @@ export default {
     fileData : {}, // 내역방식 파일 등록할 때 첨부파일 데이터
     fileData2 : {}, // 대내용 첨부파일 데이터
     fileData3 : {}, // 대외용 첨부파일 데이터
-    
-    };
+        insFile : '',
+        innerFile : '',
+        outerFile : ''
+    }; 
   },
   computed: {
     totalSum() {
@@ -1098,7 +1100,7 @@ export default {
 
       this.result = data[0][0];
       this.tableContent = data[1];//입찰정보
-      //this.fileContent = data[2];//파일정보
+      this.fileContent = data[2];//파일정보
       this.custContent = data[3];//지명경쟁인 경우 지명된 협력사 정보
 
       this.bidContent.biName = this.result.biName;
@@ -1145,6 +1147,8 @@ export default {
       }
       this.$forceUpdate();
       $("#bidPast").modal("hide");
+      console.log(this.result);
+      console.log(this.bidContent);
     },
 
     selectBid(mode) {//입찰방식 확인창 선택시
@@ -1180,7 +1184,7 @@ export default {
             return item.fileFlag !== "k";
           });
           this.filek = [];
-          document.querySelector("#preview").innerHTML = "";
+          //document.querySelector("#preview").innerHTML = "";
         }
       }
 
@@ -1347,9 +1351,8 @@ export default {
       }
 
       //세부내역 파일등록 경우
-      var fileTag = document.getElementById('file-input');//세부내역 파일 태그
       if (this.bidContent.insModeCode === "1") {
-        if (fileTag.files.length === 0) {
+        if (this.insFile == '') {
           alert("세부내역파일을 업로드 해 주세요.");
           return false;
         }
@@ -1388,23 +1391,15 @@ export default {
       }
 
       let fd = new FormData()
-      fd.append("bidContent", this.bidContent)
-      fd.append("custContent", custContent)
-      fd.append("updateEmail", updateEmail)
-      fd.append("tableContent", this.tableContent)
-      
       if(this.bidContent.insModeCode === "1"){
-        fd.append("fileData", this.fileData)
-        console.log('세부')
+        fd.append("insFile", this.insFile)
       }
 
-      if(Object.keys(this.fileData2).length != 0){
-        console.log(1)
-        fd.append("fileData2", this.fileData2)
+      if(this.innerFile != ''){
+        fd.append("innerFile", this.innerFile)
       }
-      if(Object.keys(this.fileData3).length != 0){
-        console.log(2)
-        fd.append("fileData3", this.fileData3)
+      if(this.outerFile != ''){
+        fd.append("outerFile", this.outerFile)
       }
 
       const params = {
@@ -1412,19 +1407,29 @@ export default {
         custContent : custContent,
         updateEmail : updateEmail,
         tableContent : this.tableContent,
-        fileData : this.fileData,
-        fileData2 : this.fileData2,
-        fileData3 : this.fileData3,
       }
-      console.log(fd)
-      console.log(params)
-      
-/*
+      fd.append("bidContent", JSON.stringify(params))
+
       this.$store.commit("loading");
-      const response = vm.$http.post(
-        "/api/v1/bid/insertBid", params
-      );
-*/
+      const response = vm.$http.post("/api/v1/bid/insertBid", fd)
+      .then((response) => {
+          if (response.data.code == "OK") {
+            $("#commonAlertMsg").html('저장되었습니다.');
+            $("#commonAlertPop").modal("show"); 
+            this.$router.push({ name: "bidProgress" });
+            this.$store.commit("finish");
+            return;
+          } 
+          else {
+            this.$store.commit("finish");
+            this.$swal({
+              type: "warning",
+              text: "저장 중 오류가 발생했습니다.",
+            });
+            return;
+          }
+      })
+      ;
       /*
       this.$store.commit("loading");
       this.$http
@@ -1620,7 +1625,16 @@ export default {
     changeNumOrderUc(idx) {
       const inputValue = this.tableContent[idx].orderUc.replace(/\D/g, '');
       this.tableContent[idx].orderUc = inputValue;
-    }
+    },
+    fileInputChangeInsFile(event){//견적세부파일
+        this.insFile = event.target.files[0];
+    },
+    fileInputChangeInnerFile(event){//견적세부파일
+        this.innerFile = event.target.files[0];
+    },
+    fileInputChangeOuterFile(event){//견적세부파일
+        this.outerFile = event.target.files[0];
+    },
   },
   beforeMount() {},
   mounted() {

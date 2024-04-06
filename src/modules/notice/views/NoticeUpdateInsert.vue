@@ -49,13 +49,17 @@
 						<!-- 다중파일 업로드 -->
 						<div class="upload-boxWrap">
 							<div class="upload-box">
-								<input type="file" ref="uploadedFile" id="file-input" @change="chageFile">
+								<input type="file" ref="uploadedFile" id="file-input" @change="changeFile">
 								<div class="uploadTxt">
 									<i class="fa-regular fa-upload"></i>
 									<div>클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br>파일 최대 10MB (등록 파일 개수 최대 1개)</div>
 								</div>
 							</div>
-							<div class="uploadPreview" id="preview">
+							<div class="uploadPreview" v-if="selectedFile">
+								<p>
+									{{ selectedFileName }}
+									<button class='file-remove' @click="fnRemoveAttachFile()">삭제</button>
+								</p>
 							</div>
 						</div>
 						<!-- //다중파일 업로드 -->
@@ -83,7 +87,7 @@
 				<div class="modal-content">
 					<div class="modal-body">
 						<a  class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-						<div class="alertText2">작성자와 공지일시는 현재 처리되는 기준으로 저장됩니다.<br>저장 하시겠습니까?</div>
+						<div class="alertText2">공지일시는 현재 처리되는 기준으로 저장됩니다.<br>저장 하시겠습니까?</div>
 						<div class="modalFooter">
 							<a  class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
 							<a  @click="saveNotice" class="modalBtnCheck" data-toggle="modal" title="저장">저장</a>
@@ -138,10 +142,6 @@
   </template>
   <script>
   import _ from "lodash";
-  import fileInput from "../../../../public/js/fileInput.js"
-  
-
-  
   export default {
     name: "noticeUpdateInsert",
     components: {
@@ -151,9 +151,6 @@
 
 		//등록 및 수정 초기 세팅
 		this.applyInsertOrUpdate();
-
-		//파일첨부
-		fileInput.applyFile();
 		
 		if(this.custType == 'inter' && this.userAuth == '1'){//계열사 시스템관리자인 경우
 			
@@ -206,6 +203,7 @@
 		custCode : this.$store.state.loginInfo.custCode,//계열사코드
 		custName : this.$store.state.loginInfo.custName,//계열사명
 		selectedFile : null,//업로드한 파일
+		selectedFileName : '',
 		fileCnt : 0,//업로드한 파일 수
 		fileSize : 0//파일크기
       };
@@ -231,29 +229,8 @@
 
 				this.detailData.interrelatedCustCodeArr = interrelatedCustCodeArr;
 
-				//기존에 첨부되어있는 파일 나타내기
-				if(this.detailData.bfile != null && this.detailData.bfilePath != null){
-					var preview = document.querySelector('#preview');
-					var fileName = this.detailData.bfile;
-					
-					// 현재 시간의 타임스탬프 (13자리)
-  					var timestamp = Date.now();
-  
-					preview.innerHTML += `
-										<p id=${timestamp}>
-											${fileName}
-											<button data-index=${timestamp} id='removeFile' class='file-remove'>삭제</button>
-										</p>`;
-
-					//삭제 버튼 클릭시 기존 첨부된 파일 정보 삭제
-					$('#removeFile').click(function(){
-						
-						this.detailData.bfile = null;
-						this.detailData.bfilePath = null;
-
-					}.bind(this));
-				}
-
+				this.selectedFile = this.detailData.bfile;
+				this.selectedFileName = this.detailData.bfile;
 			}else{//등록인 경우
 
 				this.initializeData();//초기화
@@ -308,12 +285,6 @@
 		},
 		insertNotice(){//공지사항 등록
 			var formData = new FormData();
-			var btnCnt = $('.file-remove').length;//올려진 파일을 삭제하는 버튼 개수
-
-			if(this.fileCnt == 0 || btnCnt == 0){//업로드 한 파일이 없는 경우
-				this.$refs.uploadedFile.value = null;
-				this.selectedFile = null;
-			}
 
     		formData.append('file', this.selectedFile);
 			formData.append('data', JSON.stringify(this.detailData));
@@ -331,12 +302,6 @@
 		},
 		updateNotice(){//공지사항 수정
 			var formData = new FormData();
-			var btnCnt = $('.file-remove').length;//올려진 파일을 삭제하는 버튼 개수
-
-			if(this.fileCnt == 0 || btnCnt == 0){//업로드 한 파일이 없는 경우
-				this.$refs.uploadedFile.value = null;
-				this.selectedFile = null;
-			}
 
     		formData.append('file', this.selectedFile);
 			formData.append('data', JSON.stringify(this.detailData));
@@ -390,21 +355,14 @@
 			this.detailData.interrelatedCustCodeArr = interrelatedCustCodeArr;
 			$('#AffiliateSelect').modal('hide');
 		},
-		chageFile(evnet){//바뀐 파일 selectedFile에 담기
-
-			//파일 변경시 기존 처음에 첨부되었던 파일정보 사라짐
-			this.detailData.bfile = null;
-			this.detailData.bfilePath = null;
-			
+		changeFile(event){//바뀐 파일 selectedFile에 담기
 			//파일 사이즈 체크
 			if(this.checkFileSize()){
 				return false;
 			}
-
 			this.selectedFile = event.target.files[0];
+			this.selectedFileName = event.target.files.length > 0 ? event.target.files[0].name : '';
 			this.fileCnt = event.target.files.length;
-			
-
 		},
 		valueCheck(){//값 체크
 			var groupArr = this.detailData.interrelatedCustCodeArr;
@@ -431,7 +389,6 @@
 			if (input.files.length > 0) {
 				const file = input.files[0];
 				this.fileSize = file.size;
-				console.log(this.fileSize);
 				// 원하는 용량 제한 설정 (10MB)
 				const maxSize = 10 * 1024 * 1024;
 				if (this.fileSize > maxSize) {
@@ -439,10 +396,6 @@
 					// 파일 초기화 또는 다른 조치를 취할 수 있습니다.
 					this.$refs.uploadedFile.value = null;
 					this.fileSize = null;
-
-					var preview = document.querySelector('#preview');
-					preview.innerHTML = '';
-
 					return true;
 				}
 			}
@@ -451,6 +404,11 @@
 		},
 		openModal(){
 			$('#AffiliateSelect').modal('show');
+		},
+		fnRemoveAttachFile(){
+			this.selectedFile = null;
+			this.selectedFileName = ''
+			this.detailData.bfile = null;
 		}
     }
   };

@@ -39,7 +39,7 @@
 						<div class="formTit flex-shrink0 width170px">특수조건</div>
 						<div class="width100">
 							<div class="overflow-y-scroll boxStSm width100" style="height:50px">
-								{{ data.specialCond }}
+								<pre style="background-color: white;">{{ data.specialCond }}</pre>
 							</div>
 						</div>
 					</div>
@@ -73,7 +73,7 @@
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">예산금액</div>
-						<div class="width100">{{ data.bdAmt | numberWithCommas }} 원</div>
+						<div class="width100">{{ data.bdAmt | numberWithCommas }} <span v-if="data.bdAmt != null && data.bdAmt != undefined && data.bdAmt != ''">원</span></div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">입찰담당자</div>
@@ -384,7 +384,7 @@ export default {
 
 			this.$store.commit('loading');
 			await this.$http.post('/api/v1/bidComplete/detail', searchParams).then((response) => {
-				if(response.data.code != '999'){
+				if(response.data.code == 'OK'){
 					this.data = response.data.data;
 				}else{
 					this.$swal({
@@ -415,7 +415,7 @@ export default {
 			this.$store.commit("loading");
 			this.$http.post("/api/v1/bidComplete/updRealAmt", params).then((response) => {
 				$("#realAmtSave").modal("hide");
-				if(response.data.code != '999'){
+				if(response.data.code == 'OK'){
 					this.$swal({
 						type: "info",
 						text: "실제계약금액을 저장하였습니다."

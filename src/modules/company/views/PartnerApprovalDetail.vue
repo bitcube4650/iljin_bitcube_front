@@ -68,14 +68,14 @@
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">사업자등록증</div>
-					<div class="width100">
-						<a href="#" class="textUnderline">비트큐브_사업자등록증.jpg</a>
+					<div class="width100" v-if="detail.regnumFile != null && detail.regnumPath != ''">
+						<a @click="downloadRegnumFile" class="textUnderline">{{ detail.regnumFile }}</a>
 					</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">첨부파일</div>
-					<div class="width100">
-						<a href="#" class="textUnderline">비트큐브_회사소개서.pptx</a>
+					<div class="width100" v-if="detail.bfile != null && detail.bfilePath != ''">
+						<a @click="downloadFile" class="textUnderline">{{ detail.bfile }}</a>
 					</div>
 				</div>
 				<div class="flex align-items-center mt20">
@@ -211,6 +211,54 @@ export default {
 			.finally(() => {
 				this.$store.commit("finish");
 			});
+		},
+		async downloadRegnumFile(){//파일 다운로드
+
+			try {
+				this.$store.commit('loading');
+				const response = await this.$http.post(
+					"/api/v1/notice/downloadFile",
+					{ fileId: this.detail.regnumPath }, // 서버에서 파일을 식별할 수 있는 고유한 ID 또는 다른 필요한 데이터
+					{ responseType: "blob" } // 응답 데이터를 Blob 형식으로 받기
+				);
+
+				// 파일 다운로드를 위한 처리
+				const url = window.URL.createObjectURL(new Blob([response.data]));
+				const link = document.createElement("a");
+				link.href = url;
+				link.setAttribute("download", this.detail.regnumFile); // 다운로드될 파일명 설정
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+				this.$store.commit('finish');
+			} catch (error) {
+				console.error("Error downloading file:", error);
+				this.$store.commit('finish');
+			}
+		},
+		async downloadFile(){//파일 다운로드
+
+			try {
+				this.$store.commit('loading');
+				const response = await this.$http.post(
+					"/api/v1/notice/downloadFile",
+					{ fileId: this.detail.bfilePath }, // 서버에서 파일을 식별할 수 있는 고유한 ID 또는 다른 필요한 데이터
+					{ responseType: "blob" } // 응답 데이터를 Blob 형식으로 받기
+				);
+
+				// 파일 다운로드를 위한 처리
+				const url = window.URL.createObjectURL(new Blob([response.data]));
+				const link = document.createElement("a");
+				link.href = url;
+				link.setAttribute("download", this.detail.bfile); // 다운로드될 파일명 설정
+				document.body.appendChild(link);
+				link.click();
+				document.body.removeChild(link);
+				this.$store.commit('finish');
+			} catch (error) {
+				console.error("Error downloading file:", error);
+				this.$store.commit('finish');
+			}
 		},
 		back() {  
 			if (this.detail.etc == null || this.detail.etc == '') {

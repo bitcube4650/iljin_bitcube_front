@@ -189,6 +189,10 @@
               <td>{{ data.estCloseDate }}</td>
               <td class="end">{{ data.userName }}</td>
             </tr>
+            
+            <tr v-if="listPage.content.length == 0">
+                <td class="end" :colspan="lotteMat ? '15' : '9'">조회된 데이터가 없습니다.</td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -264,7 +268,7 @@ export default {
       await this.$http
         .post("/api/v1/bidComplete/history", this.searchParams)
         .then((response) => {
-          if (response.data.code != "999") {
+          if (response.data.code == "OK") {
             this.listPage = response.data.data;
           } else {
             this.$swal({
@@ -288,7 +292,7 @@ export default {
       await this.$http
         .post("/api/v1/bidComplete/lotteMatCode", {})
         .then((response) => {
-          if (response.data.code != "999") {
+          if (response.data.code == "OK") {
             this.lotteMatCode = response.data.data;
           } else {
             this.$swal({

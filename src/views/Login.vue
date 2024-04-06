@@ -151,7 +151,6 @@ export default {
         
         this.$store.commit('login', loginInfo);
         this.$cookie.set('loginInfo', JSON.stringify(loginInfo));
-        console.log(this.rememberMe);
         if (this.rememberMe) {
           this.$cookie.set('rememberUserId', loginInfo.userId);
         } else {
