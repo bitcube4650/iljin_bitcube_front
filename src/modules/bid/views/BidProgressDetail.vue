@@ -435,9 +435,7 @@
     <!-- //입찰공고 삭제 -->
 
     <!-- 공고문 미리보기 -->
-    <BidAdvertisement
-      :props="[this.result, this.tableContent, this.fileContent]"
-    />
+    <BidAdvertisement :props="[this.result, this.tableContent, this.fileContent]"/>
     <!-- //공고문 미리보기 -->
 
     <!-- 협력사 사용자-->
@@ -532,14 +530,14 @@ export default {
 
   methods: {
     async retrieve() {
-      console.log( this.dataFromList)
+      //console.log( this.dataFromList)
       try {
         this.$store.commit("loading");
         const response = await this.$http.post(
           "/api/v1/bid/progresslistDetail",
           this.dataFromList
         );
-        console.log(response);
+        //console.log(response);
         this.result = response.data[0][0];
 
         this.tableContent = response.data[1];
@@ -552,7 +550,7 @@ export default {
         this.$store.commit("finish");
       }
     },
-
+    // 삭제
     del() {
       if (this.detail.reason == null || this.detail.reason == "") {
         this.$swal({ type: "warning", text: "삭제사유를 입력해주세요." });
@@ -567,6 +565,8 @@ export default {
         .post("/api/v1/bid/delete", this.detail)
         .then((response) => {
           if (response.data.code == "OK") {
+            $("#commonAlertMsg").html('삭제되었습니다.');
+            $("#commonAlertPop").modal("show"); 
             this.$store.commit("searchParams", {});
           } else {
             this.$swal({

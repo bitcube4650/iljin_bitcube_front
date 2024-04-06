@@ -1147,6 +1147,8 @@ export default {
       }
       this.$forceUpdate();
       $("#bidPast").modal("hide");
+      console.log(this.result);
+      console.log(this.bidContent);
     },
 
     selectBid(mode) {//입찰방식 확인창 선택시
@@ -1182,7 +1184,7 @@ export default {
             return item.fileFlag !== "k";
           });
           this.filek = [];
-          document.querySelector("#preview").innerHTML = "";
+          //document.querySelector("#preview").innerHTML = "";
         }
       }
 
