@@ -95,6 +95,9 @@
 					<td :class="val.useYn == 'Y' ? '' : 'textHighlight'">{{ val.useYn == 'Y' ? '사용' : '미사용' }}</td>
 					<td class="end">{{ val.interrelatedCustNm }}</td>
 				</tr>
+				<tr v-show="listPage.content.length == 0 ">
+					<td colspan="9">조회된 데이터가 없습니다.</td>
+				</tr>
 			</tbody>
 		</table>
 
@@ -154,7 +157,7 @@ export default {
 		return {
 			interrelatedList: [],
 			searchParams: {},	
-			listPage: {},
+			listPage: {content : []},
 			pwdCheckParam : {}
 		};
 	},

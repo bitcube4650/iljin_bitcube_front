@@ -84,6 +84,9 @@
 						<td :class="val.useYn == 'Y' ? '' : 'textHighlight'">{{ val.useYn == 'Y' ? '정상' : '삭제' }}</td>
 						<td class="end">{{ val.userType == '1' ? '업체관리자' : '일반사용자' }}</td>
 					</tr>
+					<tr v-show="listPage.content.length == 0 ">
+						<td colspan="8">조회된 데이터가 없습니다.</td>
+					</tr>
 				</tbody>
 			</table>
 	
@@ -116,7 +119,7 @@
 		data() {
 			return {
 				searchParams: {},	
-				listPage: {}
+				listPage: {content :[]}
 			};
 		},
 		mounted() {

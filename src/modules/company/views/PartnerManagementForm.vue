@@ -143,7 +143,7 @@
 								<div v-if="regnumFile" class="uploadPreview" >
 									<p>
 										{{ regnumFileName }}
-										<button class='file-remove' @click="regnumFile = ''">삭제</button>
+										<button class='file-remove' @click="fnRemoveAttachFile('regnumFile')">삭제</button>
 									</p>
 								</div>
 							</div>
@@ -177,7 +177,7 @@
 								<div v-if="bfile" class="uploadPreview">
 									<p>
 										{{ bfileName }}
-										<button class='file-remove' @click="bfile = ''">삭제</button>
+										<button class='file-remove' @click="fnRemoveAttachFile('bfile')">삭제</button>
 									</p>
 								</div>
 							</div>
@@ -473,7 +473,7 @@ export default {
 				this.$swal({type: "warning",text: "회사주소를 입력해주세요."});
 				return;
 			}
-			if(this.regnumFile.length < 1){//업로드 한 파일이 없는 경우
+			if(!this.regnumFile){//업로드 한 파일이 없는 경우
 				this.$swal({type: "warning",text: "사업자등록증을 선택해주세요."});
 				return;
 			}
@@ -626,7 +626,7 @@ export default {
 				return false;
 			}
 			this.regnumFile = event.target.files[0];
-			this.regnumFileName = event.target.files[0].name;
+			this.regnumFileName = event.target.files.length > 0 ? event.target.files[0].name : '';
 			this.regnumFileCnt = event.target.files.length;
 
 		},
@@ -653,7 +653,7 @@ export default {
 				return false;
 			}
 			this.bfile = event.target.files[0];
-			this.bfileName = event.target.files[0].name;
+			this.bfileName = event.target.files.length > 0 ? event.target.files[0].name : '';
 			this.bfileCnt = event.target.files.length;
 		},
 		// 비밀번호 유효성 체크
@@ -819,6 +819,20 @@ export default {
 			this.detail.userHp = this.hpNumberRemoveDash(this.detail.fomUserHp);
 			this.detail.fomUserHp = this.hpNumberAddDash(this.detail.userHp);
 		},
-	}
+		fnRemoveAttachFile(type){
+			// 	첨부파일 삭제
+			if(type == 'bfile'){
+				this.bfile = null
+				this.bfileName = ''
+				this.detail.bfile = null
+				this.detail.bfilePath = null
+			} else {
+				this.regnumFile = null
+				this.regnumFileName = ''
+				this.detail.regnumFile = null
+				this.detail.regnumFilePath = null
+			}
+		}
+	},
 };
 </script>
