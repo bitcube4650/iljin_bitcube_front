@@ -114,10 +114,10 @@
 										<div>클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br>파일 최대 10MB (등록 파일 개수 최대 1개)</div>
 									</div>
 								</div>
-								<div class="uploadPreview" id="preview">
-									<p v-if="detail.regnumFile != null && detail.regnumFile != undefined && detail.regnumFile != ''">
-										{{ detail.regnumFile}}
-										<button class='file-remove' @click="changeRegnumFile">삭제</button>
+								<div v-if="regnumFile" class="uploadPreview" >
+									<p>
+										{{ regnumFileName }}
+										<button class='file-remove' @click="fnRemoveAttachFile('regnumFile')">삭제</button>
 									</p>
 								</div>
 							</div>
@@ -125,7 +125,7 @@
 						</div>
 					</div>
 					<div class="flex mt10">
-						<div class="formTit flex-shrink0 width170px">첨부파일 <span class="star">*</span>
+						<div class="formTit flex-shrink0 width170px">첨부파일
 							<!-- 툴팁 -->
 							<i class="fas fa-question-circle toolTipSt ml5">
 								<div class="toolTipText" style="width:420px">
@@ -148,10 +148,10 @@
 										<div>클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br>파일 최대 10MB (등록 파일 개수 최대 1개)</div>
 									</div>
 								</div>
-								<div class="uploadPreview" id="preview2">
-									<p v-if="detail.bfile != null && detail.bfile != undefined && detail.bfile != ''">
-										{{ detail.bfile}}
-										<button class='file-remove' @click="changebfile">삭제</button>
+								<div v-if="bfile" class="uploadPreview">
+									<p>
+										{{ bfileName }}
+										<button class='file-remove' @click="fnRemoveAttachFile('bfile')">삭제</button>
 									</p>
 								</div>
 							</div>
@@ -225,7 +225,6 @@
 	<!-- //본문 -->
 </template>
   <script>
-import fileInput from "../../../../public/js/fileInput.js"
 import AddrPop from "@/components/AddrPop.vue";
   
 
@@ -237,9 +236,6 @@ export default {
 	},
 	mounted() {
 		this.retrieve();
-		//파일첨부
-		fileInput.applyFile('#fileRegnumFile','#previewRegnumFile');
-		fileInput.applyFile('#filebfile','#previewbfile');
 	},
 	data() {
 		return {
@@ -247,9 +243,11 @@ export default {
         	itemPop: null,
 			otherCustType: null,
 			regnumFile : null,  // 업로드한 파일
+			regnumFileName : '',
 			regnumFileCnt : 0,  // 업로드한 파일 수
 			regnumFileSize : 0, // 파일크기
 			bfile : null,       // 업로드한 파일
+			bfileName : '',
 			bfileCnt : 0,       // 업로드한 파일 수
 			bfileSize : 0       // 파일크기
 		};
@@ -268,6 +266,14 @@ export default {
 				this.detail.fomFax = this.phoneNumAddDash(this.detail.fax);
 				this.detail.fomUserTel = this.phoneNumAddDash(this.detail.userTel);
 				this.detail.fomUserHp = this.hpNumberAddDash(this.detail.userHp);
+
+				this.bfile = this.detail.bfile;
+				this.bfileName = this.detail.bfile;
+				this.bfilePath = this.detail.bfilePath;
+				this.regnumFile = this.detail.regnumFile;
+				this.regnumFileName = this.detail.regnumFile;
+				this.regnumFilePath = this.detail.regnumPath;
+
 				this.$store.commit('finish');
 			} catch(err) {
 				console.log(err)
@@ -319,22 +325,15 @@ export default {
 				this.$swal({type: "warning",text: "회사주소를 입력해주세요."});
 				return;
 			}
+			if(!this.regnumFile){//업로드 한 파일이 없는 경우
+				this.$swal({type: "warning",text: "사업자등록증을 선택해주세요."});
+				return;
+			}
 			$("#joinBtn").modal("show"); 
 		},
 		save() {  
 			this.$store.commit("loading");
 			var formData = new FormData();
-
-			var regnumFileRemoveCnt = $('#preview .file-remove').length;//올려진 파일을 삭제하는 버튼 개수
-			if(this.regnumFileCnt == 0 || regnumFileRemoveCnt == 0){//업로드 한 파일이 없는 경우
-				this.$refs.uploadedRegnumFile.value = null;
-				this.regnumFile = null;
-			}
-			var bfileRemoveCnt = $('#preview2 .file-remove').length;//올려진 파일을 삭제하는 버튼 개수
-			if(this.bfileCnt == 0 || bfileRemoveCnt == 0){//업로드 한 파일이 없는 경우
-				this.$refs.uploadedbfile.value = null;
-				this.bfile = null;
-			}
 
     		formData.append('regnumFile', this.regnumFile);
     		formData.append('bFile', this.bfile);
@@ -374,29 +373,19 @@ export default {
 					// 파일 초기화 또는 다른 조치를 취할 수 있습니다.
 					this.$refs.uploadedRegnumFile.value = null;
 					this.regnumFileSize = null;
-					var previewRegnumFile = document.querySelector('#preview');
-					previewRegnumFile.innerHTML = '';
 					return true;
 				}
 			}
 			return false;
 		},
 		changeRegnumFile(event){//바뀐 파일 regnumFile에 담기
-			//파일 변경시 기존 처음에 첨부되었던 파일정보 사라짐
-			this.detail.regnumFile = null;
-			this.detail.regnumPath = null;
 			//파일 사이즈 체크
 			if(this.checkRegnumFileSize()){
 				return false;
 			}
-
-			if(event.target.files != undefined && event.target.files != null){
-				this.regnumFile = event.target.files[0];
-				this.regnumFileCnt = event.target.files.length;
-			} else {
-				this.regnumFile = null
-				this.regnumFileCnt = 0
-			}
+			this.regnumFile = event.target.files[0];
+			this.regnumFileName = event.target.files.length > 0 ? event.target.files[0].name : '';
+			this.regnumFileCnt = event.target.files.length;
 		},
 		checkbfileSize() {//파일크기 확인
 			const input = this.$refs.uploadedbfile;
@@ -410,29 +399,19 @@ export default {
 					// 파일 초기화 또는 다른 조치를 취할 수 있습니다.
 					this.$refs.uploadedbfile.value = null;
 					this.regnumFileSize = null;
-					var previewbfile = document.querySelector('#preview2');
-					previewbfile.innerHTML = '';
 					return true;
 				}
 			}
 			return false;
 		},
 		changebfile(event){//바뀐 파일 regnumFile에 담기
-			//파일 변경시 기존 처음에 첨부되었던 파일정보 사라짐
-			this.detail.bfile = null;
-			this.detail.bfilePath = null;
 			//파일 사이즈 체크
 			if(this.checkbfileSize()){
 				return false;
 			}
-			
-			if(event.target.files != undefined && event.target.files != null){
-				this.bfile = event.target.files[0];
-				this.bfileCnt = event.target.files.length;
-			} else {
-				this.bfile = null
-				this.bfileCnt = 0
-			}
+			this.bfile = event.target.files[0];
+			this.bfileName = event.target.files.length > 0 ? event.target.files[0].name : '';
+			this.bfileCnt = event.target.files.length;
 		},
 		formatComma(val){
 			if(!val) return '0';
@@ -576,6 +555,20 @@ export default {
 			this.detail.userHp = this.hpNumberRemoveDash(this.detail.fomUserHp);
 			this.detail.fomUserHp = this.hpNumberAddDash(this.detail.userHp);
 		},
+		fnRemoveAttachFile(type){
+			// 	첨부파일 삭제
+			if(type == 'bfile'){
+				this.bfile = null
+				this.bfileName = ''
+				this.detail.bfile = null
+				this.detail.bfilePath = null
+			} else {
+				this.regnumFile = null
+				this.regnumFileName = ''
+				this.detail.regnumFile = null
+				this.detail.regnumFilePath = null
+			}
+		}
 	},
 };
   </script>
