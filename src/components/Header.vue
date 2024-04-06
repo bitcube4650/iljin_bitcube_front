@@ -34,15 +34,16 @@ export default {
     name: 'Header',
     data() {
         return {
-            custType : this.$store.state.loginInfo.custType,
-            custCode : this.$store.state.loginInfo.custCode,
-            imgUrl: '',
+            imgUrl: this.$store.state.logoImg,
+            mainUrl: this.$store.state.mainImg,
             compInfo : []
         };
     },
     mounted(){
         cmmn.applyHeader();//퍼블리싱 js 파일 적용
-        this.selectCompInfo();//업체정보 조회하여 url에 맞는 logo 경로 set
+        if (this.imgUrl == null) { // 계속적인 조회가 이난 최초 1번만 조회 처리를 위해 
+            this.selectCompInfo();//업체정보 조회하여 url에 맞는 logo 경로 set
+        }
 
     },
     methods: {
@@ -53,10 +54,21 @@ export default {
             
         },
         async selectCompInfo(){//업체정보 조회하여 url에 맞는 logo 경로 set
-
+            // 초기화 backend와의 통신이 느릴경우를 대비 
+            var host = document.location.href.match(/http[s]*:\/\/([a-zA-Z0-9\-\.]*)/)[1];
+            if (host == 'ebid.jtv.co.kr') {//전주방송인 경우
+                this.imgUrl = '/images/headerLogo_jtv.svg';
+                this.mainUrl = '/images/mainBanner01_jtv.jpg';
+            } else if (host == 'l-ebid.iljin.co.kr') {//롯데에너지머티리얼즈인 경우
+                this.imgUrl = '/images/headerLogo_lotte.svg';
+                this.mainUrl = '/images/mainBanner01_lotte.jpg';
+            } else {//일진전기로 조회되는 로고path로 set
+                this.imgUrl = '/images/headerLogo_iljin.svg';
+                this.mainUrl = '/images/mainBanner01.jpg';
+            }
             try {
                 this.$store.commit('loading');
-                const response = await this.$http.post('/login/interrelatedList', { 'custCode': this.$store.state.loginInfo.custCode});
+                const response = await this.$http.post('/login/interrelatedList',{});
                 this.compInfo = response.data;
 
                 var url = window.location.href;
@@ -65,6 +77,7 @@ export default {
                     this.compInfo.forEach(item => {
                         if(item.interrelatedCustCode == '07'){
                             this.imgUrl = item.logoPath;
+                            this.mainUrl = item.imgPath2;
                         }
                     });
 
@@ -73,6 +86,7 @@ export default {
                     this.compInfo.forEach(item => {
                         if(item.interrelatedCustCode == '02'){
                             this.imgUrl = item.logoPath;
+                            this.mainUrl = item.imgPath2;
                         }
                     });
                     
@@ -81,6 +95,7 @@ export default {
                     this.compInfo.forEach(item => {
                         if(item.interrelatedCustCode == '01'){
                             this.imgUrl = item.logoPath;
+                            this.mainUrl = item.imgPath2;
                         }
                     });
 
@@ -91,6 +106,8 @@ export default {
                 console.log(err)
                 this.$store.commit('finish');
             }
+        this.$store.commit('setLogoImg', this.imgUrl);
+        this.$store.commit('setMainImg', this.mainUrl);
 
         }
     }  

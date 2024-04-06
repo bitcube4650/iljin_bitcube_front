@@ -26,7 +26,9 @@ export default new Vuex.Store({
         noticeDetailData: null,
         bidDetailData: null,
         bidUpdateData: null,
-        pwdOrInfo: ''
+        pwdOrInfo: '',
+        logoImg: null,
+        mainImg: null
     },
     mutations: {
         searchParams(state, params) {
@@ -56,6 +58,12 @@ export default new Vuex.Store({
         },
         updatePwdOrInfo(state, data){
             state.pwdOrInfo = data;
+        },
+        setLogoImg(state, data) {
+            state.logoImg = data;
+        },
+        setMainImg(state, data) {
+            state.mainImg = data;
         }
     },
     getters: {

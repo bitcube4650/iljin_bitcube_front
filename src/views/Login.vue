@@ -5,11 +5,9 @@
         <div class="loginWrap">
           <div class="loginLeft">
             <div class="loginLogo">
-              <img src="/images/loginLogo_iljin.svg" class="img-responsive" alt="일진그룹 로고">
-              <!--<img src="/images/loginLogo_lotte.svg" class="img-responsive" alt="롯데에너지머트리얼즈 로고">-->
-              <!--<img src="/images/loginLogo_jtv.svg" class="img-responsive" alt="전주방송 로고">-->
+              <img :src="imgUrl" class="img-responsive" alt="일진그룹 로고">
             </div>
-            <h1><img src="/images/loginLogo.svg" class="img-responsive" alt="일진그룹 로고"></h1>
+            <h1><img :src="imgUrl" class="img-responsive" alt="일진그룹 로고"></h1>
             <input type="text" v-model="loginInfo.loginId" autocomplete="name" name="username" placeholder="아이디" autofocus="" class="loginInputStyle">
             <input type="password" v-model="loginInfo.loginPw" autocomplete="new-password" name="password" @keypress.enter="login" class="loginInputStyle mt10" placeholder="비밀번호">
             <div class="loginFindWrap">
@@ -85,6 +83,9 @@
     <!-- 비밀번호 찾기 팝업 -->
     <pw-search-pop ref="pwSearchPop"/>
 
+    <!-- 비밀번호 찾기 팝업 -->
+    <temp-change-pwd ref="tempChangePwd"/>
+
     <!-- 업체등록절차 -->
     <enrollment-process />
 
@@ -96,6 +97,7 @@
 <script>
 import IdSearchPop from "@/components/IdSearchPop.vue";
 import PwSearchPop from "@/components/PwSearchPop.vue";
+import TempChangePwd from "@/components/TempChangePwd.vue";
 import EnrollmentProcess from "@/components/EnrollmentProcess.vue";
 import BiddingGuide from "@/components/BiddingGuide.vue";
 
@@ -114,6 +116,7 @@ export default {
   components: {
     IdSearchPop,
     PwSearchPop,
+    TempChangePwd,
     EnrollmentProcess,
     BiddingGuide
   },
@@ -128,12 +131,19 @@ export default {
         userAuth: '',
         token: ''
       },
+      imgUrl: '/images//loginLogo_iljin.svg',
       rememberMe: false
     }
   },
   methods: {
     loginFail() {
       $("#loginAlert").modal("show"); 
+    },
+    changePwd() {
+      $("#tempChangePwdPop").modal("show"); 
+      this.$refs.tempChangePwd.initModal(this.loginInfo.loginId);
+      this.loginInfo.loginId = '';
+      this.loginInfo.loginPw = '';
     },
     async login() {  
       if (this.loginInfo.loginId == null || this.loginInfo.loginId == '') {
@@ -159,9 +169,14 @@ export default {
         this.$http.defaults.headers['x-auth-token'] = loginInfo.token;
         this.$store.commit('finish');
       } catch(err) {
-        console.log(err)
-        this.$store.commit('finish');
-        this.loginFail();
+          this.$store.commit('finish');
+          console.log(err);
+          if (err.response.status == 423) {
+            this.changePwd();
+
+          } else {
+            this.loginFail();
+          }
       }
     },
     clickCertificate(){//공동인증서안내 클릭
@@ -169,6 +184,15 @@ export default {
     }
   },
   created() {
+      // 초기화 backend와의 통신이 느릴경우를 대비 
+      var host = document.location.href.match(/http[s]*:\/\/([a-zA-Z0-9\-\.]*)/)[1];
+      if (host == 'ebid.jtv.co.kr') {//전주방송인 경우
+          this.imgUrl = '/images/loginLogo_jtv.svg';
+      } else if (host == 'l-ebid.iljin.co.kr') {//롯데에너지머티리얼즈인 경우
+          this.imgUrl = '/images/loginLogo_lotte.svg';
+      } else {//일진전기로 조회되는 로고path로 set
+          this.imgUrl = '/images//loginLogo_iljin.svg';
+      }
   },
   beforeMount() {
     // 페이지 리로드를 위해 localStorage에 vuex 제거
