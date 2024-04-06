@@ -74,13 +74,37 @@
                     </div>
                     <div class="modalFooter">
                         <a class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
-                        <a @click="fnOpenBid" class="modalBtnCheck" data-toggle="modal" title="개찰">개찰</a>
+                        <a @click="fnOpenCert" class="modalBtnCheck" data-toggle="modal" title="개찰">개찰</a>
                     </div>
                 </div>
                 </div>
             </div>
         </div>
         <!-- //개찰 -->
+
+        <!-- 인증서 비밀번호 입력 -->
+        <div class="modal fade modalStyle" id="certPwd" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" style="width:100%; max-width:510px">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <a class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+                        <h2 class="modalTitle">비밀번호 입력</h2>
+                        <div class="flex align-items-center">
+                            <div class="formTit flex-shrink0 width120px">비밀번호</div>
+                            <div class="width100">
+                                <input type="password" v-model="certPwd" class="inputStyle" placeholder="비밀번호를 입력해주세요.">
+                            </div>
+                        </div>
+
+                        <div class="modalFooter">
+                            <a class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
+                            <a @click="fnOpenBid" class="modalBtnCheck" data-toggle="modal" title="확인">확인</a>
+                        </div>
+                    </div>				
+                </div>
+            </div>
+        </div>
+        <!-- //인증서 비밀번호 입력 -->
 
     </div>
 <!-- //본문 -->
@@ -99,14 +123,27 @@ export default {
         return {
             biNo : '',
             data : {},
+            certPwd : ''
         };
     },
     mixins: [mixin],
     methods: {
         //개찰처리
         async fnOpenBid(){
+
+            if(cmmn.isEmpty(this.certPwd)){
+                this.$swal({
+                    type: "warning",
+                    text: "인증서 비밀번호를 입력해주세요.",
+                });
+
+                return false;
+            }
+            $("#certPwd").modal("hide");
+
             let params = {
-                biNo : this.biNo
+                biNo : this.biNo,
+                certPwd : this.certPwd
             }
             this.$store.commit("loading");
             this.$http.post("/api/v1/bidstatus/bidOpening", params).then((response) => {
@@ -155,8 +192,13 @@ export default {
 
                 return false;
             }
-
+            
             $("#openBid").modal("show");
+        },
+        fnOpenCert(){//인증서 비밀번호 창 열기
+            this.certPwd = '';
+            $("#openBid").modal("hide");
+            $("#certPwd").modal("show");
         }
     },
     beforeMount() {

@@ -164,7 +164,7 @@
                         </div>
                         <div class="modalFooter">
                             <a class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
-                            <a class="modalBtnCheck" @click="bidSubmitting" data-toggle="modal" title="투찰">투찰</a>
+                            <a class="modalBtnCheck" @click="signData" data-toggle="modal" title="투찰">투찰</a>
                         </div>
                     </div>
                 </div>
@@ -208,6 +208,9 @@ export default {
         this.biNo = this.$route.params.biNo;
     },
     async mounted() {
+        //nxTSPKI 초기화
+        nxTSPKI.init(true);
+
         await this.checkBid();
         await this.fnCodeInit();
         await this.retrieve();
@@ -390,46 +393,7 @@ export default {
             this.$forceUpdate();
         },
         //투찰
-        bidSubmitting(){
-
-            let currDate = new Date();
-            let currDateTime = currDate.getTime();
-            let estCloseDate = new Date(this.data.estCloseDate);
-            let estCloseTime = estCloseDate.getTime();
-            if(estCloseTime < currDateTime){
-                this.$swal({
-                    type: "warning",
-                    text: "견적제출시간이 아닙니다. 제출마감일시를 확인해주세요.",
-                });
-                return false;
-            }
-
-            $('#suggestBid').modal('hide');
-
-            let cookieNm = this.biNo+"_"+this.$store.state.loginInfo.custCode;
-            this.$cookie.delete(cookieNm);
-
-            var formData = new FormData();
-
-            let submitData = Object.assign([], this.submitData);
-            for(let i = 0 ; i < submitData.length ; i++){
-                let esmtUc = submitData[i].esmtUc;
-                if(esmtUc != null && esmtUc != undefined){
-                    submitData[i].esmtUc = esmtUc.replace(/[^-0-9]/g, '');
-                }
-            }
-
-            let params = {
-                biNo : this.biNo
-            ,   submitData : submitData
-            ,   amt : this.amt.replace(/[^-0-9]/g, '')
-            ,   esmtCurr : this.esmtCurr 
-            ,   insModeCode : this.data.insMode
-            }
-
-            formData.append('data', JSON.stringify(params));
-            formData.append('detailFile', this.detailFile);
-            formData.append('etcFile', this.etcFile);
+        bidSubmitting(formData){
 
             this.$store.commit("loading");
             this.$http.post("/api/v1/bidPtStatus/bidSubmitting", formData).then((response) => {
@@ -467,6 +431,70 @@ export default {
             }else{
                 return '';
             }
+        },
+        signData(){//인증서 서명
+
+          let vm = this;
+            let currDate = new Date();
+            let currDateTime = currDate.getTime();
+            let estCloseDate = new Date(this.data.estCloseDate);
+            let estCloseTime = estCloseDate.getTime();
+            
+            if(estCloseTime < currDateTime){
+                this.$swal({
+                    type: "warning",
+                    text: "견적제출시간이 아닙니다. 제출마감일시를 확인해주세요.",
+                });
+                return false;
+            }
+            
+            $('#suggestBid').modal('hide');
+
+            let cookieNm = this.biNo+"_"+this.$store.state.loginInfo.custCode;
+            this.$cookie.delete(cookieNm);
+
+            var formData = new FormData();
+
+            let submitData = Object.assign([], this.submitData);
+            for(let i = 0 ; i < submitData.length ; i++){
+                let esmtUc = submitData[i].esmtUc;
+                if(esmtUc != null && esmtUc != undefined){
+                    submitData[i].esmtUc = esmtUc.replace(/[^-0-9]/g, '');
+                }
+            }
+
+            this.amt = this.amt.replace(/[^-0-9]/g, '')
+            
+            nxTSPKI.signData(this.amt, //암호화 하는 데이터
+              {ssn:true}, //인증서 정보 포함 여부
+              function(res){//인증후 콜백
+                if(res.code ==0){//인증완료
+                  vm.amt = res.data.signedData;//서명된 견적액
+
+                  let params = {
+                      biNo : vm.biNo
+                  ,   submitData : submitData
+                  ,   amt : vm.amt
+                  ,   esmtCurr : vm.esmtCurr 
+                  ,   insModeCode : vm.data.insMode
+                  }
+
+                  formData.append('data', JSON.stringify(params));
+                  formData.append('detailFile', vm.detailFile);
+                  formData.append('etcFile', vm.etcFile);
+
+                  vm.bidSubmitting(formData);
+                  
+                }else{//실패
+                  this.$swal({
+                      type: "warning",
+                      text: "인증에 실패하였습니다.",
+                  });
+              }}
+            )
+
+            
+
         }
     }
 };
