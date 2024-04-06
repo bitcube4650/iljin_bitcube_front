@@ -5,11 +5,9 @@
         <div class="loginWrap">
           <div class="loginLeft">
             <div class="loginLogo">
-              <img src="/images/loginLogo_iljin.svg" class="img-responsive" alt="일진그룹 로고">
-              <!--<img src="/images/loginLogo_lotte.svg" class="img-responsive" alt="롯데에너지머트리얼즈 로고">-->
-              <!--<img src="/images/loginLogo_jtv.svg" class="img-responsive" alt="전주방송 로고">-->
+              <img :src="imgUrl" class="img-responsive" alt="일진그룹 로고">
             </div>
-            <h1><img src="/images/loginLogo.svg" class="img-responsive" alt="일진그룹 로고"></h1>
+            <h1><img :src="imgUrl" class="img-responsive" alt="일진그룹 로고"></h1>
             <input type="text" v-model="loginInfo.loginId" autocomplete="name" name="username" placeholder="아이디" autofocus="" class="loginInputStyle">
             <input type="password" v-model="loginInfo.loginPw" autocomplete="new-password" name="password" @keypress.enter="login" class="loginInputStyle mt10" placeholder="비밀번호">
             <div class="loginFindWrap">
@@ -128,6 +126,7 @@ export default {
         userAuth: '',
         token: ''
       },
+      imgUrl: '/images//loginLogo_iljin.svg',
       rememberMe: false
     }
   },
@@ -169,6 +168,15 @@ export default {
     }
   },
   created() {
+      // 초기화 backend와의 통신이 느릴경우를 대비 
+      var host = document.location.href.match(/http[s]*:\/\/([a-zA-Z0-9\-\.]*)/)[1];
+      if (host == 'ebid.jtv.co.kr') {//전주방송인 경우
+          this.imgUrl = '/images/loginLogo_jtv.svg';
+      } else if (host == 'l-ebid.iljin.co.kr') {//롯데에너지머티리얼즈인 경우
+          this.imgUrl = '/images/loginLogo_lotte.svg';
+      } else {//일진전기로 조회되는 로고path로 set
+          this.imgUrl = '/images//loginLogo_iljin.svg';
+      }
   },
   beforeMount() {
     // 페이지 리로드를 위해 localStorage에 vuex 제거
