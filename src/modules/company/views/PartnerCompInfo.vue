@@ -195,6 +195,7 @@
       };
     },
 	mounted() {
+		this.$store.commit('searchParams', {});
 		this.retrieve();
 	},
 	methods: {

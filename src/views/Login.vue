@@ -83,6 +83,9 @@
     <!-- 비밀번호 찾기 팝업 -->
     <pw-search-pop ref="pwSearchPop"/>
 
+    <!-- 비밀번호 찾기 팝업 -->
+    <temp-change-pwd ref="tempChangePwd"/>
+
     <!-- 업체등록절차 -->
     <enrollment-process />
 
@@ -94,6 +97,7 @@
 <script>
 import IdSearchPop from "@/components/IdSearchPop.vue";
 import PwSearchPop from "@/components/PwSearchPop.vue";
+import TempChangePwd from "@/components/TempChangePwd.vue";
 import EnrollmentProcess from "@/components/EnrollmentProcess.vue";
 import BiddingGuide from "@/components/BiddingGuide.vue";
 
@@ -112,6 +116,7 @@ export default {
   components: {
     IdSearchPop,
     PwSearchPop,
+    TempChangePwd,
     EnrollmentProcess,
     BiddingGuide
   },
@@ -133,6 +138,12 @@ export default {
   methods: {
     loginFail() {
       $("#loginAlert").modal("show"); 
+    },
+    changePwd() {
+      $("#tempChangePwdPop").modal("show"); 
+      this.$refs.tempChangePwd.initModal(this.loginInfo.loginId);
+      this.loginInfo.loginId = '';
+      this.loginInfo.loginPw = '';
     },
     async login() {  
       if (this.loginInfo.loginId == null || this.loginInfo.loginId == '') {
@@ -158,9 +169,14 @@ export default {
         this.$http.defaults.headers['x-auth-token'] = loginInfo.token;
         this.$store.commit('finish');
       } catch(err) {
-        console.log(err)
-        this.$store.commit('finish');
-        this.loginFail();
+          this.$store.commit('finish');
+          console.log(err);
+          if (err.response.status == 423) {
+            this.changePwd();
+
+          } else {
+            this.loginFail();
+          }
       }
     },
     clickCertificate(){//공동인증서안내 클릭

@@ -35,6 +35,7 @@ export default {
     data() {
         return {
             imgUrl: this.$store.state.logoImg,
+            mainUrl: this.$store.state.mainImg,
             compInfo : []
         };
     },
@@ -57,10 +58,13 @@ export default {
             var host = document.location.href.match(/http[s]*:\/\/([a-zA-Z0-9\-\.]*)/)[1];
             if (host == 'ebid.jtv.co.kr') {//전주방송인 경우
                 this.imgUrl = '/images/headerLogo_jtv.svg';
+                this.mainUrl = '/images/mainBanner01_jtv.jpg';
             } else if (host == 'l-ebid.iljin.co.kr') {//롯데에너지머티리얼즈인 경우
                 this.imgUrl = '/images/headerLogo_lotte.svg';
+                this.mainUrl = '/images/mainBanner01_lotte.jpg';
             } else {//일진전기로 조회되는 로고path로 set
                 this.imgUrl = '/images/headerLogo_iljin.svg';
+                this.mainUrl = '/images/mainBanner01.jpg';
             }
             try {
                 this.$store.commit('loading');
@@ -73,6 +77,7 @@ export default {
                     this.compInfo.forEach(item => {
                         if(item.interrelatedCustCode == '07'){
                             this.imgUrl = item.logoPath;
+                            this.mainUrl = item.imgPath2;
                         }
                     });
 
@@ -81,6 +86,7 @@ export default {
                     this.compInfo.forEach(item => {
                         if(item.interrelatedCustCode == '02'){
                             this.imgUrl = item.logoPath;
+                            this.mainUrl = item.imgPath2;
                         }
                     });
                     
@@ -89,6 +95,7 @@ export default {
                     this.compInfo.forEach(item => {
                         if(item.interrelatedCustCode == '01'){
                             this.imgUrl = item.logoPath;
+                            this.mainUrl = item.imgPath2;
                         }
                     });
 
@@ -100,6 +107,7 @@ export default {
                 this.$store.commit('finish');
             }
         this.$store.commit('setLogoImg', this.imgUrl);
+        this.$store.commit('setMainImg', this.mainUrl);
 
         }
     }  
