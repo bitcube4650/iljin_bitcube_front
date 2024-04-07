@@ -404,6 +404,7 @@ export default {
                     });
                     this.fnMovePage('partnerBidStatus');
                 } else {
+                    console.log(response.data.msg);
                     this.$swal({
                         type: "warning",
                         text: "투찰 중 오류가 발생했습니다.",
