@@ -168,7 +168,7 @@
             </div>
             <div class="flex align-items-center width100">
               <div class="overflow-y-scroll boxStSm width100" >
-                <a v-if="dataFromList.custContent.length ===0"
+                <a v-if="dataFromList.result.biModeCode==='A' && dataFromList.custContent.length ===0"
                     >선택된 참가업체 없음</a>
                 <div v-show="dataFromList.result.biModeCode==='A'" v-for="(val, idx) in dataFromList.custContent" :key="idx">   
                 <a
@@ -240,7 +240,7 @@
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">입찰담당자</div>
-            <div class="width100">{{ dataFromList.result.gongoId }}</div>
+            <div class="width100">{{ dataFromList.result.createUserName }}</div>
           </div>
         </div>
 
@@ -567,6 +567,7 @@
                         placeholder=""
                         v-model="val.orderQty"
                         maxlength="12"
+                        @input="changeNumOrderQty(idx)"
                       />
                     </td>
                     <td>
@@ -589,6 +590,7 @@
                         placeholder=""
                         v-model="val.orderUc"
                         maxlength="12"
+                        @input="changeNumOrderUc(idx)"
                       />
                     </td>
                     <td class="text-right">{{ (val.orderQty*val.orderUc).toLocaleString()  }}</td>
@@ -632,8 +634,8 @@
             <div class="width100">
               <!-- 다중파일 업로드 -->
               <div class="upload-boxWrap">
-                <div class="upload-box">
-                  <input type="file" ref="insFile" id="file-input" @change="changeFile"/>
+                <div class="upload-box" v-if="!insFile">
+                  <input type="file" id="file-input" @change="fileInputChangeInsFile"/>
                   <div class="uploadTxt">
                     <i class="fa-regular fa-upload"></i>
                     <div>
@@ -642,7 +644,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="uploadPreview" id="preview"></div>
+                <div class="uploadPreview" id="preview" v-if="insFile"><p style="line-height:80px;">{{ insFile.fileNm }}<button id="removeBtn" class="file-remove" @click="deleteFile('INS')">삭제</button></p></div>
               </div>
               <!-- //다중파일 업로드 -->
             </div>
@@ -670,8 +672,8 @@
             <div class="width100">
               <!-- 다중파일 업로드 -->
               <div class="upload-boxWrap">
-                <div class="upload-box">
-                  <input type="file" ref="innerFile" id="file-input2" @change="changeFile"/>
+                <div class="upload-box" v-if="!innerFile">
+                  <input type="file" id="file-input2" @change="fileInputChangeInnerFile"/>
                   <div class="uploadTxt">
                     <i class="fa-regular fa-upload"></i>
                     <div>
@@ -680,7 +682,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="uploadPreview" id="preview2"></div>
+                <div class="uploadPreview" id="preview2" v-if="innerFile"><p style="line-height:80px;">{{ innerFile.fileNm }}<button id="removeBtn" class="file-remove" @click="deleteFile('INNER')">삭제</button></p></div>
               </div>
               <!-- //다중파일 업로드 -->
             </div>
@@ -706,8 +708,8 @@
             <div class="width100">
               <!-- 다중파일 업로드 -->
               <div class="upload-boxWrap">
-                <div class="upload-box">
-                  <input type="file" ref="outerFile" id="file-input3" @change="changeFile"/>
+                <div class="upload-box" v-if="!outerFile">
+                  <input type="file" id="file-input3" @change="fileInputChangeOuterFile"/>
                   <div class="uploadTxt">
                     <i class="fa-regular fa-upload"></i>
                     <div>
@@ -716,7 +718,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="uploadPreview" id="preview3"></div>
+                <div class="uploadPreview" id="preview3" v-if="outerFile"><p style="line-height:80px;">{{ outerFile.fileNm }}<button id="removeBtn" class="file-remove"  @click="deleteFile('OUTER')">삭제</button></p></div>
               </div>
               <!-- //다중파일 업로드 -->
             </div>
@@ -909,7 +911,11 @@ export default {
       timePart2: "",
       selectedFile: null, //업로드한 파일
       filek: [],
-      bdAmt: ""
+      bdAmt: "",
+      insFile : {}, // 내역방식 파일 등록할 때 첨부파일 데이터
+      innerFile : {}, // 대내용 첨부파일 데이터
+      outerFile : {}, // 대외용 첨부파일 데이터
+      changeFileCheck : {insFileCheck : 'Y', innerFileCheck : 'Y',  outerFileCheck : 'Y'}, // 기존에 들어 있는 파일들이 어떻게 변경되는지 확인 =  Y : 기존과 동일한 상태라 아무 것도 처리 안 해도 되는 상태. N : 파일이 있다가 사라진 상태라 삭제 해야 함, C : 기존에 있던 없던 파일이 추가되거나 변경된 상태. 기존에 있던 걸 지우고 새로 넣어야 함
     };
   },
   computed: {
@@ -1025,11 +1031,11 @@ export default {
         else this.dataFromList.result.insModeCode = "1";
       } else if (mode === "ok") {
         if (this.dataFromList.result.insModeCode === "1") {
-          this.dataFromList.result.insModeCode = "1";
-          this.dataFromList.tableContent = this.originTableData;
-          this.$forceUpdate();
+          //this.dataFromList.result.insModeCode = "1";
+          this.dataFromList.tableContent = []
         } else {
-          this.dataFromList.result.insModeCode = "2";
+          this.insFile = ''
+          /*this.dataFromList.result.insModeCode = "2";
           this.dataFromList.fileContent.forEach((item) => {
             if (item.fileFlagKo === "세부내역") {
               const matchingItem = this.originFileData.find(
@@ -1040,6 +1046,8 @@ export default {
               }
             }
           });
+          */
+
         }
       }
       this.$forceUpdate();
@@ -1087,11 +1095,13 @@ export default {
             preview = preview3;
           }
 
+          /*
           preview.innerHTML += `
         <p id=${fileFlagKo}>
           ${fileName}
           <button data-index=${fileFlagKo} class='file-remove'>삭제</button>
         </p>`;
+        */
 
           // 삭제 버튼에 클릭 이벤트 처리기 추가
           var removeButton = document.querySelector(
@@ -1125,97 +1135,97 @@ export default {
         !this.dataFromList.result.biName ||
         this.dataFromList.result.biName === ""
       ) {
-        alert("입찰명을 입력해주세요.");
+        alert("입찰명을 입력해 주세요.");
         return false;
       }
       if (
         !this.dataFromList.result.itemCode ||
         this.dataFromList.result.itemCode === ""
       ) {
-        alert("품목을 선택해주세요.");
+        alert("품목을 선택해 주세요.");
         return false;
       }
       if (
         !this.dataFromList.result.biModeCode ||
         this.dataFromList.result.biModeCode === ""
       ) {
-        alert("입찰방식을 선택해주세요.");
+        alert("입찰방식을 선택해 주세요.");
         return false;
       }
       if (
         !this.dataFromList.result.bidJoinSpec ||
         this.dataFromList.result.bidJoinSpec === ""
       ) {
-        alert("입찰참가자격을을 선택해주세요.");
+        alert("입찰참가자격을을 선택해 주세요.");
         return false;
       }
       if (
         !this.datePart ||
         this.datePart === ""
       ) {
-        alert("현장설명일시 날짜를 입력해주세요.");
+        alert("현장설명일시 날짜를 입력해 주세요.");
         return false;
       }
       if (
         !this.timePart ||
         this.timePart === ""
       ) {
-        alert("현장설명일시 시간을 입력해주세요.");
+        alert("현장설명일시 시간을 입력해 주세요.");
         return false;
       }
       if (
         !this.dataFromList.result.spotArea ||
         this.dataFromList.result.spotArea === ""
       ) {
-        alert("현장설명장소를 입력해주세요.");
+        alert("현장설명장소를 입력해 주세요.");
         return false;
       }
       if (
         !this.dataFromList.result.succDeciMethCode ||
         this.dataFromList.result.succDeciMethCode === ""
       ) {
-        alert("낙찰자 결정방법을 선택해주세요.");
+        alert("낙찰자 결정방법을 선택해 주세요.");
         return false;
       }
       if (this.dataFromList.custContent.length === 0 && this.dataFromList.result.biModeCode === "A") {
-        alert("입찰참가업체를 선택해주세요.");
+        alert("입찰참가업체를 선택해 주세요.");
         return false;
       }
       if (!this.dataFromList.result.amtBasis || this.dataFromList.result.amtBasis === "") {
-        alert("금액기준을 입력해주세요.");
+        alert("금액기준을 입력해 주세요.");
         return false;
       }
       if (this.dataFromList.result.interrelatedCustCode == "02" 
           && (!this.dataFromList.result.matDept || !this.dataFromList.result.matProc || !this.dataFromList.result.matCls)) {
-        alert("분류군을 입력해주세요.");
+        alert("분류군을 입력해 주세요.");
         return false;
       }
       if (
         !this.datePart1 ||
         this.datePart1 === ""
       ) {
-        alert("제출시작일시 날짜를 입력해주세요.");
+        alert("제출시작일시 날짜를 입력해 주세요.");
         return false;
       }
       if (
         !this.timePart1 ||
         this.timePart1 === ""
       ) {
-        alert("제출시작일시 시간을 입력해주세요.");
+        alert("제출시작일시 시간을 입력해 주세요.");
         return false;
       }
       if (
         !this.datePart2 ||
         this.datePart2 === ""
       ) {
-        alert("제출마감일시 날짜를 입력해주세요.");
+        alert("제출마감일시 날짜를 입력해 주세요.");
         return false;
       }
       if (
         !this.timePart2 ||
         this.timePart2 === ""
       ) {
-        alert("제출마감일시 시간을 입력해주세요.");
+        alert("제출마감일시 시간을 입력해 주세요.");
         return false;
       }
 
@@ -1232,43 +1242,66 @@ export default {
       this.dataFromList.result.estCloseDate = this.datePart2 + " " + this.timePart2;
       
       if (!this.dataFromList.result.estOpener || this.dataFromList.result.estOpener === "") {
-        alert("개찰자를 선택해주세요.");
+        alert("개찰자를 선택해 주세요.");
         return false;
       }
 
       if (!this.dataFromList.result.gongoId || this.dataFromList.result.gongoId === "") {
-        alert("입찰공고자를 선택해주세요.");
+        alert("입찰공고자를 선택해 주세요.");
         return false;
       }
 
       if (!this.dataFromList.result.estBidder || this.dataFromList.result.estBidder === "") {
-        alert("낙찰자를 선택해주세요.");
+        alert("낙찰자를 선택해 주세요.");
         return false;
       }
       if (!this.dataFromList.result.supplyCond || this.dataFromList.result.supplyCond === "") {
-        alert("납품조건을 입력해주세요.");
+        alert("납품조건을 입력해 주세요.");
         return false;
       }
       
-      
-      
-
       //세부내역 내역집적등록인 경우
-      if (this.dataFromList.result.insModeCode === "2") {
+      if (this.dataFromList.result.insModeCode  === "2") {
         if (this.dataFromList.tableContent.length === 0) {
-          alert("세부내역을 작성해주세요.");
+          alert("세부내역을 추가해 주세요.");
           return false;
-        } else {
-          this.dataFromList.tableContents = this.dataFromList.tableContent.filter(
-            (item) => item.name !== null
-          );
+        } else if(this.dataFromList.tableContent.length > 0){
+          
+          const nameCheck = this.dataFromList.tableContent.filter(item=> item.name == '')
+          const ssizeCheck = this.dataFromList.tableContent.filter(item=> item.ssize == '')
+          const orderQtyCheck = this.dataFromList.tableContent.filter(item=> item.orderQty == '')
+          const unitcodeCheck = this.dataFromList.tableContent.filter(item=> item.unitcode == '')
+          const orderUcCheck = this.dataFromList.tableContent.filter(item=> item.orderUc == '')
+
+          if(nameCheck.length > 0){
+            alert('세부내역 품목명을 작성해 주세요.');
+            return false;
+          }
+          if(ssizeCheck.length > 0){
+            alert('세부내역 규격을 작성해 주세요.');
+            return false;
+          }
+          if(orderQtyCheck.length > 0){
+            alert('세부내역 수량을 작성해 주세요.');
+            return false;
+          }
+          if(unitcodeCheck.length > 0){
+            alert('세부내역 단위를 작성해 주세요.');
+            return false;
+          }
+          if(orderUcCheck.length > 0){
+            alert('세부내역 실행단가를 작성해 주세요.');
+            return false;
+          }
+
         }
+
       }
 
       //세부내역 파일등록 경우
       if (this.dataFromList.result.insModeCode === "1") {
-        if (this.filek.length === 0) {
-          alert("세부내역파일을 업로드 해주세요.");
+        if (this.insFile == '') {
+          alert("세부내역파일을 업로드 해 주세요.");
           return false;
         }
       }
@@ -1276,10 +1309,81 @@ export default {
       return true;
     },
     save() {
- 
+      const vm = this
       //update 전에 숫자에 천단위로 있는 콤마 제거
       this.dataFromList.result.bdAmt = this.bdAmt.replace(/[^\d-]/g, '');
+      let custContent = {}
+      let updateEmail = {}
 
+      if (this.dataFromList.result.biModeCode === "A") {
+        //등록되는 입찰 bino로 set
+        custContent = this.dataFromList.custContent;
+        
+        custContent.forEach(function(element) {
+            element.biNo = vm.dataFromList.result.biNo
+        })
+        updateEmail = {
+          biNo: this.dataFromList.result.biNo,
+          type: "insert",
+          interCd: this.dataFromList.result.interrelatedCustCode,
+        }
+      }
+
+      //내역방식
+      if(this.dataFromList.result.insModeCode === "2") {//내역직접등록
+
+        this.dataFromList.tableContent = this.dataFromList.tableContent.map((item, idx) => {
+          return { ...item, seq: idx + 1 };
+        });
+        this.changeFileCheck.insFileCheck = 'N'
+      }
+
+      let fd = new FormData()
+      if(this.dataFromList.result.insModeCode === "1"){
+        fd.append("insFile", this.changeFileCheck.insFileCheck == 'Y' ? '' : this.insFile)
+      }
+
+      if(this.innerFile != ''){
+        fd.append("innerFile", this.changeFileCheck.innerFileCheck == 'Y' ? '' : this.innerFile)
+      }
+      if(this.outerFile != ''){
+        fd.append("outerFile", this.changeFileCheck.outerFileCheck == 'Y' ? '' : this.outerFile)
+      }
+
+
+      this.dataFromList.result.changeFileCheck = this.changeFileCheck
+      const params = {
+        bidContent : this.dataFromList.result,
+        custContent : custContent,
+        updateEmail : updateEmail,
+        tableContent : this.dataFromList.tableContent,
+      }
+      
+      fd.append("bidContent", JSON.stringify(params))
+      
+      console.log(params)
+
+      this.$store.commit("loading");
+      vm.$http.post("/api/v1/bid/updateBid", fd)
+      .then((response) => {
+          if (response.data.code == "OK") {
+            $("#commonAlertMsg").html('저장되었습니다.');
+            $("#commonAlertPop").modal("show"); 
+            this.$router.push({ name: "bidProgress" });
+            this.$store.commit("finish");
+            return;
+          } 
+          else {
+            this.$store.commit("finish");
+            this.$swal({
+              type: "warning",
+              text: "저장 중 오류가 발생했습니다.",
+            });
+            return;
+          }
+      })
+
+    /*
       this.$store.commit("loading");
       this.$http
         .post("/api/v1/bid/updateBid", this.dataFromList.result)
@@ -1321,6 +1425,7 @@ export default {
           this.$router.push({ name: "bidProgressDetail" });
           this.$store.commit("finish");
         });
+        */
     },
     movetolist() {//목록이동
       this.$router.push({ name: "bidProgress" });
@@ -1433,6 +1538,59 @@ export default {
       }else{
         $("#save").modal("show");
       }
+    },
+    changeNumOrderQty(idx) {
+      const inputValue = this.dataFromList.tableContent[idx].orderQty.replace(/\D/g, '');
+      this.dataFromList.tableContent[idx].orderQty = inputValue;
+    },
+    changeNumOrderUc(idx) {
+      const inputValue = this.dataFromList.tableContent[idx].orderUc.replace(/\D/g, '');
+      this.dataFromList.tableContent[idx].orderUc = inputValue;
+    },
+    fileInputChangeInsFile(event){//견적세부파일
+      const fileData = event.target.files[0]
+        if(fileData.size > 10485760){
+          event.target.value = ''
+          alert('파일 크기는 최대 10MB까지입니다.\n파일 크기를 확인해 주세요.')
+          return 
+        }
+        fileData.fileNm = fileData.name
+        this.insFile = fileData;
+        this.changeFileCheck.insFileCheck = 'C'
+    },
+    fileInputChangeInnerFile(event){//대내용파일
+      const fileData = event.target.files[0]
+        if(fileData.size > 10485760){
+          event.target.value = ''
+          alert('파일 크기는 최대 10MB까지입니다.\n파일 크기를 확인해 주세요.')
+          return 
+        }
+        fileData.fileNm = fileData.name
+        this.innerFile = fileData;
+        this.changeFileCheck.innerFileCheck = 'C'
+    },
+    fileInputChangeOuterFile(event){//대외용파일
+      const fileData = event.target.files[0]
+        if(fileData.size > 10485760){
+          event.target.value = ''
+          alert('파일 크기는 최대 10MB까지입니다.\n파일 크기를 확인해 주세요.')
+          return 
+        }
+      fileData.fileNm = fileData.name
+      this.outerFile = fileData
+      this.changeFileCheck.outerFileCheck = 'C'
+    },
+    deleteFile(fileFlag){
+      if(fileFlag == 'INS'){
+        this.insFile = ''
+        this.changeFileCheck.insFileCheck = 'N'
+      }else if(fileFlag == 'INNER'){
+        this.innerFile = ''
+        this.changeFileCheck.innerFileCheck = 'N'
+      }else if(fileFlag == 'OUTER'){
+        this.outerFile = ''
+        this.changeFileCheck.outerFileCheck = 'N'
+      }
     }
   },
   beforeMount() {
@@ -1449,6 +1607,13 @@ export default {
     if (!this.originTableData) {
       this.originTableData = dataFromList.tableContent.slice();
     }
+
+    if(this.dataFromList.fileContent.length > 0){
+      this.insFile = this.dataFromList.fileContent.filter(item => item.fileFlag == 'K')[0]
+      this.innerFile = this.dataFromList.fileContent.filter(item => item.fileFlag == '0')[0]
+      this.outerFile = this.dataFromList.fileContent.filter(item => item.fileFlag == '1')[0]
+    }
+
   },
   mounted() {
     fileInput.applyFile();
@@ -1456,7 +1621,7 @@ export default {
     
     this.assignDataFromList();//날짜 및 시간 정보 set
 
-    this.fileSetting();//기존에 업로드 한 파일 set
+    //this.fileSetting();//기존에 업로드 한 파일 set
   },
 };
 </script>

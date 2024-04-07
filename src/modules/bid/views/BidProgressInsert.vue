@@ -1176,14 +1176,17 @@ export default {
         else this.bidContent.insModeCode = "1";
       } else if (mode === "ok") {
         if (this.bidContent.insModeCode === "1") {
-          this.bidContent.insModeCode = "1";
+          //this.bidContent.insModeCode = "1";
           this.tableContent = [];
         } else {
-          this.bidContent.insModeCode = "2";
+          this.insFile = ''
+          //this.bidContent.insModeCode = "2";
+          /*
           this.fileContent = this.fileContent.filter(function (item) {
             return item.fileFlag !== "k";
           });
           this.filek = [];
+          */
           //document.querySelector("#preview").innerHTML = "";
         }
       }
@@ -1344,10 +1347,6 @@ export default {
 
         }
 
-        this.tableContents = this.tableContent.filter(
-          (item) => item.name !== null
-        );
-
       }
 
       //세부내역 파일등록 경우
@@ -1411,7 +1410,7 @@ export default {
       fd.append("bidContent", JSON.stringify(params))
 
       this.$store.commit("loading");
-      const response = vm.$http.post("/api/v1/bid/insertBid", fd)
+      vm.$http.post("/api/v1/bid/insertBid", fd)
       .then((response) => {
           if (response.data.code == "OK") {
             $("#commonAlertMsg").html('저장되었습니다.');
@@ -1627,13 +1626,32 @@ export default {
       this.tableContent[idx].orderUc = inputValue;
     },
     fileInputChangeInsFile(event){//견적세부파일
-        this.insFile = event.target.files[0];
+      console.log(event)
+      const fileData = event.target.files[0]
+        if(fileData.size > 10485760){
+          event.target.value = ''
+          alert('파일 크기는 최대 10MB까지입니다.\n파일 크기를 확인해 주세요.')
+          return 
+        }
+        this.insFile = fileData
     },
-    fileInputChangeInnerFile(event){//견적세부파일
-        this.innerFile = event.target.files[0];
+    fileInputChangeInnerFile(event){//대내용파일
+      const fileData = event.target.files[0]
+        if(fileData.size > 10485760){
+          event.target.value = ''
+          alert('파일 크기는 최대 10MB까지입니다.\n파일 크기를 확인해 주세요.')
+          return 
+        }
+        this.innerFile = fileData
     },
-    fileInputChangeOuterFile(event){//견적세부파일
-        this.outerFile = event.target.files[0];
+    fileInputChangeOuterFile(event){//대외용파일
+      const fileData = event.target.files[0]
+        if(fileData.size > 10485760){
+          event.target.value = ''
+          alert('파일 크기는 최대 10MB까지입니다.\n파일 크기를 확인해 주세요.')
+          return 
+        }
+      this.outerFile = fileData
     },
   },
   beforeMount() {},

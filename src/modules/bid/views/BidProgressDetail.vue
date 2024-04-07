@@ -118,7 +118,7 @@
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">입찰담당자</div>
-            <div class="width100">{{ this.result.cuser }}</div>
+            <div class="width100">{{ this.result.createUserName }}</div>
           </div>
         </div>
 
@@ -435,7 +435,7 @@
     <!-- //입찰공고 삭제 -->
 
     <!-- 공고문 미리보기 -->
-    <BidAdvertisement :props="[this.result, this.tableContent, this.fileContent]"/>
+    <BidAdvertisement :data="{...result, specInput : tableContent, specFile : fileContent.filter(item => item.fileFlag == 'K') ,fileList : fileContent.filter(item => item.fileFlag != 'K')}"/>
     <!-- //공고문 미리보기 -->
 
     <!-- 협력사 사용자-->
@@ -598,27 +598,30 @@ export default {
 
     bidNotice() {
       this.detail.biNo = this.dataFromList;
-      console.log(this.detail.biNo);
       this.detail.biName = this.result.biName;
-      this.detail.type = "open";
       this.detail.interNm = this.result.interrelatedNm;
+
       this.$store.commit("loading");
-      this.$http
-        .post("/api/v1/bid/bidNotice", this.detail)
+      this.$http.post("/api/v1/bid/bidNotice", this.detail)
         .then((response) => {
-          if (response.data.code == "OK") {
-          } else {
-            this.$swal({
-              type: "warning",
-              text: "개찰 중 오류가 발생했습니다.",
-            });
-          }
+            if (response.data.code == "OK") {
+              $("#commonAlertMsg").html('입찰 공고가 완료되었습니다.');
+              $("#commonAlertPop").modal("show"); 
+              this.$router.push({ name: "bidProgress" });
+              this.$store.commit("finish");
+              return;
+            } 
+            else {
+              this.$store.commit("finish");
+              this.$swal({
+                type: "warning",
+                text: "입찰 공고 중 오류가 발생했습니다.",
+              });
+              return;
+            }
         })
-        .finally(() => {
-          $("#biddingModal").modal("hide");
-          this.$store.commit("finish");
-          this.$router.push({ name: "bidProgress" });
-        });
+
+
     },
 
     excel() {
@@ -627,8 +630,6 @@ export default {
       this.detail.tableContent = this.tableContent;
       this.detail.fileContent = this.fileContent;
       this.detail.custContent = this.custContent;
-
-      console.log(this.detail.fileName);
 
       this.$store.commit("loading");
       this.$http
@@ -679,7 +680,6 @@ export default {
     },
 
     async downloadFile(filePath, fileNm) {
-      console.log(filePath);
       try {
         this.$store.commit("loading");
         const response = await this.$http.post(

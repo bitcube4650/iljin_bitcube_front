@@ -26,7 +26,7 @@
                     <div class="modalBoxSt mt10">
                         <div class="flex align-items-center">
                             <div class="formTit flex-shrink0 width170px">입찰방식</div>
-                            <div class="width100">{{ data.biMode | ftBiMode }}</div>
+                            <div class="width100">{{ (data.biMode == 'A' || data.biMode == 'B') ? (data.biMode | ftBiMode) : data.biMode }}</div>
                         </div>
                         <div class="flex align-items-center mt10">
                             <div class="formTit flex-shrink0 width170px">낙찰자결정방법</div>
@@ -70,11 +70,11 @@
                     <div class="modalBoxSt mt10">
                         <div class="flex align-items-center">
                             <div class="formTit flex-shrink0 width170px">입찰담당자</div>
-                            <div class="width100">{{ data.damdangName }}</div>
+                            <div class="width100">{{ data.damdangName ? data.damdangName : data.cuser  }}</div>
                         </div>
                         <div class="flex align-items-center mt10">
                             <div class="formTit flex-shrink0 width170px">입찰담당부서</div>
-                            <div class="width100">{{ data.deptName }}</div>
+                            <div class="width100">{{ data.deptName ? data.deptName : data.cuserDept}}</div>
                         </div>
                     </div>
 
@@ -88,7 +88,7 @@
                             <div class="formTit flex-shrink0 width170px">제출마감일시</div>
                             <div class="width100">{{ data.estCloseDate }}</div>
                         </div>
-                        <div class="flex mt10" v-if="data.insMode == '2'">
+                        <div class="flex mt10" v-if="(data.insMode == '2' || data.insModeCode == '2')">
                             <div class="formTit flex-shrink0 width170px">세부내역</div>
                             <div class="width100">
                                 <table class="tblSkin1">
@@ -114,10 +114,10 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="flex align-items-center mt10" v-if="data.insMode == '1'" > 
+                        <div class="flex align-items-center mt10" v-if="data.insMode == '1' || data.insModeCode == '1'" > 
                         <div class="formTit flex-shrink0 width170px">세부내역</div>
                             <div class="width100">
-                                <div v-for="(val, idx) in data.specFile" :key="idx" @click="downloadFile(val.filePath, val.fileNm)" >
+                                <div v-for="(val, idx) in data.specFile" :key="idx" @click="downloadFile(val)" >
                                     <a class="textUnderline" v-if="val.fileFlag === 'K'">{{val.fileNm}}</a>
                                 </div>
                             </div>
@@ -125,7 +125,7 @@
                         <div class="flex align-items-center mt10">
                             <div class="formTit flex-shrink0 width170px">첨부파일</div>
                             <div class="width100">
-                                <div v-for="(val, idx) in data.fileList" :key="idx" @click="downloadFile(val.filePath, val.fileNm)" >
+                                <div v-for="(val, idx) in data.fileList" :key="idx" @click="downloadFile(val)" >
                                     <a class="textUnderline">{{val.fileNm}}</a>
                                 </div>
                             </div>
