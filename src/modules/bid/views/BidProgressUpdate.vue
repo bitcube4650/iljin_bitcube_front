@@ -912,9 +912,9 @@ export default {
       selectedFile: null, //업로드한 파일
       filek: [],
       bdAmt: "",
-      insFile : {}, // 내역방식 파일 등록할 때 첨부파일 데이터
-      innerFile : {}, // 대내용 첨부파일 데이터
-      outerFile : {}, // 대외용 첨부파일 데이터
+      insFile : '', // 내역방식 파일 등록할 때 첨부파일 데이터
+      innerFile : '', // 대내용 첨부파일 데이터
+      outerFile : '', // 대외용 첨부파일 데이터
       changeFileCheck : {insFileCheck : 'Y', innerFileCheck : 'Y',  outerFileCheck : 'Y'}, // 기존에 들어 있는 파일들이 어떻게 변경되는지 확인 =  Y : 기존과 동일한 상태라 아무 것도 처리 안 해도 되는 상태. N : 파일이 있다가 사라진 상태라 삭제 해야 함, C : 기존에 있던 없던 파일이 추가되거나 변경된 상태. 기존에 있던 걸 지우고 새로 넣어야 함
     };
   },
