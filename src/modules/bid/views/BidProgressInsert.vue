@@ -1096,7 +1096,6 @@ export default {
     },
 
     callbackPastBid(data) {//과거입찰 가져오기에서 선택시
-      console.log('callbackPastBid' , data);
 
       this.result = data[0][0];
       this.tableContent = data[1];//입찰정보
@@ -1147,8 +1146,6 @@ export default {
       }
       this.$forceUpdate();
       $("#bidPast").modal("hide");
-      console.log(this.result);
-      console.log(this.bidContent);
     },
 
     selectBid(mode) {//입찰방식 확인창 선택시
@@ -1408,8 +1405,6 @@ export default {
       }
       fd.append("bidContent", JSON.stringify(params))
 
-      console.log(params)
-
       this.$store.commit("loading");
       vm.$http.post("/api/v1/bid/insertBid", fd)
       .then((response) => {
@@ -1627,7 +1622,6 @@ export default {
       this.tableContent[idx].orderUc = inputValue;
     },
     fileInputChangeInsFile(event){//견적세부파일
-      console.log(event)
       const fileData = event.target.files[0]
         if(fileData.size > 10485760){
           event.target.value = ''

@@ -1362,8 +1362,6 @@ export default {
       }
       
       fd.append("bidContent", JSON.stringify(params))
-      
-      console.log(params)
 
       this.$store.commit("loading");
       vm.$http.post("/api/v1/bid/updateBid", fd)
