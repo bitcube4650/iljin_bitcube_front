@@ -142,6 +142,7 @@
     <!-- //공고문 미리보기 -->
 </template>
 <script>
+import mixin from "../service/mixin.js";
 
 export default {
     name: "BidAdvertisement",
@@ -154,6 +155,7 @@ export default {
     data() {
         return {};
     },
+    mixins: [mixin],
     methods: {
         
         fnPrint() {
