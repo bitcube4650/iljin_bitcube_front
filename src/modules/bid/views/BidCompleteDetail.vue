@@ -246,7 +246,7 @@
 									<a @click="$refs.submitHistPop.initModal(data.biNo, cust.custCode, cust.custName, cust.damdangName, cust.esmtCurr);" class="textUnderline" data-toggle="modal" data-target="#submitHistPop">{{ cust.custName }}</a>
 								</td>
 								<td class="text-overflow" v-text="ftEsmtAmt(cust)"></td>
-								<td><a @click="fnCheck(cust)" :class="(cust.esmtYn == '2' ? 'textUnderline textMainColor ' : '') + (cust.esmtYn == '2' && data.insMode == '2' && cust.submitDate != null ? 'detailBtn' : '')">{{ cust.esmtYn | ftEsmtYn }}</a></td>
+								<td><a @click="fnCheck(cust)" :class="(cust.esmtYn == '2' ? 'textUnderline textMainColor ' : '') + (cust.esmtYn == '2' && data.insMode == '2' && data.estOpenDate != null ? 'detailBtn' : '')">{{ cust.esmtYn | ftEsmtYn }}</a></td>
 								<td>{{ cust.submitDate }}</td>
 								<td>{{ cust.damdangName }}</td>
 								<td><img v-if="cust.etcPath" @click="fnCustSpecFileDown(cust.etcFile, cust.etcPath)" src="/images/icon_etc.svg" class="iconImg" alt="etc"></td>
@@ -432,12 +432,12 @@ export default {
 			});
 		},
 		fnCheck(cust){
-			if(cust.esmtYn == '2' && cust.submitDate == null){
+			if(cust.esmtYn == '2' && this.data.estOpenDate == null){
 				this.$swal({
 					type: "warning",
 					text: "복호화되지 않아 상세를 불러올 수 없습니다.",
 				});
-			}else if(cust.esmtYn == '2' && cust.submitDate != null){
+			}else if(cust.esmtYn == '2' && this.data.estOpenDate != null){
 				if(this.data.insMode == '1'){
 					this.fnCustSpecFileDown(cust.fileNm, cust.filePath);
 				}
