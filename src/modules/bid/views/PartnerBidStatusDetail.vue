@@ -435,7 +435,7 @@ export default {
         },
         signData(){//인증서 서명
 
-          let vm = this;
+            let vm = this;
             let currDate = new Date();
             let currDateTime = currDate.getTime();
             let estCloseDate = new Date(this.data.estCloseDate);
@@ -463,19 +463,26 @@ export default {
                     submitData[i].esmtUc = esmtUc.replace(/[^-0-9]/g, '');
                 }
             }
+            this.submitData = submitData;
 
-            this.amt = this.amt.replace(/[^-0-9]/g, '')
-            
-            nxTSPKI.signData(this.amt, //암호화 하는 데이터
+            var totalPrice = '';
+            if(this.data.insMode == '2'){//직접입력
+                totalPrice = this.totalAmt.replace(/[^-0-9]/g, '');
+
+            }else{//파일입력
+                totalPrice = this.amt.replace(/[^-0-9]/g, '');
+            }
+
+            nxTSPKI.signData(totalPrice, //암호화 하는 데이터
               {ssn:true}, //인증서 정보 포함 여부
               function(res){//인증후 콜백
+                console.log('res',res);
                 if(res.code ==0){//인증완료
-                  vm.amt = res.data.signedData;//서명된 견적액
 
                   let params = {
                       biNo : vm.biNo
-                  ,   submitData : submitData
-                  ,   amt : vm.amt
+                  ,   submitData : vm.submitData
+                  ,   amt : res.data.signedData
                   ,   esmtCurr : vm.esmtCurr 
                   ,   insModeCode : vm.data.insMode
                   }
@@ -485,9 +492,10 @@ export default {
                   formData.append('etcFile', vm.etcFile);
 
                   vm.bidSubmitting(formData);
+
                   
                 }else{//실패
-                  this.$swal({
+                  vm.$swal({
                       type: "warning",
                       text: "인증에 실패하였습니다.",
                   });

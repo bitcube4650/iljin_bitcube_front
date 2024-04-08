@@ -252,30 +252,6 @@ var nxTSPKIObj = (function(parentObj,$){
         this.startGetResultTimer(cmd.data.rid,etc);
         return cmd;
     };
-    _toolkit.getCertificatesAndKeys = function(data,options,callback,etc) {
-        options = $.extend({}, nxTSPKIConfig.options, options);
-        var cmd = this.createCommand("getCertificatesAndKeys", {options: options, data: data}, {callback: callback,etc:etc});
-        this.startGetResultTimer(cmd.data.rid,etc);
-        return cmd;
-    };
-    _toolkit.genSignatureStart = function(options,callback,etc) {
-        options = $.extend({},nxTSPKIConfig.options,options);
-        var cmd = this.createCommand("genSignatureStart",{options:options},{callback:callback,etc:etc});
-        this.startGetResultTimer(cmd.data.rid,etc);
-        return cmd;
-    };
-    _toolkit.genSignatureRunAndClear = function(dataType,data,options,callback,etc) {
-        options = $.extend({},nxTSPKIConfig.options,options);
-        var cmd = this.createCommand("genSignatureRunAndClear",{dataType:dataType,data:data,options:options},{callback:callback,etc:etc});
-        this.startGetResultTimer(cmd.data.rid,etc);
-        return cmd;
-    };
-    _toolkit.genSignatureClear = function(options,callback,etc) {
-        options = $.extend({},nxTSPKIConfig.options,options);
-        var cmd = this.createCommand("genSignatureClear",{options:options},{callback:callback,etc:etc});
-        this.startGetResultTimer(cmd.data.rid,etc);
-        return cmd;
-    };
     _toolkit.getResult  = function(callback) {
         var cmd = this.createCommand("getResult",{ajaxto:nxTSConfig.getResultTimeout},{callback:callback});
         cmd.data.async = false;
@@ -332,11 +308,7 @@ var nxTSPKI = (function(parentObj,$){
         "multiSignData",
         "multiSignFile",
         "multiGenerateSignature",
-        "multiSignDataWithTimeStampToken",
-        "getCertificatesAndKeys",
-        "genSignatureStart",
-        "genSignatureRunAndClear",
-        "genSignatureClear"
+        "multiSignDataWithTimeStampToken"
     ];
 
 
@@ -373,13 +345,11 @@ var nxTSPKI = (function(parentObj,$){
     _toolkit.installCheck = function() {
         setTimeout(function(){
             nxTSCommon.installCheck(false,{ajaxto:3000,success:function(res,data){
-
                 if(res.code != nxTSError.res_success) {
                     if(confirm(nxTSPKIConfig.installMessage) == true) {
+                        //window.location.href = nxTSPKIConfig.installPage;
                         window.location.href = 'https://pkidemo.tradesign.net/NXTSDemo/NXTSDemo_1.0.1.5/';
-                        //window.location.href = '../../installFile/nxtspkisetup.exe';
                     }
-
                 }
             },versionCheck:[nxTSConfig.TSTOOLKIT]});
         },500);
