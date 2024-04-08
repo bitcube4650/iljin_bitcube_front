@@ -432,7 +432,6 @@ export default {
 			});
 		},
 		fnCheck(cust){
-			console.log(cust)
 			if(cust.esmtYn == '2' && cust.submitDate == null){
 				this.$swal({
 					type: "warning",
