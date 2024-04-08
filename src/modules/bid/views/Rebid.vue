@@ -236,6 +236,45 @@
                             <!-- //다중파일 업로드 -->
                         </div>
                     </div>
+                    <div class="flex mt10" v-if="data.insMode === '2'">
+                        <div class="formTit flex-shrink0 width170px">세부내역 <span class="star">*</span>
+                        </div>
+                        <div class="width100">
+                            <table class="tblSkin1">
+                                <colgroup>
+                                    <col style="width:17%" />
+                                    <col style="width:16%" />
+                                    <col style="width:16%" />
+                                    <col style="width:16%" />
+                                    <col style="width:17%" />
+                                    <col style="width:18%" />
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th>품목명</th>
+                                        <th>규격</th>
+                                        <th>수량</th>
+                                        <th>단위</th>
+                                        <th>실행단가</th>
+                                        <th class="end">합계</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(val, idx) in data.specInput" :key="idx">
+                                        <td><input type="text" class="inputStyle inputSm" v-model="val.name" disabled/> </td>
+                                        <td><input type="text" class="inputStyle inputSm" v-model="val.ssize" disabled/></td>
+                                        <td><input type="text" class="inputStyle inputSm" v-model="val.orderQty" disabled/></td>
+                                        <td><input type="text" class="inputStyle inputSm" v-model="val.unitcode" disabled/></td>
+                                        <td><input type="text" class="inputStyle inputSm text-right" v-model="val.orderUc" disabled/></td>
+                                        <td class="text-right">{{ val.orderQty * val.orderUc | numberWithCommas }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p class="text-right mt10">
+                                <strong v-text="fnAllSum(data.specInput)"></strong>
+                            </p>
+                        </div>
+                    </div>
                     <div class="flex mt10">
                         <div class="formTit flex-shrink0 width170px">첨부파일(대내용)
                             <!-- 툴팁 -->
@@ -288,40 +327,6 @@
                                 <div class="uploadPreview" id="preview3"></div>
                             </div>
                             <!-- //다중파일 업로드 -->
-                        </div>
-                    </div>
-                    <div class="flex mt10" v-if="data.insModeCode === '2'">
-                        <div class="formTit flex-shrink0 width170px">세부내역 <span class="star">*</span>
-                        </div>
-                        <div class="width100">
-                            <table class="tblSkin1">
-                                <colgroup>
-                                    <col style="" />
-                                </colgroup>
-                                <thead>
-                                    <tr>
-                                        <th>품목명</th>
-                                        <th>규격</th>
-                                        <th>수량</th>
-                                        <th>단위</th>
-                                        <th>실행단가</th>
-                                        <th class="end">합계</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="(val, idx) in data.specInput" :key="idx">
-                                        <td><input type="text" class="inputStyle inputSm" v-model="val.name" /> </td>
-                                        <td><input type="text" class="inputStyle inputSm" v-model="val.ssize" /></td>
-                                        <td><input type="text" class="inputStyle inputSm" v-model="val.orderQty" /></td>
-                                        <td><input type="text" class="inputStyle inputSm" v-model="val.unitcode" /></td>
-                                        <td><input type="text" class="inputStyle inputSm text-right" v-model="val.orderUc" /></td>
-                                        <td class="text-right">{{ val.orderQty * val.orderUc | numberWithCommas }}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <p class="text-right mt10">
-                                <strong v-text="fnAllSum(data.specInput)"></strong>
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -469,7 +474,7 @@ export default {
                 result = result + (spec[i].orderQty * spec[i].orderUc)
             }
 
-            return "총합계 : " + result.replace(/\B(?=(\d{3})+(?!\d))/g, ",") ;
+            return "총합계 : " + result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") ;
         },
         async fnDateSeparate(){
             let spotDate = this.data.spotDate;

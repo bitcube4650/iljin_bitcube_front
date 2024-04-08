@@ -182,6 +182,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    <p class="text-right mt10"><strong v-text="fnAllSum(data.specInput)"></strong></p>
                 </div>
             </div>
             <div class="flex mt20">
@@ -390,7 +391,14 @@ export default {
             }).finally(() => {
                 this.$store.commit("finish");
             });
-        }
+        },
+        fnAllSum(spec){
+            let result = 0;
+            for(let i = 0 ; i < spec.length ; i++){
+                result = result + (spec[i].orderQty * spec[i].orderUc)
+            }
+            return "총합계 : " + result.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") ;
+        },
     }
 }
 </script>

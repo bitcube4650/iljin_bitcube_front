@@ -190,7 +190,7 @@
               <td class="end">{{ data.userName }}</td>
             </tr>
             
-            <tr v-if="listPage.content.length == 0">
+            <tr v-if="listPage.content == undefined || listPage.content == null || listPage.content.length == 0">
                 <td class="end" :colspan="lotteMat ? '15' : '9'">조회된 데이터가 없습니다.</td>
             </tr>
           </tbody>
