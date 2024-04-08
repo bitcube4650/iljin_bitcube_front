@@ -144,7 +144,7 @@
             <div class="flex align-items-center mt20">
                 <div class="flex align-items-center width100">
                     <div class="formTit flex-shrink0 width170px">내역방식</div>
-                    <div class="width100">{{ data.insMode }}</div>
+                    <div class="width100">{{ data.insMode | ftInsMode }}</div>
                 </div>
                 <div class="flex align-items-center width100 ml80">
                     <div class="formTit flex-shrink0 width170px">납품조건</div>
