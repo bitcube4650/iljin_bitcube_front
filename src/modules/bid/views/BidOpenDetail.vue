@@ -50,7 +50,7 @@
                                 <td>{{ cust.submitDate }}</td>
                                 <td>{{ cust.damdangName }}</td>
                                 <td><img v-if="cust.etcPath" @click="fnCustSpecFileDown(cust.etcFile, cust.etcPath)" src="/images/icon_etc.svg" class="iconImg" alt="etc"></td>
-                                <td><a v-if="cust.esmtYn == '2'" @click="succCust = cust" data-toggle="modal" data-target="#bidSucc" class="btnStyle btnSecondary btnSm" title="낙찰">낙찰</a></td>
+                                <td><a v-if="cust.esmtYn == '2' && (data.openAuth || data.bidAuth)" @click="succCust = cust" data-toggle="modal" data-target="#bidSucc" class="btnStyle btnSecondary btnSm" title="낙찰">낙찰</a></td>
                             </tr>
                             <tr class="detailView" :key="'sub_'+idx">
                                 <td colspan="8" class="end">
@@ -89,8 +89,8 @@
                 <div class="text-center mt50">
                     <a class="btnStyle btnOutline" title="목록" @click="fnMovePage('bidStatus')">목록</a>
                     <a class="btnStyle btnOutline" title="개찰결과 보고서" data-toggle="modal" data-target="#resultsReport" >개찰결과 보고서</a>
-                    <a data-toggle="modal" data-target="#biddingReserve" class="btnStyle btnSecondary" title="유찰" >유찰</a>
-                    <a @click="fnRebid" class="btnStyle btnOutlineRed" title="선택업체 재입찰">선택업체 재입찰하러 가기</a>
+                    <a v-if="data.openAuth || data.bidAuth || (data.createUser == $store.state.loginInfo.userId)" data-toggle="modal" data-target="#biddingReserve" class="btnStyle btnSecondary" title="유찰" >유찰</a>
+                    <a v-if="(data.createUser == $store.state.loginInfo.userId) || data.openAuth" @click="fnRebid" class="btnStyle btnOutlineRed" title="선택업체 재입찰">선택업체 재입찰하러 가기</a>
                 </div>
             </div>
         </div>
