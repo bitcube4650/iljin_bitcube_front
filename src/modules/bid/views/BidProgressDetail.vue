@@ -654,7 +654,7 @@ export default {
             document.body.appendChild(link);
             link.click();
             window.URL.revokeObjectURL(url); // 임시 URL을 해제합니다.
-            this.$router.push({ name: "bidProgress" }); // 파일 다운로드 후 페이지를 이동합니다.
+            //this.$router.push({ name: "bidProgress" }); // 파일 다운로드 후 페이지를 이동합니다.
           } else {
             this.$swal({
               // 오류 처리
