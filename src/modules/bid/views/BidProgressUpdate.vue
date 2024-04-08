@@ -1327,6 +1327,8 @@ export default {
           type: "insert",
           interCd: this.dataFromList.result.interrelatedCustCode,
         }
+
+        this.dataFromList.result.custCode = custContent.map(item => item.custCode).join(',')
       }
 
       //내역방식
@@ -1382,7 +1384,6 @@ export default {
             return;
           }
       })
-
     /*
       this.$store.commit("loading");
       this.$http

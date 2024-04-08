@@ -560,28 +560,33 @@ export default {
       this.detail.biName = this.result.biName;
       this.detail.type = "del";
       this.detail.interNm = this.result.interrelatedNm;
-      this.$store.commit("loading");
-      this.$http
-        .post("/api/v1/bid/delete", this.detail)
-        .then((response) => {
-          if (response.data.code == "OK") {
-            $("#commonAlertMsg").html('삭제되었습니다.');
-            $("#commonAlertPop").modal("show"); 
-            this.$store.commit("searchParams", {});
-          } else {
-            this.$swal({
-              type: "warning",
-              text: "삭제 중 오류가 발생했습니다.",
-            });
-          }
-        })
-        .finally(() => {
-          $("#biddingDel").modal("hide");
-          this.$store.commit("finish");
-          this.$router.push({ name: "bidProgress" });
-        });
-    },
 
+      this.detail.biModeCode = this.result.biModeCode
+      if(this.result.biModeCode == 'A'){
+        this.detail.custCode = this.custContent.map(item => item.custCode).join(',')
+      }
+
+      this.$store.commit("loading");
+
+      this.$http.post("/api/v1/bid/delete", this.detail)
+        .then((response) => {
+            if (response.data.code == "OK") {
+              $("#commonAlertMsg").html('입찰 공고가 삭제되었습니다.');
+              $("#commonAlertPop").modal("show"); 
+              this.$router.push({ name: "bidProgress" });
+              this.$store.commit("finish");
+              return;
+            } 
+            else {
+              this.$store.commit("finish");
+              this.$swal({
+                type: "warning",
+                text: "입찰 계획 삭제 중 오류가 발생했습니다.",
+              });
+              return;
+            }
+        })
+    },
     updateDetail() {
       this.detail.result = this.result;
       this.detail.result.bdAmt = parseInt(this.result.bdAmt);
@@ -600,6 +605,10 @@ export default {
       this.detail.biNo = this.dataFromList;
       this.detail.biName = this.result.biName;
       this.detail.interNm = this.result.interrelatedNm;
+      this.detail.biModeCode = this.result.biModeCode
+      if(this.result.biModeCode == 'A'){
+        this.detail.custCode = this.custContent.map(item => item.custCode).join(',')
+      }
 
       this.$store.commit("loading");
       this.$http.post("/api/v1/bid/bidNotice", this.detail)
@@ -620,7 +629,6 @@ export default {
               return;
             }
         })
-
 
     },
 

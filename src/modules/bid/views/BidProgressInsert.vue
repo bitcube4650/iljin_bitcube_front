@@ -1378,9 +1378,8 @@ export default {
             type: "insert",
             interCd: this.bidContent.interrelatedCustCode,
           }
+          this.bidContent.custCode = custContent.map(item => item.custCode).join(',')
       }
-
-
 
       //내역방식
       if(this.bidContent.insModeCode === "2") {//내역직접등록
@@ -1409,6 +1408,8 @@ export default {
       }
       fd.append("bidContent", JSON.stringify(params))
 
+      console.log(params)
+
       this.$store.commit("loading");
       vm.$http.post("/api/v1/bid/insertBid", fd)
       .then((response) => {
@@ -1428,7 +1429,7 @@ export default {
             return;
           }
       })
-      ;
+
       /*
       this.$store.commit("loading");
       this.$http
