@@ -76,6 +76,8 @@
 
         <!--공지사항 상세 팝업-->
         <NoticeDetailPopup :dataFromMain="detailData" ref="noticePop" />
+
+        <pwdInit />
     </div>
     <!-- //본문 -->
 
@@ -86,6 +88,7 @@
 
 <script>
 import NoticeDetailPopup from "@/components/NoticeDetailPopup.vue";
+import pwdInit from "@/components/ChangePwdInit.vue";
 
 
 
@@ -93,7 +96,8 @@ import NoticeDetailPopup from "@/components/NoticeDetailPopup.vue";
 export default {
   name: 'Main',
   components: {
-    NoticeDetailPopup
+    NoticeDetailPopup,
+    pwdInit,
   },
   data() {
     return {
@@ -125,6 +129,7 @@ export default {
     this.selectNotice();//공지사항 조회
     this.selectBidCnt();//전자입찰 건수 조회
     this.selectPartnerCnt();//협력사 업채수 조회
+    this.fnChkPwChangeEncourage();//비밀번호 변경 권장
 
 
   },
@@ -196,6 +201,22 @@ export default {
 
         }
         
+    },
+    fnChkPwChangeEncourage(){
+        let params = {
+            userId : this.$store.state.loginInfo.userId,
+            isGroup : true
+        }
+        this.$store.commit('loading');
+        this.$http.post("/api/v1/main/chkPwChangeEncourage", params).then((response) => {
+            if (response.data.code == "OK") {
+                if(response.data.data){
+                    $('#pwInitModal').modal('show');
+                }
+            }
+        }).finally(() => {
+            this.$store.commit("finish");
+        });
     }
 
   },

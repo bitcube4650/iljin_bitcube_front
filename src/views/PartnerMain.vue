@@ -82,6 +82,8 @@
 
         <!--공지사항 상세 팝업-->
         <NoticeDetailPopup :dataFromMain="detailData" ref="noticePop" />
+
+        <pwdInit />
     </div>
     <!-- //본문 -->
 
@@ -92,6 +94,7 @@
 
 <script>
 import NoticeDetailPopup from "@/components/NoticeDetailPopup.vue";
+import pwdInit from "@/components/ChangePwdInit.vue";
 
 
 
@@ -100,7 +103,8 @@ import NoticeDetailPopup from "@/components/NoticeDetailPopup.vue";
 export default {
   name: 'partnerMain',
   components: {
-    NoticeDetailPopup
+    NoticeDetailPopup,
+    pwdInit,
   },
   data() {
     return {
@@ -136,6 +140,7 @@ export default {
     this.selectNotice();//공지사항 조회
     this.selectPartnerBidCnt();//전자입찰 건수 조회
     this.selectCompletedBidCnt();//입찰완료 조회
+    this.fnChkPwChangeEncourage();//비밀번호 변경 권장
   },
   methods: {
     async selectCompInfo(){//업체정보 조회하여 url에 맞는 배너 경로 set
@@ -236,6 +241,22 @@ export default {
             this.$router.push({name:"partnerBidStatus" , params: { 'flag': keyword }});
         }
         
+    },
+    async fnChkPwChangeEncourage(){
+        let params = {
+            userId : this.$store.state.loginInfo.userId,
+            isGroup : false
+        }
+        this.$store.commit('loading');
+        await this.$http.post("/api/v1/main/chkPwChangeEncourage", params).then((response) => {
+            if (response.data.code == "OK") {
+                if(response.data.data){
+                    $('#pwInitModal').modal('show');
+                }
+            }
+        }).finally(() => {
+            this.$store.commit("finish");
+        });
     }
 
   },
