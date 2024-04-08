@@ -26,7 +26,7 @@
                     <div class="modalBoxSt mt10">
                         <div class="flex align-items-center">
                             <div class="formTit flex-shrink0 width170px">입찰방식</div>
-                            <div class="width100">{{ (data.biMode == 'A' || data.biMode == 'B') ? (data.biMode | ftBiMode) : data.biMode }}</div>
+                            <div class="width100">{{ data.biMode | ftBiMode }}</div>
                         </div>
                         <div class="flex align-items-center mt10">
                             <div class="formTit flex-shrink0 width170px">낙찰자결정방법</div>
@@ -142,7 +142,6 @@
     <!-- //공고문 미리보기 -->
 </template>
 <script>
-import mixin from "../service/mixin.js";
 
 export default {
     name: "BidAdvertisement",
@@ -155,7 +154,6 @@ export default {
     data() {
         return {};
     },
-    mixins: [mixin],
     methods: {
         
         fnPrint() {

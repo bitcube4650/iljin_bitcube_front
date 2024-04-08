@@ -149,7 +149,6 @@ export default {
             this.$http.post("/api/v1/bidstatus/bidOpening", params).then((response) => {
                 $("#openBid").modal("hide");
                 if (response.data.code != "OK") {
-                    console.log(response.data.msg);
                     this.$swal({
                         type: "warning",
                         text: "개찰 처리중 오류가 발생했습니다.",

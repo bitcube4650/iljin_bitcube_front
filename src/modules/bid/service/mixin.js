@@ -8,6 +8,7 @@ let mixin = {
 		ftBiMode(val){
 			if(val == 'A'){ return '지명경쟁입찰'}
 			else if(val == 'B'){ return '일반경쟁입찰'}
+			else return val;
 		},
 		ftInsMode(val){
 			if(val == '1'){ return '파일등록'}
