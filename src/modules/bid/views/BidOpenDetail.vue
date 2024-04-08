@@ -203,7 +203,7 @@ export default {
                 biNo : this.biNo
             ,   succCust : this.succCust.custCode
             ,   succDetail : this.succDetail
-            ,   biName : this.biName                //메일전송에 사용
+            ,   biName : this.data.biName                //메일전송에 사용
             }
             this.$store.commit("loading");
             this.$http.post("/api/v1/bidstatus/bidSucc", params).then((response) => {
