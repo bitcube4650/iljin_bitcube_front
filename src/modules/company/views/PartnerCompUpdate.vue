@@ -369,7 +369,10 @@ export default {
 				// 원하는 용량 제한 설정 (10MB)
 				const maxSize = 10 * 1024 * 1024;
 				if (this.regnumFileSize > maxSize) {
-					alert('파일 크기가 10MB를 초과했습니다.');
+					this.$swal({
+						type: "warning",
+						text: '파일 크기가 10MB를 초과했습니다.',
+					});
 					// 파일 초기화 또는 다른 조치를 취할 수 있습니다.
 					this.$refs.uploadedRegnumFile.value = null;
 					this.regnumFileSize = null;
@@ -395,7 +398,10 @@ export default {
 				// 원하는 용량 제한 설정 (10MB)
 				const maxSize = 10 * 1024 * 1024;
 				if (this.regnumFileSize > maxSize) {
-					alert('파일 크기가 10MB를 초과했습니다.');
+					this.$swal({
+						type: "warning",
+						text: '파일 크기가 10MB를 초과했습니다.',
+					});
 					// 파일 초기화 또는 다른 조치를 취할 수 있습니다.
 					this.$refs.uploadedbfile.value = null;
 					this.regnumFileSize = null;

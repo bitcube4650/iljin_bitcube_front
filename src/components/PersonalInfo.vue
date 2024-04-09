@@ -203,7 +203,10 @@ export default {
                     }
 
                 }else{
-                    alert(response.data.msg);//에러 메시지
+                    this.$swal({
+                        type: "error",
+                        text: response.data.msg,//에러 메시지
+                    });
                 }
                 this.$store.commit('finish');
             } catch(err) {
@@ -211,17 +214,7 @@ export default {
                 this.$store.commit('finish');
             }
         },
-        confirm(){
-            $('#infoSave').modal('show');
-        },
-        async saveInfo(){//개인정보 변경
-
-            $('#infoSave').modal('hide');
-
-            if(!this.validChek()){
-                return false;
-            }
-
+        async saveInfo(){
             if(this.$store.state.loginInfo.custType == 'inter'){
                 this.userInfo.bidauth = this.bidauth;
                 this.userInfo.openauth = this.openauth;
@@ -232,31 +225,53 @@ export default {
                 const response = await this.$http.post('/api/v1/main/saveUserInfo', this.userInfo);
 
                 if(response.data.code == 'OK'){
+                    $('#infoSave').modal('hide');
                     $('#piMody1').modal('hide');
                     $('#piMody2').modal('hide');
                     $('#piMody3').modal('show');
                 }else{
-                    alert(response.data.msg);//에러 메시지
+                    this.$swal({
+                        type: "error",
+                        text: response.data.msg,        //에러 메시지
+                    });
                 }
                 this.$store.commit('finish');
             } catch(err) {
                 console.log(err)
                 this.$store.commit('finish');
             }
+        },
+        confirm(){//개인정보 변경
+            if(!this.validChek()){
+                return false;
+            }
 
+            $('#infoSave').modal('show');
         },
         validChek(){
             if(this.userInfo.userHp == null || this.userInfo.userHp == ''){
-                alert('휴대폰 번호를 입력해주세요.');
+                this.$swal({
+                    type: "warning",
+                    text: '휴대폰 번호를 입력해주세요.',
+                });
                 return false;
             }else if(this.userInfo.userTel == null || this.userInfo.userTel == ''){
-                alert('유선전화 번호를 입력해주세요.');
+                this.$swal({
+                    type: "warning",
+                    text: '유선전화 번호를 입력해주세요.',
+                });
                 return false;
             }else if(this.userInfo.userEmail == null || this.userInfo.userEmail == ''){
-                alert('이메일을 입력해주세요.');
+                this.$swal({
+                    type: "warning",
+                    text: '이메일을 입력해주세요.',
+                });
                 return false;
             }else if(!this.validateEmail(this.userInfo.userEmail)){
-                alert('이메일 형식에 맞게 작성해주세요.');
+                this.$swal({
+                    type: "warning",
+                    text: '이메일 형식에 맞게 작성해주세요.',
+                });
                 return false;
             }
 

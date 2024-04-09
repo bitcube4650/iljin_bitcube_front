@@ -165,7 +165,10 @@
 			try {
 				var response = this.$http.post('/api/v1/notice/deleteNotice', { 'bno': this.dataFromList.bno })
 								    .then(response => {
-										alert('삭제되었습니다.');
+										this.$swal({
+											type: "success",
+											text: '삭제되었습니다.',
+										});
 										$('#notiDel').modal('hide');
 										this.$router.push({name:"notice"});//목록 페이지 이동
 									});

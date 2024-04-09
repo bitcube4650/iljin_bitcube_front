@@ -160,7 +160,10 @@ export default {
         fnSearchInit(page) {
             
             if(!this.searchParams.succYn_Y && !this.searchParams.succYn_N){
-                alert("완료상태를 선택해주세요.");
+                this.$swal({
+                    type: "warning",
+                    text: '완료상태를 선택해주세요.',
+                });
                 return false;
             }
             if (page >= 0) this.searchParams.page = page;

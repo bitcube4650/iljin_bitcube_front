@@ -89,13 +89,22 @@ export default {
         var isSame = this.password == this.passwordChk 
 
         if(!isValidPassword){
-            alert("대/소문자, 숫자, 특수문자중에서 2가지 이상 조합되어야 합니다.");
+            this.$swal({
+                type: "warning",
+                text: '대/소문자, 숫자, 특수문자중에서 2가지 이상 조합되어야 합니다.',
+            });
             return false;
         }else if(!isValidLength){
-            alert("비밀번호는 8자 이상 16자 이하로 작성해주세요.");
+            this.$swal({
+                type: "warning",
+                text: '비밀번호는 8자 이상 16자 이하로 작성해주세요.',
+            });
             return false;
         }else if(!isSame){
-            alert("비밀번호 확인이 일치하지 않습니다.");
+            this.$swal({
+                type: "warning",
+                text: '비밀번호 확인이 일치하지 않습니다.',
+            });
             return false;
         }
 
