@@ -151,7 +151,7 @@
 						</div>
 					</div>
 					<div class="flex mt10">
-						<div class="formTit flex-shrink0 width170px">첨부파일
+						<div class="formTit flex-shrink0 width170px">회사소개 및 기타자료
 							<!-- 툴팁 -->
 							<i class="fas fa-question-circle toolTipSt ml5">
 								<div class="toolTipText" style="width:420px">
