@@ -8,7 +8,7 @@
       role="dialog"
       aria-hidden="true"
     >
-      <div class="modal-dialog" style="width: 100%; max-width: 900px">
+      <div class="modal-dialog" style="width: 100%; max-width: 950px">
         <div class="modal-content">
           <div class="modal-body">
             <a class="ModalClose" data-dismiss="modal" title="닫기"
@@ -70,7 +70,11 @@
               </thead>
               <tbody>
                 <tr v-for="(val, idx) in listPage.content" :key="idx">
-                  <td class="text-left">{{ val.custName }}</td>
+                  <td class="text-left">
+                    <div class="text-overflow" style="width: 150px;">
+                      {{ val.custName }}
+                    </div>
+                  </td>
                   <td class="text-left">
                     <div class="text-overflow" style="width: 523px;">
                       {{ val.combinedAddr }}
