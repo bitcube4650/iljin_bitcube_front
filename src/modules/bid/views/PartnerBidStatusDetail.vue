@@ -457,17 +457,24 @@ export default {
             var formData = new FormData();
 
             let submitData = Object.assign([], this.submitData);
+
+            var itemData = '';
             for(let i = 0 ; i < submitData.length ; i++){
                 let esmtUc = submitData[i].esmtUc;
                 if(esmtUc != null && esmtUc != undefined){
+                    if(i > 0 && itemData.length > 0){
+                        itemData += '$';
+                    }
+                    itemData += i + '=' + esmtUc.replace(/[^-0-9]/g, '');
                     submitData[i].esmtUc = esmtUc.replace(/[^-0-9]/g, '');
                 }
             }
+
             this.submitData = submitData;
 
             var totalPrice = '';
             if(this.data.insMode == '2'){//직접입력
-                totalPrice = this.totalAmt.replace(/[^-0-9]/g, '');
+                totalPrice = itemData;
 
             }else{//파일입력
                 totalPrice = this.amt.replace(/[^-0-9]/g, '');
@@ -483,6 +490,7 @@ export default {
                       biNo : vm.biNo
                   ,   submitData : vm.submitData
                   ,   amt : res.data.signedData
+                  ,   certInfo : res.data.certInfo
                   ,   esmtCurr : vm.esmtCurr 
                   ,   insModeCode : vm.data.insMode
                   }
@@ -497,7 +505,7 @@ export default {
                 }else{//실패
                   vm.$swal({
                       type: "warning",
-                      text: "인증에 실패하였습니다.",
+                      text: res.errorMessage,
                   });
               }}
             )
