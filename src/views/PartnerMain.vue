@@ -16,19 +16,19 @@
             <div class="mainConLayout">
                 <div class="mcl_left mainConBox">
                     <h2 class="h2Tit">전자입찰</h2>
-                    <div class="biddingList">
+                    <div class="biddingList" style="margin-top: 70px;">
                         <a @click="moveBiddingPage('noticing')" class="biddingStep1">
-                            <div class="biddingListLeft"><i class="fa-light fa-flag"></i>입찰공고</div>
+                            <div class="biddingListLeft"><i class="fa-light fa-flag"></i>미투찰(재입찰 포함)</div>
                             <div class="biddingListRight"><span>{{ bidInfo.noticing }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
                         <a @click="moveBiddingPage('submitted')" class="biddingStep2">
                             <div class="biddingListLeft"><i class="fa-light fa-check-to-slot"></i>투찰한 입찰</div>
                             <div class="biddingListRight"><span>{{ bidInfo.submitted }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
-                        <a @click="moveBiddingPage('confirmation')" class="biddingStep3">
-                            <div class="biddingListLeft"><i class="fa-light fa-files"></i>낙찰확인대상</div>
+                        <!-- <a @click="moveBiddingPage('confirmation')" class="biddingStep3">
+                            <div class="biddingListLeft"><i class="fa-light fa-files"></i>재입찰</div>
                             <div class="biddingListRight"><span>{{ bidInfo.confirmation }}</span>건<i class="fa-light fa-angle-right"></i></div>
-                        </a>
+                        </a> -->
                         <a @click="moveBiddingPage('awarded')" class="biddingStep4">
                             <div class="biddingListLeft"><i class="fa-light fa-file-check"></i>낙찰(12개월)</div>
                             <div class="biddingListRight"><span>{{ bidInfo.awarded }}</span>건<i class="fa-light fa-angle-right"></i></div>
@@ -41,7 +41,7 @@
                 </div>
                 <div class="mcl_right">
                     <div class="mainConBox">
-                        <h2 class="h2Tit">입찰완료 (12개월)<router-link to="/bid/complete" title="입찰 페이지로 이동" class="mainConBoxMore">더보기<i class="fa-solid fa-circle-plus"></i></router-link></h2>
+                        <h2 class="h2Tit">입찰완료 (12개월)<router-link to="/bid/partnerComplete" title="입찰 페이지로 이동" class="mainConBoxMore">더보기<i class="fa-solid fa-circle-plus"></i></router-link></h2>
                         <div class="biddingCompleted">
                             <a class="bcStep1" title="공고되었던 입찰 페이지로 이동" style="cursor: default;">
                                 <i class="fa-light fa-file-lines"></i>
@@ -50,7 +50,7 @@
                                     <div class="bcNum"><span>{{ completeInfo.posted }}</span>건</div>
                                 </div>
                             </a>
-                            <a @click="moveBiddingPage('submitted')" class="bcStep2" title="투찰했던 입찰 페이지로 이동">
+                            <a @click="moveBiddingPage('awardedAll')" class="bcStep2" title="투찰했던 입찰 페이지로 이동">
                                 <i class="fa-light fa-message-check"></i>
                                 <div class="bcTitWrap">
                                     <div class="bcTit">투찰했던 입찰</div>
@@ -70,7 +70,7 @@
                         <h2 class="h2Tit">공지사항<router-link to="/notice" title="공지사항 페이지로 이동" class="mainConBoxMore">더보기<i class="fa-solid fa-circle-plus"></i></router-link></h2>
                         <div class="notiList">
                             <a v-for="(val, idx) in listPage.content" @click="setDetailData(val)" data-toggle="modal" data-target="#notiModal" title="해당 게시글 자세히 보기">
-                                <span class="notiTit">{{ val.btitle }}</span>
+                                <span class="notiTit"><span v-if="val.bco == 'ALL'">[공통] </span>{{ val.btitle }}</span>
                                 <span class="notiDate">{{ val.bdate.substring(0,10) }}</span>
                             </a>
                         </div>
@@ -235,7 +235,7 @@ export default {
     },
     moveBiddingPage(keyword){//입찰페이지 이동
         
-        if(keyword == 'confirmation' || keyword == 'awarded' || keyword == 'unsuccessful' || keyword == 'submitted'){//입찰완료로 이동
+        if(keyword == 'awarded' || keyword == 'awardedAll' || keyword == 'unsuccessful'){//입찰완료로 이동
             this.$router.push({name:"partnerBidComplete" , params: { 'flag': keyword }});
         }else{//입찰진행으로 이동
             this.$router.push({name:"partnerBidStatus" , params: { 'flag': keyword }});

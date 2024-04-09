@@ -21,15 +21,15 @@
                             <div class="biddingListRight"><span>{{ bidInfo.planning }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
                         <a  @click="moveBiddingPage('noticing')" class="biddingStep2">
-                            <div class="biddingListLeft"><i class="fa-light fa-comments"></i>입찰공고</div><!--공고는 되었지만 개찰은 안된 상태(재입찰 포함)-->
+                            <div class="biddingListLeft"><i class="fa-light fa-comments"></i>입찰진행(입찰공고)</div><!--공고는 되었지만 개찰은 안된 상태(재입찰 포함)-->
                             <div class="biddingListRight"><span>{{ bidInfo.noticing }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
                         <a  @click="moveBiddingPage('beforeOpening')" class="biddingStep3">
-                            <div class="biddingListLeft"><i class="fa-light fa-files"></i>개찰대상</div><!--공고는 되었는데 공고 기간이 지난 입찰(재입찰 포함)-->
+                            <div class="biddingListLeft"><i class="fa-light fa-files"></i>입찰진행(개찰대상)</div><!--공고는 되었는데 공고 기간이 지난 입찰(재입찰 포함)-->
                             <div class="biddingListRight"><span>{{ bidInfo.beforeOpening }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
                         <a  @click="moveBiddingPage('opening')" class="biddingStep4">
-                            <div class="biddingListLeft"><i class="fa-light fa-file-check"></i>개찰</div><!--개찰은 되었지만 업체 선정이 안된 상태-->
+                            <div class="biddingListLeft"><i class="fa-light fa-file-check"></i>입찰진행(개찰)</div><!--개찰은 되었지만 업체 선정이 안된 상태-->
                             <div class="biddingListRight"><span>{{ bidInfo.opening }}</span>건<i class="fa-light fa-angle-right"></i></div>
                         </a>
                         <a  @click="moveBiddingPage('completed')" class="biddingStep5">
@@ -64,7 +64,7 @@
                         <h2 class="h2Tit">공지사항<router-link to="/notice" title="공지사항 페이지로 이동" class="mainConBoxMore">더보기<i class="fa-solid fa-circle-plus"></i></router-link></h2>
                         <div class="notiList">
                             <a v-for="(val, idx) in listPage.content" @click="setDetailData(val)" data-toggle="modal" data-target="#notiModal" title="해당 게시글 자세히 보기">
-                                <span class="notiTit">{{ val.btitle }}</span>
+                                <span class="notiTit"><span v-if="val.bco == 'ALL'">[공통] </span>{{ val.btitle }}</span>
                                 <span class="notiDate">{{ val.bdate.substring(0,10) }}</span>
                             </a>
                         </div>

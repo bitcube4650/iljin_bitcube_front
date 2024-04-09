@@ -193,9 +193,6 @@ export default {
         }else if(flag == 'unsuccessful'){
             this.searchParams.succYn_Y = false;
             this.searchParams.succYn_N = true;
-        }else if(flag == 'submitted'){
-            this.searchParams.succYn_Y = true;
-            this.searchParams.succYn_N = true;
         }
     },
     mounted() {

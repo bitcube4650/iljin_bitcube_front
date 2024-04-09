@@ -217,6 +217,9 @@ export default {
         } else if (this.$route.params.flag === "submitted") {
             this.searchParams.noticeYn = false;
             this.searchParams.rebidYn = false;
+        } else if(this.$route.params.flag === 'confirmation'){
+            this.searchParams.participateYn = false;
+            this.searchParams.noticeYn = false;
         }
         
         this.retrieve();

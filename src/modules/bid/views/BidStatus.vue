@@ -221,6 +221,7 @@ export default {
             this.searchParams.dateOverYn = false;
             this.searchParams.openBidYn = false;
         } else if (this.$route.params.flag === "beforeOpening") {
+            this.searchParams.rebidYn = false;
             this.searchParams.openBidYn = false;
         } else if (this.$route.params.flag === "opening") {
             this.searchParams.dateOverYn = false;

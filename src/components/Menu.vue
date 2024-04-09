@@ -13,11 +13,11 @@
         <!-- //프로필 드롭다운2 -->
         <!-- 좌측 입찰상태 표시 -->
         <div class="myState" v-if="company == 'inter'">
-            <div>진행중<a  @click="moveBiddingPage('noticing')" class="myStateNum" title="전자입찰 페이지로 이동"><span>{{ bidInfo.noticing }}</span>건</a></div>
+            <div>진행중<a  @click="moveBiddingPage()" class="myStateNum" title="전자입찰 페이지로 이동"><span>{{ bidInfo.ing }}</span>건</a></div>
             <div>낙찰 (12개월)<a  @click="moveBiddingPage('completed')" class="myStateNum" title="전자입찰 페이지로 이동"><span>{{ bidInfo.completed }}</span>건</a></div>
         </div>
         <div class="myState" v-if="company == 'cust'">
-            <div>진행중<a  @click="moveBiddingPage('noticing')" class="myStateNum" title="전자입찰 페이지로 이동"><span>{{ bidInfo.noticing }}</span>건</a></div>
+            <div>진행중<a  @click="moveBiddingPage()" class="myStateNum" title="전자입찰 페이지로 이동"><span>{{ bidInfo.ing }}</span>건</a></div>
             <div>낙찰 (12개월)<a  @click="moveBiddingPage('awarded')" class="myStateNum" title="전자입찰 페이지로 이동"><span>{{ bidInfo.awarded }}</span>건</a></div>
         </div>
         <!-- //좌측 입찰상태 표시 -->

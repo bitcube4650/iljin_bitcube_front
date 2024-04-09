@@ -292,7 +292,10 @@
 			try {
 				this.$http.post('/api/v1/notice/insertNotice', formData)
 					.then(response => {
-						alert('등록되었습니다.');
+						this.$swal({
+							type: 'success',
+							text: '등록되었습니다.'
+						})
 						$('#notiSave').modal('hide');
 						this.$router.push({name:"notice"});//목록 페이지 이동
 					});
@@ -309,7 +312,10 @@
 			try {
 				this.$http.post('/api/v1/notice/updateNotice', formData)
 					.then(response => {
-						alert('수정되었습니다.');
+						this.$swal({
+							type: 'success',
+							text: '수정되었습니다.'
+						})
 						$('#notiSave').modal('hide');
 						this.$router.push({name:"notice"});//목록 페이지 이동
 					});
@@ -368,17 +374,34 @@
 			var groupArr = this.detailData.interrelatedCustCodeArr;
 
 			if(this.detailData.btitle == '' || this.detailData.btitle == null){
-				alert('제목을 입력해주세요.');
+				this.$swal({
+					type: 'warning',
+					text: '제목을 입력해주세요.'
+				})
 				return true;
 			}
 
 			if(this.detailData.bcontent == '' || this.detailData.bcontent == null){
-				alert('내용을 입력해주세요.');
+				this.$swal({
+					type: 'warning',
+					text: '내용을 입력해주세요.'
+				})
+				return true;
+			}
+
+			if(this.detailData.bco == '' || this.detailData.bco == null){
+				this.$swal({
+					type: 'warning',
+					text: '공지대상을 선택해주세요.'
+				})
 				return true;
 			}
 
 			if(this.detailData.bco == 'CUST' && groupArr.length == 0){
-				alert('공지할 계열사를 선택해주세요.');
+				this.$swal({
+					type: 'warning',
+					text: '공지할 계열사를 선택해주세요.'
+				})
 				return true;
 			}
 
@@ -392,8 +415,10 @@
 				// 원하는 용량 제한 설정 (10MB)
 				const maxSize = 10 * 1024 * 1024;
 				if (this.fileSize > maxSize) {
-					alert('파일 크기가 10MB를 초과했습니다.');
-					// 파일 초기화 또는 다른 조치를 취할 수 있습니다.
+					this.$swal({
+						type: 'warning',
+						text: '파일 크기가 10MB를 초과했습니다.'
+					})
 					this.$refs.uploadedFile.value = null;
 					this.fileSize = null;
 					return true;

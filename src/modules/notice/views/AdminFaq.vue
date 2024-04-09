@@ -209,7 +209,10 @@
             
             var response = this.$http.post('/api/v1/faq/save', this.detail)
 								    .then(response => {
-										alert('저장되었습니다.');
+                                        this.$swal({
+                                            type: 'success',
+                                            text: '저장되었습니다.'
+                                        })
 										$('#faqReg').modal('hide');
                                         $('#faqConfirm').modal('hide');
                                         this.retrieve();
@@ -219,7 +222,10 @@
         deleteFaq(){//faq 삭제
             var response = this.$http.post('/api/v1/faq/delete', this.detail)
 								    .then(response => {
-                                        alert('삭제되었습니다.');
+                                        this.$swal({
+                                            type: 'success',
+                                            text: '삭제되었습니다.'
+                                        })
 										$('#faqConfirm').modal('hide');
                                         $('#faqReg').modal('hide');
                                         this.retrieve();
@@ -229,12 +235,18 @@
 		valueCheck(){//값 체크
 		
 			if(this.detail.title == '' || this.detail.title == null){
-				alert('제목을 입력해주세요.');
+                this.$swal({
+                    type: 'warning',
+                    text: '제목을 입력해주세요.'
+                })
 				return true;
 			}
 
 			if(this.detail.answer == '' || this.detail.answer == null){
-				alert('내용을 입력해주세요.');
+                this.$swal({
+                    type: 'warning',
+                    text: '내용을 입력해주세요.'
+                })
 				return true;
 			}
 
