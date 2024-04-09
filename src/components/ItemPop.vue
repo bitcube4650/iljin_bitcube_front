@@ -34,7 +34,7 @@
 							<tr>
 								<th>품목코드</th>
 								<th>품목명</th>
-								<th class="end">선택</th>
+								<th class="end" style="width: 106px;">선택</th>
 							</tr>
 						</thead>
 						<tbody>
