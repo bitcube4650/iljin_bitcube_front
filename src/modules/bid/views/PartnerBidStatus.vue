@@ -14,7 +14,7 @@
             <div class="conTopBox">
                 <ul class="dList">
                     <li><div>입찰진행은 입찰공고 되고 입찰 완료되기 전까지의 상태를 가진 입찰입니다. (입찰번호 또는 입찰명을 클릭하시면 상세내용을 확인할 수 있습니다)</div></li>
-                    <li><div>견적 제출이 가능한 입찰은 입찰번호, 입찰명 그리고 제출시작일시가 파란색으로 표기 됩니다.(견적 가능은 공고, 또는 재입찰 상태에서 제출시작시간이 지난 입찰입니다.)</div></li>
+                    <li><div>견적 제출이 가능한 입찰은 입찰번호, 입찰명 그리고 제출시작일시가 파란색으로 표기 됩니다.(견적 가능은 미투찰 상태에서 제출시작시간이 지난 입찰입니다.)</div></li>
                 </ul>
             </div>
 
@@ -38,7 +38,7 @@
                     </div>
                     <div class="sbTit mr30 ml50">투찰상태</div>
                     <div class="flex align-items-center width100">
-                        <input type="checkbox" id="s1-1" class="checkStyle" v-model="searchParams.esmtYnN" /><label for="s1-1">미투찰(재입찰포함)</label>
+                        <input type="checkbox" id="s1-1" class="checkStyle" v-model="searchParams.esmtYnN" /><label for="s1-1">미투찰(재입찰 포함)</label>
                         <input type="checkbox" id="s1-2" class="checkStyle" v-model="searchParams.esmtYnY" /><label for="s1-2" class="ml50">투찰</label>
                     </div>
                     <a class="btnStyle btnSearch" @click.prevent="search(0)">검색</a>
@@ -79,17 +79,17 @@
                 <tbody>
                     <tr v-for="(val, idx) in listPage.content" :key="idx">
                         <td>
-                            <a @click="clickPartnerBidStatusDetail(val.biNo)" class="textUnderline" :class="isPastDate(val.estStartDate) && val.esmtYn != '2' ? 'blueHighlight' : ''" style="cursor: pointer" >{{ val.biNo }}</a>
+                            <a @click="clickPartnerBidStatusDetail(val.biNo)" class="textUnderline" :class="isPastDate(val.estStartDate) && !isPastDate(val.estCloseDate) && val.esmtYn != '2' ? 'blueHighlight' : ''" style="cursor: pointer" >{{ val.biNo }}</a>
                         </td>
                         <td class="text-left">
-                            <a @click="clickPartnerBidStatusDetail(val.biNo)" class="textUnderline" :class="isPastDate(val.estStartDate) && val.esmtYn != '2'  ? 'blueHighlight' : ''" style="cursor: pointer">{{ val.biName }}</a>
+                            <a @click="clickPartnerBidStatusDetail(val.biNo)" class="textUnderline" :class="isPastDate(val.estStartDate) && !isPastDate(val.estCloseDate) && val.esmtYn != '2'  ? 'blueHighlight' : ''" style="cursor: pointer">{{ val.biName }}</a>
                         </td>
-                        <td :class="isPastDate(val.estStartDate) && val.esmtYn != '2' ? 'blueHighlight' : ''">
+                        <td :class="isPastDate(val.estStartDate) && !isPastDate(val.estCloseDate) && val.esmtYn != '2' ? 'blueHighlight' : ''">
                             <i class="fa-regular fa-timer"></i>{{ val.estStartDate }}
                         </td>
                         <td>{{ val.estCloseDate }}</td>
                         <td>{{ val.biMode | ftBiMode }}</td>
-                        <td><span v-text="fnIngTag(val)" :class="val.esmtYn == '2' ? 'blueHighlight' : ''" :style="(val.esmtYn == 0 || val.esmtYn == 1 ) && val.ingTag == 'A3' ? 'color:red;' : '' "></span></td>
+                        <td><span v-text="fnIngTag(val)" :class="val.esmtYn == '2' ? 'blueHighlight' : ''" :style="(val.esmtYn == 0 || val.esmtYn == 1 ) && !isPastDate(val.estCloseDate) ? 'color:red;' : '' "></span></td>
                         <td>{{ val.insMode | ftInsMode }}</td>
                         <td class="end">
                             <i class="fa-light fa-paper-plane-top"></i>
