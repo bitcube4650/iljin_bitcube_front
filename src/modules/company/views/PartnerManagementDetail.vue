@@ -73,7 +73,7 @@
 					</div>
 				</div>
 				<div class="flex align-items-center mt20">
-					<div class="formTit flex-shrink0 width170px">첨부파일</div>
+					<div class="formTit flex-shrink0 width170px">회사소개 및 기타자료</div>
 					<div class="width100" v-if="detail.bfile != null && detail.bfilePath != ''">
 						<a @click="downloadFile" class="textUnderline">{{ detail.bfile }}</a>
 					</div>
