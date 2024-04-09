@@ -47,7 +47,7 @@
       <!-- //searchBox -->
 
       <div class="flex align-items-center justify-space-between mt40">
-        <div class="width100">
+        <div class="width100">                         
           전체 : <span class="textMainColor"><strong>{{ listPage.totalElements ? listPage.totalElements.toLocaleString() : 0 }}</strong></span>건
             <select @change="fnSearchInit(0)" v-model="size" class="selectStyle maxWidth140px ml20">
               <option value="10">10개씩 보기</option>
@@ -101,7 +101,7 @@
               <td class="text-right">{{data.esmtAmtDev.toLocaleString()}}</td>
               <td class="text-right end">{{data.reBidCnt.toLocaleString()}}</td>
             </tr>
-            <tr v-show="listPage.content == 0 ">
+            <tr v-if="listPage.content == undefined || listPage.content == null || listPage.content.length == 0">
               <td colspan="14">조회된 데이터가 없습니다.</td>
             </tr>			
           </tbody>
