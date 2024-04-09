@@ -240,7 +240,7 @@
           </div>
           <div class="flex align-items-center mt20">
             <div class="formTit flex-shrink0 width170px">입찰담당자</div>
-            <div class="width100">{{ dataFromList.result.createUserName }}</div>
+            <div class="width100">{{ dataFromList.result.cuser }}</div>
           </div>
         </div>
 
