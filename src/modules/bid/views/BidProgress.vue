@@ -102,7 +102,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(val, idx) in listPage.content">
+          <tr v-for="(val, idx) in listPage.content" :key="idx">
             <td class="textUnderline" @click="clickBidDetail(val.biNo)">
                 <a style="cursor: pointer;">{{val.biNo}}</a>
             </td>
@@ -133,6 +133,9 @@
                 >{{val.gongoId}}</a
               >
             </td>
+          </tr>
+          <tr v-if="listPage.content == undefined || listPage.content == null || listPage.content.length == 0">
+            <td class="end" colspan="8">조회된 데이터가 없습니다.</td>
           </tr>
         </tbody>
       </table>
