@@ -36,11 +36,10 @@
                         <input type="checkbox" id="progress1-1" class="checkStyle" v-model="searchParams.bidModeA" /><label for="progress1-1">지명</label>
                         <input type="checkbox" id="progress1-2" class="checkStyle" v-model="searchParams.bidModeB" /><label for="progress1-2" class="ml50">일반</label>
                     </div>
-                    <div class="sbTit mr30 ml50">진행상태</div>
+                    <div class="sbTit mr30 ml50">투찰상태</div>
                     <div class="flex align-items-center width100">
-                        <input type="checkbox" id="s1-1" class="checkStyle" v-model="searchParams.noticeYn" /><label for="s1-1">입찰공고</label>
-                        <input type="checkbox" id="s1-2" class="checkStyle" v-model="searchParams.participateYn" /><label for="s1-2" class="ml50">투찰</label>
-                        <input type="checkbox" id="s1-3" class="checkStyle" v-model="searchParams.rebidYn" /><label for="s1-3" class="ml50">재입찰</label> 
+                        <input type="checkbox" id="s1-1" class="checkStyle" v-model="searchParams.esmtYnN" /><label for="s1-1">미투찰(재입찰포함)</label>
+                        <input type="checkbox" id="s1-2" class="checkStyle" v-model="searchParams.esmtYnY" /><label for="s1-2" class="ml50">투찰</label>
                     </div>
                     <a class="btnStyle btnSearch" @click.prevent="search(0)">검색</a>
                 </div>
@@ -80,17 +79,17 @@
                 <tbody>
                     <tr v-for="(val, idx) in listPage.content" :key="idx">
                         <td>
-                            <a @click="clickPartnerBidStatusDetail(val.biNo)" class="textUnderline" style="cursor: pointer" >{{ val.biNo }}</a>
+                            <a @click="clickPartnerBidStatusDetail(val.biNo)" class="textUnderline" :class="isPastDate(val.estStartDate) && val.esmtYn != '2' ? 'blueHighlight' : ''" style="cursor: pointer" >{{ val.biNo }}</a>
                         </td>
                         <td class="text-left">
-                            <a @click="clickPartnerBidStatusDetail(val.biNo)" class="textUnderline" style="cursor: pointer">{{ val.biName }}</a>
+                            <a @click="clickPartnerBidStatusDetail(val.biNo)" class="textUnderline" :class="isPastDate(val.estStartDate) && val.esmtYn != '2'  ? 'blueHighlight' : ''" style="cursor: pointer">{{ val.biName }}</a>
                         </td>
-                        <td :class="{ blueHighlight: isPastDate(val.estStartDate) }">
+                        <td :class="isPastDate(val.estStartDate) && val.esmtYn != '2' ? 'blueHighlight' : ''">
                             <i class="fa-regular fa-timer"></i>{{ val.estStartDate }}
                         </td>
                         <td>{{ val.estCloseDate }}</td>
                         <td>{{ val.biMode | ftBiMode }}</td>
-                        <td :class="{blueHighlight: val.ingTag === '투찰',}"><span v-text="fnIngTag(val)"></span></td>
+                        <td><span v-text="fnIngTag(val)" :class="val.esmtYn == '2' ? 'blueHighlight' : ''" :style="(val.esmtYn == 0 || val.esmtYn == 1 ) && val.ingTag == 'A3' ? 'color:red;' : '' "></span></td>
                         <td>{{ val.insMode | ftInsMode }}</td>
                         <td class="end">
                             <i class="fa-light fa-paper-plane-top"></i>
@@ -115,9 +114,9 @@
     </div>
     <!-- //본문 -->
 </template>
-<style>
+<style scoped>
 .blueHighlight {
-    color: blue;
+    color: #0109d0 !important;
 }
 </style>
 <script>
@@ -136,9 +135,8 @@ export default {
             ,   bidName : ''
             ,   bidModeA : true
             ,   bidModeB : true
-            ,   noticeYn : true
-            ,   participateYn : true
-            ,   rebidYn : true
+            ,   esmtYnN : true
+            ,   esmtYnY : true
             ,	size : 10						//10개씩 보기
             ,	page : 0						//클릭한 페이지번호
             },
@@ -156,10 +154,10 @@ export default {
                 return false;
             }
 
-            if(!this.searchParams.noticeYn && !this.searchParams.participateYn && !this.searchParams.rebidYn){
+            if(!this.searchParams.esmtYnN && !this.searchParams.esmtYnY){
                 this.$swal({
                     type: "warning",
-                    text: "진행상태을 선택해주세요.",
+                    text: "투찰상태을 선택해주세요.",
                 });
                 return false;
             }
@@ -191,11 +189,11 @@ export default {
             let esmtYn = data.esmtYn;
 
             if(ingTag == 'A1' && (esmtYn == null || esmtYn == undefined || esmtYn == '' || esmtYn == '0' || esmtYn == '1')){
-                return '입찰공고'
-            }else if((ingTag == 'A1' || ingTag == 'A3') && esmtYn == '2'){
+                return '미투찰'
+            }else if(esmtYn == '2'){
                 return '투찰'
             }else if(ingTag == 'A3' && (esmtYn == '0' || esmtYn == '1')){
-                return '재입찰'
+                return '미투찰(재입찰)'
             }
             return '';
         },
@@ -213,13 +211,11 @@ export default {
     mounted() {
 
         if (this.$route.params.flag === "noticing") {
-            this.searchParams.participateYn = false;
+            this.searchParams.esmtYnN = true;
+            this.searchParams.esmtYnY = false;
         } else if (this.$route.params.flag === "submitted") {
-            this.searchParams.noticeYn = false;
-            this.searchParams.rebidYn = false;
-        } else if(this.$route.params.flag === 'confirmation'){
-            this.searchParams.participateYn = false;
-            this.searchParams.noticeYn = false;
+            this.searchParams.esmtYnN = false;
+            this.searchParams.esmtYnY = true;
         }
         
         this.retrieve();

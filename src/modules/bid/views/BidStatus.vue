@@ -128,7 +128,7 @@
 </template>
 <style scoped>
     .blueHighlight {
-        color: blue;
+        color: #0109d0;
     }
 </style>
 <script>

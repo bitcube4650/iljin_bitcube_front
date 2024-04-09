@@ -146,7 +146,7 @@
                     <a class="btnStyle btnOutline" title="목록" @click="fnMovePage('partnerBidStatus')"> 목록 </a>
                     <a data-toggle="modal" data-target="#biddingPreview" class="btnStyle btnOutline" title="공고문 미리보기" >공고문 미리보기</a>
                     <!-- <a class="btnStyle btnSecondary" title="수정" v-if="data.insMode == '2'" @click="fnTempSave">견적금액 임시저장</a> -->
-                    <a @click="fnCheck" v-if="data.custEsmtYn == '1' && (data.ingTag == 'A1' || (data.ingTag == 'A3' && data.custRebidYn == 'Y')) " class="btnStyle btnPrimary" title="견적서 제출">견적서 제출</a>
+                    <a @click="fnCheck" v-if="esmtPossible && data.custEsmtYn == '1' && (data.ingTag == 'A1' || (data.ingTag == 'A3' && data.custRebidYn == 'Y')) " class="btnStyle btnPrimary" title="견적서 제출">견적서 제출</a>
                 </div>
             </div>
         </div>
@@ -201,6 +201,7 @@ export default {
             etcFile: '',                //기타파일
 
             currList : [],              //견적금액 단위 코드값
+            esmtPossible: true          //견적서 제출 버튼 노출 플래그
         };
     },
     mixins: [mixin],
@@ -214,6 +215,15 @@ export default {
         await this.checkBid();
         await this.fnCodeInit();
         await this.retrieve();
+
+        let currDate = new Date();
+        let currDateTime = currDate.getTime();
+        let estCloseDate = new Date(this.data.estCloseDate);
+        let estCloseTime = estCloseDate.getTime();
+        
+        if(estCloseTime < currDateTime){
+            this.esmtPossible = false;
+        }
     },
     watch:{
         amt(val){
