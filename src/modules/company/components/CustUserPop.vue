@@ -2,7 +2,7 @@
 <div>
 <!-- 협력사 사용자 -->
 <div class="modal fade modalStyle" id="custUserPop" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog" style="width:100%; max-width:800px">
+	<div class="modal-dialog" style="width:100%; max-width:1100px">
 		<div class="modal-content">
 			<div class="modal-body">
 				<a class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
