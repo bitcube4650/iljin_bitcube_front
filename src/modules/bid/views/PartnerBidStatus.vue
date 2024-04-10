@@ -71,7 +71,7 @@
                         <th>제출시작일시</th>
                         <th>제출마감일시</th>
                         <th>입찰방식</th>
-                        <th>상태</th>
+                        <th>투찰상태</th>
                         <th>내역</th>
                         <th class="end">담당자</th>
                     </tr>
@@ -188,12 +188,12 @@ export default {
             let ingTag = data.ingTag;
             let esmtYn = data.esmtYn;
 
-            if(ingTag == 'A1' && (esmtYn == null || esmtYn == undefined || esmtYn == '' || esmtYn == '0' || esmtYn == '1')){
+            if(ingTag == 'A3' && (esmtYn == '0' || esmtYn == '1')){
+                return '미투찰(재입찰)'
+            }else if(esmtYn == null || esmtYn == undefined || esmtYn == '' || esmtYn == '0' || esmtYn == '1'){
                 return '미투찰'
             }else if(esmtYn == '2'){
                 return '투찰'
-            }else if(ingTag == 'A3' && (esmtYn == '0' || esmtYn == '1')){
-                return '미투찰(재입찰)'
             }
             return '';
         },
