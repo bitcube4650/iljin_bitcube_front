@@ -88,11 +88,11 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <a class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-                        <h2 class="modalTitle">비밀번호 입력</h2>
+                        <h2 class="modalTitle">공동인증서 비밀번호 입력</h2>
                         <div class="flex align-items-center">
                             <div class="formTit flex-shrink0 width120px">비밀번호</div>
                             <div class="width100">
-                                <input type="password" v-model="certPwd" class="inputStyle" placeholder="비밀번호를 입력해주세요.">
+                                <input type="password" v-model="certPwd" @keydown.enter="fnOpenBid" class="inputStyle" placeholder="비밀번호를 입력해주세요.">
                             </div>
                         </div>
 
