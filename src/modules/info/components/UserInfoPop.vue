@@ -10,7 +10,7 @@
 					<div class="flex align-items-center">
 						<div class="formTit flex-shrink0 width120px">로그인ID <span class="star">*</span></div>
 						<div v-if="detail.isCreate" class="flex align-items-center width100">
-							<div class="width100"><input type="text" v-model="detail.userId" class="inputStyle" placeholder="영문, 숫자 입력(8자 이내) 후 중복확인"></div>
+							<div class="width100"><input type="text" v-model="detail.userId" class="inputStyle" placeholder="영문, 숫자 입력(8자 이내) 후 중복확인" maxlength="8"></div>
 							<a href="" @click.prevent="idDuplicateCheck" class="btnStyle btnSecondary flex-shrink0 ml10" title="중복 확인">중복 확인</a>
 						</div>
 						<div v-else class="width100">{{ detail.userId }}</div>
