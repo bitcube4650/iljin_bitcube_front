@@ -46,7 +46,7 @@
                                     <a @click="$refs.submitHistPop.initModal(data.biNo, cust.custCode, cust.custName, cust.damdangName, cust.esmtCurr);" class="textUnderline" data-toggle="modal" data-target="#submitHistPop">{{ cust.custName }}</a>
                                 </td>
                                 <td class="text-overflow" v-text="ftEsmtAmt(cust)"></td>
-                                <td><a @click="data.insMode == '1' && cust.esmtYn == '2' ? fnCustSpecFileDown(cust.fileNm, cust.filePath) : ''" :class="(cust.esmtYn == '2' ? 'textUnderline textMainColor ' : '') + (cust.esmtYn == '2' && data.insMode == '2' ? 'detailBtn' : '')">{{ cust.esmtYn | ftEsmtYn }}</a></td>
+                                <td><a @click="fnEvent($event, cust)" :class="cust.esmtYn == '2' ? 'textUnderline textMainColor ' : ''">{{ cust.esmtYn | ftEsmtYn }}</a></td>
                                 <td>{{ cust.submitDate }}</td>
                                 <td>{{ cust.damdangName }}</td>
                                 <td><img v-if="cust.etcPath" @click="fnCustSpecFileDown(cust.etcFile, cust.etcPath)" src="/images/icon_etc.svg" class="iconImg" alt="etc"></td>
@@ -224,6 +224,13 @@ export default {
                 this.$store.commit("finish");
             });
         },
+        fnEvent(event, cust){
+            if(this.data.insMode == '1' && cust.esmtYn == '2'){
+                this.fnCustSpecFileDown(cust.fileNm, cust.filePath)
+            }else if(this.data.insMode == '2' && cust.esmtYn == '2'){
+                $(event.target).closest('tr').next('.detailView').toggle();
+            }
+        }
     },
     beforeMount() {
         this.biNo = this.$route.params.biNo;

@@ -89,7 +89,7 @@
                         </td>
                         <td>{{ val.estCloseDate }}</td>
                         <td>{{ val.biMode | ftBiMode }}</td>
-                        <td><span v-text="fnIngTag(val)" :class="val.esmtYn == '2' ? 'blueHighlight' : ''" :style="(val.esmtYn == 0 || val.esmtYn == 1 ) && !isPastDate(val.estCloseDate) ? 'color:red;' : '' "></span></td>
+                        <td><span v-text="fnIngTag(val)" :class="val.esmtYn == '2' ? 'blueHighlight' : ''" :style="(val.esmtYn == undefined || val.esmtYn == null || val.esmtYn == 0 || val.esmtYn == 1 ) && !isPastDate(val.estCloseDate) ? 'color:red;' : '' "></span></td>
                         <td>{{ val.insMode | ftInsMode }}</td>
                         <td class="end">
                             <i class="fa-light fa-paper-plane-top"></i>

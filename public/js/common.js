@@ -87,12 +87,6 @@ export default {
 
         //이미지맵 반응형
         $('img[usemap]').rwdImageMaps();
-
-        //견적 상세보기
-        $(document).on('click', '.detailBtn', function(){
-            $(this).closest('tr').next('.detailView').toggle();
-        });
-
 	},
 
     //헤더
