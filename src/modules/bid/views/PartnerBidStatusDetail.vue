@@ -147,6 +147,7 @@
                     <a data-toggle="modal" data-target="#biddingPreview" class="btnStyle btnOutline" title="공고문 미리보기" >공고문 미리보기</a>
                     <!-- <a class="btnStyle btnSecondary" title="수정" v-if="data.insMode == '2'" @click="fnTempSave">견적금액 임시저장</a> -->
                     <a @click="fnCheck" v-if="esmtPossible && data.custEsmtYn == '1' && (data.ingTag == 'A1' || (data.ingTag == 'A3' && data.custRebidYn == 'Y')) " class="btnStyle btnPrimary" title="견적서 제출">견적서 제출</a>
+                    <a @click="fnAlert" v-if="esmtPossible && data.custEsmtYn == '1' && data.ingTag == 'A3' && data.custRebidYn == 'N' " class="btnStyle btnPrimary" style="opacity: 0.5; cursor: not-allowed;" title="견적서 제출">견적서 제출</a>
                 </div>
             </div>
         </div>
@@ -519,9 +520,12 @@ export default {
                   });
               }}
             )
-
-            
-
+        },
+        fnAlert(){
+            this.$swal({
+                type: "warning",
+                text: "재입찰 대상이 아닙니다.",
+            });
         }
     }
 };

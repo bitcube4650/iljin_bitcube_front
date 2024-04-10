@@ -79,17 +79,17 @@
                 <tbody>
                     <tr v-for="(val, idx) in listPage.content" :key="idx">
                         <td>
-                            <a @click="clickPartnerBidStatusDetail(val.biNo)" class="textUnderline" :class="isPastDate(val.estStartDate) && !isPastDate(val.estCloseDate) && val.esmtYn != '2' ? 'blueHighlight' : ''" style="cursor: pointer" >{{ val.biNo }}</a>
+                            <a @click="clickPartnerBidStatusDetail(val.biNo)" class="textUnderline" :class="!(val.ingTag == 'A3' && val.rebidAtt == 'N') && isPastDate(val.estStartDate) && !isPastDate(val.estCloseDate) && val.esmtYn != '2' ? 'blueHighlight' : ''" style="cursor: pointer" >{{ val.biNo }}</a>
                         </td>
                         <td class="text-left">
-                            <a @click="clickPartnerBidStatusDetail(val.biNo)" class="textUnderline" :class="isPastDate(val.estStartDate) && !isPastDate(val.estCloseDate) && val.esmtYn != '2'  ? 'blueHighlight' : ''" style="cursor: pointer">{{ val.biName }}</a>
+                            <a @click="clickPartnerBidStatusDetail(val.biNo)" class="textUnderline" :class="!(val.ingTag == 'A3' && val.rebidAtt == 'N') && isPastDate(val.estStartDate) && !isPastDate(val.estCloseDate) && val.esmtYn != '2'  ? 'blueHighlight' : ''" style="cursor: pointer">{{ val.biName }}</a>
                         </td>
-                        <td :class="isPastDate(val.estStartDate) && !isPastDate(val.estCloseDate) && val.esmtYn != '2' ? 'blueHighlight' : ''">
+                        <td :class="!(val.ingTag == 'A3' && val.rebidAtt == 'N') && isPastDate(val.estStartDate) && !isPastDate(val.estCloseDate) && val.esmtYn != '2' ? 'blueHighlight' : ''">
                             <i class="fa-regular fa-timer"></i>{{ val.estStartDate }}
                         </td>
                         <td>{{ val.estCloseDate }}</td>
                         <td>{{ val.biMode | ftBiMode }}</td>
-                        <td><span v-text="fnIngTag(val)" :class="val.esmtYn == '2' ? 'blueHighlight' : ''" :style="(val.esmtYn == undefined || val.esmtYn == null || val.esmtYn == 0 || val.esmtYn == 1 ) && !isPastDate(val.estCloseDate) ? 'color:red;' : '' "></span></td>
+                        <td><span v-text="fnIngTag(val)" :class="val.esmtYn == '2' ? 'blueHighlight' : ''" :style="!(val.ingTag == 'A3' && val.rebidAtt == 'N') && val.esmtYn != '2' && isPastDate(val.estStartDate) && !isPastDate(val.estCloseDate) ? 'color:red;' : '' "></span></td>
                         <td>{{ val.insMode | ftInsMode }}</td>
                         <td class="end">
                             <i class="fa-light fa-paper-plane-top"></i>
