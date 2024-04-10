@@ -38,7 +38,7 @@
 					<div class="flex mt20">
 						<div class="formTit flex-shrink0 width170px">특수조건</div>
 						<div class="width100">
-							<div class="overflow-y-scroll boxStSm width100" style="height:50px">
+							<div class="overflow-y-scroll boxStSm width100" style="height:100px">
 								<pre style="background-color: white;">{{ data.specialCond }}</pre>
 							</div>
 						</div>

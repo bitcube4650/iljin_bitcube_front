@@ -97,7 +97,7 @@
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">예산금액</div>
                     <div class="flex align-items-center width100">
-                        <input type="number" class="inputStyle maxWidth200px" v-model="data.bdAmt" disabled/>
+                        <input type="text" class="inputStyle maxWidth200px" :value="fnComma(data.bdAmt)" disabled/>
                         <div class="ml10">원</div>
                     </div>
                 </div>
@@ -493,6 +493,9 @@ export default {
         fnUpdateCloseDate(val) {
             this.data.estCloseDay = val;
         },
+        fnComma(val){
+            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        }
     },
     beforeMount() {
         this.biNo = this.$route.params.biNo;
