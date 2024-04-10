@@ -344,7 +344,7 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <a class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-                        <h2 class="modalTitle">입찰계획 삭제</h2>
+                        <h2 class="modalTitle">재입찰</h2>
                         <div class="modalTopBox">
                             <ul>
                                 <li>
