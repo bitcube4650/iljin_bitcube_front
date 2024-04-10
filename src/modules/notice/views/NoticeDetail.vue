@@ -41,7 +41,7 @@
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">조회수</div>
-					<div class="width100">{{ dataFromList.bno }}</div>
+					<div class="width100">{{ dataFromList.bcount }}</div>
 				</div>
 				<div class="flex align-items-center mt20">
 					<div class="formTit flex-shrink0 width170px">첨부파일</div>
