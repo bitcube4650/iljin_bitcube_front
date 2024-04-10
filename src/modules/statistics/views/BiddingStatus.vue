@@ -229,15 +229,14 @@
         endDay : $('#endDay').val(),
         fileName : "입찰현황" + time
       }
-
+      
       if(this.$store.state.loginInfo.userAuth == 1){
         params.coInter = vm.coInter
       }else{
         if(vm.coInter == ''){
-          params.coInter =  vm.coInterList.map(item => item.interrelatedCustCode).join(',')
+          params.coInter =  vm.coInterList.map(item => item.interrelatedCustCode)
         }else{
           params.coInter = vm.coInter
-          params.coInterVal = 'Y'
         }
       }
 
