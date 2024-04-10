@@ -31,7 +31,7 @@
               <tr v-for="(val, idx) in listPage.content">
                 <td>{{val.biOrder}}</td>
                 <td class="text-left">{{custName}}</td>
-                <td>{{val.esmtCurr}} {{val.esmtAmt}}</td>
+                <td>{{val.esmtCurr}} {{val.esmtAmt | numberWithCommas}}</td>
                 <td>{{userName}}</td>
                 <td class="end">{{val.submitDate}}</td>
               </tr>
@@ -69,6 +69,15 @@ export default {
       userName: "",
       esmtCurr: ""
     };
+  },
+  filters:{
+    numberWithCommas(val) {
+			if(!val) return '';
+			else {
+				val = Math.round(val);
+				return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+			}
+		},
   },
   methods: {
     initModal(biNo, custCode, custName, userName, esmtCurr) {
