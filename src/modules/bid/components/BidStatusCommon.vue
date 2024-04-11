@@ -373,7 +373,7 @@ export default {
                     }
 
                     this.$swal({
-                        type: "warning",
+                        type: "info",
                         text: "서명이 완료되었습니다.",
                     });
                 } else if (response.data.code == "inValid") {

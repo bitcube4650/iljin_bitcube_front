@@ -60,28 +60,6 @@
         </div>
         <!-- //contents -->
 
-        <!-- 개찰 -->
-        <div class="modal fade modalStyle" id="openBid" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" style="width: 100%; max-width: 550px">
-                <div class="modal-content">
-                <div class="modal-body">
-                    <a class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-                    <h2 class="modalTitle">개찰</h2>
-                    <div class="modalTopBox">
-                        <ul>
-                            <div>개찰하시겠습니까?</div>
-                        </ul>
-                    </div>
-                    <div class="modalFooter">
-                        <a class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
-                        <a @click="fnOpenCert" class="modalBtnCheck" data-toggle="modal" title="개찰">개찰</a>
-                    </div>
-                </div>
-                </div>
-            </div>
-        </div>
-        <!-- //개찰 -->
-
         <!-- 인증서 비밀번호 입력 -->
         <div class="modal fade modalStyle" id="certPwd" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" style="width:100%; max-width:510px">
@@ -89,7 +67,7 @@
                     <div class="modal-body">
                         <a class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
                         <h2 class="modalTitle">공동인증서 비밀번호 입력</h2>
-                        <div class="flex align-items-center">
+                        <div class="flex align-items-center" style="margin-top:30px;">
                             <div class="formTit flex-shrink0 width120px">비밀번호</div>
                             <div class="width100">
                                 <input type="password" v-model="certPwd" @keydown.enter="fnOpenBid" class="inputStyle" placeholder="비밀번호를 입력해주세요.">
@@ -147,7 +125,6 @@ export default {
             }
             this.$store.commit("loading");
             this.$http.post("/api/v1/bidstatus/bidOpening", params).then((response) => {
-                $("#openBid").modal("hide");
                 if (response.data.code != "OK") {
                     this.$swal({
                         type: "warning",
@@ -193,11 +170,21 @@ export default {
                 return false;
             }
             
-            $("#openBid").modal("show");
+            this.$swal({
+                type: "info",
+                text: "개찰하시겠습니까?",                
+                showCancelButton: true,
+                confirmButtonText: '개찰',
+                cancelButtonText: '취소',
+            }).then((result) => {
+                if(result.value){
+                    this.fnOpenCert();
+                }
+            });
+
         },
         fnOpenCert(){//인증서 비밀번호 창 열기
             this.certPwd = '';
-            $("#openBid").modal("hide");
             $("#certPwd").modal("show");
         }
     },
