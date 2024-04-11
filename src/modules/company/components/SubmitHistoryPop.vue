@@ -28,7 +28,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(val, idx) in listPage.content">
+              <tr v-for="(val, idx) in listPage.content" :key="idx">
                 <td>{{val.biOrder}}</td>
                 <td class="text-left">{{custName}}</td>
                 <td>{{val.esmtCurr}} {{val.esmtAmt | numberWithCommas}}</td>
@@ -97,18 +97,19 @@ export default {
     },
 
     async retrieve() {
-      try {
-        this.$store.commit("loading");
-        const response = await this.$http.post(
-          "/api/v1/bidstatus/submitHist",
-          this.searchParams
-        );
-        this.listPage = response.data;
-        this.$store.commit("finish");
-      } catch (err) {
-        console.log(err);
-        this.$store.commit("finish");
-      }
+      this.$store.commit("loading");
+      this.$http.post("/api/v1/bidstatus/submitHist", this.searchParams).then((response) => {
+          if (response.data.code != "OK") {
+              this.$swal({
+                  type: "warning",
+                  text: response.data.msg,
+              });
+          } else {
+            this.listPage = response.data.data;
+          }
+      }).finally(() => {
+          this.$store.commit("finish");
+      });
     },
   },
 };
