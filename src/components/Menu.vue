@@ -186,30 +186,6 @@ import cmmn from "../../public/js/common.js";
                 this.$router.push({name:"userFaq"}).catch(()=>{});
             }
         },
-        async downloadMenual(){//메뉴얼 다운로드
-
-            try {
-                this.$store.commit('loading');
-                const response = await this.$http.post(
-                    "/api/v1/menual/downloadMenual",
-                    {},
-                    { responseType: "blob" } // 응답 데이터를 Blob 형식으로 받기
-                );
-                                  
-                // 파일 다운로드를 위한 처리
-                const url = window.URL.createObjectURL(new Blob([response.data]));
-                const link = document.createElement("a");
-                link.href = url;
-                link.setAttribute("download", "전자입찰_매뉴얼.ppt"); // 다운로드될 파일명 설정
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                this.$store.commit('finish');
-            } catch (error) {
-                console.error("Error downloading file:", error);
-                this.$store.commit('finish');
-            }
-        },
         async selectBidCnt() {//계열사 전자입찰 건수 조회
 
             try {
