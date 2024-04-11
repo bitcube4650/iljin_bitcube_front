@@ -69,7 +69,7 @@ export default {
             this.$store.commit('loading');
             const response = await this.$http.post('/login', this.detail);
             const loginInfo = Object.assign({}, response.data);
-            
+            $("#tempChangePwdPop").modal("hide"); 
             this.$store.commit('login', loginInfo);
             this.$cookie.set('loginInfo', JSON.stringify(loginInfo));
             this.$http.defaults.headers['x-auth-token'] = loginInfo.token;
