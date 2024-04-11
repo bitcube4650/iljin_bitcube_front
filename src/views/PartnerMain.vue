@@ -136,7 +136,6 @@ export default {
     
     }
 
-    this.selectCompInfo();//이미지경로 가져오기
     this.selectNotice();//공지사항 조회
     this.selectPartnerBidCnt();//전자입찰 건수 조회
     this.selectCompletedBidCnt();//입찰완료 조회
