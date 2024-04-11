@@ -26,7 +26,7 @@
 				<div class="flex align-items-center width250px">
 					<select v-model="searchParams.itemGrp" class="selectStyle">
 						<option value="">전체</option>
-						<option :value="val.itemGrpCd" v-for="(val, idx) in itemGrpList">{{ val.grpNm }}</option>
+						<option :value="val.itemGrpCd" v-for="(val, idx) in itemGrpList" :key="idx">{{ val.grpNm }}</option>
 					</select>
 				</div>
 				<div class="sbTit width100px ml50">사용여부</div>
@@ -82,12 +82,12 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="(val, idx) in listPage.content">
+				<tr v-for="(val, idx) in listPage.content" :key="idx">
 					<td class="text-left"><a href="#" @click.prevent="$refs.itemInfoPop.initModal(val.itemCode)"  data-toggle="modal" data-target="#itemInfoPop" class="textUnderline notiTitle" title="회사정보 자세히 보기">{{ val.itemCode }}</a></td>
 					<td class="text-left"><a href="#" @click.prevent="$refs.itemInfoPop.initModal(val.itemCode)"  data-toggle="modal" data-target="#itemInfoPop" class="textUnderline notiTitle" :title="val.itemName">{{ val.itemName }}</a></td>
 					<td class="text-left">{{ val.itemGrp != null ? val.itemGrp.grpNm : '' }}</td>
 					<td :class="val.useYn == 'Y' ? '' : 'textHighlight'">{{ val.useYn == 'Y' ? '사용' : '미사용' }}</td>
-					<td>{{ val.createUser }}</td>
+					<td>{{ val.createUser ? val.createUser.userName : ''  }}</td>
 					<td class="end">{{ val.createDate }}</td>
 				</tr>
 				<tr v-show="listPage.content.length == 0 ">
