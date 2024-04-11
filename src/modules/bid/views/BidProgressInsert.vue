@@ -1284,7 +1284,7 @@ export default {
       const currentTime = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Seoul"}));
 
       if (currentTime > closeDate) {
-          alert("현재 시간보다 큰 시간을 선택해 주세요.");
+          alert("제출마감일시는 현재 시간보다 큰 시간을 선택해야 합니다.");
           return false
       } 
 
