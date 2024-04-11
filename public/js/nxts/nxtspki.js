@@ -347,8 +347,7 @@ var nxTSPKI = (function(parentObj,$){
             nxTSCommon.installCheck(false,{ajaxto:3000,success:function(res,data){
                 if(res.code != nxTSError.res_success) {
                     if(confirm(nxTSPKIConfig.installMessage) == true) {
-                        //window.location.href = nxTSPKIConfig.installPage;
-                        window.location.href = 'https://pkidemo.tradesign.net/NXTSDemo/NXTSDemo_1.0.1.5/';
+                        window.location.href = nxTSPKIConfig.installPage;
                     }
                 }
             },versionCheck:[nxTSConfig.TSTOOLKIT]});

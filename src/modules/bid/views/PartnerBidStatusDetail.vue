@@ -494,7 +494,6 @@ export default {
             nxTSPKI.signData(totalPrice, //암호화 하는 데이터
               {ssn:true}, //인증서 정보 포함 여부
               function(res){//인증후 콜백
-                console.log('res',res);
                 if(res.code ==0){//인증완료
 
                   let params = {

@@ -40,8 +40,8 @@
                 <div class="depth2Lnb">
                     <ul>
                         <li><router-link to="/notice">공지사항</router-link></li>
-                        <li><a  @click="clickFaq">FAQ</a></li>
-                        <li><a  @click="downloadMenual">메뉴얼</a></li>
+                        <li><a @click="clickFaq">FAQ</a></li>
+                        <li><a :href="company == 'cust'? '/installFile/전자입찰_매뉴얼_업체.pdf' : '/installFile/전자입찰_매뉴얼_본사.pdf'" download="전자입찰_메뉴얼.pdf">메뉴얼</a></li>
                     </ul>
                 </div>
             </li>
