@@ -27,6 +27,7 @@ export default new Vuex.Store({
         bidDetailData: null,
         bidUpdateData: null,
         pwdOrInfo: '',
+        jtvOrLotte: null,
         logoImg: null,
         mainImg: null
     },
@@ -59,12 +60,16 @@ export default new Vuex.Store({
         updatePwdOrInfo(state, data){
             state.pwdOrInfo = data;
         },
+        setJtvOrLotte(state, data){
+            state.jtvOrLotte = data;
+        },
         setLogoImg(state, data) {
             state.logoImg = data;
         },
         setMainImg(state, data) {
             state.mainImg = data;
         }
+        
     },
     getters: {
         CONSTANTS: state => {
