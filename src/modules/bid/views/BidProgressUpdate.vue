@@ -1232,6 +1232,15 @@ export default {
       var startDateTime = new Date(`${this.datePart1}T${this.timePart1}`);
       var closeDateTime = new Date(`${this.datePart2}T${this.timePart2}`);
 
+      const closeDate = new Date(this.datePart2 + " " + this.timePart2)
+
+      const currentTime = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Seoul"}));
+
+      if (currentTime > closeDate) {
+          alert("현재 시간보다 큰 시간을 선택해 주세요.");
+          return false
+      } 
+
       if (startDateTime > closeDateTime) {
         alert("제출시작일시가 제출마감일시보다 큽니다.");
         return false;
