@@ -153,26 +153,6 @@
         </div>
             <!-- //contents -->
 
-        <!-- 개찰 -->
-        <div class="modal fade modalStyle" id="suggestBid" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" style="width: 100%; max-width: 550px">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <a class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-                        <h2 class="modalTitle">투찰</h2>
-                        <div class="modalTopBox">
-                            <ul><div>견적서를 제출하시겠습니까?</div></ul>
-                        </div>
-                        <div class="modalFooter">
-                            <a class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
-                            <a class="modalBtnCheck" @click="signData" data-toggle="modal" title="투찰">투찰</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- //개찰 -->
-
         <!--공고문 미리보기 팝업-->
         <BidAdvertisement :data="data"/>
     </div>
@@ -362,7 +342,18 @@ export default {
             if(!this.validationCheck()){
                 return false;
             }
-            $('#suggestBid').modal('show');
+
+            this.$swal({
+                type: "info",
+                text: "견적서를 제출하시겠습니까?",                
+                showCancelButton: true,
+                confirmButtonText: '투찰',
+                cancelButtonText: '취소',
+            }).then((result) => {
+                if(result.value){
+                    this.signData();
+                }
+            });
         },
         //내용직접입력 임시저장
         fnTempSave(){
@@ -460,8 +451,6 @@ export default {
                 return false;
             }
             
-            $('#suggestBid').modal('hide');
-
             let cookieNm = this.biNo+"_"+this.$store.state.loginInfo.custCode;
             this.$cookie.delete(cookieNm);
 
