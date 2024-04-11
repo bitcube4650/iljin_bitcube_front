@@ -85,7 +85,7 @@
 				<tr v-for="(val, idx) in listPage.content" :key="idx">
 					<td class="text-left"><a href="#" @click.prevent="$refs.itemInfoPop.initModal(val.itemCode)"  data-toggle="modal" data-target="#itemInfoPop" class="textUnderline notiTitle" title="회사정보 자세히 보기">{{ val.itemCode }}</a></td>
 					<td class="text-left"><a href="#" @click.prevent="$refs.itemInfoPop.initModal(val.itemCode)"  data-toggle="modal" data-target="#itemInfoPop" class="textUnderline notiTitle" :title="val.itemName">{{ val.itemName }}</a></td>
-					<td class="text-left">{{ val.itemGrp != null ? val.itemGrp.grpNm : '' }}</td>
+					<td class="text-left">{{ val.grpNm }}</td>
 					<td :class="val.useYn == 'Y' ? '' : 'textHighlight'">{{ val.useYn == 'Y' ? '사용' : '미사용' }}</td>
 					<td>{{ val.createUser }}</td>
 					<td class="end">{{ val.createDate }}</td>
