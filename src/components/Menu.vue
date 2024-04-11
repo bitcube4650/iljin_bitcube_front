@@ -31,7 +31,7 @@
                         <li v-if="company == 'inter'" ><router-link to="/bid/progress">입찰계획</router-link></li>
                         <li><a  @click="clickBidStatus">입찰진행</a></li>
                         <li><a  @click="clickBidComplete">입찰완료</a></li>
-                        <li v-if="company == 'inter'"><router-link to="/bid/history">입찰이력</router-link></li>
+                        <li v-if="company == 'inter'"><router-link to="/bid/history">낙찰이력</router-link></li>
                     </ul>
                 </div>
             </li>

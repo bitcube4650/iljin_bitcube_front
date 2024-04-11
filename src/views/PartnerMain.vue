@@ -112,7 +112,7 @@ export default {
 		listPage: {},
         detailData: {},
         compInfo: [],
-        imgUrl: '',
+        imgUrl: this.$store.state.mainImg,
         bidInfo: {},
         completeInfo: {},
         custType : this.$store.state.loginInfo.custType,
@@ -143,47 +143,6 @@ export default {
     this.fnChkPwChangeEncourage();//비밀번호 변경 권장
   },
   methods: {
-    async selectCompInfo(){//업체정보 조회하여 url에 맞는 배너 경로 set
-
-        try {
-            this.$store.commit('loading');
-            const response = await this.$http.post('/login/interrelatedList', { 'custCode': this.$store.state.loginInfo.custCode});
-            this.compInfo = response.data;
- 
-            var url = window.location.href;
-            if(url.includes('ebid.jtv.co.kr')){//전주방송인 경우
-                
-                this.compInfo.forEach(item => {
-                    if(item.interrelatedCustCode == '07'){
-                        this.imgUrl = item.imgPath2;
-                    }
-                });
-
-            }else if(url.includes('l-ebid.iljin.co.kr')){//롯데에너지머티리얼즈인 경우
-
-                this.compInfo.forEach(item => {
-                    if(item.interrelatedCustCode == '02'){
-                        this.imgUrl = item.imgPath2;
-                    }
-                });
-                
-            }else{//일진전기로 조회되는 배너path로 set
-
-                this.compInfo.forEach(item => {
-                    if(item.interrelatedCustCode == '01'){
-                        this.imgUrl = item.imgPath2;
-                    }
-                });
-
-            }
-            
-            this.$store.commit('finish');
-        } catch(err) {
-            console.log(err)
-            this.$store.commit('finish');
-        }
-
-    },
     async selectNotice() {//공지사항 조회
 
         try {

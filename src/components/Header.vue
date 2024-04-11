@@ -36,15 +36,35 @@ export default {
         return {
             imgUrl: this.$store.state.logoImg,
             mainUrl: this.$store.state.mainImg,
+            jtvOrLotte: this.$store.state.jtvOrLotte,
+            mainUrl: '',
             compInfo : []
         };
     },
     mounted(){
+        
         cmmn.applyHeader();//퍼블리싱 js 파일 적용
+        /*
+        주석처리 이유 : 만약 일진으로 들어갔다가 전주방송으로 들어가면 기존에 this.$store.state.logoImg는 null 이 아니라 일진 이미지 url 이 남아있어서 조회가 안됨
         if (this.imgUrl == null) { // 계속적인 조회가 이난 최초 1번만 조회 처리를 위해 
             this.selectCompInfo();//업체정보 조회하여 url에 맞는 logo 경로 set
         }
+        */
 
+        // 로고데이터 조회 여부 결정
+        // jtvOrLotte는 현재 store에 들어가 있는 이미지 url의 지표
+        // jtvOrLotte = 'jtv' 이면 이미지가 전주방송 url
+        // jtvOrLotte = 'l-ebid' 이면 이미지가 롯데 url
+        // jtvOrLotte = 'iljin' 이면 이미지가 일진 url
+        // jtvOrLotte 가 null 이거나 값이 없으면 이미지 url 이 없다는 뜻
+        var url = window.location.href;
+        if(this.jtvOrLotte != 'jtv' && url.indexOf('jtv') != -1){//전주방송으로 들어왔는데 이미지 url이 전주방송이 아닌 경우 조회
+            this.selectCompInfo();
+        }else if(this.jtvOrLotte != 'l-ebid' && url.indexOf('l-ebid') != -1){//롯데로 들어왔는데 이미지 url이 롯데가 아닌 경우 조회 
+            this.selectCompInfo();
+        }else if(this.jtvOrLotte == null){//일진인데 이미지 url이 없는경우
+            this.selectCompInfo();
+        }
     },
     methods: {
         changeStatus(word){//비밀번호 변경인지 개인정보 수정인지 update
@@ -54,39 +74,30 @@ export default {
             
         },
         async selectCompInfo(){//업체정보 조회하여 url에 맞는 logo 경로 set
-            // 초기화 backend와의 통신이 느릴경우를 대비 
-            var host = document.location.href.match(/http[s]*:\/\/([a-zA-Z0-9\-\.]*)/)[1];
-            if (host.indexOf('jtv') !== -1) {//전주방송인 경우
-                this.imgUrl = '/images/headerLogo_jtv.svg';
-                this.mainUrl = '/images/mainBanner01_jtv.jpg';
-            } else if (host.indexOf('l-ebid') !== -1) {//롯데에너지머티리얼즈인 경우
-                this.imgUrl = '/images/headerLogo_lotte.svg';
-                this.mainUrl = '/images/mainBanner01_lotte.jpg';
-            } else {//일진전기로 조회되는 로고path로 set
-                this.imgUrl = '/images/headerLogo_iljin.svg';
-                this.mainUrl = '/images/mainBanner01.jpg';
-            }
+
             try {
                 this.$store.commit('loading');
                 const response = await this.$http.post('/login/interrelatedList',{});
                 this.compInfo = response.data;
-
+                console.log('result  ',this.compInfo);
                 var url = window.location.href;
-                if(url.includes('ebid.jtv.co.kr')){//전주방송인 경우
+                if(url.includes('jtv')){//전주방송인 경우
                     
                     this.compInfo.forEach(item => {
                         if(item.interrelatedCustCode == '07'){
                             this.imgUrl = item.logoPath;
                             this.mainUrl = item.imgPath2;
+                            this.$store.commit('setJtvOrLotte', 'jtv');
                         }
                     });
 
-                }else if(url.includes('l-ebid.iljin.co.kr')){//롯데에너지머티리얼즈인 경우
+                }else if(url.includes('l-ebid')){//롯데에너지머티리얼즈인 경우
 
                     this.compInfo.forEach(item => {
                         if(item.interrelatedCustCode == '02'){
                             this.imgUrl = item.logoPath;
                             this.mainUrl = item.imgPath2;
+                            this.$store.commit('setJtvOrLotte', 'l-ebid');
                         }
                     });
                     
@@ -96,6 +107,7 @@ export default {
                         if(item.interrelatedCustCode == '01'){
                             this.imgUrl = item.logoPath;
                             this.mainUrl = item.imgPath2;
+                            this.$store.commit('setJtvOrLotte', 'iljin');
                         }
                     });
 
@@ -106,8 +118,9 @@ export default {
                 console.log(err)
                 this.$store.commit('finish');
             }
-        this.$store.commit('setLogoImg', this.imgUrl);
-        this.$store.commit('setMainImg', this.mainUrl);
+        
+            this.$store.commit('setLogoImg', this.imgUrl);
+            this.$store.commit('setMainImg', this.mainUrl);
 
         }
     }  
