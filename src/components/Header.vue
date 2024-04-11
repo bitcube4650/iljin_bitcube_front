@@ -56,10 +56,10 @@ export default {
         async selectCompInfo(){//업체정보 조회하여 url에 맞는 logo 경로 set
             // 초기화 backend와의 통신이 느릴경우를 대비 
             var host = document.location.href.match(/http[s]*:\/\/([a-zA-Z0-9\-\.]*)/)[1];
-            if (host == 'ebid.jtv.co.kr') {//전주방송인 경우
+            if (host.indexOf('jtv') !== -1) {//전주방송인 경우
                 this.imgUrl = '/images/headerLogo_jtv.svg';
                 this.mainUrl = '/images/mainBanner01_jtv.jpg';
-            } else if (host == 'l-ebid.iljin.co.kr') {//롯데에너지머티리얼즈인 경우
+            } else if (host.indexOf('l-ebid') !== -1) {//롯데에너지머티리얼즈인 경우
                 this.imgUrl = '/images/headerLogo_lotte.svg';
                 this.mainUrl = '/images/mainBanner01_lotte.jpg';
             } else {//일진전기로 조회되는 로고path로 set
