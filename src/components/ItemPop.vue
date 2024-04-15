@@ -114,9 +114,9 @@ export default {
 		
 		let params = Object.assign({}, this.searchParams);
 
-		if(this.searchParams.itemName != ''){
+		/*if(this.searchParams.itemName != ''){
 			params.itemCode = this.searchParams.itemName
-		}
+		}*/
 		
 		const response = await this.$http.post('/login/itemList', params);
         this.listPage = response.data;

@@ -132,7 +132,7 @@ export default {
 	},
 	mounted() {
 		this.searchParams.useYn = 'Y';
-		const params = {id: this.$options.name , itemGrp: '', useYn: 'Y', size: '10'};
+		const params = {id: this.$options.name , itemGrp: '', useYn: 'Y', size: '10', nonPopYn :'Y'};
 		if (this.$store.state.searchParams.id == params.id) {
 			this.searchParams = Object.assign(params, this.$store.state.searchParams);
 		} else {
