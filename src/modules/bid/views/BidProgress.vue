@@ -109,10 +109,10 @@
             <td class="textUnderline text-left" @click="clickBidDetail(val.biNo)">
                 <a style="cursor: pointer;">{{val.biName}}</a>
             </td >
-            <td :class="{ 'textHighlight': isPastDate(val.estCloseDate) }">
+            <td :class="{ 'textHighlight': isPastDate(val.estStartDate) }">
               <i class="fa-regular fa-timer"></i>{{val.estStartDate}}
               </td>
-            <td>
+            <td :class="{ 'textHighlight': isPastDate(val.estCloseDate) }">
               <i class="fa-regular fa-timer"></i>{{val.estCloseDate}}
             </td>
             <td>{{val.biMode}}</td>
