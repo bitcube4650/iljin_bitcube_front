@@ -73,7 +73,9 @@
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">예산금액</div>
-						<div class="width100">{{ data.bdAmt | numberWithCommas }} <span v-if="data.bdAmt != null && data.bdAmt != undefined && data.bdAmt != ''">원</span></div>
+						<div class="width100">{{ data.bdAmt | numberWithCommas }} <span v-if="data.bdAmt != null && data.bdAmt != undefined && data.bdAmt != ''">원</span>
+							<span v-if="data.realAmt != undefined && data.realAmt != null && data.realAmt != ''"> ( 실제 계약금액 : {{ data.realAmt | numberWithCommas }} 원 )</span>
+						</div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">입찰담당자</div>
@@ -294,7 +296,7 @@
 				<div class="text-center mt50">
 					<a @click="fnBack" class="btnStyle btnOutline" title="목록">목록</a>
 					<a data-toggle="modal" data-target="#resultsReport" class="btnStyle btnSecondary" title="입찰결과 보고서">입찰결과 보고서</a>
-					<a data-toggle="modal" data-target="#realAmtSave" class="btnStyle btnPrimary" title="실제 계약금액">실제 계약금액
+					<a data-toggle="modal" data-target="#realAmtSave" class="btnStyle btnPrimary" title="실제 계약금액" v-if="data.createUser == $store.state.loginInfo.userId">실제 계약금액
 						<i class="fas fa-question-circle toolTipSt ml5">
 							<div class="toolTipText" style="width: 480px">
 								<ul class="dList">
@@ -375,6 +377,12 @@ export default {
 		}
 	},
     mixins: [mixin],
+	watch:{
+		realAmt(){
+			let realAmt = this.realAmt.toString().replace(/[^-0-9]/g, '');
+			this.realAmt = realAmt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		}
+	},
 	methods: {
 		//그룹사 입찰완료 상세 조회
 		async fnDataDetail(){
@@ -408,14 +416,16 @@ export default {
 				return false;
 			}
 
+			let realAmt = this.realAmt.toString().replace(/[^-0-9]/g, '');
 			let params = {
-				realAmt : this.realAmt
+				realAmt : realAmt
 			,	biNo : this.biNo
 			}
 			this.$store.commit("loading");
 			this.$http.post("/api/v1/bidComplete/updRealAmt", params).then((response) => {
 				$("#realAmtSave").modal("hide");
 				if(response.data.code == 'OK'){
+					this.data.realAmt = realAmt;
 					this.$swal({
 						type: "info",
 						text: "실제계약금액을 저장하였습니다."
