@@ -411,8 +411,12 @@ export default {
                         text: "투찰했습니다.",
                     });
                     this.fnMovePage('partnerBidStatus');
+                } else if(response.data.code == 'TIMEOUT'){
+                    this.$swal({
+                        type: "warning",
+                        text: "견적제출시간이 지났습니다. 제출마감일시를 확인해주세요.",
+                    });
                 } else {
-                    console.log(response.data.msg);
                     this.$swal({
                         type: "warning",
                         text: "투찰 중 오류가 발생했습니다.",

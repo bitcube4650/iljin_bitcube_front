@@ -296,7 +296,7 @@
 				<div class="text-center mt50">
 					<a @click="fnBack" class="btnStyle btnOutline" title="목록">목록</a>
 					<a data-toggle="modal" data-target="#resultsReport" class="btnStyle btnSecondary" title="입찰결과 보고서">입찰결과 보고서</a>
-					<a data-toggle="modal" data-target="#realAmtSave" class="btnStyle btnPrimary" title="실제 계약금액" v-if="data.createUser == $store.state.loginInfo.userId">실제 계약금액
+					<a data-toggle="modal" data-target="#realAmtSave" class="btnStyle btnPrimary" title="실제 계약금액" v-if="data.ingTag == 'A5' && data.createUser == $store.state.loginInfo.userId">실제 계약금액
 						<i class="fas fa-question-circle toolTipSt ml5">
 							<div class="toolTipText" style="width: 480px">
 								<ul class="dList">
