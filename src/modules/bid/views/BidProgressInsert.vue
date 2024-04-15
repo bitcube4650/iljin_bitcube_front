@@ -84,7 +84,6 @@
                 class="radioStyle"
                 checked="true"
                 v-model="bidContent.biModeCode"
-                data-toggle="modal"
                 v-bind:data-target="
                   bidContent.biModeCode === 'B' ? '#bmGeneral' : ''
                 "

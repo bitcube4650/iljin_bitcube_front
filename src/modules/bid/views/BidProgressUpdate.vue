@@ -75,7 +75,6 @@
                 class="radioStyle"
                 checked=""
                 v-model="dataFromList.result.biModeCode"
-                data-toggle="modal"
                 v-bind:data-target="dataFromList.result.biModeCode === 'B' ? '#bmGeneral' : ''"
               /><label for="bm1_1">지명경쟁입찰</label>
               <input
