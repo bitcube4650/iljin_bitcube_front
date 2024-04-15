@@ -148,7 +148,8 @@ export default {
     methods: {
         //그룹사 입찰완료 상세 이동
         clickPartnerBidCompleteDetail(biNo){
-            this.$router.push({name:"bidCompleteDetail", params: { 'biNo': biNo }});
+            this.$store.commit('setBidDetailData', biNo);
+            this.$router.push({name:"bidCompleteDetail"});
         },
         //그룹사 입찰완료 리스트 조회
         fnSearchInit(page) {

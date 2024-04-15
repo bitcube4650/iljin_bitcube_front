@@ -192,7 +192,8 @@ export default {
                 cancelButtonText: '취소',
             }).then((result) => {
                 if(result.value){
-                    this.$router.push({name:"rebid", params: { 'biNo': this.biNo, "reCustList" : this.custCheck }});
+                    this.$store.commit('setBidUpdateData', this.custCheck);
+                    this.$router.push({name:"rebid"});
                 }
             });
         },
@@ -233,10 +234,16 @@ export default {
         }
     },
     beforeMount() {
-        this.biNo = this.$route.params.biNo;
+        this.biNo = this.$store.state.bidDetailData;
     },
     mounted() {
         this.bidStatusRetrieve();
+    },
+    beforeRouteLeave(to, from, next){
+        if(to.name != 'rebid'){
+            this.$store.commit('setBidDetailData', null);
+        }
+        next();
     },
 };
 </script>

@@ -62,10 +62,10 @@
 							<div class="formTit flex-shrink0 width170px">입찰담당자</div>
 							<div class="width100">{{ data.damdangName }}</div>
 						</div>
-						<div class="flex align-items-center mt10">
+						<!-- <div class="flex align-items-center mt10">
 							<div class="formTit flex-shrink0 width170px">계열사공유</div>
 							<div class="width100">비공유</div>
-						</div>
+						</div> -->
 					</div>
 
 					<h4 class="h4Tit mt20">투찰 내역</h4>
@@ -159,8 +159,12 @@ export default {
 		},
 		//예산대비 계산
 		fnBdComp(esmtAmt){
-			let rtn = ((this.data.bdAmt - (this.data.bdAmt - esmtAmt)) / this.data.bdAmt * 100)
-			return rtn.toFixed(1) + "%";
+			if(this.data.bdAmt <= 0){
+				return '';
+			}else{
+				let rtn = ((this.data.bdAmt - (this.data.bdAmt - esmtAmt)) / this.data.bdAmt * 100)
+				return rtn.toFixed(1) + "%";
+			}
 		}
 	},
 };

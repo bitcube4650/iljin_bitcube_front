@@ -154,7 +154,8 @@ export default {
         },
         //협력사 입찰완료 상세
         clickPartnerBidCompleteDetail(biNo){
-            this.$router.push({name:"partnerBidCompleteDetail", params: { 'biNo': biNo }});
+            this.$store.commit('setBidDetailData', biNo);
+            this.$router.push({name:"partnerBidCompleteDetail"});
         },
         //협력사 입찰완료 리스트 조회
         fnSearchInit(page) {

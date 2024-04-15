@@ -199,7 +199,8 @@ export default {
         },
 
         clickPartnerBidStatusDetail(biNo) {
-            this.$router.push({name:"partnerBidStatusDetail", params: { 'biNo': biNo }});
+            this.$store.commit('setBidDetailData', biNo);
+            this.$router.push({name:"partnerBidStatusDetail"});
         },
         isPastDate(dateString) {
             const currentDate = new Date();
