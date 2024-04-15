@@ -133,8 +133,8 @@
             <div class="formTit flex-shrink0 width170px">분류군</div>
             <div class="flex align-items-center width100">
               <select name="" class="selectStyle" disabled>
-                <option v-for="(dept,idx) in lotteDeptList" :value="dept.value" :key="idx">
-                  {{ dept.label }}
+                <option v-for="(dept,idx) in lotteDeptList" :value="dept.codeVal" :key="idx">
+                  {{ dept.codeName }}
                 </option>
               </select>
               <select
@@ -143,13 +143,13 @@
                 style="margin: 0 10px"
                 disabled
               >
-                <option v-for="(proc,idx) in lotteProcList" :value="proc.value" :key="idx">
-                  {{ proc.label }}
+                <option v-for="(proc,idx) in lotteProcList" :value="proc.codeVal" :key="idx">
+                  {{ proc.codeName }}
                 </option>
               </select>
               <select name="" class="selectStyle" disabled>
-                <option v-for="(cls,idx) in lotteClsList" :value="cls.value" :key="idx">
-                  {{ cls.label }}
+                <option v-for="(cls,idx) in lotteClsList" :value="cls.codeVal" :key="idx">
+                  {{ cls.codeName }}
                 </option>
               </select>
             </div>
@@ -465,53 +465,9 @@ export default {
       fileContent: [],
       custContent: [],
       loginId: "",
-
-      lotteDeptList: [
-        { value: "A1", label: "익산 E/F" },
-        { value: "A2", label: "말련 E/F" },
-        { value: "A3", label: "에너지" },
-        { value: "A4", label: "융복합" },
-        { value: "A5", label: "공통" },
-      ],
-
-      lotteProcList: [
-        { value: "B1", label: "용해" },
-        { value: "B2", label: "제박" },
-        { value: "B3", label: "후처리" },
-        { value: "B4", label: "슬리터" },
-        { value: "B5", label: "절단" },
-        { value: "B6", label: "환경" },
-        { value: "B7", label: "공통" },
-        { value: "B8", label: "기타" },
-      ],
-
-      lotteClsList: [
-        { value: "C1", label: "탱크" },
-        { value: "C2", label: "배관" },
-        { value: "C3", label: "열교환기" },
-        { value: "C4", label: "냉각탑" },
-        { value: "C5", label: "브로이" },
-        { value: "C6", label: "판넬" },
-        { value: "C7", label: "펌프" },
-        { value: "C8", label: "인버터" },
-        { value: "C9", label: "PLC/드라이브" },
-        { value: "C10", label: "정류기" },
-        { value: "C11", label: "단락기" },
-        { value: "C12", label: "변압기" },
-        { value: "C13", label: "전기/케이블" },
-        { value: "C14", label: "공조" },
-        { value: "C15", label: "드럼" },
-        { value: "C16", label: "전해조" },
-        { value: "C17", label: "방청조" },
-        { value: "C18", label: "구동부" },
-        { value: "C19", label: "스크라바" },
-        { value: "C20", label: "크레인" },
-        { value: "C21", label: "구동 Roll" },
-        { value: "C22", label: "슬리터기" },
-        { value: "C23", label: "절단기" },
-        { value: "C24", label: "검사설비" },
-        { value: "C25", label: "기타" },
-      ],
+      lotteDeptList: [],
+      lotteProcList: [],
+      lotteClsList: [],
     };
   },
 
@@ -526,6 +482,7 @@ export default {
     this.dataFromList = this.$store.state.bidDetailData;
     this.loginId = this.$store.state.loginInfo.userId;
     this.retrieve();
+
   },
 
   methods: {
@@ -539,7 +496,9 @@ export default {
         );
         //console.log(response);
         this.result = response.data[0][0];
-
+        if(this.result.interrelatedCustCode==='02'){
+          this.getCodeList()
+        }
         this.tableContent = response.data[1];
         this.total = this.calculateTotal();
         this.fileContent = response.data[2];
@@ -710,6 +669,22 @@ export default {
         this.$store.commit("finish");
       }
     },
+    getCodeList(){
+      const vm = this
+      this.$http
+        .post('/api/v1/bid/progressCodeList')
+        .then((response) => {
+          console.log(response.data)
+          const data = response.data
+          vm.lotteDeptList = data.filter(item => item.colCode == 'MAT_DEPT')
+          vm.lotteProcList = data.filter(item => item.colCode == 'MAT_PROC') 
+			    vm.lotteClsList	= data.filter(item => item.colCode == 'MAT_CLS')
+        })
+        .catch((error) => {
+          console.log(err)
+        this.$store.commit('finish');
+        });
+    }
   },
 };
 </script>

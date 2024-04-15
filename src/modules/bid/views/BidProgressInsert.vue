@@ -136,12 +136,38 @@
               현장설명일시 <span class="star">*</span>
             </div>
             <div class="flex align-items-center width100">
-              <Calendar @update-date="fnUpdateSpotDate" calendarId="spotDate" classProps="datepicker inputStyle maxWidth140px" :initDate="datePart"></Calendar>
-              <input
+              <Calendar @update-date="fnUpdateSpotDate" calendarId="spotDate" classProps="datepicker inputStyle maxWidth140px" :initDate="datePart" :minDate="minDate"></Calendar>
+              <!-- <input
                 type="time"
                 class="inputStyle maxWidth140px"
                 v-model="timePart"
-              />
+              /> -->
+              <select class="inputStyle ml10" v-model="timePart" style="background:url('../images/selectArw.png') no-repeat right 15px center;max-width: 110px">
+                  <option value="">시간 선택</option>
+                  <option value="01:00">01:00</option>
+                  <option value="02:00">02:00</option>
+                  <option value="03:00">03:00</option>
+                  <option value="04:00">04:00</option>
+                  <option value="05:00">05:00</option>
+                  <option value="06:00">06:00</option>
+                  <option value="07:00">07:00</option>
+                  <option value="08:00">08:00</option>
+                  <option value="09:00">09:00</option>
+                  <option value="10:00">10:00</option>
+                  <option value="11:00">11:00</option>
+                  <option value="12:00">12:00</option>
+                  <option value="13:00">13:00</option>
+                  <option value="14:00">14:00</option>
+                  <option value="15:00">15:00</option>
+                  <option value="16:00">16:00</option>
+                  <option value="17:00">17:00</option>
+                  <option value="18:00">18:00</option>
+                  <option value="19:00">19:00</option>
+                  <option value="20:00">20:00</option>
+                  <option value="21:00">21:00</option>
+                  <option value="22:00">22:00</option>
+                  <option value="23:00">23:00</option>
+              </select>
             </div>
           </div>
           <div class="flex align-items-center mt10">
@@ -278,15 +304,15 @@
             <div class="flex align-items-center width100">
               <select name="" class="selectStyle" v-model="bidContent.matDept">
                 <option value=null>사업부를 선택 하세요.</option>
-                <option v-for="(dept,idx) in lotteDeptList" :value="dept.value" :key="idx">{{ dept.label }}</option>
+                <option v-for="(dept,idx) in lotteDeptList" :value="dept.codeVal" :key="idx">{{ dept.codeName }}</option>
               </select>
               <select name="" class="selectStyle" style="margin: 0 10px" v-model="bidContent.matProc">
                 <option value=null>공정을 선택 하세요.</option>
-                <option v-for="(proc,idx) in lotteProcList" :value="proc.value" :key="idx">{{ proc.label }}</option>
+                <option v-for="(proc,idx) in lotteProcList" :value="proc.codeVal" :key="idx">{{ proc.codeName }}</option>
               </select>
               <select name="" class="selectStyle" v-model="bidContent.matCls">
                 <option value=null>분류를 선택 하세요.</option>
-                <option v-for="(cls,idx) in lotteClsList" :value="cls.value" :key="idx">{{ cls.label }}</option>
+                <option v-for="(cls,idx) in lotteClsList" :value="cls.codeVal" :key="idx">{{ cls.codeName }}</option>
               </select>
             </div>
           </div>
@@ -344,8 +370,34 @@
                 제출시작일시 <span class="star">*</span>
               </div>
               <div class="flex align-items-center width100">
-                <Calendar @update-date="fnUpdateStartDate" calendarId="startDate" classProps="datepicker inputStyle" :initDate="datePart1"></Calendar>
-                <input type="time" class="inputStyle ml10" v-model="timePart1"/>
+                <Calendar @update-date="fnUpdateStartDate" calendarId="startDate" classProps="datepicker inputStyle" :initDate="datePart1" :minDate="minDate"></Calendar>
+                <!-- <input type="time" class="inputStyle ml10" v-model="timePart1"/> -->
+                <select class="inputStyle ml10" v-model="timePart1" style="background:url('../images/selectArw.png') no-repeat right 15px center;max-width: 110px">
+                  <option value="">시간 선택</option>
+                  <option value="01:00">01:00</option>
+                  <option value="02:00">02:00</option>
+                  <option value="03:00">03:00</option>
+                  <option value="04:00">04:00</option>
+                  <option value="05:00">05:00</option>
+                  <option value="06:00">06:00</option>
+                  <option value="07:00">07:00</option>
+                  <option value="08:00">08:00</option>
+                  <option value="09:00">09:00</option>
+                  <option value="10:00">10:00</option>
+                  <option value="11:00">11:00</option>
+                  <option value="12:00">12:00</option>
+                  <option value="13:00">13:00</option>
+                  <option value="14:00">14:00</option>
+                  <option value="15:00">15:00</option>
+                  <option value="16:00">16:00</option>
+                  <option value="17:00">17:00</option>
+                  <option value="18:00">18:00</option>
+                  <option value="19:00">19:00</option>
+                  <option value="20:00">20:00</option>
+                  <option value="21:00">21:00</option>
+                  <option value="22:00">22:00</option>
+                  <option value="23:00">23:00</option>
+              </select>
               </div>
             </div>
             <div class="flex align-items-center width100 ml80">
@@ -353,8 +405,34 @@
                 제출마감일시 <span class="star">*</span>
               </div>
               <div class="flex align-items-center width100">
-                <Calendar @update-date="fnUpdateCloseDate" calendarId="closeDate" classProps="datepicker inputStyle" :initDate="datePart2"></Calendar>
-                <input type="time" class="inputStyle ml10" v-model="timePart2"/>
+                <Calendar @update-date="fnUpdateCloseDate" calendarId="closeDate" classProps="datepicker inputStyle" :initDate="datePart2" :minDate="minDate"></Calendar>
+                <!-- <input type="time" class="inputStyle ml10" v-model="timePart2"/> -->
+                <select class="inputStyle ml10" v-model="timePart2" style="background:url('../images/selectArw.png') no-repeat right 15px center;max-width: 110px">
+                  <option value="">시간 선택</option>
+                  <option value="01:00">01:00</option>
+                  <option value="02:00">02:00</option>
+                  <option value="03:00">03:00</option>
+                  <option value="04:00">04:00</option>
+                  <option value="05:00">05:00</option>
+                  <option value="06:00">06:00</option>
+                  <option value="07:00">07:00</option>
+                  <option value="08:00">08:00</option>
+                  <option value="09:00">09:00</option>
+                  <option value="10:00">10:00</option>
+                  <option value="11:00">11:00</option>
+                  <option value="12:00">12:00</option>
+                  <option value="13:00">13:00</option>
+                  <option value="14:00">14:00</option>
+                  <option value="15:00">15:00</option>
+                  <option value="16:00">16:00</option>
+                  <option value="17:00">17:00</option>
+                  <option value="18:00">18:00</option>
+                  <option value="19:00">19:00</option>
+                  <option value="20:00">20:00</option>
+                  <option value="21:00">21:00</option>
+                  <option value="22:00">22:00</option>
+                  <option value="23:00">23:00</option>
+              </select>
               </div>
             </div>
           </div>
@@ -947,7 +1025,7 @@ export default {
         matDept: null,
         matProc: null,
         matCls: null,
-        amtBasis: 'VAT 별도'
+        amtBasis: 'VAT 별도',
       },
 
       bdAmt: '',
@@ -967,59 +1045,16 @@ export default {
         userId: "",
       },
       filek: [],
-
-      lotteDeptList: [
-        { value: "A1", label: "익산 E/F" },
-        { value: "A2", label: "말련 E/F" },
-        { value: "A3", label: "에너지" },
-        { value: "A4", label: "융복합" },
-        { value: "A5", label: "공통" },
-      ],
-
-      lotteProcList: [
-        { value: "B1", label: "용해" },
-        { value: "B2", label: "제박" },
-        { value: "B3", label: "후처리" },
-        { value: "B4", label: "슬리터" },
-        { value: "B5", label: "절단" },
-        { value: "B6", label: "환경" },
-        { value: "B7", label: "공통" },
-        { value: "B8", label: "기타" },
-      ],
-
-      lotteClsList: [
-        { value: "C1", label: "탱크" },
-        { value: "C2", label: "배관" },
-        { value: "C3", label: "열교환기" },
-        { value: "C4", label: "냉각탑" },
-        { value: "C5", label: "브로이" },
-        { value: "C6", label: "판넬" },
-        { value: "C7", label: "펌프" },
-        { value: "C8", label: "인버터" },
-        { value: "C9", label: "PLC/드라이브" },
-        { value: "C10", label: "정류기" },
-        { value: "C11", label: "단락기" },
-        { value: "C12", label: "변압기" },
-        { value: "C13", label: "전기/케이블" },
-        { value: "C14", label: "공조" },
-        { value: "C15", label: "드럼" },
-        { value: "C16", label: "전해조" },
-        { value: "C17", label: "방청조" },
-        { value: "C18", label: "구동부" },
-        { value: "C19", label: "스크라바" },
-        { value: "C20", label: "크레인" },
-        { value: "C21", label: "구동 Roll" },
-        { value: "C22", label: "슬리터기" },
-        { value: "C23", label: "절단기" },
-        { value: "C24", label: "검사설비" },
-        { value: "C25", label: "기타" },
-      ],
-    fileData : {}, // 내역방식 파일 등록할 때 첨부파일 데이터
-    fileData2 : {}, // 대내용 첨부파일 데이터
-    fileData3 : {}, // 대외용 첨부파일 데이터
-        insFile : '',
-        innerFile : '',
-        outerFile : ''
+      minDate : new Date().toISOString().slice(0, 10),
+      lotteDeptList: [],
+      lotteProcList: [],
+      lotteClsList: [],
+      fileData : {}, // 내역방식 파일 등록할 때 첨부파일 데이터
+      fileData2 : {}, // 대내용 첨부파일 데이터
+      fileData3 : {}, // 대외용 첨부파일 데이터
+      insFile : '',
+      innerFile : '',
+      outerFile : ''
     }; 
   },
   computed: {
@@ -1067,6 +1102,8 @@ export default {
     callbackOpenUser(data) {
       this.bidContent.estOpener = data.userName;
       this.bidContent.estOpenerCode = data.userId;
+      this.bidContent.estBidder = data.userName;
+      this.bidContent.estBidderCode = data.userId;
       this.$forceUpdate();
     },
     callbackBiddingUser(data) {
@@ -1109,18 +1146,18 @@ export default {
       if (!this.result.biModeCode) this.bidContent.biModeCode = "A";//"A" - 지명경쟁, "B" - 일반경쟁
 
       this.bidContent.specialCond = this.result.specialCond;
-      this.datePart = this.result.spotDate.substring(0, 10);
-      this.timePart = this.result.spotDate.substring(11, 16);
+      /*this.datePart = ''this.result.spotDate.substring(0, 10);
+      this.timePart = this.result.spotDate.substring(11, 16);*/
       this.bidContent.spotArea = this.result.spotArea;
       this.bidContent.succDeciMethCode = this.result.succDeciMethCode;
       this.bidContent.amtBasis = this.result.amtBasis;
       this.bidContent.payCond = this.result.payCond;
       this.bdAmt = this.result.bdAmt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-      this.datePart1 = this.result.estStartDate.substring(0, 10);
+      /*this.datePart1 = this.result.estStartDate.substring(0, 10);
       this.timePart1 = this.result.estStartDate.substring(11, 16);
       this.datePart2 = this.result.estCloseDate.substring(0, 10);
-      this.timePart2 = this.result.estCloseDate.substring(11, 16);
+      this.timePart2 = this.result.estCloseDate.substring(11, 16);*/
       this.bidContent.estOpener = this.result.estOpener;
       this.bidContent.estOpenerCode = this.result.estOpenerCode;
       this.bidContent.gongoId = this.result.gongoId;
@@ -1143,6 +1180,16 @@ export default {
         this.bidContent.matFactoryLine = this.result.matFactoryLine;
         this.bidContent.matFactoryCnt = this.result.matFactoryCnt;
       }
+
+      const currentDate = new Date()
+      let currentHours = currentDate.getHours()
+      currentHours = currentHours < 10 ? '0' + currentHours : currentHours
+      
+      const hours = `${currentHours}:00`
+      this.timePart = hours
+      this.timePart1 = hours
+      this.timePart2 = hours
+
       this.$forceUpdate();
       $("#bidPast").modal("hide");
     },
@@ -1229,14 +1276,24 @@ export default {
         alert("입찰참가자격을 선택해 주세요.");
         return false;
       }
-      if (!this.datePart || this.datePart === "") {
-        alert("현장설명일시 날짜를 입력해 주세요.");
+      if (!this.datePart) {
+        alert("현장설명일시 날짜를 선택해 주세요.");
         return false;
       }
-      if (!this.timePart || this.timePart === "") {
-        alert("현장설명일시 시간을 입력해 주세요.");
+      if (!this.timePart) {
+        alert("현장설명일시 시간을 선택해 주세요.");
         return false;
       }
+
+      const inputDate = new Date(this.datePart + " " + this.timePart)
+
+      const currentTime1 = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Seoul"}));
+
+      if (currentTime1 > inputDate) {
+          alert("현장설명일시는 현재 시간보다 큰 시간을 선택해야 합니다.");
+          return false
+      } 
+
       if (!this.bidContent.spotArea || this.bidContent.spotArea === "") {
         alert("현장설명장소를 입력해 주세요.");
         return false;
@@ -1275,8 +1332,8 @@ export default {
         return false;
       }
 
-      var startDateTime = new Date(`${this.datePart1}T${this.timePart1}`);
-      var closeDateTime = new Date(`${this.datePart2}T${this.timePart2}`);
+      var startDateTime = new Date(`${this.datePart1}T${this.timePart1}`)
+;     var closeDateTime = new Date(`${this.datePart2}T${this.timePart2}`);
 
       const closeDate = new Date(this.datePart2 + " " + this.timePart2)
 
@@ -1656,6 +1713,22 @@ export default {
         }
       this.outerFile = fileData
     },
+    getCodeList(){
+      const vm = this
+      this.$http
+        .post('/api/v1/bid/progressCodeList')
+        .then((response) => {
+          const data = response.data
+          vm.lotteDeptList = data.filter(item => item.colCode == 'MAT_DEPT')
+          vm.lotteProcList = data.filter(item => item.colCode == 'MAT_PROC') 
+			    vm.lotteClsList	= data.filter(item => item.colCode == 'MAT_CLS')
+        })
+        .catch((error) => {
+          console.log(err)
+        this.$store.commit('finish');
+        });
+    }
+    
   },
   beforeMount() {},
   mounted() {
@@ -1668,6 +1741,19 @@ export default {
     cmmn.applyCal();
     //파일첨부
     fileInput.applyFile();
+    if(this.bidContent.interrelatedCustCode==='02'){
+      this.getCodeList()
+    }
+
+    const currentDate = new Date()
+    let currentHours = currentDate.getHours()
+    currentHours = currentHours < 10 ? '0' + currentHours : currentHours
+    
+    const hours = `${currentHours}:00`
+    this.timePart = hours
+    this.timePart1 = hours
+    this.timePart2 = hours
+
   },
 };
 </script>

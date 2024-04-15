@@ -123,12 +123,38 @@
               현장설명일시 <span class="star">*</span>
             </div>
             <div class="width100">
-              <Calendar @update-date="fnUpdateSpotDate" calendarId="spotDate" classProps="datepicker inputStyle maxWidth140px" :initDate="datePart"></Calendar>
-              <input
+              <Calendar @update-date="fnUpdateSpotDate" calendarId="spotDate" classProps="datepicker inputStyle maxWidth140px" :initDate="datePart" :minDate="minDate"></Calendar>
+              <!-- <input
                 type="time"
                 class="inputStyle maxWidth140px"
                 v-model="timePart"
-              />
+              /> -->
+              <select class="inputStyle ml10" v-model="timePart" style="background:url('../images/selectArw.png') no-repeat right 15px center;max-width: 110px">
+                  <option value="">시간 선택</option>
+                  <option value="01:00">01:00</option>
+                  <option value="02:00">02:00</option>
+                  <option value="03:00">03:00</option>
+                  <option value="04:00">04:00</option>
+                  <option value="05:00">05:00</option>
+                  <option value="06:00">06:00</option>
+                  <option value="07:00">07:00</option>
+                  <option value="08:00">08:00</option>
+                  <option value="09:00">09:00</option>
+                  <option value="10:00">10:00</option>
+                  <option value="11:00">11:00</option>
+                  <option value="12:00">12:00</option>
+                  <option value="13:00">13:00</option>
+                  <option value="14:00">14:00</option>
+                  <option value="15:00">15:00</option>
+                  <option value="16:00">16:00</option>
+                  <option value="17:00">17:00</option>
+                  <option value="18:00">18:00</option>
+                  <option value="19:00">19:00</option>
+                  <option value="20:00">20:00</option>
+                  <option value="21:00">21:00</option>
+                  <option value="22:00">22:00</option>
+                  <option value="23:00">23:00</option>
+              </select>
             </div>
           </div>
           <div class="flex align-items-center mt10">
@@ -250,15 +276,15 @@
             <div class="flex align-items-center width100">
               <select name="" class="selectStyle" v-model="dataFromList.result.matDept">
                 <option value=null>사업부</option>
-                <option v-for="(dept,idx) in dataFromList.lotteDeptList" :value="dept.value" :key="idx">{{ dept.label }}</option>
+                <option v-for="(dept,idx) in dataFromList.lotteDeptList" :value="dept.codeVal" :key="idx">{{ dept.codeName }}</option>
               </select>
               <select name="" class="selectStyle" style="margin: 0 10px" v-model="dataFromList.result.matProc">
                 <option value=null>공정</option>
-                <option v-for="(proc,idx) in dataFromList.lotteProcList" :value="proc.value" :key="idx">{{ proc.label }}</option>
+                <option v-for="(proc,idx) in dataFromList.lotteProcList" :value="proc.codeVal" :key="idx">{{ proc.codeName }}</option>
               </select>
               <select name="" class="selectStyle" v-model="dataFromList.result.matCls">
                 <option value=null>분류</option>
-                <option v-for="(cls,idx) in dataFromList.lotteClsList" :value="cls.value" :key="idx">{{ cls.label }}</option>
+                <option v-for="(cls,idx) in dataFromList.lotteClsList" :value="cls.codeVal" :key="idx">{{ cls.codeName }}</option>
               </select>
             </div>
           </div>
@@ -313,8 +339,34 @@
                 제출시작일시 <span class="star">*</span>
               </div>
               <div class="flex align-items-center width100">
-                <Calendar @update-date="fnUpdateStartDate" calendarId="startDate" classProps="datepicker inputStyle" :initDate="datePart1"></Calendar>
-                <input type="time" class="inputStyle ml10" v-model="timePart1"/>
+                <Calendar @update-date="fnUpdateStartDate" calendarId="startDate" classProps="datepicker inputStyle" :initDate="datePart1" :minDate="minDate"></Calendar>
+                <!-- <input type="time" class="inputStyle ml10" v-model="timePart1"/> -->
+                <select class="inputStyle ml10" v-model="timePart1" style="background:url('../images/selectArw.png') no-repeat right 15px center;max-width: 110px">
+                  <option value="">시간 선택</option>
+                  <option value="01:00">01:00</option>
+                  <option value="02:00">02:00</option>
+                  <option value="03:00">03:00</option>
+                  <option value="04:00">04:00</option>
+                  <option value="05:00">05:00</option>
+                  <option value="06:00">06:00</option>
+                  <option value="07:00">07:00</option>
+                  <option value="08:00">08:00</option>
+                  <option value="09:00">09:00</option>
+                  <option value="10:00">10:00</option>
+                  <option value="11:00">11:00</option>
+                  <option value="12:00">12:00</option>
+                  <option value="13:00">13:00</option>
+                  <option value="14:00">14:00</option>
+                  <option value="15:00">15:00</option>
+                  <option value="16:00">16:00</option>
+                  <option value="17:00">17:00</option>
+                  <option value="18:00">18:00</option>
+                  <option value="19:00">19:00</option>
+                  <option value="20:00">20:00</option>
+                  <option value="21:00">21:00</option>
+                  <option value="22:00">22:00</option>
+                  <option value="23:00">23:00</option>
+              </select>
               </div>
             </div>
             <div class="flex align-items-center width100 ml80">
@@ -322,8 +374,34 @@
                 제출마감일시 <span class="star">*</span>
               </div>
               <div class="flex align-items-center width100">
-                <Calendar @update-date="fnUpdateCloseDate" calendarId="closeDate" classProps="datepicker inputStyle" :initDate="datePart2"></Calendar>
-                <input type="time" class="inputStyle ml10" v-model="timePart2"/>
+                <Calendar @update-date="fnUpdateCloseDate" calendarId="closeDate" classProps="datepicker inputStyle" :initDate="datePart2" :minDate="minDate"></Calendar>
+                <!-- <input type="time" class="inputStyle ml10" v-model="timePart2"/> -->
+                <select class="inputStyle ml10" v-model="timePart2" style="background:url('../images/selectArw.png') no-repeat right 15px center;max-width: 110px">
+                  <option value="">시간 선택</option>
+                  <option value="01:00">01:00</option>
+                  <option value="02:00">02:00</option>
+                  <option value="03:00">03:00</option>
+                  <option value="04:00">04:00</option>
+                  <option value="05:00">05:00</option>
+                  <option value="06:00">06:00</option>
+                  <option value="07:00">07:00</option>
+                  <option value="08:00">08:00</option>
+                  <option value="09:00">09:00</option>
+                  <option value="10:00">10:00</option>
+                  <option value="11:00">11:00</option>
+                  <option value="12:00">12:00</option>
+                  <option value="13:00">13:00</option>
+                  <option value="14:00">14:00</option>
+                  <option value="15:00">15:00</option>
+                  <option value="16:00">16:00</option>
+                  <option value="17:00">17:00</option>
+                  <option value="18:00">18:00</option>
+                  <option value="19:00">19:00</option>
+                  <option value="20:00">20:00</option>
+                  <option value="21:00">21:00</option>
+                  <option value="22:00">22:00</option>
+                  <option value="23:00">23:00</option>
+              </select>
               </div>
             </div>
           </div>
@@ -915,6 +993,7 @@ export default {
       innerFile : '', // 대내용 첨부파일 데이터
       outerFile : '', // 대외용 첨부파일 데이터
       changeFileCheck : {insFileCheck : 'Y', innerFileCheck : 'Y',  outerFileCheck : 'Y'}, // 기존에 들어 있는 파일들이 어떻게 변경되는지 확인 =  Y : 기존과 동일한 상태라 아무 것도 처리 안 해도 되는 상태. N : 파일이 있다가 사라진 상태라 삭제 해야 함, C : 기존에 있던 없던 파일이 추가되거나 변경된 상태. 기존에 있던 걸 지우고 새로 넣어야 함
+      minDate : new Date().toISOString().slice(0, 10),
     };
   },
   computed: {
@@ -964,6 +1043,8 @@ export default {
     callbackOpenUser(data) {//개찰자 정보 set
       this.dataFromList.result.estOpener = data.userName;
       this.dataFromList.result.estOpenerCode = data.userId;
+      this.dataFromList.result.estBidder = data.userName;
+      this.dataFromList.result.estBidderCode = data.userId;
       this.$forceUpdate();
     },
     callbackBiddingUser(data) {//낙찰자 정보 set
@@ -1159,19 +1240,27 @@ export default {
         return false;
       }
       if (
-        !this.datePart ||
-        this.datePart === ""
+        !this.datePart 
       ) {
         alert("현장설명일시 날짜를 입력해 주세요.");
         return false;
       }
       if (
-        !this.timePart ||
-        this.timePart === ""
+        !this.timePart
       ) {
         alert("현장설명일시 시간을 입력해 주세요.");
         return false;
       }
+
+      const inputDate = new Date(this.datePart + " " + this.timePart)
+
+      const currentTime1 = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Seoul"}));
+
+      if (currentTime1 > inputDate) {
+          alert("현장설명일시는 현재 시간보다 큰 시간을 선택해야 합니다.");
+          return false
+      } 
+
       if (
         !this.dataFromList.result.spotArea ||
         this.dataFromList.result.spotArea === ""
@@ -1598,7 +1687,7 @@ export default {
         this.outerFile = ''
         this.changeFileCheck.outerFileCheck = 'N'
       }
-    }
+    },
   },
   beforeMount() {
     
@@ -1627,7 +1716,6 @@ export default {
     cmmn.applyCal();
     
     this.assignDataFromList();//날짜 및 시간 정보 set
-
     //this.fileSetting();//기존에 업로드 한 파일 set
   },
 };
