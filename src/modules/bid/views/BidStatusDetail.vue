@@ -136,7 +136,7 @@ export default {
                         text: "개찰했습니다.",
                     });
                     this.$store.commit("finish");
-                    this.$router.push({name:"bidOpenDetail", params: { 'biNo': this.biNo }});
+                    this.$router.push({name:"bidOpenDetail"});
                 }
             }).finally(() => {
                 this.$store.commit("finish");
@@ -189,10 +189,16 @@ export default {
         }
     },
     beforeMount() {
-        this.biNo = this.$route.params.biNo;
+        this.biNo = this.$store.state.bidDetailData;
     },
     mounted() {
         this.bidStatusRetrieve();
+    },
+    beforeRouteLeave(to, from, next){
+        if(to.name != 'bidOpenDetail'){
+            this.$store.commit('setBidDetailData', null);
+        }
+        next();
     },
 };
 </script>

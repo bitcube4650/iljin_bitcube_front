@@ -498,8 +498,13 @@ export default {
         }
     },
     beforeMount() {
-        this.biNo = this.$route.params.biNo;
-        this.reCustList = this.$route.params.reCustList;
+        this.biNo = this.$store.state.bidDetailData;
+        this.reCustList = this.$store.state.bidUpdateData;
+    },
+    beforeRouteLeave(to, from, next){
+        this.$store.commit('setBidDetailData', null);
+        this.$store.commit('setBidUpdateData', null);
+        next();
     },
     async mounted() {
         await this.bidStatusRetrieve();

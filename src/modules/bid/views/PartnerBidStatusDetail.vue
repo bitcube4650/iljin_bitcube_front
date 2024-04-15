@@ -89,7 +89,7 @@
                                     <option v-for="(val, idx) in currList" :value="val.codeVal" :key="idx" >{{ val.codeName }}</option>
                                 </select>
                                 <input type="text" class="inputStyle" placeholder="숫자만 입력" style="margin: 0 10px" v-model="amt" /> 
-                                <input type="text" class="inputStyle readonly" placeholder="" readonly />
+                                <input type="text" class="inputStyle readonly" placeholder="" :value="amtHangle" readonly />
                             </div>
                         </div>
                         <div class="flex mt10">
@@ -176,6 +176,7 @@ export default {
             data : {},                  //상세 데이터
             submitData : [],            //직접입력 데이터
             amt : '',                   //파일등록 총금액
+            amtHangle : '',             //파일등록 총금액 한글
             totalAmt : '',              //직접입력 총금액
             esmtCurr : '',              //총 견적금액 단위
             detailFile: '',             //견적세부파일
@@ -187,7 +188,7 @@ export default {
     },
     mixins: [mixin],
     beforeMount() {
-        this.biNo = this.$route.params.biNo;
+        this.biNo = this.$store.state.bidDetailData;
     },
     async mounted() {
         //nxTSPKI 초기화
@@ -206,10 +207,15 @@ export default {
             this.esmtPossible = false;
         }
     },
+    beforeRouteLeave(to, from, next){
+        this.$store.commit('setBidDetailData', null);
+        next();
+    },
     watch:{
         amt(val){
             let amt = val.toString().replace(/[^-0-9]/g, '');
             this.amt = amt.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            this.fnConvertToKoreanNumber(amt);
         }
     },
     methods: {
@@ -514,6 +520,34 @@ export default {
                 type: "warning",
                 text: "재입찰 대상이 아닙니다.",
             });
+        },
+        //파일등록 견적 총 금액 한글표기
+        fnConvertToKoreanNumber(number) {
+            const koreanNumber = ['', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구'];
+            const tenUnit = ['', '십', '백', '천'];
+            const tenThousandUnit = ['해', '경', '조', '억', '만', ''];
+            const unit = 10000;
+
+            let answer = '';
+
+            while (number > 0) {
+                const mod = number % unit;
+                const modToArray = mod.toString().split('');
+                const length = modToArray.length - 1;
+
+                const modToKorean = modToArray.reduce((acc, value, index) => {
+                    const valueToNumber = +value;
+                    if (!valueToNumber) return acc;
+                    // 단위가 십 이상인 '일'글자는 출력하지 않는다. ex) 일십 -> 십
+                    const numberToKorean = koreanNumber[valueToNumber];
+                    return `${acc}${numberToKorean}${tenUnit[length - index]}`;
+                }, '');
+
+                answer = `${modToKorean}${tenThousandUnit.pop()} ${answer}`;
+                number = Math.floor(number / unit);
+            }
+
+            this.amtHangle = answer;
         }
     }
 };

@@ -447,10 +447,14 @@ export default {
 		}
 	},
 	beforeMount() {
-		this.biNo = this.$route.params.biNo;
+		this.biNo = this.$store.state.bidDetailData;
 	},
 	mounted() {
 		this.fnDataDetail();
 	},
+    beforeRouteLeave(to, from, next){
+        this.$store.commit('setBidDetailData', null);
+        next();
+    },
 };
 </script>

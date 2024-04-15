@@ -165,11 +165,12 @@ export default {
     },
     methods: {
         clickBidDetail(ingTag, biNo) {
-        if (ingTag === "개찰") {
-            this.$router.push({name:"bidOpenDetail", params: { 'biNo': biNo }});
-        } else {
-            this.$router.push({name:"bidStatusDetail", params: { 'biNo': biNo }});
-        }
+            this.$store.commit('setBidDetailData', biNo);
+            if (ingTag === "개찰") {
+                this.$router.push({name:"bidOpenDetail"});
+            } else {
+                this.$router.push({name:"bidStatusDetail"});
+            }
         },
         search(page) {
 

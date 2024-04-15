@@ -527,7 +527,10 @@ export default {
     this.loginId = this.$store.state.loginInfo.userId;
     this.retrieve();
   },
-
+  beforeRouteLeave(to, from, next){
+      this.$store.commit('setBidDetailData', null);
+      next();
+  },
   methods: {
     async retrieve() {
       //console.log( this.dataFromList)
