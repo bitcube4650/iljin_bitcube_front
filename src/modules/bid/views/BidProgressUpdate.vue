@@ -526,9 +526,9 @@
                   <tr>
                     <th>품목명</th>
                     <th>규격</th>
-                    <th>수량</th>
                     <th>단위</th>
                     <th>실행단가</th>
+                    <th>수량</th>
                     <th>합계</th>
                     <th class="end">삭제</th>
                   </tr>
@@ -564,18 +564,6 @@
                         id=""
                         class="inputStyle inputSm"
                         placeholder=""
-                        v-model="val.orderQty"
-                        maxlength="12"
-                        @input="changeNumOrderQty(idx)"
-                      />
-                    </td>
-                    <td>
-                      <input
-                        type="text"
-                        name=""
-                        id=""
-                        class="inputStyle inputSm"
-                        placeholder=""
                         v-model="val.unitcode"
                         maxlength="25"
                       />
@@ -590,6 +578,18 @@
                         v-model="val.orderUc"
                         maxlength="12"
                         @input="changeNumOrderUc(idx)"
+                      />
+                    </td>
+                    <td>
+                      <input
+                        type="text"
+                        name=""
+                        id=""
+                        class="inputStyle inputSm"
+                        placeholder=""
+                        v-model="val.orderQty"
+                        maxlength="12"
+                        @input="changeNumOrderQty(idx)"
                       />
                     </td>
                     <td class="text-right">{{ (val.orderQty*val.orderUc).toLocaleString()  }}</td>
@@ -1289,16 +1289,16 @@ export default {
             alert('세부내역 규격을 작성해 주세요.');
             return false;
           }
-          if(orderQtyCheck.length > 0){
-            alert('세부내역 수량을 작성해 주세요.');
-            return false;
-          }
           if(unitcodeCheck.length > 0){
             alert('세부내역 단위를 작성해 주세요.');
             return false;
           }
           if(orderUcCheck.length > 0){
             alert('세부내역 실행단가를 작성해 주세요.');
+            return false;
+          }
+          if(orderQtyCheck.length > 0){
+            alert('세부내역 수량을 작성해 주세요.');
             return false;
           }
 
