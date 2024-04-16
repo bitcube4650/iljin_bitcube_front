@@ -511,30 +511,42 @@ export default {
 
             nxTSPKI.signData(totalPrice, //암호화 하는 데이터
               {ssn:true}, //인증서 정보 포함 여부
-              function(res){//인증후 콜백
+              async function(res){//인증후 콜백
+  
                 if(res.code ==0){//인증완료
 
-                  let params = {
-                      biNo : vm.biNo
-                  ,   submitData : vm.submitData
-                  ,   amt : res.data.signedData
-                  ,   certInfo : res.data.certInfo
-                  ,   esmtCurr : vm.esmtCurr 
-                  ,   insModeCode : vm.data.insMode
-                  }
+                    //인증서 유효기간 체크
+                    var validFrom = res.data.certInfo.validFrom
+                    var validTo = res.data.certInfo.validTo//시작일
+                    var validDate = await vm.checkCertDate(validFrom, validTo);//만료일
+                    if(!validDate){
+                        vm.$swal({
+                            type: "warning",
+                            text: "인증서 유효기간이 아닙니다.",
+                        });
 
-                  formData.append('data', JSON.stringify(params));
-                  formData.append('detailFile', vm.detailFile);
-                  formData.append('etcFile', vm.etcFile);
+                        return false;
+                    }
 
-                  vm.bidSubmitting(formData);
+                    let params = {
+                        biNo : vm.biNo
+                    ,   submitData : vm.submitData
+                    ,   amt : res.data.signedData
+                    ,   certInfo : res.data.certInfo
+                    ,   esmtCurr : vm.esmtCurr 
+                    ,   insModeCode : vm.data.insMode
+                    }
 
+                    formData.append('data', JSON.stringify(params));
+                    formData.append('detailFile', vm.detailFile);
+                    formData.append('etcFile', vm.etcFile);
+                    await vm.bidSubmitting(formData);
                   
                 }else{//실패
-                  vm.$swal({
-                      type: "warning",
-                      text: res.errorMessage,
-                  });
+                    vm.$swal({
+                        type: "warning",
+                        text: res.errorMessage,
+                    });
               }}
             )
         },
@@ -571,6 +583,22 @@ export default {
             }
 
             this.amtHangle = answer;
+        },
+        checkCertDate(startDate , endDate){
+            // 현재 날짜 객체 생성
+            var currentDate = new Date();
+
+            // 비교 대상 날짜 객체 생성
+            var start = new Date(startDate);
+            var end = new Date(endDate);
+
+
+            if(currentDate < start || end < currentDate ){//인증서 유효기간이 아닌 경우
+                return false;
+            }else{
+                return true;
+            }
+
         }
     }
 };
