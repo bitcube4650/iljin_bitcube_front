@@ -677,7 +677,6 @@ export default {
       this.$http
         .post('/api/v1/bid/progressCodeList')
         .then((response) => {
-          console.log(response.data)
           const data = response.data
           vm.lotteDeptList = data.filter(item => item.colCode == 'MAT_DEPT')
           vm.lotteProcList = data.filter(item => item.colCode == 'MAT_PROC') 
