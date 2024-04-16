@@ -564,11 +564,13 @@ export default {
 		fnRemoveAttachFile(type){
 			// 	첨부파일 삭제
 			if(type == 'bfile'){
+				this.$refs.uploadedbfile.value = null;
 				this.bfile = null
 				this.bfileName = ''
 				this.detail.bfile = null
 				this.detail.bfilePath = null
 			} else {
+				this.$refs.uploadedRegnumFile.value = null;
 				this.regnumFile = null
 				this.regnumFileName = ''
 				this.detail.regnumFile = null

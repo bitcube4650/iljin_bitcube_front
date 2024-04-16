@@ -238,13 +238,13 @@
                 <div v-if="this.$route.params.id == null && this.detail.custCode == null" class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">비밀번호 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="password" v-model="detail.userPwd" maxlength="100" class="inputStyle maxWidth-max-content" placeholder="대/소문자, 숫자, 특수문자 2 이상 조합(길이 8~16자리)">
+                        <input style="-webkit-text-security:disc;" v-model="detail.userPwd" maxlength="100" class="inputStyle maxWidth-max-content" placeholder="대/소문자, 숫자, 특수문자 2 이상 조합(길이 8~16자리)">
                     </div>
                 </div>
                 <div v-if="this.$route.params.id == null && this.detail.custCode == null" class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">비밀번호 확인 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="password" v-model="detail.userPwdConfirm" maxlength="100" class="inputStyle maxWidth-max-content" placeholder="비밀번호와 동일해야 합니다.">
+                        <input style="-webkit-text-security:disc;" v-model="detail.userPwdConfirm" maxlength="100" class="inputStyle maxWidth-max-content" placeholder="비밀번호와 동일해야 합니다.">
                     </div>
                 </div>
 				<div v-if="this.$route.params.id != null || this.detail.custCode != null" class="flex align-items-center mt10">
@@ -828,11 +828,13 @@ export default {
 		fnRemoveAttachFile(type){
 			// 	첨부파일 삭제
 			if(type == 'bfile'){
+				this.$refs.uploadedbfile.value = null;
 				this.bfile = null
 				this.bfileName = ''
 				this.detail.bfile = null
 				this.detail.bfilePath = null
 			} else {
+				this.$refs.uploadedRegnumFile.value = null;
 				this.regnumFile = null
 				this.regnumFileName = ''
 				this.detail.regnumFile = null
