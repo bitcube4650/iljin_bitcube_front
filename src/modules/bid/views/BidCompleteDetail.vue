@@ -235,7 +235,7 @@
 								<th>견적금액(총액)</th>
 								<th>견적</th>
 								<th>제출일시</th>
-								<th>담당자</th>
+								<th>대표자</th>
 								<th>기타첨부파일</th>
 								<th>구분</th>
 								<th class="end">낙찰일시</th>
@@ -250,7 +250,7 @@
 								<td class="text-overflow" v-text="ftEsmtAmt(cust)"></td>
 								<td><a @click="fnCheck($event, cust)" :class="(cust.esmtYn == '2' ? 'textUnderline textMainColor ' : '') + (cust.esmtYn == '2' && data.insMode == '2' && data.estOpenDate != null ? 'detailBtn' : '')">{{ cust.esmtYn | ftEsmtYn }}</a></td>
 								<td>{{ cust.submitDate }}</td>
-								<td>{{ cust.damdangName }}</td>
+								<td>{{ cust.presName }}</td>
 								<td><img v-if="cust.etcPath" @click="fnCustSpecFileDown(cust.etcFile, cust.etcPath)" src="/images/icon_etc.svg" class="iconImg" alt="etc"></td>
 								<td class="textHighlight">{{ cust.succYn | ftSuccYn }}</td>
 								<td class="end">{{ cust.updateDate }}</td>
