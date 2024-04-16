@@ -146,6 +146,10 @@ export default {
       this.loginInfo.loginPw = '';
     },
     async login() {  
+      //아이디 빈 문자열 제거
+      var id = this.loginInfo.loginId;
+      this.loginInfo.loginId = id.replace(/\s/g, "");
+
       if (this.loginInfo.loginId == null || this.loginInfo.loginId == '') {
         this.$swal({type: "warning",text: "아이디를 입력해 주십시오"});
         return;
