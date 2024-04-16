@@ -40,11 +40,11 @@
             <div class="formTit flex-shrink0 width170px">특수조건</div>
             <div class="width100">
               <pre
-                class="boxStSm boxOverflowY"
+                class="boxOverflowY"
                 v-if="this.result.specialCond !== null"
                 style="background-color: white;word-wrap: break-word; width:900px;"
               >{{ this.result.specialCond }}</pre>
-              <div class="boxStSm width100 boxOverflowY" v-else>
+              <div class="width100 boxOverflowY" v-else>
                 <!-- null인 경우 빈 문자열 표시 -->
                 없음
               </div>
