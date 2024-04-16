@@ -131,9 +131,13 @@
         },
         watch: {
             '$route'(to, from) {
-              if(to.name && from.name){
-                this.prevRoute = from
-                this.routeHistory.push({to, from})
+            if(to.name && from.name){
+                if (this.$cookie.get('loginInfo') !== null) {
+                    const loginInfo = JSON.parse(this.$cookie.get('loginInfo'));
+                    this.$store.commit('login', loginInfo);
+                }
+            this.prevRoute = from
+            this.routeHistory.push({to, from})
               }
             }
         }
