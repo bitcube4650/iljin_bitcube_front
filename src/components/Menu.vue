@@ -28,10 +28,10 @@
                 <router-link to=""><span><i class="fa-light fa-file-contract"></i></span>전자입찰</router-link>
                 <div class="depth2Lnb">
                     <ul>
-                        <li v-if="company == 'inter'" ><router-link to="/bid/progress">입찰계획</router-link></li>
-                        <li><a  @click="clickBidStatus">입찰진행</a></li>
-                        <li><a  @click="clickBidComplete">입찰완료</a></li>
-                        <li v-if="company == 'inter'"><router-link to="/bid/history">낙찰이력</router-link></li>
+                        <li v-if="company == 'inter'" v-bind:class="{ 'active': $route.path === '/bid/progress' }"><router-link to="/bid/progress">입찰계획</router-link></li>
+                        <li v-bind:class="{ 'active': $route.name === 'bidStatus' || $route.name === 'partnerBidStatus' }"><a  @click="clickBidStatus">입찰진행</a></li>
+                        <li v-bind:class="{ 'active': $route.name === 'bidComplete' || $route.name === 'partnerBidComplete'}"><a  @click="clickBidComplete">입찰완료</a></li>
+                        <li v-if="company == 'inter'" v-bind:class="{ 'active': $route.path === '/bid/history' }"><router-link to="/bid/history">낙찰이력</router-link></li>
                     </ul>
                 </div>
             </li>
@@ -39,8 +39,8 @@
                 <router-link to=""><span><i class="fa-light fa-bullhorn"></i></span>공지</router-link>
                 <div class="depth2Lnb">
                     <ul>
-                        <li><router-link to="/notice">공지사항</router-link></li>
-                        <li><a @click="clickFaq">FAQ</a></li>
+                        <li v-bind:class="{ 'active': $route.path === '/notice' }"><router-link to="/notice">공지사항</router-link></li>
+                        <li v-bind:class="{ 'active': $route.name === 'adminFaq' || $route.name === 'userFaq'}"><a @click="clickFaq">FAQ</a></li>
                         <li><a :href="company == 'cust'? '/installFile/전자입찰_매뉴얼_업체.pdf' : '/installFile/전자입찰_매뉴얼_본사.pdf'" download="전자입찰_메뉴얼.pdf">메뉴얼</a></li>
                     </ul>
                 </div>
@@ -49,10 +49,10 @@
                 <a ><span><i class="fa-light fa-buildings"></i></span>업체정보</a>
                 <div class="depth2Lnb">
                     <ul>
-                        <li v-if="company == 'inter'"><router-link to="/company/partner/approval">업체승인</router-link></li>
-                        <li v-if="company == 'inter'"><router-link to="/company/partner/management">업체관리</router-link></li>
-                        <li v-if="company == 'cust'"><router-link to="/company/partner">자사정보</router-link></li>
-                        <li v-if="company == 'cust'"><router-link to="/company/partner/user">사용자관리</router-link></li>
+                        <li v-if="company == 'inter'" v-bind:class="{ 'active': $route.path === '/company/partner/approval' }"><router-link to="/company/partner/approval">업체승인</router-link></li>
+                        <li v-if="company == 'inter'" v-bind:class="{ 'active': $route.path === '/company/partner/management' }"><router-link to="/company/partner/management">업체관리</router-link></li>
+                        <li v-if="company == 'cust'" v-bind:class="{ 'active': $route.path === '/company/partner' }"><router-link to="/company/partner">자사정보</router-link></li>
+                        <li v-if="company == 'cust'" v-bind:class="{ 'active': $route.path === '/company/partner/user' }"><router-link to="/company/partner/user">사용자관리</router-link></li>
                     </ul>
                 </div>
             </li>
@@ -60,10 +60,10 @@
                 <a ><span><i class="fa-light fa-chart-pie-simple"></i></span>통계</a>
                 <div class="depth2Lnb">
                     <ul>
-                        <li><router-link to="/statistics/performance/company">회사별 입찰실적</router-link></li>
-                        <li><router-link to="/statistics/performance/detail">입찰실적 상세내역</router-link></li>
-                        <li><router-link to="/statistics/status">입찰현황</router-link></li>
-                        <li><router-link to="/statistics/detail">입찰 상세내역</router-link></li>
+                        <li v-bind:class="{ 'active': $route.path === '/statistics/performance/company' }"><router-link to="/statistics/performance/company">회사별 입찰실적</router-link></li>
+                        <li v-bind:class="{ 'active': $route.path === '/statistics/performance/detail' }"><router-link to="/statistics/performance/detail">입찰실적 상세내역</router-link></li>
+                        <li v-bind:class="{ 'active': $route.path === '/statistics/status' }"><router-link to="/statistics/status">입찰현황</router-link></li>
+                        <li v-bind:class="{ 'active': $route.path === '/statistics/detail' }"><router-link to="/statistics/detail">입찰 상세내역</router-link></li>
                     </ul>
                 </div>
             </li>
@@ -71,8 +71,8 @@
               <a ><span><i class="fa-light fa-memo-circle-info"></i></span>정보관리</a>
                 <div class="depth2Lnb">
                     <ul>
-                        <li><router-link to="/info/group/user">사용자관리</router-link></li>
-                        <li><router-link to="/info/group/item">품목관리</router-link></li>
+                        <li v-bind:class="{ 'active': $route.path === '/info/group/user' }"><router-link to="/info/group/user">사용자관리</router-link></li>
+                        <li v-bind:class="{ 'active': $route.path === '/info/group/item' }"><router-link to="/info/group/item">품목관리</router-link></li>
                     </ul>
                 </div>
             </li>
@@ -242,6 +242,9 @@ import cmmn from "../../public/js/common.js";
                 
             }
             
+        },
+        clickCssApply(){//클릭한 메뉴 css
+
         }
     }
   };
@@ -249,5 +252,8 @@ import cmmn from "../../public/js/common.js";
   
   <!-- Add "scoped" attribute to limit CSS to this component only -->
   <style scoped>
-  
+    .active {
+        font-weight: 500;
+        color: #004B9E;
+    }
   </style>

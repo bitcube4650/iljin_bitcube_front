@@ -37,19 +37,12 @@ export default {
             imgUrl: this.$store.state.logoImg,
             mainUrl: this.$store.state.mainImg,
             jtvOrLotte: this.$store.state.jtvOrLotte,
-            mainUrl: '',
             compInfo : []
         };
     },
     mounted(){
         
         cmmn.applyHeader();//퍼블리싱 js 파일 적용
-        /*
-        주석처리 이유 : 만약 일진으로 들어갔다가 전주방송으로 들어가면 기존에 this.$store.state.logoImg는 null 이 아니라 일진 이미지 url 이 남아있어서 조회가 안됨
-        if (this.imgUrl == null) { // 계속적인 조회가 이난 최초 1번만 조회 처리를 위해 
-            this.selectCompInfo();//업체정보 조회하여 url에 맞는 logo 경로 set
-        }
-        */
 
         // 로고데이터 조회 여부 결정
         // jtvOrLotte는 현재 store에 들어가 있는 이미지 url의 지표
@@ -79,7 +72,7 @@ export default {
                 this.$store.commit('loading');
                 const response = await this.$http.post('/login/interrelatedList',{});
                 this.compInfo = response.data;
-                console.log('result  ',this.compInfo);
+
                 var url = window.location.href;
                 if(url.includes('jtv')){//전주방송인 경우
                     
