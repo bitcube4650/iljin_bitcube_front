@@ -181,7 +181,7 @@
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">아이디 <span class="star">*</span></div>
                     <div class="flex align-items-center width100">
-                        <input type="text" v-model="detail.userId" @keyup="checkReg" maxlength="20" @keypress="chgUserId" class="inputStyle" placeholder="영문, 숫자 입력(8자 이내) 후 중복확인">
+                        <input type="text" v-model.trim="detail.userId" maxlength="20" class="inputStyle" placeholder="영문, 숫자 입력(8자 이내) 후 중복확인">
                         <a href="#" @click.prevent="idcheck" class="btnStyle btnSecondary flex-shrink0 ml10" title="중복 확인">중복 확인</a>
                     </div>
                 </div>
@@ -323,6 +323,12 @@ export default {
 		bfileName : ''
     }
   },
+  watch :{
+	'detail.userId'(){
+		this.detail.idcheck=false;												// 아이디 중복체크 false처리
+		this.detail.userId = this.detail.userId.replace(/[^a-zA-Z0-9]/g, '');	// 영어+숫자
+	}
+  },
   mounted() {
     this.init();
   },
@@ -349,22 +355,6 @@ export default {
                 this.$store.commit('finish');
             }
 		},
-		chgUserId(event) {
-			this.detail.idcheck = false;
-			const keyCode = event.keyCode;
-			const isValidKey = (
-				(keyCode >= 48 && keyCode <= 57) || // Numbers
-				(keyCode >= 97 && keyCode <= 122) || // Numbers, Keypad
-				(keyCode >= 65 && keyCode <= 90) || // Alphabet
-				(keyCode === 32) || // Space
-				(keyCode === 8) || // BackSpace
-				(keyCode === 189) // Dash
-			);
-			if (!isValidKey) {
-				event.preventDefault();
-				return false;
-			}
-		},
 		idcheck() {
 			if (this.detail.userId == null || this.detail.userId == '') {
 				this.$swal({type: "warning",text: "아이디를 입력해주세요."});
@@ -379,6 +369,7 @@ export default {
 					this.detail.idcheck = true;
 				} else {
 					this.$swal({type: "warning",text: "입력한 아이디를 사용할 수 없습니다."});
+					this.detail.idcheck=false;
 				}
 			})
 			.finally(() => {
