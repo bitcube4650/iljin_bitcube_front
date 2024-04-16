@@ -133,8 +133,12 @@
             '$route'(to, from) {
             if(to.name && from.name){
                 if (this.$cookie.get('loginInfo') !== null) {
+                    const orgLoginInfo = this.$store.state.loginInfo;
                     const loginInfo = JSON.parse(this.$cookie.get('loginInfo'));
                     this.$store.commit('login', loginInfo);
+                    if (!(orgLoginInfo.custType == loginInfo.custType && orgLoginInfo.userAuth == loginInfo.userAuth)) {
+                        location.href = "/";
+                    }
                 }
             this.prevRoute = from
             this.routeHistory.push({to, from})
