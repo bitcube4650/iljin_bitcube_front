@@ -261,7 +261,7 @@
                 <tbody>
                   <tr v-for="(val, idx) in tableContent" :key="idx">
                     <td class="text-left">{{ val.name }}</td>
-                    <td class="text-left">{{ val.ssize }}</td>
+                    <td class="text-center">{{ val.ssize }}</td>
                     <td>{{ val.unitcode }}</td>
                     <td class="text-right">
                       {{ val.orderUc | numberWithCommas }}
