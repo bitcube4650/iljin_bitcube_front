@@ -486,7 +486,7 @@ export default {
 			var formData = new FormData();
 
     		formData.append('regnumFile', this.regnumFile);
-    		formData.append('bfile', this.bfile);
+    		formData.append('bFile', this.bfile);
 			formData.append('data', new Blob([JSON.stringify(this.detail)], { type: 'application/json' }));
 
 			this.$http
