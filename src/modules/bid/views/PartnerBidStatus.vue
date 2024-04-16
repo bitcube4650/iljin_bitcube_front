@@ -87,7 +87,9 @@
                         <td :class="!(val.ingTag == 'A3' && val.rebidAtt == 'N') && isPastDate(val.estStartDate) && !isPastDate(val.estCloseDate) && val.esmtYn != '2' ? 'blueHighlight' : ''">
                             <i class="fa-regular fa-timer"></i>{{ val.estStartDate }}
                         </td>
-                        <td>{{ val.estCloseDate }}</td>
+                        <td :class="!(val.ingTag == 'A3' && val.rebidAtt == 'N') && isPastDate(val.estStartDate) && !isPastDate(val.estCloseDate) && val.esmtYn != '2' ? 'blueHighlight' : ''">
+                            <i class="fa-regular fa-timer"></i>{{ val.estCloseDate }}
+                        </td>
                         <td>{{ val.biMode | ftBiMode }}</td>
                         <td><span v-text="fnIngTag(val)" :class="val.esmtYn == '2' ? 'blueHighlight' : ''" :style="!(val.ingTag == 'A3' && val.rebidAtt == 'N') && val.esmtYn != '2' && isPastDate(val.estStartDate) && !isPastDate(val.estCloseDate) ? 'color:red;' : '' "></span></td>
                         <td>{{ val.insMode | ftInsMode }}</td>
