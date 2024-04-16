@@ -439,10 +439,19 @@ export default {
                         text: "견적제출시간이 지났습니다. 제출마감일시를 확인해주세요.",
                     });
                 } else {
-                    this.$swal({
-                        type: "warning",
-                        text: "투찰 중 오류가 발생했습니다.",
-                    });
+                    if(response.data.msg != '' && response.data.msg != null && response.data.msg != undefined){
+                        this.$swal({
+                            type: "warning",
+                            text: response.data.msg
+                        });
+                    }else{
+
+                        this.$swal({
+                            type: "warning",
+                            text: "투찰 중 오류가 발생했습니다."
+                        });
+                    }
+                    
                 }
             })
             .finally(() => {

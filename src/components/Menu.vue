@@ -220,9 +220,9 @@ import cmmn from "../../public/js/common.js";
         },
         moveBiddingPage(keyword){//입찰페이지 이동
 
-            if(keyword == 'completed'){//계열사 입찰완료로 이동
+            if(keyword == 'completed'){//계열사 낙찰이력으로 이동
 
-                this.$router.push({name:"bidComplete" , params: { 'flag': keyword }}).catch(()=>{});
+                this.$router.push({name:"bidHistory" , params: { 'flag': keyword }}).catch(()=>{});
 
             }else if( keyword == 'awarded'){//협력사 입찰완료로 이동
 
