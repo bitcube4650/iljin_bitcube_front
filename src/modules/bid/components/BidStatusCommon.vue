@@ -336,7 +336,7 @@ export default {
                         text: "유찰 처리 되었습니다.",
                     });
                     
-                    this.fnBack();
+                    this.fnMovePage('bidComplete');
                 }
             }).finally(() => {
                 this.$store.commit("finish");

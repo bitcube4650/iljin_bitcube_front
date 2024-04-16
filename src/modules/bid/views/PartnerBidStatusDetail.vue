@@ -47,8 +47,8 @@
                                 <tr>
                                     <th>품목명</th>
                                     <th>규격</th>
-                                    <th>수량</th>
                                     <th>단위</th>
+                                    <th>수량</th>
                                     <th>견적단가</th>
                                     <th class="end">견적금액</th>
                                 </tr>
@@ -57,8 +57,8 @@
                                 <tr v-for="(val, idx) in submitData" :key="idx">
                                     <td class="text-left">{{ val.name }}</td>
                                     <td class="text-left">{{ val.ssize }}</td>
+                                    <td class="text-left">{{ val.unitcode }}</td>
                                     <td class="text-right">{{ val.orderQty | numberWithCommas }}</td>
-                                    <td>{{ val.unitcode }}</td>
                                     <td class="text-right">
                                         <div class="inputStyle readonly"><span v-text="fnCalcOrderUc(val.esmtUc, val.orderQty)"></span></div>
                                     </td>

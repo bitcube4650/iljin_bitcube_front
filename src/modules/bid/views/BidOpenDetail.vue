@@ -219,7 +219,7 @@ export default {
                         type: "info",
                         text: "낙찰 처리했습니다.",
                     });
-                    this.fnMovePage('bidStatus');
+                    this.fnMovePage('bidComplete');
                 }
             }).finally(() => {
                 this.$store.commit("finish");

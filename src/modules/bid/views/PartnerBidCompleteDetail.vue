@@ -61,8 +61,8 @@
                             <tr>
                                 <th>품목명</th>
                                 <th>규격</th>
-                                <th>수량</th>
                                 <th>단위</th>
+                                <th>수량</th>
                                 <th>견적단가</th>
                                 <th class="end">견적금액</th>
                             </tr>
@@ -71,8 +71,8 @@
                             <tr v-for="(spec, index) in data.custList[0].bidSpec" :key="index">
                                 <td class="text-left">{{ spec.name }}</td>
                                 <td class="text-left">{{ spec.ssize }}</td>
+                                <td class="text-left">{{ spec.unitcode }}</td>
                                 <td class="text-right">{{ spec.orderQty | numberWithCommas }}</td>
-                                <td>{{ spec.unitcode }}</td>
                                 <td><input type="text" class="inputStyle inputSm text-right readonly" :value="fnRoundComma(spec.esmtUc/spec.orderQty)" readonly></td>
                                 <td class="end"><input type="text" class="inputStyle inputSm text-right readonly" :value="fnRoundComma(spec.esmtUc)" readonly></td>
                             </tr>

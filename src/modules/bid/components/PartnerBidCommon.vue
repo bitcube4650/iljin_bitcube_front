@@ -114,16 +114,16 @@
                             <tr>
                                 <th>품목명</th>
                                 <th>규격</th>
-                                <th>수량</th>
-                                <th class="end">단위</th>
+                                <th>단위</th>
+                                <th class="end">수량</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="(spec, idx) in data.specInput" :key="idx">
                                 <td class="text-left">{{ spec.name }}</td>
-                                <td class="text-right">{{ spec.ssize }}</td>
-                                <td class="text-right">{{ spec.orderQty | numberWithCommas }}</td>
-                                <td class="text-right end">{{ spec.unitcode }}</td>
+                                <td class="text-left">{{ spec.ssize }}</td>
+                                <td class="text-left">{{ spec.unitcode }}</td>
+                                <td class="text-right end">{{ spec.orderQty | numberWithCommas }}</td>
                             </tr>
                         </tbody>
                     </table>
