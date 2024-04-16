@@ -2,12 +2,13 @@
 
   <!-- 서브 푸터 -->
   <div class="subFooter">
-      © ILJIN ALL RIGHTS RESERVED.
+      © ILJIN ALL RIGHTS RESERVED. <br>전자입찰 문의: ITHELPDESK ( 080 - 707 - 9100 ) &nbsp e-mail : ithelpdesk@iljin.co.kr
       <div class="subFooterUtill">
           <a  @click="clickCertificate" title="공동인증서">공동인증서</a>
           <a  @click="clickRegProcess" title="업체등록절차">업체등록절차</a>
           <a  @click="clickBiddingInfo" title="입찰업무안내">입찰업무안내</a>
       </div>
+      
       <!-- 업체등록절차 -->
       <EnrollmentProcess />
 
