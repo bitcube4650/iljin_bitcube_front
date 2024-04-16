@@ -349,9 +349,26 @@ export default {
                 return false;
             }
 
+            let currDate = new Date();
+            let currDateTime = currDate.getTime();
+            let estStartDate = new Date(this.data.estStartDate);
+            let estStartTime = estStartDate.getTime();
+            let estCloseDate = new Date(this.data.estCloseDate);
+            let estCloseTime = estCloseDate.getTime();
+            
+            if(estStartTime > currDateTime || estCloseTime < currDateTime){
+                this.$swal({
+                    type: "warning",
+                    text: "견적제출시간이 아닙니다. 제출시작일시 및 제출마감일시를 확인해주세요.",
+                });
+                return false;
+            }
+
+            let amt = this.esmtCurr +" "+ (this.data.insMode == '1' ? this.amt : this.totalAmt);
+
             this.$swal({
                 type: "info",
-                text: "견적서를 제출하시겠습니까?",                
+                text: "총 견적금액 "+amt+" 으로 견적서를 제출하시겠습니까?",                
                 showCancelButton: true,
                 confirmButtonText: '투찰',
                 cancelButtonText: '취소',
@@ -411,6 +428,11 @@ export default {
                         text: "투찰했습니다.",
                     });
                     this.fnMovePage('partnerBidStatus');
+                } else if(response.data.code == 'LESSTIME'){
+                    this.$swal({
+                        type: "warning",
+                        text: "견적제출시간이 아닙니다. 제출시작일시를 확인해주세요.",
+                    });
                 } else if(response.data.code == 'TIMEOUT'){
                     this.$swal({
                         type: "warning",
@@ -448,18 +470,6 @@ export default {
         signData(){//인증서 서명
 
             let vm = this;
-            let currDate = new Date();
-            let currDateTime = currDate.getTime();
-            let estCloseDate = new Date(this.data.estCloseDate);
-            let estCloseTime = estCloseDate.getTime();
-            
-            if(estCloseTime < currDateTime){
-                this.$swal({
-                    type: "warning",
-                    text: "견적제출시간이 아닙니다. 제출마감일시를 확인해주세요.",
-                });
-                return false;
-            }
             
             let cookieNm = this.biNo+"_"+this.$store.state.loginInfo.custCode;
             this.$cookie.delete(cookieNm);

@@ -74,7 +74,7 @@
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">예산금액</div>
 						<div class="width100">{{ data.bdAmt | numberWithCommas }} <span v-if="data.bdAmt != null && data.bdAmt != undefined && data.bdAmt != ''">원</span>
-							<span v-if="data.realAmt != undefined && data.realAmt != null && data.realAmt != ''"> ( 실제 계약금액 : {{ data.realAmt | numberWithCommas }} 원 )</span>
+							<span v-if="data.ingTag == 'A5' && data.realAmt != undefined && data.realAmt != null && data.realAmt != '' && ( data.createUser == $store.state.loginInfo.userId || data.gongoId == $store.state.loginInfo.userId)"> ( 실제 계약금액 : {{ data.realAmt | numberWithCommas }} 원 )</span>
 						</div>
 					</div>
 					<div class="flex align-items-center mt20">
