@@ -522,7 +522,8 @@ export default {
       this.detail.biName = this.result.biName;
       this.detail.type = "del";
       this.detail.interNm = this.result.interrelatedNm;
-
+      this.detail.cuserCode = this.result.cuserCode
+      this.detail.gongoIdCode = this.result.gongoIdCode
       this.detail.biModeCode = this.result.biModeCode
       if(this.result.biModeCode == 'A'){
         this.detail.custCode = this.custContent.map(item => item.custCode).join(',')
@@ -568,6 +569,7 @@ export default {
       this.detail.biName = this.result.biName;
       this.detail.interNm = this.result.interrelatedNm;
       this.detail.biModeCode = this.result.biModeCode
+      this.detail.cuserCode = this.result.cuserCode
       if(this.result.biModeCode == 'A'){
         this.detail.custCode = this.custContent.map(item => item.custCode).join(',')
       }

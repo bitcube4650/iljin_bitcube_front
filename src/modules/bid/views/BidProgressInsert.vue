@@ -1462,6 +1462,7 @@ export default {
         fd.append("outerFile", this.outerFile)
       }
 
+      this.bidContent.userId = this.userInfo.userId
       const params = {
         bidContent : this.bidContent,
         custContent : custContent,
@@ -1469,6 +1470,10 @@ export default {
         tableContent : this.tableContent,
       }
       fd.append("bidContent", JSON.stringify(params))
+
+      if(this.userInfo.userId != this.$store.state.loginInfo.userId){
+
+      }
 
       this.$store.commit("loading");
       vm.$http.post("/api/v1/bid/insertBid", fd)
@@ -1479,8 +1484,19 @@ export default {
             this.$router.push({ name: "bidProgress" });
             this.$store.commit("finish");
             return;
-          } 
-          else {
+          }else if(response.data.code == "LOGOUT"){
+
+            if (window.confirm("로그인 정보가 변경되었습니다.\n새로고침 하시겠습니까?")) {
+              window.location.reload()
+              $("#save").modal("hide")
+              this.$store.commit("finish")
+              window.scrollTo(0, 0)
+            }else{
+              $("#save").modal("hide")
+              this.$store.commit("finish")
+            }
+
+          }else {
             this.$store.commit("finish");
             this.$swal({
               type: "warning",
