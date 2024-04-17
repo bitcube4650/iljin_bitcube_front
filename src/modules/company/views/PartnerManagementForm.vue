@@ -477,7 +477,7 @@ export default {
 				return;
 			} else {
 				// 이메일 유효성 검사 정규식
-				const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+				const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-_]+\.[a-zA-Z]{2,}$/;
 				if(!emailRegex.test(this.detail.userEmail)){
 					this.$swal({type: "warning",text: "이메일 형식에 맞게 입력해주세요."});
 					return;

@@ -97,10 +97,10 @@
 				<div class="flex align-items-center">
 					<div class="formTit flex-shrink0 width170px">업체등급</div>
 					<div class="width100">
-						<input type="radio" v-model="detail.custLevel" value="A" id="chkA" class="radioStyle"><label for="chkA">A등급</label>
-						<input type="radio" v-model="detail.custLevel" value="B" id="chkB" class="radioStyle"><label for="chkB">B등급</label>
-						<input type="radio" v-model="detail.custLevel" value="C" id="chkC" class="radioStyle"><label for="chkC">C등급</label>
-						<input type="radio" v-model="detail.custLevel" value="D" id="chkD" class="radioStyle"><label for="chkD">D등급</label>
+						<input type="radio" v-model="detail.custLevel" value="A" id="chkA" class="radioStyle" disabled><label for="chkA">A등급</label>
+						<input type="radio" v-model="detail.custLevel" value="B" id="chkB" class="radioStyle" disabled><label for="chkB">B등급</label>
+						<input type="radio" v-model="detail.custLevel" value="C" id="chkC" class="radioStyle" disabled><label for="chkC">C등급</label>
+						<input type="radio" v-model="detail.custLevel" value="D" id="chkD" class="radioStyle" disabled><label for="chkD">D등급</label>
 					</div>
 				</div>
 				<div class="flex align-items-center mt20">

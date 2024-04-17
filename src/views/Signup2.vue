@@ -175,7 +175,7 @@
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">이메일 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" v-model="detail.userEmail" maxlength="100" class="inputStyle" placeholder="ex) sample@iljin.co.kr">
+                        <input type="text" v-model.trim="detail.userEmail" maxlength="100" class="inputStyle" placeholder="ex) sample@iljin.co.kr">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
@@ -204,13 +204,13 @@
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">휴대폰 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" v-model="detail.fomUserHp" @keypress="onlyNumber" @input="formatUserHp" maxlength="20" class="inputStyle">
+                        <input type="text" v-model.trim="detail.fomUserHp" @keypress="onlyNumber" @input="formatUserHp" maxlength="20" class="inputStyle">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">유선전화 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" v-model="detail.fomUserTel" @keypress="onlyNumber" @input="formatUserTel" maxlength="20" class="inputStyle">
+                        <input type="text" v-model.trim="detail.fomUserTel" @keypress="onlyNumber" @input="formatUserTel" maxlength="20" class="inputStyle">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
@@ -450,7 +450,14 @@ export default {
 			if (this.detail.userEmail == null || this.detail.userEmail == '') {
 				this.$swal({type: "warning",text: "이메일을 입력해주세요."});
 				return;
+			} else {
+				const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-_]+\.[a-zA-Z]{2,}$/;
+				if(!emailRegex.test(this.detail.userEmail)) {
+					this.$swal({type: "warning",text: "입력한 이메일 형식이 올바르지 않습니다."});
+					return;
+				}
 			}
+
 			if (this.detail.userId == null || this.detail.userId == '') {
 				this.$swal({type: "warning",text: "아이디를 입력해주세요."});
 				return;
