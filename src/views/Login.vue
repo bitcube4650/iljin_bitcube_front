@@ -31,13 +31,13 @@
         </div>
         <div class="loginFooter">
           <div class="inner">
-            <div class="loginFootLeft"><img src="/images/footerLogo.svg" class="img-responsive" alt="일진그룹 로고"></div>
+            <div class="loginFootLeft"><img :src="footerImg" class="img-responsive" alt="일진그룹 로고"></div>
             <div class="loginFootCenter">
               <a href="#"  @click="clickCertificate" title="공동인증서">공동인증서</a>
               <a href="#" data-toggle="modal" data-target="#regProcess" title="업체등록절차">업체등록절차</a>
               <a href="#" data-toggle="modal" data-target="#biddingInfo" title="입찰업무안내">입찰업무안내</a>
             </div>
-            <div class="loginFootRight">
+            <div class="loginFootRight" v-if="showIljin">
               <div class="loginSelectStyle">
                 <button class="selLabel">ILJIN FAMILY</button>
                 <ul class="optionList">
@@ -54,7 +54,7 @@
               </div>
             </div>
           </div>
-          <div class="footAddr">
+          <div class="footAddr" v-if="showIljin">
             서울특별시 마포구 마포대로 45(도화동) 일진빌딩<br>© ILJIN ALL RIGHTS RESERVED.
           </div>
         </div>
@@ -132,7 +132,9 @@ export default {
         token: ''
       },
       imgUrl: '/images//loginLogo_iljin.svg',
-      rememberMe: false
+      rememberMe: false,
+      showIljin: true,
+      footerImg: ''
     }
   },
   methods: {
@@ -192,10 +194,16 @@ export default {
       var host = document.location.href.match(/http[s]*:\/\/([a-zA-Z0-9\-\.]*)/)[1];
       if (host.indexOf('jtv') != -1) {//전주방송인 경우
           this.imgUrl = '/images/loginLogo_jtv.svg';
+          this.footerImg = '/images/loginLogo_jtv.svg';
+          this.showIljin = false;
       } else if (host.indexOf('l-ebid') != -1) {//롯데에너지머티리얼즈인 경우
           this.imgUrl = '/images/loginLogo_lotte.svg';
+          this.footerImg = '/images/loginLogo_lotte.svg';
+          this.showIljin = false;
       } else {//일진전기로 조회되는 로고path로 set
           this.imgUrl = '/images//loginLogo_iljin.svg';
+          this.footerImg = '/images/footerLogo.svg';
+          this.showIljin = true;
       }
   },
   beforeMount() {

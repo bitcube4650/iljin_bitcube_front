@@ -166,8 +166,16 @@
                 <router-link to="/signup2" replace v-if="isAgree == true" class="btnStyle btnOutlineBlue btnMd" title="동의하고 계속하기">동의하고 계속하기</router-link>
             </div>
         </div>
-        <div class="subFooter mt50">
+        <div class="subFooter mt50" v-if="showSentence">
             © ILJIN ALL RIGHTS RESERVED.
+            <div class="subFooterUtill">
+                <a href="javascript:void(0)" title="공동인증서">공동인증서</a>
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#regProcess" title="업체등록절차">업체등록절차</a>
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#biddingInfo" title="입찰업무안내">입찰업무안내</a>
+            </div>
+        </div>
+        <div class="subFooter mt50" v-else>
+            &nbsp&nbsp&nbsp&nbsp&nbsp
             <div class="subFooterUtill">
                 <a href="javascript:void(0)" title="공동인증서">공동인증서</a>
                 <a href="javascript:void(0)" data-toggle="modal" data-target="#regProcess" title="업체등록절차">업체등록절차</a>
@@ -197,10 +205,16 @@ export default {
   },
   data() {
     return {
-        isAgree: false
+        isAgree: false,
+        showSentence : true
     }
   },
-  mounted() {},
+  mounted() {
+    var url = window.location.href;
+    if(url.includes('jtv') || url.includes('l-ebid')){
+      this.showSentence = false;
+    }
+  },
   methods: {}
 }
 </script>
