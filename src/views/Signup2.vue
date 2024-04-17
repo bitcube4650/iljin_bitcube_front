@@ -111,19 +111,19 @@
                     <div class="width100">
                         <!-- 다중파일 업로드 -->
                         <div class="upload-boxWrap">
-                            <div class="upload-box">
+                            <div class="upload-box" v-show="!regnumFile">
                                 <input type="file" ref="uploadedRegnumFile" id="file-input" @change="changeRegnumFile">
                                 <div class="uploadTxt">
                                     <i class="fa-regular fa-upload"></i>
                                     <div>클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br>파일 최대 10MB (등록 파일 개수 최대 1개)</div>
                                 </div>
                             </div>
-								<div v-if="regnumFile" class="uploadPreview">
-									<p>
-										{{ regnumFileName }}
-										<button class='file-remove' @click="fnRemoveAttachFile('regnumFile')">삭제</button>
-									</p>
-								</div>
+							<div v-if="regnumFile" class="uploadPreview">
+								<p>
+									{{ regnumFileName }}
+									<button class='file-remove' @click="fnRemoveAttachFile('regnumFile')">삭제</button>
+								</p>
+							</div>
                         </div>
                         <!-- //다중파일 업로드 -->
                     </div>
@@ -145,7 +145,7 @@
                     <div class="width100">
                         <!-- 다중파일 업로드 -->
                         <div class="upload-boxWrap">
-                            <div class="upload-box">
+                            <div class="upload-box" v-show="!bfile">
                                 <input type="file" ref="uploadedbfile" id="file-input2" @change="changebfile">
                                 <div class="uploadTxt">
                                     <i class="fa-regular fa-upload"></i>

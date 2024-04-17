@@ -48,7 +48,7 @@
 					<div class="width100">
 						<!-- 다중파일 업로드 -->
 						<div class="upload-boxWrap">
-							<div class="upload-box">
+							<div class="upload-box" v-show="!selectedFile">
 								<input type="file" ref="uploadedFile" id="file-input" @change="changeFile">
 								<div class="uploadTxt">
 									<i class="fa-regular fa-upload"></i>
@@ -431,6 +431,7 @@
 			$('#AffiliateSelect').modal('show');
 		},
 		fnRemoveAttachFile(){
+			this.$refs.uploadedFile.value = null;
 			this.selectedFile = null;
 			this.selectedFileName = ''
 			this.detailData.bfile = null;

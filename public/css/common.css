@@ -479,7 +479,7 @@ input, select {vertical-align:top; margin-top:0 !important}
 .uploadTxt {display:flex; align-items:center}
 .uploadTxt > i {font-size:28px; margin-right:10px}
 .uploadPreview {}
-.uploadPreview > p {display:flex; align-items:center; justify-content:space-between; transition:.3s; padding:4px 15px}
+.uploadPreview > p {display:flex; align-items:center; justify-content:space-between; transition:.3s; padding:4px 15px; line-height:80px;}
 .uploadPreview > p:hover {background:#eee}
 .file-remove {display:inline-flex; align-items:center; justify-content:center; height:30px; padding:0 25px; box-sizing:border-box; border-radius:4px; font-size:14px; font-weight:500; transition:.3s}
 .file-remove {color:#b70b2e !important; background:#fff; border:1px solid #b70b2e}
