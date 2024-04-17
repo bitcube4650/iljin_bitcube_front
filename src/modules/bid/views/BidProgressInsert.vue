@@ -23,6 +23,7 @@
                 data-target="#bidPast"
                 class="btnStyle btnOutlineBlue"
                 title="과거입찰 가져오기"
+                style="margin-left:0px"
                 >과거입찰 가져오기</a
               >
             </div>
