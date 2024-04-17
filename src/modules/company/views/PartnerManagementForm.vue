@@ -133,7 +133,7 @@
 						<div class="width100">
 							<!-- 다중파일 업로드 -->
 							<div class="upload-boxWrap">
-								<div class="upload-box">
+								<div class="upload-box" v-show="!regnumFile">
 									<input type="file" ref="uploadedRegnumFile" id="file-input" @change="changeRegnumFile">
 									<div class="uploadTxt">
 										<i class="fa-regular fa-upload"></i>
@@ -167,7 +167,7 @@
 						<div class="width100">
 							<!-- 다중파일 업로드 -->
 							<div class="upload-boxWrap">
-								<div class="upload-box">
+								<div class="upload-box" v-show="!bfile">
 									<input type="file" ref="uploadedbfile" id="file-input2" @change="changebfile">
 									<div class="uploadTxt">
 										<i class="fa-regular fa-upload"></i>
@@ -477,7 +477,7 @@ export default {
 				return;
 			} else {
 				// 이메일 유효성 검사 정규식
-				const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+				const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-_]+\.[a-zA-Z]{2,}$/;
 				if(!emailRegex.test(this.detail.userEmail)){
 					this.$swal({type: "warning",text: "이메일 형식에 맞게 입력해주세요."});
 					return;

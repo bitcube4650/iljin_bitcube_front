@@ -107,7 +107,7 @@
 						<div class="width100">
 							<!-- 다중파일 업로드 -->
 							<div class="upload-boxWrap">
-								<div class="upload-box">
+								<div class="upload-box" v-show="!regnumFile">
 									<input type="file" ref="uploadedRegnumFile" id="file-input" @change="changeRegnumFile">
 									<div class="uploadTxt">
 										<i class="fa-regular fa-upload"></i>
@@ -141,7 +141,7 @@
 						<div class="width100">
 							<!-- 다중파일 업로드 -->
 							<div class="upload-boxWrap">
-								<div class="upload-box">
+								<div class="upload-box" v-show="!bfile">
 									<input type="file" ref="uploadedbfile" id="file-input2" @change="changebfile">
 									<div class="uploadTxt">
 										<i class="fa-regular fa-upload"></i>

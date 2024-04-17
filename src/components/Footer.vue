@@ -2,7 +2,8 @@
 
   <!-- 서브 푸터 -->
   <div class="subFooter">
-      © ILJIN ALL RIGHTS RESERVED. <br>전자입찰 문의: ITHELPDESK ( 080 - 707 - 9100 ) &nbsp e-mail : ithelpdesk@iljin.co.kr
+      <span v-if="showSentence">© ILJIN ALL RIGHTS RESERVED. <br>전자입찰 문의: ITHELPDESK ( 080 - 707 - 9100 ) &nbsp e-mail : ithelpdesk@iljin.co.kr</span>
+      <span v-else>전자입찰 문의: ITHELPDESK ( 080 - 707 - 9100 ) &nbsp e-mail : ithelpdesk@iljin.co.kr</span>
       <div class="subFooterUtill">
           <a  @click="clickCertificate" title="공동인증서">공동인증서</a>
           <a  @click="clickRegProcess" title="업체등록절차">업체등록절차</a>
@@ -47,25 +48,28 @@ export default {
 
   data() {
     return {
-      clickRegProcess(){//업체등록절차 클릭
-        $("#regProcess").modal("show");
-      },
-      clickBiddingInfo(){//입찰업무안내 클릭
-        $("#biddingInfo").modal("show");
-      },
-      clickCertificate(){//공동인증서안내 클릭
-        window.open("https://www.tradesign.net/ra/iljin1", "_blank", "width=800,height=600");
-      }
+      showSentence : true
     };
   },
   methods: {
-
+    clickRegProcess(){//업체등록절차 클릭
+      $("#regProcess").modal("show");
+    },
+    clickBiddingInfo(){//입찰업무안내 클릭
+      $("#biddingInfo").modal("show");
+    },
+    clickCertificate(){//공동인증서안내 클릭
+      window.open("https://www.tradesign.net/ra/iljin1", "_blank", "width=800,height=600");
+    }
   },
   created() {
    
   },
   mounted(){
-
+    var url = window.location.href;
+    if(url.includes('jtv') || url.includes('l-ebid')){
+      this.showSentence = false;
+    }
   }    
 }
 </script>

@@ -10,8 +10,8 @@
         </div>
         <!-- //conHeader -->
         <!-- contents -->
-        <div class="contents">
-            <div class="mainBanner"><img :src="imgUrl" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>
+        <div class="contents" style="margin-top: 20px;">
+            <!--<div class="mainBanner"><img :src="imgUrl" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>-->
 
             <div class="mainConLayout">
                 <div class="mcl_left mainConBox">

@@ -13,12 +13,12 @@
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width120px">이메일 <span class="star">*</span></div>
-						<div class="width100"><input type="text" v-model="detail.userEmail" class="inputStyle" placeholder="ex) sample@iljin.co.kr"></div>
+						<div class="width100"><input type="text" v-model.trim="detail.userEmail" class="inputStyle" placeholder="ex) sample@iljin.co.kr"></div>
 					</div>
 					<div v-if="detail.isCreate" class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width120px">아이디 <span class="star">*</span></div>
 						<div class="flex align-items-center width100">
-							<div class="width100"><input type="text" v-model="detail.userId" maxlength="20" class="inputStyle" placeholder="영문, 숫자 입력(8자 이내) 후 중복확인"></div>
+							<div class="width100"><input type="text" v-model.trim="detail.userId" maxlength="20" class="inputStyle" placeholder="영문, 숫자 입력(8자 이내) 후 중복확인"></div>
 							<a href="#" @click.prevent="idcheck" class="btnStyle btnSecondary flex-shrink0 ml10" title="중복 확인">중복 확인</a>
 						</div>
 					</div>
@@ -46,11 +46,11 @@
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width120px">휴대폰 <span class="star">*</span></div>
-						<div class="width100"><input type="text" v-model="detail.fomUserHp" @keypress="onlyNumber" @input="formatUserHp" class="inputStyle" placeholder="숫자만"></div>
+						<div class="width100"><input type="text" v-model.trim="detail.userHp" class="inputStyle" placeholder="숫자만" maxlength="13"></div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width120px">유선전화 <span class="star">*</span></div>
-						<div class="width100"><input type="text" v-model="detail.fomUserTel" @keypress="onlyNumber" @input="formatUserTel" class="inputStyle" placeholder="숫자만"></div>
+						<div class="width100"><input type="text" v-model.trim="detail.userTel" class="inputStyle" placeholder="숫자만" maxlength="13"></div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width120px">직급</div>
@@ -99,24 +99,20 @@ export default {
 		detail: {}
     }
   },
-  watch :{
-	'detail.userId'(){
-		this.detail.idcheck=false;												// 아이디 중복체크 false처리
+  watch: {
+	"detail.userId"(){
+		// 로그인ID 체크
+		this.detail.idcheck = false;
 		this.detail.userId = this.detail.userId.replace(/[^a-zA-Z0-9]/g, '');	// 영어+숫자
+	},
+	'detail.userHp'(){
+		this.detail.userHp = this.hpNumberAddDash(this.detail.userHp);
+	},
+	'detail.userTel'(){
+		this.detail.userTel = this.hpNumberAddDash(this.detail.userTel);
 	}
   },
   methods: {
-	onlyNumber(e) {
-		if (!/\d/.test(event.key) && event.key !== '.') return e.preventDefault();
-	},
-	checkReg(event) {
-		const regExp = /[^0-9a-zA-Z]/g; // 숫자와 영문자만 허용
-		//   const regExp = /[^ㄱ-ㅎ|가-힣]/g; // 한글만 허용
-		const del = event.target;
-		if (regExp.test(del.value)) {
-			del.value = del.value.replace(regExp, '');
-		}
-	},
     initModal(id) {
 		if (id) {
 			this.retrieve(id);
@@ -128,8 +124,8 @@ export default {
       try {
 		const response = await this.$http.post('/api/v1/custuser/'+id, this.searchParams);
         this.detail = response.data;
-		this.detail.fomUserTel = this.phoneNumAddDash(this.detail.userTel);
-		this.detail.fomUserHp = this.hpNumberAddDash(this.detail.userHp);
+		this.detail.userTel = this.hpNumberAddDash(this.detail.userTel);
+		this.detail.userHp = this.hpNumberAddDash(this.detail.userHp);
 		this.detail.isCreate = false;
       } catch(err) {
         console.log(err)
@@ -165,6 +161,12 @@ export default {
 		if (this.detail.userEmail == null || this.detail.userEmail == '') {
 			this.$swal({type: "warning",text: "이메일을 입력해주세요."});
 			return;
+		} else {
+			const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-_]+\.[a-zA-Z]{2,}$/;
+			if(!emailRegex.test(this.detail.userEmail)) {
+				this.$swal({type: "warning",text: "입력한 이메일 형식이 올바르지 않습니다."});
+				return;
+			}
 		}
 		if (this.detail.isCreate) {
 			if (this.detail.userId == null || this.detail.userId == '') {
@@ -207,11 +209,17 @@ export default {
 		if (this.detail.userHp == null || this.detail.userHp == '') {
 			this.$swal({type: "warning",text: "휴대폰을 입력해주세요."});
 			return;
+		} else {
+			this.detail.userHp = this.hpNumberRemoveDash(this.detail.userHp);
 		}
+
 		if (this.detail.userTel == null || this.detail.userTel == '') {
 			this.$swal({type: "warning",text: "유선전화를 입력해주세요."});
 			return;
+		} else {
+			this.detail.userTel = this.hpNumberRemoveDash(this.detail.userTel);
 		}
+
 		this.detail.userInterrelatedList = this.userInterrelatedList;
 		this.$store.commit("loading");
 		this.$http
@@ -273,61 +281,8 @@ export default {
 			return;
 		}
 		return true;
-
 	},
-	phoneNumAddDash(val){
-		if (!val) return '';
-		val = val.toString();
-		val = val.replace(/[^0-9]/g, '')
-
-		let tmp = ''
-		if( val.length < 4){
-		return val;
-		} else if(val.length < 7) {
-		tmp += val.substr(0, 3);
-		tmp += '-';
-		tmp += val.substr(3);
-		return tmp;
-		} else if(val.length == 8) {
-		tmp += val.substr(0, 4);
-		tmp += '-';
-		tmp += val.substr(4);
-		return tmp;
-		} else if(val.length < 10) {
-		if(val.substr(0, 2) =='02') { //02-123-5678
-			tmp += val.substr(0, 2);
-			tmp += '-';
-			tmp += val.substr(2, 3);
-			tmp += '-';
-			tmp += val.substr(5);
-			return tmp;
-		}
-		} else if(val.length < 11) {
-		if(val.substr(0, 2) =='02') { //02-1234-5678
-			tmp += val.substr(0, 2);
-			tmp += '-';
-			tmp += val.substr(2, 4);
-			tmp += '-';
-			tmp += val.substr(6);
-			return tmp;
-		} else { //010-123-4567
-			tmp += val.substr(0, 3);
-			tmp += '-';
-			tmp += val.substr(3, 3);
-			tmp += '-';
-			tmp += val.substr(6);
-			return tmp;
-		}
-		} else { //010-1234-5678
-		tmp += val.substr(0, 3);
-		tmp += '-';
-		tmp += val.substr(3, 4);
-		tmp += '-';
-		tmp += val.substr(7);
-		return tmp;
-		}
-	},
-	//전화번호 입력 시 대시 입력(상단 함수가 오류날 경우 대체사용)
+	//전화번호 입력 시 대시 입력
 	hpNumberAddDash(val){
 		if (!val) return '';
 		val = val.toString();
@@ -335,17 +290,17 @@ export default {
 		
 		let tmp = ''
 		if( val.length < 4){
-		return val;
+			return val;
 		} else if(val.length <= 7) {
-		tmp += val.substr(0, 3);
-		tmp += '-';
-		tmp += val.substr(3);
-		return tmp;
+			tmp += val.substr(0, 3);
+			tmp += '-';
+			tmp += val.substr(3);
+			return tmp;
 		} else if(val.length == 8) {
-		tmp += val.substr(0, 4);
-		tmp += '-';
-		tmp += val.substr(4);
-		return tmp;
+			tmp += val.substr(0, 4);
+			tmp += '-';
+			tmp += val.substr(4);
+			return tmp;
 		} else if(val.length < 10) {
 			tmp += val.substr(0, 2);
 			tmp += '-';
@@ -354,28 +309,28 @@ export default {
 			tmp += val.substr(5);
 			return tmp;
 		} else if(val.length < 11) {
-		if(val.substr(0, 2) =='02') { //02-1234-5678
-			tmp += val.substr(0, 2);
-			tmp += '-';
-			tmp += val.substr(2, 4);
-			tmp += '-';
-			tmp += val.substr(6);
-			return tmp;
-		} else { //010-123-4567
+			if(val.substr(0, 2) =='02') { //02-1234-5678
+				tmp += val.substr(0, 2);
+				tmp += '-';
+				tmp += val.substr(2, 4);
+				tmp += '-';
+				tmp += val.substr(6);
+				return tmp;
+			} else { //010-123-4567
+				tmp += val.substr(0, 3);
+				tmp += '-';
+				tmp += val.substr(3, 3);
+				tmp += '-';
+				tmp += val.substr(6);
+				return tmp;
+			}
+		} else { //010-1234-5678
 			tmp += val.substr(0, 3);
 			tmp += '-';
-			tmp += val.substr(3, 3);
+			tmp += val.substr(3, 4);
 			tmp += '-';
-			tmp += val.substr(6);
+			tmp += val.substr(7);
 			return tmp;
-		}
-		} else { //010-1234-5678
-		tmp += val.substr(0, 3);
-		tmp += '-';
-		tmp += val.substr(3, 4);
-		tmp += '-';
-		tmp += val.substr(7);
-		return tmp;
 		}
 	},
 	hpNumberRemoveDash(val){
@@ -384,15 +339,7 @@ export default {
 		val = val.replace(/[^0-9]/g, '');
 
 		return val;
-	},
-	formatUserTel() {
-		this.detail.userTel = this.hpNumberRemoveDash(this.detail.fomUserTel);
-		this.detail.fomUserTel = this.phoneNumAddDash(this.detail.userTel);
-	},
-	formatUserHp() {
-		this.detail.userHp = this.hpNumberRemoveDash(this.detail.fomUserHp);
-		this.detail.fomUserHp = this.hpNumberAddDash(this.detail.userHp);
-	},
+	}
   }
 };
 </script>

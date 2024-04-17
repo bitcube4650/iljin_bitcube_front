@@ -111,19 +111,19 @@
                     <div class="width100">
                         <!-- 다중파일 업로드 -->
                         <div class="upload-boxWrap">
-                            <div class="upload-box">
+                            <div class="upload-box" v-show="!regnumFile">
                                 <input type="file" ref="uploadedRegnumFile" id="file-input" @change="changeRegnumFile">
                                 <div class="uploadTxt">
                                     <i class="fa-regular fa-upload"></i>
                                     <div>클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br>파일 최대 10MB (등록 파일 개수 최대 1개)</div>
                                 </div>
                             </div>
-								<div v-if="regnumFile" class="uploadPreview">
-									<p>
-										{{ regnumFileName }}
-										<button class='file-remove' @click="fnRemoveAttachFile('regnumFile')">삭제</button>
-									</p>
-								</div>
+							<div v-if="regnumFile" class="uploadPreview">
+								<p>
+									{{ regnumFileName }}
+									<button class='file-remove' @click="fnRemoveAttachFile('regnumFile')">삭제</button>
+								</p>
+							</div>
                         </div>
                         <!-- //다중파일 업로드 -->
                     </div>
@@ -145,7 +145,7 @@
                     <div class="width100">
                         <!-- 다중파일 업로드 -->
                         <div class="upload-boxWrap">
-                            <div class="upload-box">
+                            <div class="upload-box" v-show="!bfile">
                                 <input type="file" ref="uploadedbfile" id="file-input2" @change="changebfile">
                                 <div class="uploadTxt">
                                     <i class="fa-regular fa-upload"></i>
@@ -175,7 +175,7 @@
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">이메일 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" v-model="detail.userEmail" maxlength="100" class="inputStyle" placeholder="ex) sample@iljin.co.kr">
+                        <input type="text" v-model.trim="detail.userEmail" maxlength="100" class="inputStyle" placeholder="ex) sample@iljin.co.kr">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
@@ -204,13 +204,13 @@
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">휴대폰 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" v-model="detail.fomUserHp" @keypress="onlyNumber" @input="formatUserHp" maxlength="20" class="inputStyle">
+                        <input type="text" v-model.trim="detail.fomUserHp" @keypress="onlyNumber" @input="formatUserHp" maxlength="20" class="inputStyle">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">유선전화 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" v-model="detail.fomUserTel" @keypress="onlyNumber" @input="formatUserTel" maxlength="20" class="inputStyle">
+                        <input type="text" v-model.trim="detail.fomUserTel" @keypress="onlyNumber" @input="formatUserTel" maxlength="20" class="inputStyle">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
@@ -233,12 +233,20 @@
 
             
         </div>
-        <div class="subFooter mt50">
+        <div class="subFooter mt50" v-if="showSentence">
             © ILJIN ALL RIGHTS RESERVED.
             <div class="subFooterUtill">
-                <a href="#" title="공동인증서">공동인증서</a>
-                <a href="#" data-toggle="modal" data-target="#regProcess" title="업체등록절차">업체등록절차</a>
-                <a href="#" data-toggle="modal" data-target="#biddingInfo" title="입찰업무안내">입찰업무안내</a>
+                <a href="javascript:void(0)" title="공동인증서">공동인증서</a>
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#regProcess" title="업체등록절차">업체등록절차</a>
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#biddingInfo" title="입찰업무안내">입찰업무안내</a>
+            </div>
+        </div>
+        <div class="subFooter mt50" v-else>
+            &nbsp&nbsp&nbsp&nbsp&nbsp
+            <div class="subFooterUtill">
+                <a href="javascript:void(0)" title="공동인증서">공동인증서</a>
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#regProcess" title="업체등록절차">업체등록절차</a>
+                <a href="javascript:void(0)" data-toggle="modal" data-target="#biddingInfo" title="입찰업무안내">입찰업무안내</a>
             </div>
         </div>
     </div>
@@ -320,7 +328,8 @@ export default {
         bfile : null,       // 업로드한 파일
         bfileCnt : 0,       // 업로드한 파일 수
         bfileSize : 0,       // 파일크기
-		bfileName : ''
+		bfileName : '',
+		showSentence : true
     }
   },
   watch :{
@@ -331,6 +340,11 @@ export default {
   },
   mounted() {
     this.init();
+
+	var url = window.location.href;
+    if(url.includes('jtv') || url.includes('l-ebid')){
+      this.showSentence = false;
+    }
   },
   methods: {
 		onlyNumber(event) {
@@ -436,7 +450,14 @@ export default {
 			if (this.detail.userEmail == null || this.detail.userEmail == '') {
 				this.$swal({type: "warning",text: "이메일을 입력해주세요."});
 				return;
+			} else {
+				const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-_]+\.[a-zA-Z]{2,}$/;
+				if(!emailRegex.test(this.detail.userEmail)) {
+					this.$swal({type: "warning",text: "입력한 이메일 형식이 올바르지 않습니다."});
+					return;
+				}
 			}
+
 			if (this.detail.userId == null || this.detail.userId == '') {
 				this.$swal({type: "warning",text: "아이디를 입력해주세요."});
 				return;

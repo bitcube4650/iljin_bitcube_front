@@ -137,7 +137,7 @@ export default {
         },
         ftSuccYn(val){
             if(val == 'Y'){ return '선정(낙찰)'}
-            else if(val == 'N'){ return '비선정'}
+            else if(val == undefined || val == null || val == 'N'){ return '비선정'}
         },
         ftInsMode(val){
             if(val == '1'){ return '파일'}

@@ -10,7 +10,7 @@
 					<div class="flex align-items-center">
 						<div class="formTit flex-shrink0 width120px">로그인ID <span class="star">*</span></div>
 						<div v-if="detail.isCreate" class="flex align-items-center width100">
-							<div class="width100"><input type="text" v-model="detail.userId" class="inputStyle" placeholder="영문, 숫자 입력(8자 이내) 후 중복확인" maxlength="8"></div>
+							<div class="width100"><input type="text" v-model.trim="detail.userId" class="inputStyle" placeholder="영문, 숫자 입력(8자 이내) 후 중복확인" maxlength="8"></div>
 							<a href="" @click.prevent="idDuplicateCheck" class="btnStyle btnSecondary flex-shrink0 ml10" title="중복 확인">중복 확인</a>
 						</div>
 						<div v-else class="width100">{{ detail.userId }}</div>
@@ -119,15 +119,15 @@
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width120px">휴대폰 ☎  <span class="star">*</span></div>
-						<div class="width100"><input type="text" v-model="detail.userHp" class="inputStyle" placeholder="숫자만"></div>
+						<div class="width100"><input type="text" v-model.trim="detail.userHp" class="inputStyle" placeholder="숫자만"></div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width120px">유선전화 ☎  <span class="star">*</span></div>
-						<div class="width100"><input type="text" v-model="detail.userTel" class="inputStyle" placeholder="숫자만"></div>
+						<div class="width100"><input type="text" v-model.trim="detail.userTel" class="inputStyle" placeholder="숫자만"></div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width120px">이메일 <span class="star">*</span></div>
-						<div class="width100"><input type="text" v-model="detail.userEmail" class="inputStyle" placeholder="james@iljin.co.kr"></div>
+						<div class="width100"><input type="text" v-model.trim="detail.userEmail" class="inputStyle" placeholder="james@iljin.co.kr"></div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width120px">직급</div>
@@ -205,6 +205,13 @@ export default {
 	"detail.userId"(){
 		// 로그인ID 체크
 		this.userIdChkYn = 'N';
+		this.detail.userId = this.detail.userId.replace(/[^a-zA-Z0-9]/g, '');	// 영어+숫자
+	},
+	'detail.userHp'(){
+		this.detail.userHp = this.detail.userHp.replace(/[^0-9-]/g, '');
+	},
+	'detail.userTel'(){
+		this.detail.userTel = this.detail.userTel.replace(/[^0-9-]/g, '');
 	}
   },
   methods: {
@@ -327,6 +334,12 @@ export default {
 		if (this.detail.userEmail == null || this.detail.userEmail == '') {
 			this.$swal({type: "warning",text: "이메일을 입력해주세요."});
 			return;
+		} else {
+			const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-_]+\.[a-zA-Z]{2,}$/;
+			if(!emailRegex.test(this.detail.userEmail)) {
+				this.$swal({type: "warning",text: "입력한 이메일 형식이 올바르지 않습니다."});
+				return;
+			}
 		}
 		this.detail.userInterrelatedList = this.userInterrelatedList;
 		this.$store.commit("loading");
@@ -379,6 +392,8 @@ export default {
 	},
 	// 비밀번호 변경 팝업
 	fnShowChgPwdPop(){
+		this.chgPwdParam = {}
+
 		$('#chgPwdPop').modal('show');
 	},
 	// 비밀번호 변경 
