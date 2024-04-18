@@ -10,10 +10,10 @@
         </div>
         <!-- //conHeader -->
         <!-- contents -->
-        <div class="contents" style="margin-top: 20px;">
+        <div class="contents">
             <!--<div class="mainBanner"><img :src="imgUrl" class="img-responsive" alt="투명합니다,함께합니다,미래를 엽니다"></div>-->
 
-            <div class="mainConLayout">
+            <div class="mainConLayout" style="margin-top: 20px;">
                 <div class="mcl_left mainConBox">
                     <h2 class="h2Tit">전자입찰</h2>
                     <div class="biddingList" style="margin-top: 70px;">
