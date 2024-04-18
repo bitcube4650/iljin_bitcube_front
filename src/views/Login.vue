@@ -185,11 +185,44 @@ export default {
           }
       }
     },
+    async ssoLogIn() {
+      console.log("Now Loged in!!!!")
+      try {
+        this.$store.commit('loading');
+        const response = await this.$http.post('/login/sso', this.loginInfo);
+        const loginInfo = Object.assign({}, response.data);
+        
+        this.$store.commit('login', loginInfo);
+        this.$cookie.set('loginInfo', JSON.stringify(loginInfo));
+        this.$http.defaults.headers['x-auth-token'] = loginInfo.token;
+        this.$store.commit('finish');
+      } catch(err) {
+        this.$store.commit('finish');
+        this.loginFail();
+      }
+    },
     clickCertificate(){//공동인증서안내 클릭
       window.open("https://www.tradesign.net/ra/iljin1", "_blank", "width=800,height=600");
     }
   },
   created() {
+    this.loginInfo.loginId = this.$route.query['loginId'];
+    this.loginInfo.token = this.$route.query['token'];
+    console.log("loginId : " + this.loginId);
+
+    if(this.loginInfo.loginId === undefined || this.loginInfo.loginId === '') {
+      // Step.1 - 초기화
+      rathonsso.init();
+
+      // Step.2 - SSO 인증 & 갱신
+      // true: Authentication Required
+      // false: Authentication Successful
+      let result = rathonsso.requestAuthentication()
+      console.log("requestAuthentication: " + result)
+      if(!result) {
+        this.ssoLogIn();
+      }
+    }
       // 초기화 backend와의 통신이 느릴경우를 대비 
       var host = document.location.href.match(/http[s]*:\/\/([a-zA-Z0-9\-\.]*)/)[1];
       if (host.indexOf('jtv') != -1) {//전주방송인 경우
