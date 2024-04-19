@@ -18,7 +18,7 @@
 					<div v-if="detail.isCreate" class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width120px">아이디 <span class="star">*</span></div>
 						<div class="flex align-items-center width100">
-							<div class="width100"><input type="text" v-model.trim="detail.userId" maxlength="20" class="inputStyle" placeholder="영문, 숫자 입력(8자 이내) 후 중복확인"></div>
+							<div class="width100"><input type="text" v-model.trim="detail.userId" maxlength="10" class="inputStyle" placeholder="영문, 숫자 입력(10자 이내) 후 중복확인"></div>
 							<a href="#" @click.prevent="idcheck" class="btnStyle btnSecondary flex-shrink0 ml10" title="중복 확인">중복 확인</a>
 						</div>
 					</div>
@@ -210,14 +210,24 @@ export default {
 			this.$swal({type: "warning",text: "휴대폰을 입력해주세요."});
 			return;
 		} else {
-			this.detail.userHp = this.hpNumberRemoveDash(this.detail.userHp);
+			// 휴대폰 번호 정규식
+			const phoneNumberRegex = /^\d{3}-\d{3,4}-\d{4}$/;
+			if(!phoneNumberRegex.test(this.detail.userHp)){
+				this.$swal({type: "warning",text: "휴대폰번호 형식에 맞게 입력해주세요."});
+				return;
+			}
 		}
 
 		if (this.detail.userTel == null || this.detail.userTel == '') {
 			this.$swal({type: "warning",text: "유선전화를 입력해주세요."});
 			return;
 		} else {
-			this.detail.userTel = this.hpNumberRemoveDash(this.detail.userTel);
+			// 유선전화 정규식
+			const telNumberRegex = /^\d{2,3}-\d{3,4}-\d{4}$/;
+			if(!telNumberRegex.test(this.detail.userTel)){
+				this.$swal({type: "warning",text: "유선전화 형식에 맞게 입력해주세요."});
+				return;
+			}
 		}
 
 		this.detail.userInterrelatedList = this.userInterrelatedList;

@@ -74,47 +74,47 @@
 						<div class="width100"><input type="text" v-model="detail.presName" class="inputStyle maxWidth-max-content" maxlength="50"></div>
 					</div>
 					<div class="flex align-items-center mt10">
-						<div class="formTit flex-shrink0 width170px">사업자등록번호 <span class="star">*</span></div>
+						<div class="formTit flex-shrink0 width170px">사업자등록번호</div>
 						<div class="flex align-items-center width100">
-							<input type="text" v-model="detail.regnum1" @keyup="checkReg" @keypress="onlyNumber" maxlength="3" class="inputStyle maxWidth-max-content">
+							<input type="text" v-model.trim="detail.regnum1" maxlength="3" class="inputStyle maxWidth-max-content">
 							<span style="margin:0 10px">-</span>
-							<input type="text" v-model="detail.regnum2" @keyup="checkReg" @keypress="onlyNumber" maxlength="2" class="inputStyle maxWidth-max-content">
+							<input type="text" v-model.trim="detail.regnum2" maxlength="2" class="inputStyle maxWidth-max-content">
 							<span style="margin:0 10px">-</span>
-							<input type="text" v-model="detail.regnum3" @keyup="checkReg" @keypress="onlyNumber" maxlength="5" class="inputStyle maxWidth-max-content">
+							<input type="text" v-model.trim="detail.regnum3" maxlength="5" class="inputStyle maxWidth-max-content">
 						</div>
 					</div>
 					<div class="flex align-items-center mt10">
-						<div class="formTit flex-shrink0 width170px">법인번호 <span class="star">*</span></div>
+						<div class="formTit flex-shrink0 width170px">법인번호</div>
 						<div class="flex align-items-center width100">
-							<input type="text" v-model="detail.presJuminNo1" @keyup="checkReg" @keypress="onlyNumber" maxlength="6" class="inputStyle maxWidth-max-content">
+							<input type="text" v-model.trim="detail.presJuminNo1" maxlength="6" class="inputStyle maxWidth-max-content">
 							<span style="margin:0 10px">-</span>
-							<input type="text" v-model="detail.presJuminNo2" @keyup="checkReg" @keypress="onlyNumber" maxlength="7" class="inputStyle maxWidth-max-content">
+							<input type="text" v-model.trim="detail.presJuminNo2" maxlength="7" class="inputStyle maxWidth-max-content">
 						</div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">자본금 <span class="star">*</span></div>
 						<div class="flex align-items-center width100">
-							<input type="text" v-model="detail.fomCapital" @keypress="onlyNumber" @input="formatCapital" maxlength="15" class="inputStyle maxWidth-max-content" placeholder="ex) 10,000,000">
+							<input type="text" v-model.trim="detail.capital" maxlength="15" class="inputStyle maxWidth-max-content" placeholder="ex) 10,000,000">
 							<div class="ml10">원</div>
 						</div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">설립년도 <span class="star">*</span></div>
 						<div class="flex align-items-center width100">
-							<input type="text" v-model="detail.foundYear" @keyup="checkReg" @keypress="onlyNumber" maxlength="4" class="inputStyle maxWidth-max-content" placeholder="ex) 2021">
+							<input type="text" v-model.trim="detail.foundYear" maxlength="4" class="inputStyle maxWidth-max-content" placeholder="ex) 2021">
 							<div class="ml10">년</div>
 						</div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">대표전화 <span class="star">*</span></div>
 						<div class="width100">
-							<input type="text" v-model="detail.fomTel" @keypress="onlyNumber" @input="formatTel" maxlength="13" class="inputStyle maxWidth-max-content" >
+							<input type="text" v-model.trim="detail.tel" maxlength="13" class="inputStyle maxWidth-max-content" >
 						</div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">팩스</div>
 						<div class="width100">
-							<input type="text" v-model="detail.fomFax" @keypress="onlyNumber" @input="formatFax" maxlength="13" class="inputStyle maxWidth-max-content">
+							<input type="text" v-model="detail.fax" maxlength="13" class="inputStyle maxWidth-max-content">
 						</div>
 					</div>
 					<div class="flex mt10">
@@ -129,7 +129,7 @@
 						</div>
 					</div>
 					<div class="flex mt10">
-						<div class="formTit flex-shrink0 width170px">사업자등록증 <span class="star">*</span></div>
+						<div class="formTit flex-shrink0 width170px">사업자등록증</div>
 						<div class="width100">
 							<!-- 다중파일 업로드 -->
 							<div class="upload-boxWrap">
@@ -231,7 +231,7 @@
                 <div v-if="this.$route.params.id == null && this.detail.custCode == null" class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">아이디 <span class="star">*</span></div>
                     <div class="flex align-items-center width100">
-                        <input type="text" v-model="detail.userId" maxlength="20" class="inputStyle maxWidth-max-content" placeholder="영문, 숫자 입력(8자 이내) 후 중복확인">
+                        <input type="text" v-model="detail.userId" maxlength="10" class="inputStyle maxWidth-max-content" placeholder="영문, 숫자 입력(10자 이내) 후 중복확인">
                         <a href="#" @click.prevent="idcheck" class="btnStyle btnSecondary flex-shrink0 ml10" title="중복 확인">중복 확인</a>
                     </div>
                 </div>
@@ -254,13 +254,13 @@
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">휴대폰 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" v-model="detail.fomUserHp" @keypress="onlyNumber" @input="formatUserHp" maxlength="20" class="inputStyle maxWidth-max-content">
+                        <input type="text" v-model="detail.userHp" maxlength="13" class="inputStyle maxWidth-max-content">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
                     <div class="formTit flex-shrink0 width170px">유선전화 <span class="star">*</span></div>
                     <div class="width100">
-                        <input type="text" v-model="detail.fomUserTel" @keypress="onlyNumber" @input="formatUserTel" maxlength="20" class="inputStyle maxWidth-max-content">
+                        <input type="text" v-model="detail.userTel" maxlength="13" class="inputStyle maxWidth-max-content">
                     </div>
                 </div>
                 <div class="flex align-items-center mt10">
@@ -349,23 +349,55 @@ export default {
 		};
 	},
 	watch :{
+		// 아이디
 		'detail.userId'(){
 			this.detail.idcheck=false;												// 아이디 중복체크 false처리
 			this.detail.userId = this.detail.userId.replace(/[^a-zA-Z0-9]/g, '');	// 영어+숫자만 입력
+		},
+		//대표전화번호
+		'detail.tel'(){
+			this.detail.tel = this.hpNumberAddDash(this.detail.tel);
+		},
+		//팩스번호
+		'detail.fax'(){
+			this.detail.fax = this.hpNumberAddDash(this.detail.fax);
+		},
+		//관리자정보 휴대폰
+		'detail.userTel'(){
+			this.detail.userTel = this.hpNumberAddDash(this.detail.userTel);
+		},
+		//관리자정보 유선전화
+		'detail.userHp'(){
+			this.detail.userHp = this.hpNumberAddDash(this.detail.userHp);
+		},
+		// 자본금
+		'detail.capital'(){
+			this.detail.capital = this.formatComma(this.detail.capital);
+		},
+		// 숫자만
+		// 사업자 등록번호
+		'detail.regnum1'(){
+			this.detail.regnum1 = this.detail.regnum1.replace(/[^0-9]/g, '');
+		},
+		'detail.regnum2'(){
+			this.detail.regnum2 = this.detail.regnum2.replace(/[^0-9]/g, '');
+		},
+		'detail.regnum3'(){
+			this.detail.regnum3 = this.detail.regnum3.replace(/[^0-9]/g, '');
+		},
+		// 법인번호
+		'detail.presJuminNo1'(){
+			this.detail.presJuminNo1 = this.detail.presJuminNo1.replace(/[^0-9]/g, '');
+		},
+		'detail.presJuminNo2'(){
+			this.detail.presJuminNo2 = this.detail.presJuminNo2.replace(/[^0-9]/g, '');
+		},
+		// 설립년도
+		'detail.foundYear'(){
+			this.detail.foundYear = this.detail.foundYear.replace(/[^0-9]/g, '');
 		}
 	},
 	methods: {
-		onlyNumber(e) {
-		if (!/\d/.test(event.key) && event.key !== '.') return e.preventDefault();
-		},
-		checkReg(event) {
-			const regExp = /[^0-9a-zA-Z]/g; // 숫자와 영문자만 허용
-			//   const regExp = /[^ㄱ-ㅎ|가-힣]/g; // 한글만 허용
-			const del = event.target;
-			if (regExp.test(del.value)) {
-				del.value = del.value.replace(regExp, '');
-			}
-		},
 		async retrieve(custCode) {
 			try {
 				this.$store.commit('loading');
@@ -375,18 +407,11 @@ export default {
 				}
 				const response = await this.$http.post(url);
 				this.detail = response.data;
-				this.detail.fomCapital = this.formatComma(this.detail.capital);
-				this.detail.fomTel = this.phoneNumAddDash(this.detail.tel);
-				this.detail.fomFax = this.phoneNumAddDash(this.detail.fax);
-				this.detail.fomUserTel = this.phoneNumAddDash(this.detail.userTel);
-				this.detail.fomUserHp = this.hpNumberAddDash(this.detail.userHp);
 
 				this.bfile = this.detail.bfile;
 				this.bfileName = this.detail.bfile;
-				this.bfilePath = this.detail.bfilePath;
 				this.regnumFile = this.detail.regnumFile;
 				this.regnumFileName = this.detail.regnumFile;
-				this.regnumFilePath = this.detail.regnumPath;
 
 				this.$store.commit('finish');
 			} catch(err) {
@@ -415,7 +440,7 @@ export default {
 				this.$store.commit("finish");
 			});
 		},
-		validate() {  
+		validate() {			
 			if (this.detail.custType1 == null || this.detail.custType1 == '') {
 				this.$swal({type: "warning",text: "업체유형1을 선택해주세요."});
 				return;
@@ -428,21 +453,26 @@ export default {
 				this.$swal({type: "warning",text: "대표자명을 입력해주세요."});
 				return;
 			}
-			if (this.detail.regnum1 == null || this.detail.regnum1 == '' || this.detail.regnum2 == null || this.detail.regnum2 == '' || this.detail.regnum3 == null || this.detail.regnum3 == '') {
-				this.$swal({type: "warning",text: "사업자등록번호를 입력해주세요."});
-				return;
+			
+			const regnum1 = this.detail.regnum1 == null ? '' : this.detail.regnum1;
+			const regnum2 = this.detail.regnum2 == null ? '' : this.detail.regnum2;
+			const regnum3 = this.detail.regnum3 == null ? '' : this.detail.regnum3;
+			if (regnum1 == '' && regnum2 == '' && regnum2 == '') {
+			} else {
+				if (regnum1.length != 3 || regnum2.length != 2 || regnum3.length != 5) {
+					this.$swal({type: "warning",text: "사업자등록번호를 정확히 입력해주세요."});
+					return;
+				}
 			}
-			if (this.detail.regnum1.length != 3 || this.detail.regnum2.length != 2 || this.detail.regnum3.length != 5) {
-				this.$swal({type: "warning",text: "사업자등록번호를 정확히 입력해주세요."});
-				return;
-			}
-			if (this.detail.presJuminNo1 == null || this.detail.presJuminNo1 == '' || this.detail.presJuminNo2 == null || this.detail.presJuminNo2 == '') {
-				this.$swal({type: "warning",text: "법인번호를 입력해주세요."});
-				return;
-			}
-			if (this.detail.presJuminNo1.length != 6 || this.detail.presJuminNo2.length != 7) {
-				this.$swal({type: "warning",text: "법인번호를 정확히 입력해주세요."});
-				return;
+
+			const presJuminNo1 = this.detail.presJuminNo1 == null ? '' : this.detail.presJuminNo1;
+			const presJuminNo2 = this.detail.presJuminNo2 == null ? '' : this.detail.presJuminNo2;
+			if (presJuminNo1 == '' && presJuminNo2 == '') {
+			} else {
+				if (presJuminNo1.length != 6 || presJuminNo2.length != 7) {
+					this.$swal({type: "warning",text: "법인번호를 정확히 입력해주세요."});
+					return;
+				}
 			}
 			if (this.detail.capital == null || this.detail.capital == '') {
 				this.$swal({type: "warning",text: "자본금을 입력해주세요."});
@@ -464,10 +494,10 @@ export default {
 				this.$swal({type: "warning",text: "회사주소를 입력해주세요."});
 				return;
 			}
-			if(!this.regnumFile){//업로드 한 파일이 없는 경우
-				this.$swal({type: "warning",text: "사업자등록증을 선택해주세요."});
-				return;
-			}
+			// if(!this.regnumFile){//업로드 한 파일이 없는 경우
+			// 	this.$swal({type: "warning",text: "사업자등록증을 선택해주세요."});
+			// 	return;
+			// }
 			if (this.detail.userName == null || this.detail.userName == '') {
 				this.$swal({type: "warning",text: "이름을 입력해주세요."});
 				return;
@@ -510,26 +540,24 @@ export default {
 					return;
 				}	
 			}
-			if (this.detail.fomUserHp == null || this.detail.fomUserHp == '') {
+			if (this.detail.userHp == null || this.detail.userHp == '') {
 				this.$swal({type: "warning",text: "휴대폰을 입력해주세요."});
 				return;
 			} else {
 				// 휴대폰 번호 정규식
 				const phoneNumberRegex = /^\d{3}-\d{3,4}-\d{4}$/;
-				if(!phoneNumberRegex.test(this.detail.fomUserHp)){
+				if(!phoneNumberRegex.test(this.detail.userHp)){
 					this.$swal({type: "warning",text: "휴대폰번호 형식에 맞게 입력해주세요."});
 					return;
 				}
 			}
-
-
-			if (this.detail.fomUserTel == null || this.detail.fomUserTel == '') {
+			if (this.detail.userTel == null || this.detail.userTel == '') {
 				this.$swal({type: "warning",text: "유선전화를 입력해주세요."});
 				return;
 			} else {
-			// 유선전화 정규식
+				// 유선전화 정규식
 				const telNumberRegex = /^\d{2,3}-\d{3,4}-\d{4}$/;
-				if(!telNumberRegex.test(this.detail.fomUserTel)){
+				if(!telNumberRegex.test(this.detail.userTel)){
 					this.$swal({type: "warning",text: "유선전화 형식에 맞게 입력해주세요."});
 					return;
 				}
@@ -676,8 +704,7 @@ export default {
 		},
 		formatComma(val){
 			if(!val) return '0';
-			val = val.toString();
-
+			val = val.toString().replace(/^0*(\d+)/, '$1').replace(/[^0-9]/g, '');
 			return val.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		},
 		formatUncomma(val){
@@ -686,59 +713,7 @@ export default {
 			
 			return val.replace(/[^0-9]/g, '');
 		},
-		phoneNumAddDash(val){
-			if (!val) return '';
-			val = val.toString();
-			val = val.replace(/[^0-9]/g, '')
-
-			let tmp = ''
-			if( val.length < 4){
-			return val;
-			} else if(val.length < 7) {
-			tmp += val.substr(0, 3);
-			tmp += '-';
-			tmp += val.substr(3);
-			return tmp;
-			} else if(val.length == 8) {
-			tmp += val.substr(0, 4);
-			tmp += '-';
-			tmp += val.substr(4);
-			return tmp;
-			} else if(val.length < 10) {
-			if(val.substr(0, 2) =='02') { //02-123-5678
-				tmp += val.substr(0, 2);
-				tmp += '-';
-				tmp += val.substr(2, 3);
-				tmp += '-';
-				tmp += val.substr(5);
-				return tmp;
-			}
-			} else if(val.length < 11) {
-			if(val.substr(0, 2) =='02') { //02-1234-5678
-				tmp += val.substr(0, 2);
-				tmp += '-';
-				tmp += val.substr(2, 4);
-				tmp += '-';
-				tmp += val.substr(6);
-				return tmp;
-			} else { //010-123-4567
-				tmp += val.substr(0, 3);
-				tmp += '-';
-				tmp += val.substr(3, 3);
-				tmp += '-';
-				tmp += val.substr(6);
-				return tmp;
-			}
-			} else { //010-1234-5678
-			tmp += val.substr(0, 3);
-			tmp += '-';
-			tmp += val.substr(3, 4);
-			tmp += '-';
-			tmp += val.substr(7);
-			return tmp;
-			}
-		},
-		//전화번호 입력 시 대시 입력(상단 함수가 오류날 경우 대체사용)
+		//전화번호 입력 시 대시 입력
 		hpNumberAddDash(val){
 			if (!val) return '';
 			val = val.toString();
@@ -746,17 +721,17 @@ export default {
 			
 			let tmp = ''
 			if( val.length < 4){
-			return val;
+				return val;
 			} else if(val.length <= 7) {
-			tmp += val.substr(0, 3);
-			tmp += '-';
-			tmp += val.substr(3);
-			return tmp;
+				tmp += val.substr(0, 3);
+				tmp += '-';
+				tmp += val.substr(3);
+				return tmp;
 			} else if(val.length == 8) {
-			tmp += val.substr(0, 4);
-			tmp += '-';
-			tmp += val.substr(4);
-			return tmp;
+				tmp += val.substr(0, 4);
+				tmp += '-';
+				tmp += val.substr(4);
+				return tmp;
 			} else if(val.length < 10) {
 				tmp += val.substr(0, 2);
 				tmp += '-';
@@ -765,28 +740,28 @@ export default {
 				tmp += val.substr(5);
 				return tmp;
 			} else if(val.length < 11) {
-			if(val.substr(0, 2) =='02') { //02-1234-5678
-				tmp += val.substr(0, 2);
-				tmp += '-';
-				tmp += val.substr(2, 4);
-				tmp += '-';
-				tmp += val.substr(6);
-				return tmp;
-			} else { //010-123-4567
+				if(val.substr(0, 2) =='02') { //02-1234-5678
+					tmp += val.substr(0, 2);
+					tmp += '-';
+					tmp += val.substr(2, 4);
+					tmp += '-';
+					tmp += val.substr(6);
+					return tmp;
+				} else { //010-123-4567
+					tmp += val.substr(0, 3);
+					tmp += '-';
+					tmp += val.substr(3, 3);
+					tmp += '-';
+					tmp += val.substr(6);
+					return tmp;
+				}
+			} else { //010-1234-5678
 				tmp += val.substr(0, 3);
 				tmp += '-';
-				tmp += val.substr(3, 3);
+				tmp += val.substr(3, 4);
 				tmp += '-';
-				tmp += val.substr(6);
+				tmp += val.substr(7);
 				return tmp;
-			}
-			} else { //010-1234-5678
-			tmp += val.substr(0, 3);
-			tmp += '-';
-			tmp += val.substr(3, 4);
-			tmp += '-';
-			tmp += val.substr(7);
-			return tmp;
 			}
 		},
 		hpNumberRemoveDash(val){
@@ -795,26 +770,6 @@ export default {
 			val = val.replace(/[^0-9]/g, '');
 
 			return val;
-		},
-		formatCapital() {
-			this.detail.capital = this.formatUncomma(this.detail.fomCapital);
-			this.detail.fomCapital = this.formatComma(this.detail.capital);
-		},
-		formatTel() {
-			this.detail.tel = this.hpNumberRemoveDash(this.detail.fomTel);
-			this.detail.fomTel = this.phoneNumAddDash(this.detail.tel);
-		},
-		formatFax() {
-			this.detail.fax = this.hpNumberRemoveDash(this.detail.fomFax);
-			this.detail.fomFax = this.phoneNumAddDash(this.detail.fax);
-		},
-		formatUserTel() {
-			this.detail.userTel = this.hpNumberRemoveDash(this.detail.fomUserTel);
-			this.detail.fomUserTel = this.phoneNumAddDash(this.detail.userTel);
-		},
-		formatUserHp() {
-			this.detail.userHp = this.hpNumberRemoveDash(this.detail.fomUserHp);
-			this.detail.fomUserHp = this.hpNumberAddDash(this.detail.userHp);
 		},
 		fnRemoveAttachFile(type){
 			// 	첨부파일 삭제
@@ -829,7 +784,7 @@ export default {
 				this.regnumFile = null
 				this.regnumFileName = ''
 				this.detail.regnumFile = null
-				this.detail.regnumFilePath = null
+				this.detail.regnumPath = null
 			}
 		}
 	},
