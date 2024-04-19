@@ -23,56 +23,56 @@
         <!-- //좌측 입찰상태 표시 -->
         <!-- LNB -->
         <ul class="conLeft">
-            <li class="depth2None active"><router-link to="/"><span><i class="fa-light fa-desktop"></i></span>메인</router-link></li> <!-- 하위메뉴 없을 때 depth2None 추가 -->
-            <li>         
+            <li v-bind:class="$route.path === '/' ? 'active' : ''"><a href="/"><span><i class="fa-light fa-desktop"></i></span>메인</a></li>
+            <li v-bind:class="$route.path === '/bid/progress' || $route.path === '/bid/status' || $route.path === '/bid/partnerStatus' || $route.path === '/bid/complete' || $route.path === '/bid/partnerComplete' || $route.path === '/bid/history' ? 'active' : ''">         
                 <router-link to=""><span><i class="fa-light fa-file-contract"></i></span>전자입찰</router-link>
                 <div class="depth2Lnb">
                     <ul>
-                        <li v-if="company == 'inter'" v-bind:class="{ 'active': $route.path === '/bid/progress' }"><router-link to="/bid/progress">입찰계획</router-link></li>
+                        <li v-if="company == 'inter'" v-bind:class="{ 'active': $route.path === '/bid/progress' }"><a href="/bid/progress">입찰계획</a></li>
                         <li v-bind:class="{ 'active': $route.name === 'bidStatus' || $route.name === 'partnerBidStatus' }"><a  @click="clickBidStatus">입찰진행</a></li>
                         <li v-bind:class="{ 'active': $route.name === 'bidComplete' || $route.name === 'partnerBidComplete'}"><a  @click="clickBidComplete">입찰완료</a></li>
-                        <li v-if="company == 'inter'" v-bind:class="{ 'active': $route.path === '/bid/history' }"><router-link to="/bid/history">낙찰이력</router-link></li>
+                        <li v-if="company == 'inter'" v-bind:class="{ 'active': $route.path === '/bid/history' }"><a href="/bid/history">낙찰이력</a></li>
                     </ul>
                 </div>
             </li>
-            <li>         
+            <li v-bind:class="$route.path === '/notice' || $route.name === 'adminFaq' || $route.name === 'userFaq' ? 'active' : ''">         
                 <router-link to=""><span><i class="fa-light fa-bullhorn"></i></span>공지</router-link>
                 <div class="depth2Lnb">
                     <ul>
-                        <li v-bind:class="{ 'active': $route.path === '/notice' }"><router-link to="/notice">공지사항</router-link></li>
+                        <li v-bind:class="{ 'active': $route.path === '/notice' }"><a href="/notice">공지사항</a></li>
                         <li v-bind:class="{ 'active': $route.name === 'adminFaq' || $route.name === 'userFaq'}"><a @click="clickFaq">FAQ</a></li>
                         <li><a :href="company == 'cust'? '/installFile/전자입찰_매뉴얼_업체.pdf' : '/installFile/전자입찰_매뉴얼_본사.pdf'" download="전자입찰_메뉴얼.pdf">메뉴얼</a></li>
                     </ul>
                 </div>
             </li>
-            <li v-if="(userAuth == '1' && company == 'cust') || ((userAuth == '1' || userAuth == '2' || userAuth == '4') && company == 'inter')"><!--권한! v-if="(userAuth == '1' && company == 'cust') || ((userAuth == '1' || userAuth == '2' || userAuth == '4') && company == 'inter')"-->         
+            <li v-bind:class="$route.path === '/company/partner/approval' || $route.path === '/company/partner/management' || $route.path === '/company/partner' || $route.path === '/company/partner/user' ? 'active' : ''" v-if="(userAuth == '1' && company == 'cust') || ((userAuth == '1' || userAuth == '2' || userAuth == '4') && company == 'inter')">      
                 <a ><span><i class="fa-light fa-buildings"></i></span>업체정보</a>
                 <div class="depth2Lnb">
                     <ul>
-                        <li v-if="company == 'inter'" v-bind:class="{ 'active': $route.path === '/company/partner/approval' }"><router-link to="/company/partner/approval">업체승인</router-link></li>
-                        <li v-if="company == 'inter'" v-bind:class="{ 'active': $route.path === '/company/partner/management' }"><router-link to="/company/partner/management">업체관리</router-link></li>
-                        <li v-if="company == 'cust'" v-bind:class="{ 'active': $route.path === '/company/partner' }"><router-link to="/company/partner">자사정보</router-link></li>
-                        <li v-if="company == 'cust'" v-bind:class="{ 'active': $route.path === '/company/partner/user' }"><router-link to="/company/partner/user">사용자관리</router-link></li>
+                        <li v-if="company == 'inter'" v-bind:class="{ 'active': $route.path === '/company/partner/approval' }"><a href="/company/partner/approval">업체승인</a></li>
+                        <li v-if="company == 'inter'" v-bind:class="{ 'active': $route.path === '/company/partner/management' }"><a href="/company/partner/management">업체관리</a></li>
+                        <li v-if="company == 'cust'" v-bind:class="{ 'active': $route.path === '/company/partner' }"><a href="/company/partner">자사정보</a></li>
+                        <li v-if="company == 'cust'" v-bind:class="{ 'active': $route.path === '/company/partner/user' }"><a href="/company/partner/user">사용자관리</a></li>
                     </ul>
                 </div>
             </li>
-            <li v-if="company == 'inter' && (userAuth == '1' || userAuth == '4' )"><!--권한! v-if="company == 'inter' && (userAuth == '1' || userAuth == '4' )"-->         
+            <li v-bind:class="$route.path === '/statistics/performance/company' || $route.path === '/statistics/performance/detail' || $route.path === '/statistics/status' || $route.path === '/statistics/detail' ? 'active' : ''" v-if="company == 'inter' && (userAuth == '1' || userAuth == '4' )">    
                 <a ><span><i class="fa-light fa-chart-pie-simple"></i></span>통계</a>
                 <div class="depth2Lnb">
                     <ul>
-                        <li v-bind:class="{ 'active': $route.path === '/statistics/performance/company' }"><router-link to="/statistics/performance/company">회사별 입찰실적</router-link></li>
-                        <li v-bind:class="{ 'active': $route.path === '/statistics/performance/detail' }"><router-link to="/statistics/performance/detail">입찰실적 상세내역</router-link></li>
-                        <li v-bind:class="{ 'active': $route.path === '/statistics/status' }"><router-link to="/statistics/status">입찰현황</router-link></li>
-                        <li v-bind:class="{ 'active': $route.path === '/statistics/detail' }"><router-link to="/statistics/detail">입찰 상세내역</router-link></li>
+                        <li v-bind:class="{ 'active': $route.path === '/statistics/performance/company' }"><a href="/statistics/performance/company">회사별 입찰실적</a></li>
+                        <li v-bind:class="{ 'active': $route.path === '/statistics/performance/detail' }"><a href="/statistics/performance/detail">입찰실적 상세내역</a></li>
+                        <li v-bind:class="{ 'active': $route.path === '/statistics/status' }"><a href="/statistics/status">입찰현황</a></li>
+                        <li v-bind:class="{ 'active': $route.path === '/statistics/detail' }"><a href="/statistics/detail">입찰 상세내역</a></li>
                     </ul>
                 </div>
             </li>
-            <li v-if="company == 'inter' && userAuth == '1'"><!--권한! v-if="company == 'inter' && userAuth == '1'"-->         
+            <li v-bind:class="$route.path === '/info/group/user' || $route.path === '/info/group/item' ? 'active' : ''" v-if="company == 'inter' && userAuth == '1'">     
               <a ><span><i class="fa-light fa-memo-circle-info"></i></span>정보관리</a>
                 <div class="depth2Lnb">
                     <ul>
-                        <li v-bind:class="{ 'active': $route.path === '/info/group/user' }"><router-link to="/info/group/user">사용자관리</router-link></li>
-                        <li v-bind:class="{ 'active': $route.path === '/info/group/item' }"><router-link to="/info/group/item">품목관리</router-link></li>
+                        <li v-bind:class="{ 'active': $route.path === '/info/group/user' }"><a href="/info/group/user">사용자관리</a></li>
+                        <li v-bind:class="{ 'active': $route.path === '/info/group/item' }"><a href="/info/group/item">품목관리</a></li>
                     </ul>
                 </div>
             </li>
@@ -163,16 +163,20 @@ import cmmn from "../../public/js/common.js";
         },
         clickBidStatus(){//입찰진행 클릭
             if(this.company == 'inter'){//그룹사인 경우
-                this.$router.push({name:"bidStatus"}).catch(()=>{});
+                //this.$router.push({name:"bidStatus"}).catch(()=>{});
+                location.href = '/bid/status';
             }else{//협력사인 경우
-                this.$router.push({name:"partnerBidStatus"}).catch(()=>{});
+                //this.$router.push({name:"partnerBidStatus"}).catch(()=>{});
+                location.href = '/bid/partnerStatus';
             }
         },
         clickBidComplete(){//입찰완료 클릭
             if(this.company == 'inter'){//그룹사인 경우
-                this.$router.push({name:"bidComplete"}).catch(()=>{});
+                //this.$router.push({name:"bidComplete"}).catch(()=>{});
+                location.href = '/bid/complete';
             }else{//협력사인 경우
-                this.$router.push({name:"partnerBidComplete"}).catch(()=>{});
+                //this.$router.push({name:"partnerBidComplete"}).catch(()=>{});
+                location.href = '/bid/partnerComplete';
             }
 
         },
@@ -181,9 +185,11 @@ import cmmn from "../../public/js/common.js";
         },
         clickFaq(){//faq 클릭
             if(this.company == 'inter' && this.userAuth == '1'){//그룹사인 경우 권한! this.company == 'inter' && this.userAuth == '1'
-                this.$router.push({name:"adminFaq"}).catch(()=>{});
+                //this.$router.push({name:"adminFaq"}).catch(()=>{});
+                location.href = '/notice/faq/admin';
             }else{//협력사인 경우
-                this.$router.push({name:"userFaq"}).catch(()=>{});
+                //this.$router.push({name:"userFaq"}).catch(()=>{});
+                location.href = '/notice/faq/user';
             }
         },
         async selectBidCnt() {//계열사 전자입찰 건수 조회
@@ -222,21 +228,24 @@ import cmmn from "../../public/js/common.js";
 
             if(keyword == 'completed'){//계열사 낙찰이력으로 이동
 
-                this.$router.push({name:"bidHistory" , params: { 'flag': keyword }}).catch(()=>{});
+                //this.$router.push({name:"bidHistory" , params: { 'flag': keyword }}).catch(()=>{});
+                location.href = '/bid/history?flag='+keyword;
 
             }else if( keyword == 'awarded'){//협력사 입찰완료로 이동
-
-                this.$router.push({name:"partnerBidComplete" , params: { 'flag': keyword }}).catch(()=>{});
+                
+                //this.$router.push({name:"partnerBidComplete" , params: { 'flag': keyword }}).catch(()=>{});
+                location.href = '/bid/partnerComplete?flag='+keyword;
 
             }else{//입찰진행으로 이동
 
                 if(this.company == 'inter'){
 
-                    this.$router.push({name:"bidStatus" , params: { 'flag': keyword }}).catch(()=>{});
-
+                    //this.$router.push({name:"bidStatus" , params: { 'flag': keyword }}).catch(()=>{});
+                    location.href = '/bid/status';
                 }else{
-
-                    this.$router.push({name:"partnerBidStatus" , params: { 'flag': keyword }}).catch(()=>{});
+                    
+                    //this.$router.push({name:"partnerBidStatus" , params: { 'flag': keyword }}).catch(()=>{});
+                    location.href = '/bid/partnerStatus?flag='+keyword;
 
                 }
                 

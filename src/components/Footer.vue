@@ -2,8 +2,8 @@
 
   <!-- 서브 푸터 -->
   <div class="subFooter">
-      <span v-if="showSentence">© ILJIN ALL RIGHTS RESERVED. <br>전자입찰 문의: ITHELPDESK ( 080 - 707 - 9100 ) &nbsp e-mail : ithelpdesk@iljin.co.kr</span>
-      <span v-else>전자입찰 문의: ITHELPDESK ( 080 - 707 - 9100 ) &nbsp e-mail : ithelpdesk@iljin.co.kr</span>
+      <span v-if="showSentence">© ILJIN ALL RIGHTS RESERVED. <br>전자입찰 문의: IT HelpDesk ( 080 - 707 - 9100 ) &nbsp e-mail : ithelpdesk@iljin.co.kr</span>
+      <span v-else>전자입찰 문의: IT HelpDesk ( 080 - 707 - 9100 ) &nbsp e-mail : ithelpdesk@iljin.co.kr</span>
       <div class="subFooterUtill">
           <a  @click="clickCertificate" title="공동인증서">공동인증서</a>
           <a  @click="clickRegProcess" title="업체등록절차">업체등록절차</a>
