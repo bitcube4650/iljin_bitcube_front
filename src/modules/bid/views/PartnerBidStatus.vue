@@ -213,10 +213,14 @@ export default {
     beforeMount() {},
     mounted() {
 
-        if (this.$route.params.flag === "noticing") {
+        let flag = this.$route.query.flag;
+        if(flag == null || flag == '' || flag == undefined){
+            flag = this.$route.params.flag;
+        }
+        if (flag === "noticing") {
             this.searchParams.esmtYnN = true;
             this.searchParams.esmtYnY = false;
-        } else if (this.$route.params.flag === "submitted") {
+        } else if (flag === "submitted") {
             this.searchParams.esmtYnN = false;
             this.searchParams.esmtYnY = true;
         }

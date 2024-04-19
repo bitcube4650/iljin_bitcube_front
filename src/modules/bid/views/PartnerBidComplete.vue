@@ -190,7 +190,12 @@ export default {
         },
     },
     beforeMount() {
-        let flag = this.$route.params.flag;
+        //메뉴에서 낙찰(12개월)을 누른 경우 reflesh를 위해서 location.href에 url을 입력하여 화면 이동하여 query로 받음
+        //메인화면에서 낙찰(12개월)을 누른 경우 push로 화면 이동하여 params로 받음
+        let flag = this.$route.query.flag;
+        if(flag == null || flag == '' || flag == undefined){//메인화면에서 낙찰(12개월)을 누른 경우
+            flag = this.$route.params.flag;
+        }
         if(flag == 'awarded'){
             this.searchParams.succYn_Y = true;
             this.searchParams.succYn_N = false;

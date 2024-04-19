@@ -218,13 +218,17 @@ export default {
         //     dateOverYn: true,
         //     openBidYn: true,
         // };
-        if (this.$route.params.flag === "noticing") {
+        let flag = this.$route.query.flag;
+        if(flag == null || flag == '' || flag == undefined){
+            flag = this.$route.params.flag;
+        }
+        if (flag === "noticing") {
             this.searchParams.dateOverYn = false;
             this.searchParams.openBidYn = false;
-        } else if (this.$route.params.flag === "beforeOpening") {
+        } else if (flag === "beforeOpening") {
             this.searchParams.rebidYn = false;
             this.searchParams.openBidYn = false;
-        } else if (this.$route.params.flag === "opening") {
+        } else if (flag === "opening") {
             this.searchParams.dateOverYn = false;
             this.searchParams.rebidYn = false;
         }
