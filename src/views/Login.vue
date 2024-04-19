@@ -219,16 +219,16 @@ export default {
 
     if(this.loginInfo.loginId === undefined || this.loginInfo.loginId === '') {
       // Step.1 - 초기화
-      //rathonsso.init();
+      rathonsso.init();
 
       // Step.2 - SSO 인증 & 갱신
       // true: Authentication Required
       // false: Authentication Successful
-      //let result = rathonsso.requestAuthentication()
-      //console.log("requestAuthentication: " + result)
-      //if(!result) {
-      //  this.ssoLogIn();
-      //}
+      let result = rathonsso.requestAuthentication()
+      console.log("requestAuthentication: " + result)
+      if(!result) {
+        this.ssoLogIn();
+      }
     }
       // 초기화 backend와의 통신이 느릴경우를 대비 
       var host = document.location.href.match(/http[s]*:\/\/([a-zA-Z0-9\-\.]*)/)[1];
