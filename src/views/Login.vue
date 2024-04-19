@@ -5,7 +5,7 @@
         <div class="loginWrap">
           <div class="loginLeft">
             <div class="loginLogo">
-              <img :src="imgUrl" class="img-responsive" alt="일진그룹 로고">
+              <!--<img :src="imgUrl" class="img-responsive" alt="일진그룹 로고">-->
             </div>
             <h1><img :src="imgUrl" class="img-responsive" alt="일진그룹 로고"></h1>
             <input type="text" v-model="loginInfo.loginId" autocomplete="name" name="username" placeholder="아이디" autofocus="" class="loginInputStyle">
@@ -27,6 +27,10 @@
             <h2><span>함께</span>합니다.</h2>
             <h2><span>미래</span>를 엽니다.</h2>
             <h3>" CLEAR, UNITED, OPENING THE FUTURE "</h3>
+            <div class="loginRight">
+              <h3 style="font-size: 30PX;color:#F3B352;font-weight: 550;">IT HelpDesk</h3>
+              <h3 style="margin-top: 5px;font-size: 30px;font-weight: 550;">Tel : 080-707-9100</h3>
+            </div>
           </div>
         </div>
         <div class="loginFooter">
@@ -55,7 +59,11 @@
             </div>
           </div>
           <div class="footAddr" v-if="showIljin">
+            전자입찰 문의: IT HelpDesk ( 080 - 707 - 9100 ) &nbsp e-mail : ithelpdesk@iljin.co.kr<br>
             서울특별시 마포구 마포대로 45(도화동) 일진빌딩<br>© ILJIN ALL RIGHTS RESERVED.
+          </div>
+          <div class="footAddr" v-else>
+            전자입찰 문의: IT HelpDesk ( 080 - 707 - 9100 ) &nbsp e-mail : ithelpdesk@iljin.co.kr
           </div>
         </div>
       </div>

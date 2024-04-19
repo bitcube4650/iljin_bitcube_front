@@ -3,7 +3,7 @@
     <!-- 본문 -->
     <div class="conRight">
         <!-- conHeader -->
-        <div class="conHeader">
+        <div class="conHeader" style="padding: 23px 30px 20px 30px;">
             <ul class="conHeaderCate">
                 <li>메인</li>
             </ul>

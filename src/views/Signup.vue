@@ -167,7 +167,8 @@
             </div>
         </div>
         <div class="subFooter mt50" v-if="showSentence">
-            © ILJIN ALL RIGHTS RESERVED.
+            © ILJIN ALL RIGHTS RESERVED.<br>
+            전자입찰 문의: IT HelpDesk ( 080 - 707 - 9100 )<br> e-mail : ithelpdesk@iljin.co.kr
             <div class="subFooterUtill">
                 <a href="javascript:void(0)" title="공동인증서">공동인증서</a>
                 <a href="javascript:void(0)" data-toggle="modal" data-target="#regProcess" title="업체등록절차">업체등록절차</a>
