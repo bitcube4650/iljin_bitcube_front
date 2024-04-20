@@ -85,7 +85,8 @@
                 <div class="modal-content">
                     <div class="modal-body">
                         <a  class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
-                        <div class="alertText1">로그아웃 하시겠습니까?</div>
+                        <div v-if="$store.state.loginInfo.sso == true" class="alertText1">그룹웨어 로그아웃이 선행되야 로그아웃이 됩니다.<br>아닌경우 다시 자동 로그인 처리됩니다.<br>로그아웃을 진행하시겠습니까?</div>
+                        <div v-if="$store.state.loginInfo.sso == false" class="alertText1">로그아웃 하시겠습니까?</div>
                         <div class="modalFooter">
                             <a  class="modalBtnClose" data-dismiss="modal" title="취소">취소</a>
                             <a  @click="logout" class="modalBtnCheck" data-toggle="modal" title="확인">확인</a>
