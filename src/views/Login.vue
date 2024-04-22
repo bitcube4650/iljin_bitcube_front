@@ -214,6 +214,23 @@ export default {
     }
   },
   created() {
+
+    // 초기화 backend와의 통신이 느릴경우를 대비 
+    var host = document.location.href.match(/http[s]*:\/\/([a-zA-Z0-9\-\.]*)/)[1];
+    if (host.indexOf('jtv') != -1) {//전주방송인 경우
+        this.imgUrl = '/images/loginLogo_jtv.svg';
+        this.footerImg = '/images/loginLogo_jtv.svg';
+        this.showIljin = false;
+    } else if (host.indexOf('l-ebid') != -1) {//롯데에너지머티리얼즈인 경우
+        this.imgUrl = '/images/loginLogo_lotte.svg';
+        this.footerImg = '/images/loginLogo_lotte.svg';
+        this.showIljin = false;
+    } else {//일진전기로 조회되는 로고path로 set
+        this.imgUrl = '/images//loginLogo_iljin.svg';
+        this.footerImg = '/images/footerLogo.svg';
+        this.showIljin = true;
+    }
+
     this.loginInfo.loginId = this.$route.query['loginId'];
     this.loginInfo.token = this.$route.query['token'];
 
@@ -230,21 +247,6 @@ export default {
         this.ssoLogIn();
       }
     }
-      // 초기화 backend와의 통신이 느릴경우를 대비 
-      var host = document.location.href.match(/http[s]*:\/\/([a-zA-Z0-9\-\.]*)/)[1];
-      if (host.indexOf('jtv') != -1) {//전주방송인 경우
-          this.imgUrl = '/images/loginLogo_jtv.svg';
-          this.footerImg = '/images/loginLogo_jtv.svg';
-          this.showIljin = false;
-      } else if (host.indexOf('l-ebid') != -1) {//롯데에너지머티리얼즈인 경우
-          this.imgUrl = '/images/loginLogo_lotte.svg';
-          this.footerImg = '/images/loginLogo_lotte.svg';
-          this.showIljin = false;
-      } else {//일진전기로 조회되는 로고path로 set
-          this.imgUrl = '/images//loginLogo_iljin.svg';
-          this.footerImg = '/images/footerLogo.svg';
-          this.showIljin = true;
-      }
   },
   beforeMount() {
     // 페이지 리로드를 위해 localStorage에 vuex 제거
