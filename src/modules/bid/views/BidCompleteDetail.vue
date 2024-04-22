@@ -58,8 +58,11 @@
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width170px">입찰참가업체</div>
 						<div class="width100">
-							<div class="overflow-y-scroll boxStSm width100" style="height:50px">
+							<div v-if="data.biMode == 'A'" class="overflow-y-scroll boxStSm width100" style="height:50px">
 								<a v-for="(cust, idx) in data.custList" :key="idx" @click="$refs.custUserPop.initModal(cust.custCode)" data-toggle="modal" data-target="#custUserPop" class="textUnderline">{{ cust.custName }}<span v-if="data.custList.length != (idx+1)">, </span></a>
+							</div>
+							<div v-else-if="data.biMode == 'B'" class="boxStSm width100 boxOverflowY">
+								<a>가입회원사 전체</a>
 							</div>
 						</div>
 					</div>

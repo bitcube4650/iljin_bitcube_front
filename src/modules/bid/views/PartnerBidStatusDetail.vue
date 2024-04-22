@@ -189,12 +189,13 @@ export default {
     mixins: [mixin],
     beforeMount() {
         this.biNo = this.$store.state.bidDetailData;
+
+        this.checkBid(this.$store.state.bidDetailData);
     },
     async mounted() {
         //nxTSPKI 초기화
         nxTSPKI.init(true);
 
-        await this.checkBid();
         await this.fnCodeInit();
         await this.retrieve();
 
@@ -240,9 +241,9 @@ export default {
 
         },
         //업체 공고확인
-        async checkBid() {
+        checkBid(biNo) {
             let params = {
-                biNo : this.biNo
+                biNo : biNo
             }
             this.$http.post("/api/v1/bidPtStatus/checkBid", params);
         },
