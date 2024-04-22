@@ -130,7 +130,7 @@
                     <div class="width100" v-if="attSign == 'N'">{{ data.openAtt1 }}</div>
                     <div class="width100" v-else-if="attSign == 'Y'">{{ data.openAtt1 }}
                         <span v-if="data.openAtt1Id == $store.state.loginInfo.userId" :class="data.openAtt1Sign != 'Y' ? 'attCheck' : ''" @click="fnOpenAttSignPop('1', data.openAtt1Id, data.openAtt1Sign)">{{ data.openAtt1Sign | ftOpenAttSign }}</span>
-                        <span v-else :style="data.openAtt1Sign != 'Y' ? 'color: red;' : ''">{{ data.openAtt1Sign | ftOpenAttSign }}</span>
+                        <span v-else-if="data.openAtt1Id != null" :style="data.openAtt1Sign != 'Y' ? 'color: red;' : ''">{{ data.openAtt1Sign | ftOpenAttSign }}</span>
                     </div>
                 </div>
                 <div class="flex align-items-center width100 ml80">
@@ -138,7 +138,7 @@
                     <div class="width100" v-if="attSign == 'N'">{{ data.openAtt2 }}</div>
                     <div class="width100" v-else-if="attSign == 'Y'">{{ data.openAtt2 }}
                         <span v-if="data.openAtt2Id == $store.state.loginInfo.userId" :class="data.openAtt2Sign != 'Y' ? 'attCheck' : ''" @click="fnOpenAttSignPop('2', data.openAtt2Id, data.openAtt2Sign)">{{ data.openAtt2Sign | ftOpenAttSign }}</span>
-                        <span v-else :style="data.openAtt2Sign != 'Y' ? 'color: red;' : ''">{{ data.openAtt2Sign | ftOpenAttSign }}</span>
+                        <span v-else-if="data.openAtt2Id != null" :style="data.openAtt2Sign != 'Y' ? 'color: red;' : ''">{{ data.openAtt2Sign | ftOpenAttSign }}</span>
                     </div>
                 </div>
             </div>
