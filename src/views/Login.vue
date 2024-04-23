@@ -85,6 +85,24 @@
     </div>
     <!-- //아이디 or 비밀번호 확인 -->
 
+    <!-- 미승인 업체 -->
+    <div class="modal fade modalStyle" id="loginAlert2" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog" style="width:100%; max-width:420px">
+        <div class="modal-content">
+          <div class="modal-body">
+            <a href="javascript:void(0)" class="ModalClose" data-dismiss="modal" title="닫기"><i class="fa-solid fa-xmark"></i></a>
+            <div class="alertText1">입력하신 아이디와 비밀번호는 일치하나, 아직 본사의 승인이 이루어지지 않았습니다.
+           본사의 승인 후 본 전자입찰/계약 시스템을 이용하실 수 있습니다.
+           본사승인 후 다시 로그인 해 주세요.</div>
+            <div class="modalFooter">
+              <a href="javascript:void(0)" class="modalBtnClose" data-dismiss="modal" title="닫기">닫기</a>
+            </div>
+          </div>				
+        </div>
+      </div>
+    </div>
+    <!-- //미승인 업체 -->
+
     <!-- 아이디 찾기 팝업 -->
     <id-search-pop ref="idSearchPop"/>
 
@@ -188,6 +206,8 @@ export default {
           if (err.response.status == 423) {
             this.changePwd();
 
+          } else if (err.response.status === 403) {
+            $("#loginAlert2").modal("show");
           } else {
             this.loginFail();
           }
