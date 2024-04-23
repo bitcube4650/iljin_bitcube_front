@@ -376,21 +376,31 @@ export default {
 		},
 		// 숫자만
 		// 사업자 등록번호
-		'detail.regnum1'(){
-			this.detail.regnum1 = this.detail.regnum1.replace(/[^0-9]/g, '');
+		'detail.regnum1'(value){
+			if(value != null && value != ''){
+				this.detail.regnum1 = this.detail.regnum1.replace(/[^0-9]/g, '');
+			}
 		},
-		'detail.regnum2'(){
-			this.detail.regnum2 = this.detail.regnum2.replace(/[^0-9]/g, '');
+		'detail.regnum2'(value){
+			if(value != null && value != ''){
+				this.detail.regnum2 = this.detail.regnum2.replace(/[^0-9]/g, '');
+			}
 		},
-		'detail.regnum3'(){
-			this.detail.regnum3 = this.detail.regnum3.replace(/[^0-9]/g, '');
+		'detail.regnum3'(value){
+			if(value != null && value != ''){
+				this.detail.regnum3 = this.detail.regnum3.replace(/[^0-9]/g, '');
+			}
 		},
 		// 법인번호
-		'detail.presJuminNo1'(){
-			this.detail.presJuminNo1 = this.detail.presJuminNo1.replace(/[^0-9]/g, '');
+		'detail.presJuminNo1'(value){
+			if(value != null && value != ''){
+				this.detail.presJuminNo1 = this.detail.presJuminNo1.replace(/[^0-9]/g, '');
+			}
 		},
-		'detail.presJuminNo2'(){
-			this.detail.presJuminNo2 = this.detail.presJuminNo2.replace(/[^0-9]/g, '');
+		'detail.presJuminNo2'(value){
+			if(value != null && value != ''){
+				this.detail.presJuminNo2 = this.detail.presJuminNo2.replace(/[^0-9]/g, '');
+			}
 		},
 		// 설립년도
 		'detail.foundYear'(){
