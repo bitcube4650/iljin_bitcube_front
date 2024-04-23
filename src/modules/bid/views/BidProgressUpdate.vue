@@ -201,9 +201,9 @@
                     class="textUnderline"
                     >{{ val.custName }}</a
                   >
-                  <span v-for="(data,idx) in custUserInfo" :key="idx">{{ val.custCode == data.custCode ? ` ${data.userName}` : '' }} </span>
+                  <span v-for="(data,idx) in custUserName" :key="idx">{{ val.custCode == data.custCode ? ` ${data.userName}` : '' }} </span>
                   <i class="fa-regular fa-xmark textHighlight" @click="removeCust(idx,val.custCode)"></i></a>
-                  <span v-if="idx !== dataFromList.custContent.length - 1">, </span>   
+                  <!-- <span v-if="idx !== dataFromList.custContent.length - 1">, </span>    -->
                 </div>
                 <div v-if="dataFromList.result.biModeCode==='B'">
                     <a>가입회원사 전체</a>
@@ -999,7 +999,8 @@ export default {
       changeFileCheck : {insFileCheck : 'Y', innerFileCheck : 'Y',  outerFileCheck : 'Y'}, // 기존에 들어 있는 파일들이 어떻게 변경되는지 확인 =  Y : 기존과 동일한 상태라 아무 것도 처리 안 해도 되는 상태. N : 파일이 있다가 사라진 상태라 삭제 해야 함, C : 기존에 있던 없던 파일이 추가되거나 변경된 상태. 기존에 있던 걸 지우고 새로 넣어야 함
       minDate : new Date().toISOString().slice(0, 10),
       bidPlan : 'O',
-      custUserInfo : []
+      custUserInfo : [],
+      custUserName : []
     };
   },
   computed: {
@@ -1089,7 +1090,7 @@ export default {
     },
     removeCust(index,custCode) {//입찰참가업체 삭제
       this.custUserInfo = this.custUserInfo.filter(item => item.custCode != custCode)
-      console.log(this.custUserInfo)
+      this.custUserName = this.custUserName.filter(item => item.custCode != custCode)
       this.dataFromList.custContent.splice(index, 1);
       this.$forceUpdate();
     },
@@ -1744,6 +1745,22 @@ export default {
     const dataFromList =  Object.assign({},this.$route.params.bidUpdateData)
     this.dataFromList = dataFromList;
     this.custUserInfo = this.dataFromList.custUserInfo
+    if(this.custUserInfo.length >0){
+
+      const custCodeUserName = this.custUserInfo.reduce((acc, userInfo) => {
+      const custCode = acc.find(item => item.custCode === userInfo.custCode);
+
+        if (custCode) {
+          custCode.userName += ', ' + userInfo.userName;
+        } else {
+            acc.push({ custCode: userInfo.custCode, userName: userInfo.userName });
+        }
+
+          return acc;
+        }, []);
+     this.custUserName = custCodeUserName
+    }
+
     this.bdAmt = dataFromList.result.bdAmt;
     if (!this.originCustData) {
       this.originCustData = dataFromList.custContent.slice();

@@ -220,9 +220,9 @@
                     class="textUnderline"
                     >{{ val.custName }}</a
                   >
-                  <span v-for="(data,idx) in custUserInfo" :key="idx">{{ val.custCode == data.custCode ? ` ${data.userName}` : '' }}</span>
+                  <span v-for="(data,idx) in custUserName" :key="idx">{{ val.custCode == data.custCode ? ` ${data.userName}` : '' }}</span>
                   <i class="fa-regular fa-xmark textHighlight ml5" @click="removeCust(idx,val.custCode)"></i></a>
-                  <span v-if="idx !== custContent.length - 1">, </span>
+                  <!-- <span v-if="idx !== custContent.length - 1">, </span> -->
                 </div>
                 </div>
               <a
@@ -1061,7 +1061,8 @@ export default {
       innerFile : '',
       outerFile : '',
       bidPlan : 'O',
-      custUserInfo : []
+      custUserInfo : [],
+      custUserName : []
     }; 
   },
   computed: {
@@ -1155,6 +1156,22 @@ export default {
 
       if(this.bidContent.biModeCode == "A"){
         this.custUserInfo = data[4]
+        if(this.custUserInfo.length >0){
+
+          const custCodeUserName = this.custUserInfo.reduce((acc, userInfo) => {
+          const custCode = acc.find(item => item.custCode === userInfo.custCode);
+
+            if (custCode) {
+              custCode.userName += ', ' + userInfo.userName;
+            } else {
+                acc.push({ custCode: userInfo.custCode, userName: userInfo.userName });
+            }
+
+              return acc;
+            }, []);
+        this.custUserName = custCodeUserName
+
+        }
       }
       this.bidContent.specialCond = this.result.specialCond;
       /*this.datePart = ''this.result.spotDate.substring(0, 10);
@@ -1251,6 +1268,7 @@ export default {
 
     removeCust(index,custCode) {
       this.custUserInfo = this.custUserInfo.filter(item => item.custCode != custCode)
+      this.custUserName = this.custUserName.filter(item => item.custCode != custCode)
       this.custContent.splice(index, 1);
     },
     addEmptyRow() {

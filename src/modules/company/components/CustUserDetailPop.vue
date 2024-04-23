@@ -131,7 +131,7 @@ export default {
 		const custCode = vm.searchParams.custCode;
 
 
-		vm.$parent.custUserInfo = vm.$parent.custUserInfo.filter(item => item.custCode != this.custCode)
+		vm.$parent.custUserInfo = vm.$parent.custUserInfo.filter(item => item.custCode != vm.custCode)
 
 		checkedUsers.forEach(user => {
 
@@ -141,6 +141,12 @@ export default {
 				custCode: custCode
 			});
 		});
+
+		vm.$parent.custUserName = vm.$parent.custUserName.filter(item => item.custCode != vm.custCode)
+
+		const custCodeUserName = checkedUsers.map(item => item.userName).join(', ')
+
+		vm.$parent.custUserName.push({custCode: vm.custCode, userName : custCodeUserName })
 
 		$('#custUserDetailPop').modal('hide');
 

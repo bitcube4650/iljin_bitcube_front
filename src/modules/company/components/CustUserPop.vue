@@ -126,7 +126,7 @@ export default {
 		}
 		const checkedUsers = this.listPage.content.filter(user => user.checked);
 		const custCode = vm.searchParams.custCode;
-
+		
 		checkedUsers.forEach(user => {
 
 			const alreadyExists = vm.$parent.$parent.custUserInfo.some(userInfo =>
@@ -142,6 +142,10 @@ export default {
 				});
 			}
 		});
+		
+		const custCodeUserName = checkedUsers.map(item => item.userName).join(', ')
+
+		vm.$parent.$parent.custUserName.push({custCode : custCode, userName : custCodeUserName}) 
 
 		const custData = { custCode: custCode, custName: vm.custName };
 		vm.$parent.$parent.callbackCust(custData);
