@@ -137,7 +137,6 @@
       $('#startDay').datepicker('setDate', '-1M');
       $('#endDay').datepicker('setDate', 'today' );
       this.selectCoInterList();
-      this.selectbidPresentList();
     },
     methods: {
       //계열사 리스트 불러 오는 메소드
@@ -148,7 +147,9 @@
           const response = await vm.$http.post(
             "/api/v1/statistics/coInterList",
           );
-          vm.coInterList = response.data[0]
+          vm.coInterList = response.data[0];
+          
+          this.selectbidPresentList();
 
           vm.$store.commit("finish");
         } catch (err) {

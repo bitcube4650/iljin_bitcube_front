@@ -14,12 +14,27 @@ export default {
         });
 
         //LNB
+        /*
         $('.conLeft > li > a').click(function() {
             $('.depth2Lnb').hide();
             $(this).next('.depth2Lnb').fadeToggle();
             $('.conLeft > li').removeClass('active');
             $(this).parent('li').addClass('active');
         });
+        */
+        //메뉴 클릭시 이전에 클릭해서 펼쳤던 메뉴 접고 새로 클릭한 메뉴 펼치기
+        $('.conLeft > li > a').click(function() {
+            
+            $('.depth2Lnb').removeClass('clickedDiv');
+            //$(this).next('.depth2Lnb').fadeToggle();
+            $(this).next('.depth2Lnb').addClass('clickedDiv');
+
+        });
+        //헤더 로고 클릭시 메뉴 접기
+        $('.headerLogo').click(function(){
+            $('.depth2Lnb').removeClass('clickedDiv');
+        })
+        
 
         //select
         const label = document.querySelectorAll('.selLabel');

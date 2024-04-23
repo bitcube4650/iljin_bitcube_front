@@ -26,7 +26,7 @@
             <li v-bind:class="$route.path === '/' ? 'active' : ''"><a href="/"><span><i class="fa-light fa-desktop"></i></span>메인</a></li>
             <li v-bind:class="$route.path === '/bid/progress' || $route.path === '/bid/status' || $route.path === '/bid/partnerStatus' || $route.path === '/bid/complete' || $route.path === '/bid/partnerComplete' || $route.path === '/bid/history' ? 'active' : ''">         
                 <router-link to=""><span><i class="fa-light fa-file-contract"></i></span>전자입찰</router-link>
-                <div class="depth2Lnb">
+                <div class="depth2Lnb" v-bind:class="$route.path === '/bid/progress' || $route.path === '/bid/status' || $route.path === '/bid/partnerStatus' || $route.path === '/bid/complete' || $route.path === '/bid/partnerComplete' || $route.path === '/bid/history' ? 'currentDiv' : ''">
                     <ul>
                         <li v-if="company == 'inter'" v-bind:class="{ 'active': $route.path === '/bid/progress' }"><a href="/bid/progress">입찰계획</a></li>
                         <li v-bind:class="{ 'active': $route.name === 'bidStatus' || $route.name === 'partnerBidStatus' }"><a  @click="clickBidStatus">입찰진행</a></li>
@@ -37,7 +37,7 @@
             </li>
             <li v-bind:class="$route.path === '/notice' || $route.name === 'adminFaq' || $route.name === 'userFaq' ? 'active' : ''">         
                 <router-link to=""><span><i class="fa-light fa-bullhorn"></i></span>공지</router-link>
-                <div class="depth2Lnb">
+                <div class="depth2Lnb" v-bind:class="$route.path === '/notice' || $route.name === 'adminFaq' || $route.name === 'userFaq' ? 'currentDiv' : ''">
                     <ul>
                         <li v-bind:class="{ 'active': $route.path === '/notice' }"><a href="/notice">공지사항</a></li>
                         <li v-bind:class="{ 'active': $route.name === 'adminFaq' || $route.name === 'userFaq'}"><a @click="clickFaq">FAQ</a></li>
@@ -47,7 +47,7 @@
             </li>
             <li v-bind:class="$route.path === '/company/partner/approval' || $route.path === '/company/partner/management' || $route.path === '/company/partner' || $route.path === '/company/partner/user' ? 'active' : ''" v-if="(userAuth == '1' && company == 'cust') || ((userAuth == '1' || userAuth == '2' || userAuth == '4') && company == 'inter')">      
                 <a ><span><i class="fa-light fa-buildings"></i></span>업체정보</a>
-                <div class="depth2Lnb">
+                <div class="depth2Lnb" v-bind:class="$route.path === '/company/partner/approval' || $route.path === '/company/partner/management' || $route.path === '/company/partner' || $route.path === '/company/partner/user' ? 'currentDiv' : ''">
                     <ul>
                         <li v-if="company == 'inter'" v-bind:class="{ 'active': $route.path === '/company/partner/approval' }"><a href="/company/partner/approval">업체승인</a></li>
                         <li v-if="company == 'inter'" v-bind:class="{ 'active': $route.path === '/company/partner/management' }"><a href="/company/partner/management">업체관리</a></li>
@@ -58,7 +58,7 @@
             </li>
             <li v-bind:class="$route.path === '/statistics/performance/company' || $route.path === '/statistics/performance/detail' || $route.path === '/statistics/status' || $route.path === '/statistics/detail' ? 'active' : ''" v-if="company == 'inter' && (userAuth == '1' || userAuth == '4' )">    
                 <a ><span><i class="fa-light fa-chart-pie-simple"></i></span>통계</a>
-                <div class="depth2Lnb">
+                <div class="depth2Lnb" v-bind:class="$route.path === '/statistics/performance/company' || $route.path === '/statistics/performance/detail' || $route.path === '/statistics/status' || $route.path === '/statistics/detail' ? 'currentDiv' : ''">
                     <ul>
                         <li v-bind:class="{ 'active': $route.path === '/statistics/performance/company' }"><a href="/statistics/performance/company">회사별 입찰실적</a></li>
                         <li v-bind:class="{ 'active': $route.path === '/statistics/performance/detail' }"><a href="/statistics/performance/detail">입찰실적 상세내역</a></li>
@@ -69,7 +69,7 @@
             </li>
             <li v-bind:class="$route.path === '/info/group/user' || $route.path === '/info/group/item' ? 'active' : ''" v-if="company == 'inter' && userAuth == '1'">     
               <a ><span><i class="fa-light fa-memo-circle-info"></i></span>정보관리</a>
-                <div class="depth2Lnb">
+                <div class="depth2Lnb" v-bind:class="$route.path === '/info/group/user' || $route.path === '/info/group/item' ? 'currentDiv' : ''">
                     <ul>
                         <li v-bind:class="{ 'active': $route.path === '/info/group/user' }"><a href="/info/group/user">사용자관리</a></li>
                         <li v-bind:class="{ 'active': $route.path === '/info/group/item' }"><a href="/info/group/item">품목관리</a></li>
@@ -262,8 +262,10 @@ import cmmn from "../../public/js/common.js";
   
   <!-- Add "scoped" attribute to limit CSS to this component only -->
   <style scoped>
-    .active {
-        font-weight: 500;
-        color: #004B9E;
+    .clickedDiv {
+        display: block !important;
+    }
+    .currentDiv {
+        display: block !important;
     }
   </style>
