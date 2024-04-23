@@ -216,12 +216,12 @@
                 <div  v-for="(val, idx) in custContent" :key="idx">   
                   
                 <a
-                    @click.prevent="$refs.custUserPop.initModal(val.custCode)"
-                    data-toggle="modal"
-                    data-target="#custUserPop"
+                    @click.prevent="openCustUserDetailPop(val.custCode)"
                     class="textUnderline"
                     >{{ val.custName }}</a
-                  ><i class="fa-regular fa-xmark textHighlight" @click="removeCust(idx)"></i></a>
+                  >
+                  <span v-for="(data,idx) in custUserInfo" :key="idx">{{ val.custCode == data.custCode ? ` ${data.userName}` : '' }}</span>
+                  <i class="fa-regular fa-xmark textHighlight ml5" @click="removeCust(idx,val.custCode)"></i></a>
                   <span v-if="idx !== custContent.length - 1">, </span>
                 </div>
                 </div>
@@ -962,9 +962,11 @@
     <!-- 품목 조회 -->
     <item-pop ref="itemPop" @callbackFunc="callbackItem" />
     <!-- //업체 조회 -->
-    <cust-pop ref="custPop" @callbackFunc="callbackCust" />
+    <cust-pop ref="custPop"/>
     <!-- 협력사 사용자 조회-->
-    <cust-user-pop ref="custUserPop" />
+    <cust-user-pop ref="custUserPop"/>
+      <!-- 협력사 상세 사용자 조회-->
+    <cust-user-detail-pop ref="custUserDetailPop"/>
     <!-- 개찰자 조회-->
     <bid-open-user-pop ref="bidOpenUserPop" @callbackFunc="callbackOpenUser"/>
     <!-- 낙찰자 조회-->
@@ -986,6 +988,7 @@ import cmmn from "../../../../public/js/common.js";
 import ItemPop from "@/components/ItemPop.vue";
 import CustPop from "@/modules/company/components/CustPop.vue";
 import CustUserPop from "@/modules/company/components/CustUserPop.vue";
+import CustUserDetailPop from "@/modules/company/components/CustUserDetailPop.vue";
 import BidOpenUserPop from "@/modules/company/components/BidOpenUserPop.vue";
 import BidUserPop from "@/modules/company/components/BidUserPop.vue";
 import BiddingUserPop from "@/modules/company/components/BiddingUserPop.vue";
@@ -998,6 +1001,7 @@ export default {
     ItemPop,
     CustPop,
     CustUserPop,
+    CustUserDetailPop,
     BidOpenUserPop,
     BidUserPop,
     BiddingUserPop,
@@ -1055,7 +1059,9 @@ export default {
       fileData3 : {}, // 대외용 첨부파일 데이터
       insFile : '',
       innerFile : '',
-      outerFile : ''
+      outerFile : '',
+      bidPlan : 'O',
+      custUserInfo : []
     }; 
   },
   computed: {
@@ -1099,6 +1105,7 @@ export default {
           text: "이미 등록한 업체입니다.",
         });
       }
+
     },
     callbackOpenUser(data) {
       this.bidContent.estOpener = data.userName;
@@ -1146,6 +1153,9 @@ export default {
       this.bidContent.bidJoinSpec = this.result.bidJoinSpec
       if (!this.result.biModeCode) this.bidContent.biModeCode = "A";//"A" - 지명경쟁, "B" - 일반경쟁
 
+      if(this.bidContent.biModeCode == "A"){
+        this.custUserInfo = data[4]
+      }
       this.bidContent.specialCond = this.result.specialCond;
       /*this.datePart = ''this.result.spotDate.substring(0, 10);
       this.timePart = this.result.spotDate.substring(11, 16);*/
@@ -1239,7 +1249,8 @@ export default {
       $("#bmFile").modal("hide");
     },
 
-    removeCust(index) {
+    removeCust(index,custCode) {
+      this.custUserInfo = this.custUserInfo.filter(item => item.custCode != custCode)
       this.custContent.splice(index, 1);
     },
     addEmptyRow() {
@@ -1307,6 +1318,18 @@ export default {
         alert("입찰참가업체를 선택해 주세요.");
         return false;
       }
+
+      const custCodes = this.custContent.map(content => content.custCode);
+
+      const allCustCodesInUserInfo = custCodes.every(custCode => {
+          return this.custUserInfo.some(userInfo => userInfo.custCode == custCode);
+      });
+
+      if(this.bidContent.biModeCode === "A" && !allCustCodesInUserInfo){
+        alert("협력사 사용자를 선택하지 않은 입찰참가업체가 있습니다.\n입찰참가업체 명을 클릭하여 협력사 사용자를 체크해 주세요.");
+        return false
+      }
+
       if (!this.bidContent.amtBasis || this.bidContent.amtBasis === "") {
         alert("금액기준을 선택해 주세요.");
         return false;
@@ -1442,6 +1465,30 @@ export default {
             interCd: this.bidContent.interrelatedCustCode,
           }
           this.bidContent.custCode = custContent.map(item => item.custCode).join(',')
+
+          const custUserInfoFilter = {};
+
+          this.custUserInfo.forEach(info => {
+
+              if (!custUserInfoFilter[info.custCode]) {
+
+                custUserInfoFilter[info.custCode] = '';
+              } else {
+
+                custUserInfoFilter[info.custCode] += ',';
+              }
+
+              custUserInfoFilter[info.custCode] += info.userId;
+          });
+
+
+          const custUserInfo = Object.keys(custUserInfoFilter).map(custCode => ({
+              custCode: custCode,
+              usemailId: custUserInfoFilter[custCode]
+          }));
+          
+          this.bidContent.custUserInfo = custUserInfo
+
       }
 
       //내역방식
@@ -1472,9 +1519,6 @@ export default {
       }
       fd.append("bidContent", JSON.stringify(params))
 
-      if(this.userInfo.userId != this.$store.state.loginInfo.userId){
-
-      }
 
       this.$store.commit("loading");
       vm.$http.post("/api/v1/bid/insertBid", fd)
@@ -1742,10 +1786,16 @@ export default {
         })
         .catch((error) => {
           console.log(err)
-        this.$store.commit('finish');
+        this.$store.commit('finish');s
         });
-    }
-    
+    },
+    openCustUserDetailPop(custCode){
+      const vm = this
+
+      let custUserInfo = vm.custUserInfo.filter(item => item.custCode == custCode)
+      $('#custUserDetailPop').modal('show');
+      this.$refs.custUserDetailPop.initModal(custCode,custUserInfo)
+    },
   },
   beforeMount() {},
   mounted() {
