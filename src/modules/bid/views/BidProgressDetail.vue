@@ -468,6 +468,7 @@ export default {
       lotteDeptList: [],
       lotteProcList: [],
       lotteClsList: [],
+      custUserInfo : [],
     };
   },
 
@@ -506,6 +507,9 @@ export default {
         this.total = this.calculateTotal();
         this.fileContent = response.data[2];
         this.custContent = response.data[3];
+        if(this.result.biModeCode == 'A'){
+          this.custUserInfo = response.data[4]
+        }
         this.$store.commit("finish");
       } catch (err) {
         console.log(err);
@@ -559,7 +563,7 @@ export default {
       this.detail.lotteDeptList = this.lotteDeptList;
       this.detail.lotteProcList = this.lotteProcList;
       this.detail.lotteClsList = this.lotteClsList;
-
+      this.detail.custUserInfo = this.custUserInfo
       this.$store.commit("setBidUpdateData", this.detail);
       this.$router.push({ name: "bidProgressUpdate" ,params: { 'bidUpdateData': this.detail} });
     },
@@ -572,6 +576,10 @@ export default {
       this.detail.cuserCode = this.result.cuserCode
       if(this.result.biModeCode == 'A'){
         this.detail.custCode = this.custContent.map(item => item.custCode).join(',')
+        const userIds = this.custUserInfo.map(item => item.userId);
+
+        const custUserIds = userIds.map(userId => `'${userId}'`).join(',');
+        this.detail.custUserIds = custUserIds
       }
 
       this.$store.commit("loading");
@@ -593,6 +601,7 @@ export default {
               return;
             }
         })
+
 
     },
 

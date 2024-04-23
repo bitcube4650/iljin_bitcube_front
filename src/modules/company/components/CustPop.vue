@@ -82,7 +82,7 @@
                   </td>
                   <td>{{ val.presName }}</td>
                   <td class="end">
-                    <a class="btnStyle btnSecondary btnSm" @click.prevent="select(val)" title="선택">선택</a>
+                    <a class="btnStyle btnSecondary btnSm"  @click="custCheck(val)" title="선택">선택</a>
                   </td>
                 </tr>
               </tbody>
@@ -104,16 +104,21 @@
       </div>
     </div>
     <!-- //계열사 업체조회 -->
+
+    <!-- 협력사 사용자 조회-->
+    <cust-user-pop ref="custUserPop"/>
   </div>
 </template>
 
 <script>
 import Pagination from "@/components/Pagination.vue";
+import CustUserPop from "@/modules/company/components/CustUserPop.vue";
 export default {
   name: "CustPop",
   props: ["callbackFunc"],
   components: {
     Pagination,
+    CustUserPop
   },
   data() {
     return {
@@ -153,6 +158,19 @@ export default {
         this.$store.commit("finish");
       }
     },
+    custCheck(custInfo){
+
+      if((this.$parent.custContent && this.$parent.custContent.filter(item => item.custCode == custInfo.custCode).length > 0) || (this.$parent.dataFromList &&this.$parent.dataFromList.custContent.filter(item => item.custCode == custInfo.custCode).length > 0)){
+        this.$swal({
+          type: "warning",
+          text: "이미 등록한 업체입니다.",
+        });
+
+      }else{
+        $('#custUserPop').modal('show');
+        this.$refs.custUserPop.initModal(custInfo.custCode,custInfo.custName)
+      }
+    }
   },
 };
 </script>
