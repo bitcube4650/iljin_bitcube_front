@@ -1326,7 +1326,7 @@ export default {
       });
 
       if(this.bidContent.biModeCode === "A" && !allCustCodesInUserInfo){
-        alert("협력사 사용자를 선택하지 않은 입찰참가업체가 있습니다.\n입찰참가업체 명을 클릭하여 협력사 사용자를 체크해 주세요.");
+        alert("협력사 사용자를 선택하지 않은 입찰참가업체가 있습니다.\n입찰참가업체 명을 클릭하여 협력사 사용자를 선택해 주세요.");
         return false
       }
 
