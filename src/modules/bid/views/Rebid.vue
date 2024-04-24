@@ -494,7 +494,8 @@ export default {
             this.data.estCloseDay = val;
         },
         fnComma(val){
-            return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+            if(val == undefined || val == null || val == 0) return '';
+            else return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
         }
     },
     beforeMount() {
