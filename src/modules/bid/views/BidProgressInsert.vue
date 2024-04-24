@@ -637,7 +637,7 @@
                     <th>품목명</th>
                     <th>규격</th>
                     <th>단위</th>
-                    <th>실행단가</th>
+                    <th>예정단가</th>
                     <th>수량</th>
                     <th>합계</th>
                     <th class="end">삭제</th>
@@ -1441,7 +1441,7 @@ export default {
             return false;
           }
           if(orderUcCheck.length > 0){
-            alert('세부내역 실행단가를 작성해 주세요.');
+            alert('세부내역 예정단가를 작성해 주세요.');
             return false;
           }
           if(orderQtyCheck.length > 0){
