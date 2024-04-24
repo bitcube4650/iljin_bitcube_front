@@ -41,7 +41,7 @@
                         <tbody>
                             <template v-for="(cust, idx) in data.custList">
                             <tr :key="'main_'+idx">
-                                <td><input type="checkbox" v-if="cust.esmtYn == '2'" :id="cust.custCode" v-model="custCheck" :value="cust.custCode" class="checkStyle checkOnly"><label v-if="cust.esmtYn == '2'" :for="cust.custCode"></label></td>
+                                <td><input type="checkbox" :id="cust.custCode" v-model="custCheck" :value="cust.custCode" class="checkStyle checkOnly"><label :for="cust.custCode"></label></td>
                                 <td class="text-left">
                                     <a @click="$refs.submitHistPop.initModal(data.biNo, cust.custCode, cust.custName, cust.damdangName, cust.esmtCurr);" class="textUnderline" data-toggle="modal" data-target="#submitHistPop">{{ cust.custName }}</a>
                                 </td>
@@ -162,9 +162,7 @@ export default {
                 let custList = this.data.custList;
                 let arr = new Array();
                 for(let i = 0 ; i < custList.length ; i++){
-                    if(custList[i].esmtYn == '2'){
-                        arr.push(custList[i].custCode);
-                    }
+                    arr.push(custList[i].custCode);
                 }
                 this.custCheck = arr;
             }else{
