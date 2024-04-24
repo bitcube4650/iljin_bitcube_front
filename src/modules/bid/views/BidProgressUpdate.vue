@@ -1760,8 +1760,9 @@ export default {
     }
   },
   beforeMount() {
-    
+    window.scrollTo(0, 0)
     const dataFromList =  Object.assign({},this.$route.params.bidUpdateData)
+    this.$store.state.bidDetailData = dataFromList.result.biNo
     if(dataFromList.tableContent){
       const tableContent = dataFromList.tableContent
       if(tableContent.length > 0){
