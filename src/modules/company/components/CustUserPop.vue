@@ -121,7 +121,7 @@ export default {
 
 		const vm = this
 		if($('input[name="userCheck"]:checked').length == 0){
-			alert("공고 시 메일과 문자를 수신할 사용자를 선택해 주세요.");
+			this.$swal({ type: "warning", text: "공고 시 메일과 문자를 수신할 사용자를 선택해 주세요." });
 			return 
 		}
 		const checkedUsers = this.listPage.content.filter(user => user.checked);

@@ -1228,40 +1228,40 @@ export default {
         !this.dataFromList.result.biName ||
         this.dataFromList.result.biName === ""
       ) {
-        alert("입찰명을 입력해 주세요.");
+        this.$swal({ type: "warning", text: "입찰명을 입력해 주세요." });
         return false;
       }
       if (
         !this.dataFromList.result.itemCode ||
         this.dataFromList.result.itemCode === ""
       ) {
-        alert("품목을 선택해 주세요.");
+        this.$swal({ type: "warning", text: "품목을 선택해 주세요." });
         return false;
       }
       if (
         !this.dataFromList.result.biModeCode ||
         this.dataFromList.result.biModeCode === ""
       ) {
-        alert("입찰방식을 선택해 주세요.");
+        this.$swal({ type: "warning", text: "입찰방식을 선택해 주세요." });
         return false;
       }
       if (
         !this.dataFromList.result.bidJoinSpec ||
         this.dataFromList.result.bidJoinSpec === ""
       ) {
-        alert("입찰참가자격을을 선택해 주세요.");
+        this.$swal({ type: "warning", text: "입찰참가자격을 선택해 주세요." });
         return false;
       }
       if (
         !this.datePart 
       ) {
-        alert("현장설명일시 날짜를 입력해 주세요.");
+        this.$swal({ type: "warning", text: "현장설명일시 날짜를 입력해 주세요." });
         return false;
       }
       if (
         !this.timePart
       ) {
-        alert("현장설명일시 시간을 입력해 주세요.");
+        this.$swal({ type: "warning", text: "현장설명일시 시간을 입력해 주세요." });
         return false;
       }
 
@@ -1270,7 +1270,7 @@ export default {
       const currentTime1 = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Seoul"}));
 
       if (currentTime1 > inputDate) {
-          alert("현장설명일시는 현재 시간보다 큰 시간을 선택해야 합니다.");
+        this.$swal({ type: "warning", text: "현장설명일시는 현재 시간보다 큰 시간을 선택해야 합니다." });
           return false
       } 
 
@@ -1278,18 +1278,18 @@ export default {
         !this.dataFromList.result.spotArea ||
         this.dataFromList.result.spotArea === ""
       ) {
-        alert("현장설명장소를 입력해 주세요.");
+        this.$swal({ type: "warning", text: "현장설명장소를 입력해 주세요." });
         return false;
       }
       if (
         !this.dataFromList.result.succDeciMethCode ||
         this.dataFromList.result.succDeciMethCode === ""
       ) {
-        alert("낙찰자 결정방법을 선택해 주세요.");
+        this.$swal({ type: "warning", text: "낙찰자 결정방법을 선택해 주세요." });
         return false;
       }
       if (this.dataFromList.custContent.length === 0 && this.dataFromList.result.biModeCode === "A") {
-        alert("입찰참가업체를 선택해 주세요.");
+        this.$swal({ type: "warning", text: "입찰참가업체를 선택해 주세요." });
         return false;
       }
 
@@ -1300,45 +1300,45 @@ export default {
       });
 
       if(this.dataFromList.result.biModeCode === "A" && !allCustCodesInUserInfo){
-        alert("협력사 사용자를 선택하지 않은 입찰참가업체가 있습니다.\n입찰참가업체 명을 클릭하여 협력사 사용자를 선택해 주세요.");
+        this.$swal({ type: "warning", text: "협력사 사용자를 선택하지 않은 입찰참가업체가 있습니다.\n입찰참가업체 명을 클릭하여 협력사 사용자를 선택해 주세요." });
         return false
       }
 
       if (!this.dataFromList.result.amtBasis || this.dataFromList.result.amtBasis === "") {
-        alert("금액기준을 입력해 주세요.");
+        this.$swal({ type: "warning", text: "금액기준을 입력해 주세요." });
         return false;
       }
       if (this.dataFromList.result.interrelatedCustCode == "02" 
           && (!this.dataFromList.result.matDept || !this.dataFromList.result.matProc || !this.dataFromList.result.matCls)) {
-        alert("분류군을 입력해 주세요.");
+            this.$swal({ type: "warning", text: "분류군을 입력해 주세요." });
         return false;
       }
       if (
         !this.datePart1 ||
         this.datePart1 === ""
       ) {
-        alert("제출시작일시 날짜를 입력해 주세요.");
+        this.$swal({ type: "warning", text: "제출시작일시 날짜를 입력해 주세요." });
         return false;
       }
       if (
         !this.timePart1 ||
         this.timePart1 === ""
       ) {
-        alert("제출시작일시 시간을 입력해 주세요.");
+        this.$swal({ type: "warning", text: "제출시작일시 시간을 입력해 주세요." });
         return false;
       }
       if (
         !this.datePart2 ||
         this.datePart2 === ""
       ) {
-        alert("제출마감일시 날짜를 입력해 주세요.");
+        this.$swal({ type: "warning", text: "제출마감일시 날짜를 입력해 주세요." });
         return false;
       }
       if (
         !this.timePart2 ||
         this.timePart2 === ""
       ) {
-        alert("제출마감일시 시간을 입력해 주세요.");
+        this.$swal({ type: "warning", text: "제출마감일시 시간을 입력해 주세요." });
         return false;
       }
 
@@ -1350,12 +1350,12 @@ export default {
       const currentTime = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Seoul"}));
 
       if (currentTime > closeDate) {
-          alert("제출마감일시는 현재 시간보다 큰 시간을 선택해야 합니다.");
+          this.$swal({ type: "warning", text: "제출마감일시는 현재 시간보다 큰 시간을 선택해야 합니다." });
           return false
       } 
 
       if (startDateTime > closeDateTime) {
-        alert("제출시작일시가 제출마감일시보다 큽니다.");
+        this.$swal({ type: "warning", text: "제출시작일시가 제출마감일시보다 큽니다." });
         return false;
       }
 
@@ -1364,28 +1364,28 @@ export default {
       this.dataFromList.result.estCloseDate = this.datePart2 + " " + this.timePart2;
       
       if (!this.dataFromList.result.estOpener || this.dataFromList.result.estOpener === "") {
-        alert("개찰자를 선택해 주세요.");
+        this.$swal({ type: "warning", text: "개찰자를 선택해 주세요." });
         return false;
       }
 
       if (!this.dataFromList.result.gongoId || this.dataFromList.result.gongoId === "") {
-        alert("입찰공고자를 선택해 주세요.");
+        this.$swal({ type: "warning", text: "입찰공고자를 선택해 주세요." });
         return false;
       }
 
       if (!this.dataFromList.result.estBidder || this.dataFromList.result.estBidder === "") {
-        alert("낙찰자를 선택해 주세요.");
+        this.$swal({ type: "warning", text: "낙찰자를 선택해 주세요." });
         return false;
       }
       if (!this.dataFromList.result.supplyCond || this.dataFromList.result.supplyCond === "") {
-        alert("납품조건을 입력해 주세요.");
+        this.$swal({ type: "warning", text: "납품조건을 입력해 주세요." });
         return false;
       }
       
       //세부내역 내역집적등록인 경우
       if (this.dataFromList.result.insModeCode  === "2") {
         if (this.dataFromList.tableContent.length === 0) {
-          alert("세부내역을 추가해 주세요.");
+          this.$swal({ type: "warning", text: "세부내역을 추가해 주세요." });
           return false;
         } else if(this.dataFromList.tableContent.length > 0){
           
@@ -1396,23 +1396,24 @@ export default {
           const orderUcCheck = this.dataFromList.tableContent.filter(item=> item.orderUc == '')
 
           if(nameCheck.length > 0){
-            alert('세부내역 품목명을 작성해 주세요.');
+            this.$swal({ type: "warning", text: "세부내역 품목명을 작성해 주세요." });
             return false;
           }
           if(ssizeCheck.length > 0){
-            alert('세부내역 규격을 작성해 주세요.');
+            this.$swal({ type: "warning", text: "세부내역 규격을 작성해 주세요." });
             return false;
           }
           if(unitcodeCheck.length > 0){
-            alert('세부내역 단위를 작성해 주세요.');
+            this.$swal({ type: "warning", text: "세부내역 단위를 작성해 주세요." });
+
             return false;
           }
           if(orderUcCheck.length > 0){
-            alert('세부내역 예정단가를 작성해 주세요.');
+            this.$swal({ type: "warning", text: "세부내역 예정단가를 작성해 주세요." });
             return false;
           }
           if(orderQtyCheck.length > 0){
-            alert('세부내역 수량을 작성해 주세요.');
+            this.$swal({ type: "warning", text: "세부내역 수량을 작성해 주세요."});
             return false;
           }
 
@@ -1423,7 +1424,8 @@ export default {
       //세부내역 파일등록 경우
       if (this.dataFromList.result.insModeCode === "1") {
         if (this.insFile == '') {
-          alert("세부내역파일을 업로드 해 주세요.");
+          this.$swal({ type: "warning", text: "세부내역파일을 업로드 해 주세요." });
+
           return false;
         }
       }
@@ -1698,7 +1700,7 @@ export default {
       const fileData = event.target.files[0]
         if(fileData.size > 10485760){
           event.target.value = ''
-          alert('파일 크기는 최대 10MB까지입니다.\n파일 크기를 확인해 주세요.')
+          this.$swal({ type: "warning", text: "파일 크기는 최대 10MB까지입니다.\n파일 크기를 확인해 주세요." });
           return 
         }
         fileData.fileNm = fileData.name
@@ -1709,7 +1711,7 @@ export default {
       const fileData = event.target.files[0]
         if(fileData.size > 10485760){
           event.target.value = ''
-          alert('파일 크기는 최대 10MB까지입니다.\n파일 크기를 확인해 주세요.')
+          this.$swal({ type: "warning", text: "파일 크기는 최대 10MB까지입니다.\n파일 크기를 확인해 주세요." });
           return 
         }
         fileData.fileNm = fileData.name
@@ -1720,7 +1722,7 @@ export default {
       const fileData = event.target.files[0]
         if(fileData.size > 10485760){
           event.target.value = ''
-          alert('파일 크기는 최대 10MB까지입니다.\n파일 크기를 확인해 주세요.')
+          this.$swal({ type: "warning", text: "파일 크기는 최대 10MB까지입니다.\n파일 크기를 확인해 주세요." });
           return 
         }
       fileData.fileNm = fileData.name
@@ -1765,7 +1767,7 @@ export default {
       if(tableContent.length > 0){
         dataFromList.tableContent = tableContent.map((item, idx) => {
           return { ...item, orderQty : item.orderQty.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),orderUc: item.orderUc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')};
-       });;
+       });
       }
 
     }
