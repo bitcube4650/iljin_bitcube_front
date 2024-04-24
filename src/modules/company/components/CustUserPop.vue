@@ -150,7 +150,7 @@ export default {
 		const custData = { custCode: custCode, custName: vm.custName };
 		vm.$parent.$parent.callbackCust(custData);
 		$('#custUserPop').modal('hide');
-		$('#custPop').modal('hide');
+		//$('#custPop').modal('hide');
 
 	},
 	userAllCheck(){
