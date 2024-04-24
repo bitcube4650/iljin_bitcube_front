@@ -379,6 +379,9 @@ export default {
 	// 설립년도
 	'detail.foundYear'(){
 		this.detail.foundYear = this.detail.foundYear.replace(/[^0-9]/g, '');
+	},
+	'detail.userPwd'(){
+		this.detail.userPwd = this.detail.userPwd.trim();
 	}
   },
   mounted() {

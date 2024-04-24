@@ -212,6 +212,9 @@ export default {
 		},
 		'detail.userTel'(){
 			this.detail.userTel = this.hpNumberAddDash(this.detail.userTel);
+		},
+		'detail.userPwd'(){
+			this.detail.userPwd = this.detail.userPwd.trim();
 		}
 	},
   	methods: {
