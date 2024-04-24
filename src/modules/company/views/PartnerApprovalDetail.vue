@@ -118,8 +118,9 @@
 
 			<div class="text-center mt50">
 				<a href="#" @click.prevent="$router.go(-1)" class="btnStyle btnOutlineRed" title="취소">취소</a>
-				<a href="#" data-toggle="modal" data-target="#companyTurnback" class="btnStyle btnRed" title="반려">반려</a>
-				<a href="#" data-toggle="modal" data-target="#companyAccept" class="btnStyle btnPrimary" title="승인">승인</a>
+				<!-- 감사 사용자 / 각사 관리자만 승인 반려 처리 가능 -->
+				<a href="#" data-toggle="modal" data-target="#companyTurnback" class="btnStyle btnRed" title="반려" v-if="$store.state.loginInfo.userAuth == '2' || $store.state.loginInfo.userAuth == '4'">반려</a>
+				<a href="#" data-toggle="modal" data-target="#companyAccept" class="btnStyle btnPrimary" title="승인" v-if="$store.state.loginInfo.userAuth == '2' || $store.state.loginInfo.userAuth == '4'">승인</a>
 			</div>
 		</div>
 	</div>
