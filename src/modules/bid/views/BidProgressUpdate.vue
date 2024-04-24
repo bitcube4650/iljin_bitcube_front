@@ -674,7 +674,8 @@
                         @input="changeNumOrderQty(idx)"
                       />
                     </td>
-                    <td class="text-right">{{ (val.orderQty*val.orderUc).toLocaleString()  }}</td>
+                    
+                    <td class="text-right">{{ (Number(val.orderQty.replace(/,/g, '')) * Number(val.orderUc.replace(/,/g, '')) ).toLocaleString()  }}</td>
                     <td class="text-right end">
                       <a
                         class="btnStyle btnSecondary btnSm"
@@ -1011,7 +1012,7 @@ export default {
     totalSum() {
       // 테이블 내 모든 행의 합계 계산
       return this.dataFromList.tableContent.reduce(
-        (sum, val) => sum + (val.orderQty * val.orderUc || 0),
+        (sum, val) => sum + ((Number(val.orderQty.replace(/,/g, '')) * Number(val.orderUc.replace(/,/g, '')) ) || 0),
         0
       );
     },
@@ -1475,11 +1476,12 @@ export default {
         this.dataFromList.result.custUserInfo = custUserInfo
       }
 
+      let tableContent = []
       //내역방식
       if(this.dataFromList.result.insModeCode === "2") {//내역직접등록
 
-        this.dataFromList.tableContent = this.dataFromList.tableContent.map((item, idx) => {
-          return { ...item, seq: idx + 1 };
+        tableContent = this.dataFromList.tableContent.map((item, idx) => {
+          return { ...item, seq: idx + 1, orderQty : Number(item.orderQty.replace(/,/g, '')),orderUc: Number(item.orderUc.replace(/,/g, ''))}
         });
         this.changeFileCheck.insFileCheck = 'N'
       }
@@ -1502,11 +1504,11 @@ export default {
         bidContent : this.dataFromList.result,
         custContent : custContent,
         updateEmail : updateEmail,
-        tableContent : this.dataFromList.tableContent,
+        tableContent : tableContent,
       }
       
       fd.append("bidContent", JSON.stringify(params))
-      
+
       this.$store.commit("loading");
       vm.$http.post("/api/v1/bid/updateBid", fd)
       .then((response) => {
@@ -1526,6 +1528,7 @@ export default {
             return;
           }
       })
+      
       
     /*
       this.$store.commit("loading");
@@ -1684,12 +1687,12 @@ export default {
       }
     },
     changeNumOrderQty(idx) {
-      const inputValue = this.dataFromList.tableContent[idx].orderQty.replace(/\D/g, '');
-      this.dataFromList.tableContent[idx].orderQty = inputValue;
+      const inputValue = this.dataFromList.tableContent[idx].orderQty.replace(/\D/g, '')
+      this.dataFromList.tableContent[idx].orderQty = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     },
     changeNumOrderUc(idx) {
       const inputValue = this.dataFromList.tableContent[idx].orderUc.replace(/\D/g, '');
-      this.dataFromList.tableContent[idx].orderUc = inputValue;
+      this.dataFromList.tableContent[idx].orderUc = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     },
     fileInputChangeInsFile(event){//견적세부파일
       const fileData = event.target.files[0]
@@ -1757,6 +1760,16 @@ export default {
   beforeMount() {
     
     const dataFromList =  Object.assign({},this.$route.params.bidUpdateData)
+    if(dataFromList.tableContent){
+      const tableContent = dataFromList.tableContent
+      if(tableContent.length > 0){
+        dataFromList.tableContent = tableContent.map((item, idx) => {
+          return { ...item, orderQty : item.orderQty.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),orderUc: item.orderUc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')};
+       });;
+      }
+
+    }
+    
     this.dataFromList = dataFromList;
     this.custUserInfo = this.dataFromList.custUserInfo
     if(this.custUserInfo.length >0){

@@ -184,6 +184,6 @@ export default {
         },
     },
     created() {},
-    mounted() {console.log('공고문 미리보기',this.data)}
+    mounted() {}
 };
 </script>

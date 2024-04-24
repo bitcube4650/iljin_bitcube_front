@@ -690,7 +690,7 @@
                         class="inputStyle inputSm text-right"
                         placeholder=""
                         v-model.trim="val.orderUc"
-                        maxlength="12"
+                        maxlength="15"
                         @input="changeNumOrderUc(idx)"
                       />
                     </td>
@@ -702,11 +702,11 @@
                         class="inputStyle inputSm"
                         placeholder=""
                         v-model.trim="val.orderQty"
-                        maxlength="12"
+                        maxlength="15"
                         @input="changeNumOrderQty(idx)"
                       />
                     </td>
-                    <td class="text-right">{{ (val.orderQty*val.orderUc).toLocaleString() }}</td>
+                    <td class="text-right">{{ (Number(val.orderQty.replace(/,/g, '')) * Number(val.orderUc.replace(/,/g, '')) ).toLocaleString() }}</td>
                     <td class="text-right end">
                       <a
                         class="btnStyle btnSecondary btnSm"
@@ -1077,7 +1077,7 @@ export default {
     totalSum() {
       // 테이블 내 모든 행의 합계 계산
       return this.tableContent.reduce(
-        (sum, val) => sum + (val.orderQty * val.orderUc || 0),
+        (sum, val) => sum + ((Number(val.orderQty.replace(/,/g, '')) * Number(val.orderUc.replace(/,/g, '')) ) || 0),
         0
       );
     },
@@ -1151,7 +1151,15 @@ export default {
     callbackPastBid(data) {//과거입찰 가져오기에서 선택시
 
       this.result = data[0][0];
-      this.tableContent = data[1];//입찰정보
+
+      const tableContent = data[1]
+      if(tableContent.length > 0){//입찰정보
+        this.tableContent = tableContent.map((item, idx) => {
+          return { ...item, orderQty : item.orderQty.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','),orderUc: item.orderUc.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')};
+       });;
+      }
+
+      
       this.fileContent = data[2];//파일정보
       this.custContent = data[3];//지명경쟁인 경우 지명된 협력사 정보
 
@@ -1516,11 +1524,11 @@ export default {
           this.bidContent.custUserInfo = custUserInfo
 
       }
-
+      let tableContent = []
       //내역방식
       if(this.bidContent.insModeCode === "2") {//내역직접등록
-        this.tableContent = this.tableContent.map((item, idx) => {
-          return { ...item, seq: idx + 1 };
+        tableContent= this.tableContent.map((item, idx) => {
+          return { ...item, seq: idx + 1, orderQty : Number(item.orderQty.replace(/,/g, '')),orderUc: Number(item.orderUc.replace(/,/g, ''))}
        });
       }
 
@@ -1541,10 +1549,10 @@ export default {
         bidContent : this.bidContent,
         custContent : custContent,
         updateEmail : updateEmail,
-        tableContent : this.tableContent,
+        tableContent : tableContent,
       }
       fd.append("bidContent", JSON.stringify(params))
-
+      console.log(params)
 
       this.$store.commit("loading");
       vm.$http.post("/api/v1/bid/insertBid", fd)
@@ -1576,6 +1584,8 @@ export default {
             return;
           }
       })
+
+      
 
       /*
       this.$store.commit("loading");
@@ -1766,12 +1776,15 @@ export default {
       }
     },
     changeNumOrderQty(idx) {
-      const inputValue = this.tableContent[idx].orderQty.replace(/\D/g, '');
-      this.tableContent[idx].orderQty = inputValue;
+
+      const inputValue = this.tableContent[idx].orderQty.replace(/\D/g, '')
+      this.tableContent[idx].orderQty = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     },
     changeNumOrderUc(idx) {
+
       const inputValue = this.tableContent[idx].orderUc.replace(/\D/g, '');
-      this.tableContent[idx].orderUc = inputValue;
+      this.tableContent[idx].orderUc = inputValue.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+
     },
     fileInputChangeInsFile(event){//견적세부파일
       const fileData = event.target.files[0]
