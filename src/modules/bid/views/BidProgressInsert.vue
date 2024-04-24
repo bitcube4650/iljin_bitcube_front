@@ -1853,6 +1853,10 @@ export default {
     this.userInfo.custCode = this.$store.state.loginInfo.custCode;
     this.userInfo.userName = this.$store.state.loginInfo.userName;
     this.userInfo.userId = this.$store.state.loginInfo.userId;
+    
+    this.bidContent.gongoId = this.$store.state.loginInfo.userName;
+    this.bidContent.gongoIdCode = this.$store.state.loginInfo.userId;
+
     //달력
     cmmn.applyCal();
     //파일첨부
