@@ -147,8 +147,9 @@
 
 			<div class="text-center mt50">
 				<a href="#" @click.prevent="$router.go(-1)" class="btnStyle btnOutlineRed" title="취소">취소</a>
-				<a href="#" v-if="detail.certYn == 'Y'" data-toggle="modal" data-target="#companyDel" class="btnStyle btnRed" title="삭제">삭제</a>
-				<router-link v-if="detail.certYn == 'Y'" :to="'/company/partner/management/'+$route.params.id+'/update'" class="btnStyle btnPrimary" title="수정 이동">수정 이동</router-link>
+				<!-- 감사 사용자 / 각사 관리자만 업체 수정 및 삭제 가능-->
+				<a href="#" v-if="detail.certYn == 'Y' && ($store.state.loginInfo.userAuth == '2' || $store.state.loginInfo.userAuth == '4')" data-toggle="modal" data-target="#companyDel" class="btnStyle btnRed" title="삭제">삭제</a>
+				<router-link v-if="detail.certYn == 'Y' && ($store.state.loginInfo.userAuth == '2' || $store.state.loginInfo.userAuth == '4')" :to="'/company/partner/management/'+$route.params.id+'/update'" class="btnStyle btnPrimary" title="수정 이동">수정 이동</router-link>
 			</div>
 		</div>
 	</div>

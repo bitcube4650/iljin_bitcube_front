@@ -56,7 +56,8 @@
 				</select>
 			</div>
 			<div class="flex-shrink0">
-				<router-link to="/company/partner/management/create" class="btnStyle btnPrimary" title="업체 등록">업체 등록</router-link>
+				<!-- 감사 사용자 / 각사 관리자만 업체 등록 가능-->
+				<router-link to="/company/partner/management/create" class="btnStyle btnPrimary" title="업체 등록" v-if="$store.state.loginInfo.userAuth == '2' || $store.state.loginInfo.userAuth == '4'">업체 등록</router-link>
 			</div>
 		</div>
 		<table class="tblSkin1 mt10">
