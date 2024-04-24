@@ -367,7 +367,7 @@ input, select {vertical-align:top; margin-top:0 !important}
 /* conRight */
 .conRightWrap {width:calc(100% - 330px)}
 .conRight {width:100%; background:#fff; border-radius:15px}
-.conHeader {border-bottom:1px solid #ddd; padding:43px 30px 33px 30px}
+.conHeader {border-bottom:1px solid #ddd; padding:23px 30px 20px 30px;}
 .conHeaderCate {display:flex; align-items:center}
 .conHeaderCate > li {display:flex; align-items:center; font-size:28px; font-weight:500; color:#777}
 .conHeaderCate > li:after {content:'\f054'; font-family:'Font Awesome 6 Pro'; font-size:14px; font-weight:400; color:#B6B6B6; display:inline-block; margin:3px 20px 0 20px}
