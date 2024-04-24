@@ -507,8 +507,10 @@
                   class="inputStyle"
                   placeholder=""
                   v-model="dataFromList.result.openAtt1"
+                  :style="{ 'margin-right': dataFromList.result.openAtt1Code ? '5px' : '0' }"
                   disabled
                 />
+                <i v-if="dataFromList.result.openAtt1Code" @click="removeOpenAttCode('1')" class="fa-regular fa-xmark textHighlight ml5"></i></a>
                 <a
                 id="openAtt1"
                   data-toggle="modal"
@@ -530,8 +532,10 @@
                   class="inputStyle"
                   placeholder=""
                   v-model="dataFromList.result.openAtt2"
+                  :style="{ 'margin-right': dataFromList.result.openAtt2Code ? '5px' : '0' }"
                   disabled
                 />
+                <i v-if="dataFromList.result.openAtt2Code" @click="removeOpenAttCode('2')" class="fa-regular fa-xmark textHighlight ml5"></i></a>
                 <a
                 id="openAtt2"
                   data-toggle="modal"
@@ -1739,6 +1743,16 @@ export default {
       $('#custUserDetailPop').modal('show');
       this.$refs.custUserDetailPop.initModal(custCode,custUserInfo)
     },
+    removeOpenAttCode(num){
+      const vm = this
+      if(num == '1'){
+        vm.$set(vm.dataFromList.result, 'openAtt1', '')
+        vm.$set(vm.dataFromList.result, 'openAtt1Code', '')
+      }else{
+        vm.$set(vm.dataFromList.result, 'openAtt2', '')
+        vm.$set(vm.dataFromList.result, 'openAtt2Code', '')
+      }
+    }
   },
   beforeMount() {
     

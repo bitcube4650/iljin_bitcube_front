@@ -538,8 +538,10 @@
                   class="inputStyle"
                   placeholder=""
                   v-model="bidContent.openAtt1"
+                 :style="{ 'margin-right': bidContent.openAtt1Code ? '5px' : '0' }"
                   disabled
                 />
+                <i v-if="bidContent.openAtt1Code" @click="removeOpenAttCode('1')" class="fa-regular fa-xmark textHighlight ml5"></i></a>
                 <a
                   data-toggle="modal"
                   data-target="#bidUserPop"
@@ -560,8 +562,10 @@
                   class="inputStyle"
                   placeholder=""
                   v-model="bidContent.openAtt2"
+                  :style="{ 'margin-right': bidContent.openAtt2Code ? '5px' : '0' }"
                   disabled
                 />
+                <i v-if="bidContent.openAtt2Code" @click="removeOpenAttCode('2')" class="fa-regular fa-xmark textHighlight ml5"></i></a>
                 <a
                   data-toggle="modal"
                   data-target="#bidUserPop"
@@ -1031,6 +1035,10 @@ export default {
         matProc: null,
         matCls: null,
         amtBasis: 'VAT 별도',
+        openAtt1 : '',
+        openAtt1Code : '',
+        openAtt2 : '',
+        openAtt2Code : '',
       },
 
       bdAmt: '',
@@ -1814,6 +1822,16 @@ export default {
       $('#custUserDetailPop').modal('show');
       this.$refs.custUserDetailPop.initModal(custCode,custUserInfo)
     },
+    removeOpenAttCode(num){
+      const vm = this
+      if(num == '1'){
+        vm.$set(vm.bidContent, 'openAtt1', '')
+        vm.$set(vm.bidContent, 'openAtt1Code', '')
+      }else{
+        vm.$set(vm.bidContent, 'openAtt2', '')
+        vm.$set(vm.bidContent, 'openAtt2Code', '')
+      }
+    }
   },
   beforeMount() {},
   mounted() {
