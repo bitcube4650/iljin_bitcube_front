@@ -346,6 +346,21 @@ export default {
         },
         fnOpenAttSignPop(att, attSignId, signYn){
             if(signYn == 'N'){
+                let currDate = new Date();
+                let currDateTime = currDate.getTime();
+                let estStartDate = new Date(this.data.estStartDate);
+                let estStartTime = estStartDate.getTime();
+                let estCloseDate = new Date(this.data.estCloseDate);
+                let estCloseTime = estCloseDate.getTime();
+                
+                if(estStartTime > currDateTime || estCloseTime > currDateTime){
+                    this.$swal({
+                        type: "warning",
+                        text: "입회자 서명은 제출마감일시 이후에 가능합니다.",
+                    });
+                    return false;
+                }
+
                 this.whoAtt = att;
                 this.attSignId = attSignId;
                 $("#attSignPop").modal("show");
