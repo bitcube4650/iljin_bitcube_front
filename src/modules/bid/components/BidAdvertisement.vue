@@ -64,6 +64,10 @@
                             <div class="formTit flex-shrink0 width170px">결제조건</div>
                             <div style="width:550px; word-wrap: break-word;">{{ data.payCond }}</div>
                         </div>
+                        <div class="flex align-items-center mt10">
+                            <div class="formTit flex-shrink0 width170px">예산금액</div>
+                            <div style="width:550px; word-wrap: break-word;">{{ data.bdAmt | numberWithCommas }}</div>
+                        </div>
                     </div>
 
                     <h4 class="h4Tit mt20">라. 참고사항</h4>
@@ -99,16 +103,20 @@
                                         <tr>
                                             <th>품목명</th>
                                             <th>규격</th>
+                                            <th>단위</th>
+                                            <th>실행단가</th>
                                             <th>수량</th>
-                                            <th class="end">단위</th>
+                                            <th class="end">합계</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="(val, idx) in data.specInput" :key="idx">
                                             <td class="text-left">{{ val.name }}</td>
                                             <td class="text-left">{{ val.ssize }}</td>
-                                            <td class="text-right">{{ val.orderQty | numberWithCommas }}</td>
-                                            <td class="end">{{ val.unitcode }}</td>
+                                            <td class="text-right">{{ val.unitcode }}</td>
+                                            <td class="end">{{ val.orderUc | numberWithCommas}}</td>
+                                            <td class="end">{{ val.orderQty | numberWithCommas}}</td>
+                                            <td class="end">{{ val.orderUc*val.orderQty | numberWithCommas}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -176,6 +184,6 @@ export default {
         },
     },
     created() {},
-    mounted() {},
+    mounted() {console.log('공고문 미리보기',this.data)}
 };
 </script>
