@@ -91,7 +91,7 @@ export default {
         var isValidLength = password.length >= 8 && password.length <= 16;
 
         if(!isValidPassword){
-            this.$swal({type: "warning",text: "대/소문자, 숫자, 특수문자중에서 2가지 이상 조합되어야 합니다."});
+            this.$swal({type: "warning",text: "비밀번호는 대/소문자, 숫자, 특수문자중에서 2가지 이상 조합되어야 합니다."});
             return;
         }else if(!isValidLength){
             this.$swal({type: "warning",text: "비밀번호는 8자 이상 16자 이하로 작성해주세요."});
