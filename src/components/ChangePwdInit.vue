@@ -98,7 +98,7 @@ export default {
         if(!isValidPassword){
             this.$swal({
                 type: "warning",
-                text: "대/소문자, 숫자, 특수문자중에서 2가지 이상 조합되어야 합니다.",
+                text: "비밀번호는 대/소문자, 숫자, 특수문자중에서 2가지 이상 조합되어야 합니다.",
             });
             return false;
         }else if(!isValidLength){
