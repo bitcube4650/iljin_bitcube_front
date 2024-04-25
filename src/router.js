@@ -5,7 +5,7 @@ import noticeRoutes from './modules/notice/router/index.js';
 import companyRoutes from './modules/company/router/index.js';
 import statisticsRoutes from './modules/statistics/router/index.js'
 import infoRoutes from './modules/info/router/index.js';
-
+import axios from 'axios';
 
 Vue.use(Router);
 
@@ -50,7 +50,18 @@ export default new Router({
         ...noticeRoutes,
         ...companyRoutes,
         ...statisticsRoutes,
-        ...infoRoutes
+        ...infoRoutes,
+        {
+            path: '/chgPwdFirst',
+            name : '',
+            beforeEnter() {
+                axios.defaults.headers = {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-type': 'application/json',
+                  };
+                axios.post("/api/v1/main/chgPwdFirst", {})
+            },
+        }
 
         
 //template[end]         
