@@ -19,19 +19,19 @@
                         <div class="width100">{{ data.biNo }}</div>
                     </div>
                     <div class="flex align-items-center mt10">
-                        <div class="formTit flex-shrink0 width170px">입찰명 <span class="star">*</span></div>
+                        <div class="formTit flex-shrink0 width170px">입찰명</div>
                         <div class="width100">
                             <input type="text" class="inputStyle" v-model="data.biName" maxlength="50" disabled/>
                         </div>
                     </div>
                     <div class="flex align-items-center mt10">
-                        <div class="formTit flex-shrink0 width170px">품목 <span class="star">*</span></div>
+                        <div class="formTit flex-shrink0 width170px">품목</div>
                         <div class="flex align-items-center width100">
                             <input type="text" class="inputStyle" v-model="data.itemName" disabled/>
                         </div>
                     </div>
                     <div class="flex align-items-center mt20">
-                        <div class="formTit flex-shrink0 width170px">입찰방식 <span class="star">*</span></div>
+                        <div class="formTit flex-shrink0 width170px">입찰방식</div>
                         <div class="width100">
                             <input type="radio" class="radioStyle" checked="" id="bm1_1" />
                             <label for="bm1_1">지명경쟁입찰</label>
@@ -52,20 +52,20 @@
                         </div>
                     </div>
                     <div class="flex align-items-center mt20">
-                        <div class="formTit flex-shrink0 width170px">현장설명일시 <span class="star">*</span></div>
+                        <div class="formTit flex-shrink0 width170px">현장설명일시</div>
                         <div class="width100">
                             <input type="text" class="inputStyle maxWidth140px" v-model="data.spotDay" disabled/>
                             <input type="time" class="inputStyle maxWidth140px ml10" v-model="data.spotTime" disabled />
                         </div>
                     </div>
                     <div class="flex align-items-center mt10">
-                        <div class="formTit flex-shrink0 width170px">현장설명장소 <span class="star">*</span></div>
+                        <div class="formTit flex-shrink0 width170px">현장설명장소</div>
                         <div class="width100">
                             <input type="text" class="inputStyle" v-model="data.spotArea" disabled/>
                         </div>
                     </div>
                     <div class="flex align-items-center mt10">
-                        <div class="formTit flex-shrink0 width170px">낙찰자결정방법 <span class="star">*</span></div>
+                        <div class="formTit flex-shrink0 width170px">낙찰자결정방법</div>
                         <div class="width100">
                             <input type="text" class="inputStyle maxWidth200px" v-model="data.succDeciMeth" disabled>
                         </div>
@@ -145,7 +145,7 @@
                 <div class="boxSt mt20">
                     <div class="flex align-items-center">
                         <div class="flex align-items-center width100">
-                            <div class="formTit flex-shrink0 width170px">제출시작일시 <span class="star">*</span></div>
+                            <div class="formTit flex-shrink0 width170px">제출시작일시</div>
                             <div class="flex align-items-center width100">
                                 <input type="text" class="inputStyle readonly" v-model="data.estStartDay" disabled />
                                 <input type="time" class="readonly inputStyle ml10" v-model="data.estStartTime" disabled />
@@ -155,7 +155,32 @@
                             <div class="formTit flex-shrink0 width170px">제출마감일시 <span class="star">*</span></div>
                             <div class="flex align-items-center width100">
                                 <Calendar @update-date="fnUpdateCloseDate" calendarId="closeDate" classProps="datepicker readonly inputStyle" :initDate="data.estCloseDay" />
-                                <input type="time" class="readonly inputStyle ml10" v-model="data.estCloseTime"/>
+                                <select class="inputStyle ml10" v-model="data.estCloseTime" style="background:url('../images/selectArw.png') no-repeat right 15px center;max-width: 110px">
+                                    <option value="">시간 선택</option>
+                                    <option value="01:00">01:00</option>
+                                    <option value="02:00">02:00</option>
+                                    <option value="03:00">03:00</option>
+                                    <option value="04:00">04:00</option>
+                                    <option value="05:00">05:00</option>
+                                    <option value="06:00">06:00</option>
+                                    <option value="07:00">07:00</option>
+                                    <option value="08:00">08:00</option>
+                                    <option value="09:00">09:00</option>
+                                    <option value="10:00">10:00</option>
+                                    <option value="11:00">11:00</option>
+                                    <option value="12:00">12:00</option>
+                                    <option value="13:00">13:00</option>
+                                    <option value="14:00">14:00</option>
+                                    <option value="15:00">15:00</option>
+                                    <option value="16:00">16:00</option>
+                                    <option value="17:00">17:00</option>
+                                    <option value="18:00">18:00</option>
+                                    <option value="19:00">19:00</option>
+                                    <option value="20:00">20:00</option>
+                                    <option value="21:00">21:00</option>
+                                    <option value="22:00">22:00</option>
+                                    <option value="23:00">23:00</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -210,7 +235,7 @@
                         </div>
                     </div>
                     <div class="flex mt10" v-if="data.insMode === '1'">
-                        <div class="formTit flex-shrink0 width170px">세부내역 <span class="star">*</span>
+                        <div class="formTit flex-shrink0 width170px">세부내역
                             <!-- 툴팁 -->
                             <i class="fas fa-question-circle toolTipSt ml5">
                                 <div class="toolTipText" style="width: 370px">
