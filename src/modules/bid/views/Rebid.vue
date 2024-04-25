@@ -255,7 +255,7 @@
                                         <th>규격</th>
                                         <th>수량</th>
                                         <th>단위</th>
-                                        <th>실행단가</th>
+                                        <th>예정단가</th>
                                         <th class="end">합계</th>
                                     </tr>
                                 </thead>
