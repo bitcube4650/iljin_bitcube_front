@@ -791,7 +791,7 @@
                     <i class="fa-regular fa-upload"></i>
                     <div>
                       클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br />파일
-                      최대 10MB (등록 파일 개수 최대 1개)
+                      최대 50MB (등록 파일 개수 최대 1개)
                     </div>
                   </div>
                 </div>
@@ -827,7 +827,7 @@
                     <i class="fa-regular fa-upload"></i>
                     <div>
                       클릭 혹은 파일을 이곳에 드롭하세요.(암호화 해제)<br />파일
-                      최대 10MB (등록 파일 개수 최대 1개)
+                      최대 50MB (등록 파일 개수 최대 1개)
                     </div>
                   </div>
                 </div>
@@ -1799,18 +1799,18 @@ export default {
     },
     fileInputChangeInnerFile(event){//대내용파일
       const fileData = event.target.files[0]
-        if(fileData.size > 10485760){
+        if(fileData.size > 52428800){
           event.target.value = ''
-          this.$swal({ type: "warning", text: "파일 크기는 최대 10MB까지입니다.\n파일 크기를 확인해 주세요." });
+          this.$swal({ type: "warning", text: "파일 크기는 최대 50MB까지입니다.\n파일 크기를 확인해 주세요." });
           return 
         }
         this.innerFile = fileData
     },
     fileInputChangeOuterFile(event){//대외용파일
       const fileData = event.target.files[0]
-        if(fileData.size > 10485760){
+        if(fileData.size > 52428800){
           event.target.value = ''
-          this.$swal({ type: "warning", text: "파일 크기는 최대 10MB까지입니다.\n파일 크기를 확인해 주세요." });
+          this.$swal({ type: "warning", text: "파일 크기는 최대 50MB까지입니다.\n파일 크기를 확인해 주세요." });
           return 
         }
       this.outerFile = fileData
