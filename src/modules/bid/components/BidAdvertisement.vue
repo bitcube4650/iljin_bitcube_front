@@ -113,9 +113,9 @@
                                         <tr v-for="(val, idx) in data.specInput" :key="idx">
                                             <td class="text-left">{{ val.name }}</td>
                                             <td class="text-left">{{ val.ssize }}</td>
-                                            <td class="text-right">{{ val.unitcode }}</td>
-                                            <td class="end">{{ val.orderUc | numberWithCommas}}</td>
-                                            <td class="end">{{ val.orderQty | numberWithCommas}}</td>
+                                            <td class="text-left">{{ val.unitcode }}</td>
+                                            <td class="text-right">{{ val.orderUc | numberWithCommas}}</td>
+                                            <td class="text-right">{{ val.orderQty | numberWithCommas}}</td>
                                             <td class="end">{{ val.orderUc*val.orderQty | numberWithCommas}}</td>
                                         </tr>
                                     </tbody>
