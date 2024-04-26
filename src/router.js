@@ -40,12 +40,12 @@ export default new Router({
             component: () =>
                 import ('./views/Signup2.vue'),
         },
-        {
-            path: '/codeMng',
-            name: 'codeMng',
-            component: () =>
-                import ('./views/CodeMng.vue'),
-        },
+        // {
+        //     path: '/codeMng',
+        //     name: 'codeMng',
+        //     component: () =>
+        //         import ('./views/CodeMng.vue'),
+        // },
         ...bidRoutes,
         ...noticeRoutes,
         ...companyRoutes,

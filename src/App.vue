@@ -86,9 +86,6 @@
     // Import stylesheet
     import 'vue-loading-overlay/dist/vue-loading.css';
  
-    import {LicenseManager} from "ag-grid-enterprise";
-    LicenseManager.setLicenseKey("CompanyName=iljin cns,LicensedApplication=ijcns,LicenseType=SingleApplication,LicensedConcurrentDeveloperCount=1,LicensedProductionInstancesCount=0,AssetReference=AG-013981,ExpiryDate=3_March_2022_[v2]_MTY0NjI2NTYwMDAwMA==79ca3f5c5621088302aec8ce6faf7207");    
-    
     export default {
         name: "App",
         components: {Navbar, Menu, Swiper, Login, MyMain, Loading, Header, Footer},

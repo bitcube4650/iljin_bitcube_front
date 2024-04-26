@@ -1,7 +1,7 @@
 // import 'buefy/dist/buefy.css';
 // import 'bulma-o-steps/bulma-steps.sass';
 import '@babel/polyfill'
-import Buefy from 'buefy';
+//import Buefy from 'buefy';
 import Vue from 'vue';
 import VueCookie from 'vue-cookie';
 import VueSweetalert2 from 'vue-sweetalert2';
@@ -27,7 +27,7 @@ Vue.prototype.$http.defaults.headers = {
   'Content-type': 'application/json',
 };
 
-Vue.use(Buefy);
+//Vue.use(Buefy);
 Vue.use(VueSweetalert2);
 Vue.use(VueCookie);
 Vue.use(VueMomentJS, moment);
@@ -41,13 +41,13 @@ import SearchCctr from './components/SearchCctr.vue'
 import SearchAccount from './components/SearchAccount.vue'
 import SearchEmp from './components/SearchEmp.vue'
 import SearchComp from './components/SearchComp.vue'
-import {AgGridVue} from 'ag-grid-vue'
+//import {AgGridVue} from 'ag-grid-vue'
 
 Vue.component('SearchCctr', SearchCctr)
 Vue.component('SearchAccount', SearchAccount)
 Vue.component('SearchEmp', SearchEmp)
 Vue.component('SearchComp', SearchComp)
-Vue.component('AgGridVue', AgGridVue)
+//Vue.component('AgGridVue', AgGridVue)
 
 /**
  * Integrate NumeralJS
