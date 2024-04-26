@@ -130,7 +130,7 @@
                     <div class="width100" v-if="attSign == 'N'">{{ data.openAtt1 }}</div>
                     <div class="width100" v-else-if="attSign == 'Y'">{{ data.openAtt1 }}
                         <span v-if="data.openAtt1Id == $store.state.loginInfo.userId" :class="data.openAtt1Sign != 'Y' ? 'attCheck' : ''" @click="fnOpenAttSignPop('1', data.openAtt1Id, data.openAtt1Sign)">{{ data.openAtt1Sign | ftOpenAttSign }}</span>
-                        <span v-else-if="data.openAtt1Id != null && openAtt1Id != ''" :style="data.openAtt1Sign != 'Y' ? 'color: red;' : ''">{{ data.openAtt1Sign | ftOpenAttSign }}</span>
+                        <span v-else-if="data.openAtt1Id != null && data.openAtt1Id != ''" :style="data.openAtt1Sign != 'Y' ? 'color: red;' : ''">{{ data.openAtt1Sign | ftOpenAttSign }}</span>
                     </div>
                 </div>
                 <div class="flex align-items-center width100 ml80">
