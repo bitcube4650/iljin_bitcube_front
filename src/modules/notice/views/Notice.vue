@@ -74,6 +74,9 @@
                         <td>{{ val.bdate }}</td>
                         <td class="end">{{ val.bcount }}</td>
                     </tr>
+                    <tr v-if="listPage.content == undefined || listPage.content == null || listPage.content.length == 0">
+                        <td class="end" colspan="6">조회된 데이터가 없습니다.</td>
+                    </tr>
                 </tbody>
             </table>
 
