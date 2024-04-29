@@ -205,7 +205,9 @@ export default {
 		"detail.userId"(){
 			// 로그인ID 체크
 			this.userIdChkYn = 'N';
-			this.detail.userId = this.detail.userId.replace(/[^a-zA-Z0-9]/g, '');	// 영어+숫자
+			if(this.detail.userId != null && this.detail.userId != ''){
+				this.detail.userId = this.detail.userId.replace(/[^a-zA-Z0-9]/g, '');	// 영어+숫자
+			}
 		},
 		'detail.userHp'(){
 			this.detail.userHp = this.hpNumberAddDash(this.detail.userHp);
@@ -214,7 +216,24 @@ export default {
 			this.detail.userTel = this.hpNumberAddDash(this.detail.userTel);
 		},
 		'detail.userPwd'(){
-			this.detail.userPwd = this.detail.userPwd.trim();
+			if(this.detail.userPwd != null && this.detail.userPwd != ''){
+				this.detail.userPwd = this.detail.userPwd.trim();
+			}
+		},
+		'detail.userPwdConfirm'(){
+			if(this.detail.userPwdConfirm != null && this.detail.userPwdConfirm != ''){
+				this.detail.userPwdConfirm = this.detail.userPwdConfirm.trim();
+			}
+		},
+		'chgPwdParam.chgPassword'(){
+			if(this.chgPwdParam.chgPassword != null && this.chgPwdParam.chgPassword != ''){
+				this.chgPwdParam.chgPassword = this.chgPwdParam.chgPassword.trim();
+			}
+		},
+		'chgPwdParam.chgPasswordChk'(){
+			if(this.chgPwdParam.chgPasswordChk != null && this.chgPwdParam.chgPasswordChk != ''){
+				this.chgPwdParam.chgPasswordChk = this.chgPwdParam.chgPasswordChk.trim();
+			}
 		}
 	},
   	methods: {

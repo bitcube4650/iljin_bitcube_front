@@ -50,19 +50,19 @@
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">사업자등록번호 <span class="star">*</span></div>
 						<div class="flex align-items-center width100">
-							<input type="text" v-model.trim="detail.regnum1" maxlength="3" class="inputStyle maxWidth-max-content" placeholder="">
+							<input type="text" v-model="detail.regnum1" maxlength="3" class="inputStyle maxWidth-max-content" placeholder="">
 							<span style="margin:0 10px">-</span>
-							<input type="text" v-model.trim="detail.regnum2" maxlength="2" class="inputStyle maxWidth-max-content" placeholder="">
+							<input type="text" v-model="detail.regnum2" maxlength="2" class="inputStyle maxWidth-max-content" placeholder="">
 							<span style="margin:0 10px">-</span>
-							<input type="text" v-model.trim="detail.regnum3" maxlength="5" class="inputStyle maxWidth-max-content" placeholder="">
+							<input type="text" v-model="detail.regnum3" maxlength="5" class="inputStyle maxWidth-max-content" placeholder="">
 						</div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width170px">법인번호</div>
 						<div class="flex align-items-center width100">
-							<input type="text" v-model.trim="detail.presJuminNo1" maxlength="6" class="inputStyle maxWidth-max-content" placeholder="">
+							<input type="text" v-model="detail.presJuminNo1" maxlength="6" class="inputStyle maxWidth-max-content" placeholder="">
 							<span style="margin:0 10px">-</span>
-							<input type="text" v-model.trim="detail.presJuminNo2" maxlength="7" class="inputStyle maxWidth-max-content" placeholder="">
+							<input type="text" v-model="detail.presJuminNo2" maxlength="7" class="inputStyle maxWidth-max-content" placeholder="">
 						</div>
 					</div>
 					<div class="flex align-items-center mt10">
@@ -251,20 +251,20 @@ export default {
 		// 숫자만
 		// 사업자 등록번호
 		'detail.regnum1'(){
-			this.detail.regnum1 = this.detail.regnum1.replace(/[^0-9]/g, '');
+			this.detail.regnum1 = this.detail.regnum1.replace(/[^0-9]/g, '').trim();
 		},
 		'detail.regnum2'(){
-			this.detail.regnum2 = this.detail.regnum2.replace(/[^0-9]/g, '');
+			this.detail.regnum2 = this.detail.regnum2.replace(/[^0-9]/g, '').trim();
 		},
 		'detail.regnum3'(){
-			this.detail.regnum3 = this.detail.regnum3.replace(/[^0-9]/g, '');
+			this.detail.regnum3 = this.detail.regnum3.replace(/[^0-9]/g, '').trim();
 		},
 		// 법인번호
 		'detail.presJuminNo1'(){
-			this.detail.presJuminNo1 = this.detail.presJuminNo1.replace(/[^0-9]/g, '');
+			this.detail.presJuminNo1 = this.detail.presJuminNo1.replace(/[^0-9]/g, '').trim();
 		},
 		'detail.presJuminNo2'(){
-			this.detail.presJuminNo2 = this.detail.presJuminNo2.replace(/[^0-9]/g, '');
+			this.detail.presJuminNo2 = this.detail.presJuminNo2.replace(/[^0-9]/g, '').trim();
 		},
 		// 설립년도
 		'detail.foundYear'(){

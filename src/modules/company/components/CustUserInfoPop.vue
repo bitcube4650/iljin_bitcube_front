@@ -110,7 +110,18 @@ export default {
 	},
 	'detail.userTel'(){
 		this.detail.userTel = this.hpNumberAddDash(this.detail.userTel);
+	},
+	'detail.userPwd'(){
+		if(this.detail.userPwd != null && this.detail.userPwd != ''){
+			this.detail.userPwd = this.detail.userPwd.trim();
+		}
+	},
+	'detail.userPwdConfirm'(){
+		if(this.detail.userPwdConfirm != null && this.detail.userPwdConfirm != ''){
+			this.detail.userPwdConfirm = this.detail.userPwdConfirm.trim();
+		}
 	}
+
   },
   methods: {
     initModal(id) {
