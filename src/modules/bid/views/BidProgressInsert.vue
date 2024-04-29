@@ -699,7 +699,7 @@
                         type="text"
                         name=""
                         id=""
-                        class="inputStyle inputSm"
+                        class="inputStyle inputSm text-right"
                         placeholder=""
                         v-model.trim="val.orderQty"
                         maxlength="15"
