@@ -6,7 +6,7 @@ var nxTSPKIConfig = {version:{},options:{}};
 
 nxTSPKIConfig.version.nx             = "1,0,1,5";
 nxTSPKIConfig.version.tstoolkit      = "2,0,7,8";
-nxTSPKIConfig.installPage            = "https://pkidemo.tradesign.net/NXTSDemo/NXTSDemo_1.0.1.5/install/pki/";
+nxTSPKIConfig.installPage            = "https://pkidemo.ktnet.com/NXTSDemo/NXTSDemo_1.0.1.5/install/pki/";
 nxTSPKIConfig.installMessage         = "SCORE PKI for OpenWeb 프로그램이 설치 되어 있지 않거나, 이전 버전이 설치되어 있습니다. \n\n설치페이지로 이동하시겠습니까?";
 nxTSPKIConfig.processingImageUrl     = "../../images/processing2.gif";
 
