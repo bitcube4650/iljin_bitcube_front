@@ -9,7 +9,7 @@
 					<h2 class="modalTitle">품목 {{ isCreate ? '등록':'수정' }}</h2>
 					<div class="flex align-items-center">
 						<div class="formTit flex-shrink0 width120px">품목코드 <span class="star">*</span></div>
-						<div class="width100"><input type="text" v-model="detail.itemCode" @keypress="onlyNumber" maxlength="10" class="inputStyle" placeholder="숫자만"></div>
+						<div class="width100"><input type="text" v-model="detail.itemCode" maxlength="10" class="inputStyle" placeholder="숫자만" :disabled="isCreate ? false : true"></div>
 					</div>
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width120px">품목그룹</div>
@@ -56,10 +56,14 @@ export default {
 		detail: { itemGrp:{ itemGrpCd: '' }, useYn: 'Y' }
     }
   },
+  watch : {
+	'detail.itemCode'(){
+		if(this.detail.itemCode != null && this.detail.itemCode != ''){
+			this.detail.itemCode = this.detail.itemCode.replace(/[^0-9]/g, '').trim();
+		}
+	}
+  },
   methods: {
-	onlyNumber(e) {
-		if (!/\d/.test(event.key) && event.key !== '.') return e.preventDefault();
-	},
     initModal(id) {
 		if (id) {
 			this.isCreate = false;
@@ -69,11 +73,12 @@ export default {
 			this.detail = { itemGrp:{ itemGrpCd: '' }, useYn: 'Y' }
 		}
     },
-    async retrieve(id) {
+    retrieve(id) {
       try {
         this.$store.commit('loading');
-		const response = await this.$http.post('/api/v1/item/'+id, this.searchParams);
-        this.detail = response.data;
+		this.$http.post('/api/v1/item/'+id, this.searchParams) .then((response) => {
+			this.detail = response.data;
+		});
         this.$store.commit('finish');
       } catch(err) {
         console.log(err)
@@ -114,7 +119,6 @@ export default {
 					}
 				} else if(response.data.code == 'DUP'){
 					this.$swal({type: "warning",text: "이미 등록된 품목코드가 존재합니다."});
-					this.userIdChkYn = 'N'
 					return;
 				} else {
 					this.$swal({type: "warning",text: "저장 중 오류가 발생했습니다."});
@@ -140,7 +144,6 @@ export default {
 					}
 				} else if(response.data.code == 'DUP'){
 					this.$swal({type: "warning",text: "이미 등록된 품목코드가 존재합니다."});
-					this.userIdChkYn = 'N'
 					return;
 				} else {
 					this.$swal({type: "warning",text: "저장 중 오류가 발생했습니다."});
