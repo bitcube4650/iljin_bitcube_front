@@ -24,8 +24,8 @@
 						<div @click="openModal">
 							<input type="radio" name="bm2"  v-model="detailData.bco" value="CUST" id="bm2_2" class="radioStyle"><label for="bm2_2" data-toggle="modal">계열사</label>
 							<p class="mt5 ml30" v-if="detailData.bco == 'CUST'">
-								<span v-for="(val, index) in groupList" :key="index">
-									{{  val.interrelated.interrelatedNm }}{{ index < groupList.length - 1 ? ', ' : '' }}
+								<span>
+									{{ detailData.interrelatedNms }}
 								</span>
 							</p>
 						</div>
@@ -123,8 +123,8 @@
 							</thead>
 							<tbody>
 								<tr v-for="(val, index) in allGroupList" :key="index">
-									<td><input type="checkbox" :id="'ck' + index" :value="val" v-model="selectedGroupList" class="checkStyle" :disabled="custType == 'inter' && userAuth == '2'"><label :for="'ck' + index"></label></td>
-									<td class="text-left end"><label :for="'ck' + index" class="fontweight-400">{{ val.interrelated.interrelatedNm }}</label></td>
+									<td><input type="checkbox" :id="'ck' + index" :value="val.interrelatedCustCode" v-model="detailData.interrelatedCustCodeArr" class="checkStyle" :disabled="custType == 'inter' && userAuth == '2'"><label :for="'ck' + index"></label></td>
+									<td class="text-left end"><label :for="'ck' + index" class="fontweight-400">{{ val.interrelatedNm }}</label></td>
 								</tr>
 							</tbody>
 						</table>
@@ -156,35 +156,16 @@
 			
 			//db에 있는 모든 계열사 가져오기
 			this.selectGroupCompany();
-
-
-			//기존에 선택했던 계열사들을 계열사 선택 모달창에 반영
-			this.groupList.map(item => {
-				var obj = {
-					interrelatedCustCode : item.interrelatedCustCode,
-					interrelated: {
-						interrelatedNm: item.interrelated.interrelatedNm
-					}
-				};
-
-				this.selectedGroupList.push(obj);
-			});
-
-			this.selectGroup();
 			
 		}else if(this.custType == 'inter' && this.userAuth == '2'){//각사 관리자인 경우
 			//자신이 속한 계열사만 선택 가능
 			this.allGroupList =[{
 									interrelatedCustCode : this.custCode,
-									interrelated: {
-										interrelatedNm: this.custName
-									}
+									interrelatedNm : this.custName
 								}]
 
 			//각사 관리자가 속한 계열사를 계열사 선택 모달창에 반영
 			this.detailData.bco = 'CUST';//각사 관리자는 계열사 공지만 가능함
-			this.selectedGroupList = this.allGroupList;
-			this.selectGroup();
 		}else{//권한이 없는 사용자의 경우
 
 			this.$router.push({name:"notice"});//목록으로 이동
@@ -195,9 +176,7 @@
       return {
 		updateInsert : '',//등록인지 수정인지
 		detailData : {},//공지사항 상세 데이터
-		groupList : [],//화면에 표시되는 계열사
 		allGroupList : [],//db에 있는 모든 계열사
-		selectedGroupList : [],//선택된 계열사
 		custType : this.$store.state.loginInfo.custType,//계열사, 협력사 정보
 		userAuth : this.$store.state.loginInfo.userAuth,//권한
 		custCode : this.$store.state.loginInfo.custCode,//계열사코드
@@ -217,27 +196,16 @@
 
 				//상세페이지에서 가져온 데이터 반영
 				this.detailData = Object.assign({}, this.$store.state.noticeDetailData);
-				this.groupList = this.detailData.groupList;
 
-				var interrelatedCustCodeArr = [];//db에 넘길 interrelatedCustCode 정보
-				var initArr = this.groupList;
-
-				//기존에 선택된 계열사 배열에 담기
-				for (const item of initArr) {
-					interrelatedCustCodeArr.push(item.interrelatedCustCode);
-				}
-
-				this.detailData.interrelatedCustCodeArr = interrelatedCustCodeArr;
-
+				this.detailData.interrelatedCustCodeArr = this.detailData.interrelatedCodes != null ? this.detailData.interrelatedCodes.split(',') : [];
+				this.detailData.interrelatedNms =  this.detailData.interrelatedCodes != null ? this.detailData.interrelatedNms : '';
+				
 				this.selectedFile = this.detailData.bfile;
 				this.selectedFileName = this.detailData.bfile;
 			}else{//등록인 경우
-
 				this.initializeData();//초기화
-
 			}
 
-			this.selectedGroupList = [];
 			this.allGroupList = [];
 		},
 		initializeData() {//등록인 경우
@@ -253,9 +221,8 @@
 				btitle: '',
 				buserName: this.$store.state.loginInfo.userName,
 				buserid: this.$store.state.loginInfo.userId,
-				groupList: []
+				interrelatedCustCodeArr : []
 			};
-			this.groupList = [];
 		},
 		openConfirm(){//validation check 및 confirm창 띄우기
 			
@@ -271,8 +238,7 @@
 			if(this.updateInsert == 'update'){//수정인 경우
 
 				if(this.detailData.bco == 'ALL'){//공통으로 수정하는 경우 선택했던 계열사 초기화
-					this.selectedGroupList = [];
-					this.selectGroup();
+					this.detailData.interrelatedCustCodeArr = [];
 				}
 
 				this.updateNotice();
@@ -312,12 +278,21 @@
 			try {
 				this.$http.post('/api/v1/notice/updateNotice', formData)
 					.then(response => {
-						this.$swal({
-							type: 'success',
-							text: '수정되었습니다.'
-						})
-						$('#notiSave').modal('hide');
-						this.$router.push({name:"notice"});//목록 페이지 이동
+						var result = response.data;
+						console.log(result)
+						if(result.code != 'ERROR'){
+							this.$swal({
+								type: 'success',
+								text: '수정되었습니다.'
+							})
+							$('#notiSave').modal('hide');
+							this.$router.push({name:"notice"});//목록 페이지 이동
+						} else {
+							this.$swal({
+								type: 'false',
+								text: result.msg
+							})
+						}
 					});
 			} catch(err) {
 				console.log(err);
@@ -333,12 +308,11 @@
 				this.$store.commit('finish');
 
 				//allGroupList의 데이터 형식을 groupList와 일치화
+				console.log(this.allGroupList)
 				this.allGroupList = this.allGroupList.map(item => {
 					return {
 						interrelatedCustCode : item.interrelatedCustCode,
-						interrelated: {
-							interrelatedNm: item.interrelatedNm
-						}
+						interrelatedNm : item.interrelatedNm
 					};
 				});
 			} catch(err) {
@@ -348,17 +322,18 @@
 			
 		},
 		selectGroup(){//계열사 선택 처리
-			var selected = this.selectedGroupList;//양방향 연결 안됨 방지를 위해 따로 변수로 받기
-			this.groupList = selected;//화면에 출력
-			this.detailData.groupList = selected;
-			var interrelatedCustCodeArr = [];//db에 넘길 interrelatedCustCode 정보
+			let custCodeArr =  this.detailData.interrelatedCustCodeArr;
+			let interrelatedNmArr = [];
 
-			//배열에 담기
-			for (const item of selected) {
-				interrelatedCustCodeArr.push(item.interrelatedCustCode);
+			for(let i = 0; i <custCodeArr.length; i++){
+				for(let j = 0; j < this.allGroupList.length; j++){
+					if(custCodeArr[i] == this.allGroupList[j].interrelatedCustCode){
+						interrelatedNmArr.push(this.allGroupList[j].interrelatedNm)
+					}
+				}
 			}
+			this.detailData.interrelatedNms = interrelatedNmArr.join()
 
-			this.detailData.interrelatedCustCodeArr = interrelatedCustCodeArr;
 			$('#AffiliateSelect').modal('hide');
 		},
 		changeFile(event){//바뀐 파일 selectedFile에 담기

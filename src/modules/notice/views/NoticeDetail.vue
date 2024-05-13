@@ -24,8 +24,8 @@
 						<div>
 							<input type="radio" name= "bm2" v-model="dataFromList.bco" value="CUST" id="bm2_2" class="radioStyle" :disabled="dataFromList.bco == 'CUST' ? false : true"><label for="bm2_2" :class="dataFromList.bco == 'CUST' ? '' : 'dimmed'">계열사</label>
 							<p class="mt5 ml30" v-if="dataFromList.bco == 'CUST'">
-								<span v-for="(val, index) in groupList" :key="index">
-									{{ val.interrelated.interrelatedNm }}{{ index < groupList.length - 1 ? ', ' : '' }}
+								<span>
+									{{ dataFromList.interrelatedNms }}
 								</span>
 							</p>
 						</div>
@@ -114,9 +114,6 @@
 
 		//파일첨부
 		fileInput.applyFile();
-
-		//해당 공지사항 공개되는 계열사 리스트 조회
-		this.selectGroupList();
 		
     },
     data() {
@@ -124,7 +121,6 @@
 		searchParams: {},
 		dataFromList : {},//목록에서 받아온 데이터
 		content : '',//공지사항 내용
-		groupList : [],//해당 공지사항 공개되는 계열사 리스트
 		custType : this.$store.state.loginInfo.custType,//계열사, 협력사 정보
 		userAuth : this.$store.state.loginInfo.userAuth,//권한
 		userId : this.$store.state.loginInfo.userId//유저 id
@@ -147,39 +143,27 @@
 				this.$store.commit('finish');
 			}
 		},
-		async selectGroupList(){//해당 공지사항 공개되는 계열사 리스트 조회
-
-			try {
-				this.$store.commit('loading');
-				var response = await this.$http.post('/api/v1/notice/selectGroupList', { 'bno': this.dataFromList.bno });
-				this.groupList = response.data;
-				this.dataFromList.groupList = this.groupList;
-				this.$store.commit('finish');
-			} catch(err) {
-				console.log(err)
-				this.$store.commit('finish');
-			}
-			
-        },
 		deleteNotice(){//공지사항 삭제
-			try {
-				var response = this.$http.post('/api/v1/notice/deleteNotice', { 'bno': this.dataFromList.bno })
-								    .then(response => {
-										this.$swal({
-											type: "success",
-											text: '삭제되었습니다.',
-										});
-										$('#notiDel').modal('hide');
-										this.$router.push({name:"notice"});//목록 페이지 이동
-									});
-			} catch(err) {
-				console.log(err);
-			}
+			var response = this.$http.post('/api/v1/notice/deleteNotice',
+			{ 'bno': this.dataFromList.bno }
+			).then(response => {
+				var result = response.data;
+				if(result.code != 'ERROR'){
+					this.$swal({
+						type: "success",
+						text: '삭제되었습니다.',
+					});
+					$('#notiDel').modal('hide');
+					this.$router.push({name:"notice"});//목록 페이지 이동
+				} else {
+					this.$swal({
+						type: "false",
+						text: result.msg
+					});
+				}
+			});
 		},
 		clickUpdate(){//수정하기 이동
-			var groupList = this.groupList;
-
-			this.dataFromList.groupList = this.groupList;
 			this.$store.commit('setNoticeDetailData', this.dataFromList);
 			this.$router.push({name:"noticeUpdateInsert" , query: { updateInsert: 'update' }});//수정 페이지 이동
 		},
