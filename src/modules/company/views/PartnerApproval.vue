@@ -128,6 +128,7 @@ export default {
 		async retrieve() {
 			try {
 				this.$store.commit('loading');
+				this.searchParams.certYn = "N";
 				const response = await this.$http.post('/api/v1/cust/approvalList', this.searchParams);
 				this.listPage = response.data;
         		this.$store.commit('searchParams', this.searchParams);

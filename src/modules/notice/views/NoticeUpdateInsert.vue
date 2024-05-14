@@ -258,12 +258,20 @@
 			try {
 				this.$http.post('/api/v1/notice/insertNotice', formData)
 					.then(response => {
-						this.$swal({
-							type: 'success',
-							text: '등록되었습니다.'
-						})
-						$('#notiSave').modal('hide');
-						this.$router.push({name:"notice"});//목록 페이지 이동
+						var result = response.data;
+						if(result.code != 'ERROR'){
+							this.$swal({
+								type: 'success',
+								text: '등록되었습니다.'
+							})
+							$('#notiSave').modal('hide');
+							this.$router.push({name:"notice"});//목록 페이지 이동
+						} else {
+							this.$swal({
+								type: 'warning',
+								text: result.msg
+							})
+						}
 					});
 			} catch(err) {
 				console.log(err);
@@ -279,7 +287,6 @@
 				this.$http.post('/api/v1/notice/updateNotice', formData)
 					.then(response => {
 						var result = response.data;
-						console.log(result)
 						if(result.code != 'ERROR'){
 							this.$swal({
 								type: 'success',
@@ -289,7 +296,7 @@
 							this.$router.push({name:"notice"});//목록 페이지 이동
 						} else {
 							this.$swal({
-								type: 'false',
+								type: 'warning',
 								text: result.msg
 							})
 						}

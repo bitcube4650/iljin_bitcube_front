@@ -157,7 +157,7 @@
 					this.$router.push({name:"notice"});//목록 페이지 이동
 				} else {
 					this.$swal({
-						type: "false",
+						type: "warning",
 						text: result.msg
 					});
 				}

@@ -183,12 +183,14 @@ export default {
 			try {
 				this.$store.commit('loading');
 				const response = await this.$http.post('/api/v1/cust/approval/'+this.$route.params.id);
-				this.detail = response.data;
-				this.detail.fomCapital = this.formatComma(this.detail.capital);
-				this.detail.fomTel = this.phoneNumAddDash(this.detail.tel);
-				this.detail.fomFax = this.phoneNumAddDash(this.detail.fax);
-				this.detail.fomUserTel = this.phoneNumAddDash(this.detail.userTel);
-				this.detail.fomUserHp = this.hpNumberAddDash(this.detail.userHp);
+				if(response.data.code == 'OK') {
+					this.detail = response.data.data;
+					this.detail.fomCapital = this.formatComma(this.detail.capital);
+					this.detail.fomTel = this.phoneNumAddDash(this.detail.tel);
+					this.detail.fomFax = this.phoneNumAddDash(this.detail.fax);
+					this.detail.fomUserTel = this.phoneNumAddDash(this.detail.userTel);
+					this.detail.fomUserHp = this.hpNumberAddDash(this.detail.userHp);
+				}
 				this.$store.commit('finish');
 			} catch(err) {
 				console.log(err)
@@ -276,7 +278,7 @@ export default {
         			this.$store.commit('searchParams',{}); 
         			this.$router.push('/company/partner/approval');
 				} else {
-					this.$swal({type: "warning",text: "처리 중 오류가 발생했습니다."});
+					this.$swal({type: "warning",text: response.data.msg});
 				}
 			})
 			.finally(() => {

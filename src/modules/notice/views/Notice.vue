@@ -158,7 +158,7 @@
 			}
 		},
         clickNoticeDetail(data){//공지사항 상세 이동
-            this.plusClickNum(data.bno);// 조회수 +1
+            // this.plusClickNum(data.bno);// 조회수 +1
             //this.$store.commit('setNoticeDetailData', data);//상세 페이지에 store로 넘기는 방법
 
             this.$router.push({name:"noticeDetail" , query: { 'bno': data.bno }}).catch(()=>{});//상세 페이지 이동
