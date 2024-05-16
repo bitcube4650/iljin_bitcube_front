@@ -291,15 +291,24 @@ export default {
 			try {
 				this.$store.commit('loading');
 				const response = await this.$http.post('/api/v1/cust/info');
-				this.detail = response.data;
-				this.detail.fomUserTel = this.hpNumberAddDash(this.detail.userTel);
-				this.detail.fomUserHp = this.hpNumberAddDash(this.detail.userHp);
+				var result = response.data;
+				if(result.code == 'OK') {
+					this.detail = result.data;
+					this.detail.fomUserTel = this.hpNumberAddDash(this.detail.userTel);
+					this.detail.fomUserHp = this.hpNumberAddDash(this.detail.userHp);
 
-				this.bfile = this.detail.bfile;
-				this.bfileName = this.detail.bfile;
-				this.regnumFile = this.detail.regnumFile;
-				this.regnumFileName = this.detail.regnumFile;
+					this.bfile = this.detail.bfile;
+					this.bfileName = this.detail.bfile;
+					this.regnumFile = this.detail.regnumFile;
+					this.regnumFileName = this.detail.regnumFile;
 
+					this.detail.regnum1 = this.detail.regnum.substring(0, 3);
+					this.detail.regnum2 = this.detail.regnum.substring(3, 5);
+					this.detail.regnum3 = this.detail.regnum.substring(5, 10);
+
+					this.detail.presJuminNo1 = this.detail.presJuminNo.substring(0, 5);
+					this.detail.presJuminNo2 = this.detail.presJuminNo.substring(5, 10);
+				}
 				this.$store.commit('finish');
 			} catch(err) {
 				console.log(err)

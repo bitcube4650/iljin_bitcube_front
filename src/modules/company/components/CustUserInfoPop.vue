@@ -134,10 +134,13 @@ export default {
     async retrieve(id) {
       try {
 		const response = await this.$http.post('/api/v1/custuser/'+id, this.searchParams);
-        this.detail = response.data;
-		this.detail.userTel = this.hpNumberAddDash(this.detail.userTel);
-		this.detail.userHp = this.hpNumberAddDash(this.detail.userHp);
-		this.detail.isCreate = false;
+		var result = response.data;
+		if(result.code == 'OK') {
+			this.detail = result.data;
+			this.detail.userTel = this.hpNumberAddDash(this.detail.userTel);
+			this.detail.userHp = this.hpNumberAddDash(this.detail.userHp);
+			this.detail.isCreate = false;
+		}
       } catch(err) {
         console.log(err)
         this.$store.commit('finish');

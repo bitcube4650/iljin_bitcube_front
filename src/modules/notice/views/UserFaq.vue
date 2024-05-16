@@ -24,7 +24,7 @@
 					<div class="faqAn">
 						<span class="faqA">A.</span>
 						<div class="faqTxt">
-							<pre v-html="val.answer" style="background-color: white;"></pre>
+							<pre v-html="val.answer" style="background-color: white;white-space: pre-wrap;"></pre>
 						</div>
 					</div>
 				</div>

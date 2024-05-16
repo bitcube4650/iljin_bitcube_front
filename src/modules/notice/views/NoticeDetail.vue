@@ -52,7 +52,7 @@
 				<div class="flex mt20">
 					<div class="formTit flex-shrink0 width170px">공지내용</div>
 					<div class="width100">
-						<pre v-html="content" class="overflow-y-auto notiBox width100" style="height:400px;background-color: white;">
+						<pre v-html="content" class="overflow-y-auto notiBox width100" style="height:400px;background-color: white;white-space: pre-wrap;">
 						</pre>
 					</div>
 				</div>
