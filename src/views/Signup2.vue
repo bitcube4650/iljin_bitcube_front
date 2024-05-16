@@ -571,7 +571,7 @@ export default {
 						$this.$router.push('/');
 					}, 2000);
 				} else {
-					this.$swal({type: "warning",text: "저장 처리 중 오류가 발생했습니다."});
+					this.$swal({type: "warning",text: response.data.msg});
 				}
 			})
 			.finally(() => {

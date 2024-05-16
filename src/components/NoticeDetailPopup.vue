@@ -23,7 +23,7 @@
                         <div class="width100">{{ dataFromMain.bcount }}</div>
                     </div>
                     <div class="modalBoxSt overflow-y-scroll height250px mt30">
-                        <pre v-html="dataFromMain.bcontent" style="background-color: white;overflow: hidden;"></pre>
+                        <pre v-html="dataFromMain.bcontent" style="background-color: white;overflow: hidden;white-space: pre-wrap;"></pre>
                     </div>
                     <div class="flex align-items-center mt20">
                         <div class="formTit flex-shrink0 width100px">첨부파일</div>

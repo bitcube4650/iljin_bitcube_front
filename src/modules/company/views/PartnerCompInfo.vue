@@ -203,12 +203,17 @@
 			try {
 				this.$store.commit('loading');
 				const response = await this.$http.post('/api/v1/cust/info');
-				this.detail = response.data;
-				this.detail.fomCapital = this.formatComma(this.detail.capital);
-				this.detail.fomTel = this.phoneNumAddDash(this.detail.tel);
-				this.detail.fomFax = this.phoneNumAddDash(this.detail.fax);
-				this.detail.fomUserTel = this.phoneNumAddDash(this.detail.userTel);
-				this.detail.fomUserHp = this.hpNumberAddDash(this.detail.userHp);
+				var result = response.data;
+				if(result.code =='OK') {
+					this.detail = result.data;
+					this.detail.fomCapital = this.formatComma(this.detail.capital);
+					this.detail.fomTel = this.phoneNumAddDash(this.detail.tel);
+					this.detail.fomFax = this.phoneNumAddDash(this.detail.fax);
+					this.detail.fomUserTel = this.phoneNumAddDash(this.detail.userTel);
+					this.detail.fomUserHp = this.hpNumberAddDash(this.detail.userHp);
+				} else {
+					this.$swal({type: "warning",text: result.msg });
+				}
 				this.$store.commit('finish');
 			} catch(err) {
 				console.log(err)

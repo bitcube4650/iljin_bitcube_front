@@ -74,7 +74,7 @@
 					  <div class="width100"><input type="text" v-model="detail.presName" class="inputStyle maxWidth-max-content" maxlength="50"></div>
 				   </div>
 				   <div class="flex align-items-center mt10">
-					  <div class="formTit flex-shrink0 width170px">사업자등록번호</div>
+					  <div class="formTit flex-shrink0 width170px">사업자등록번호  <span class="star">*</span></div>
 					  <div class="flex align-items-center width100">
 						 <input type="text" v-model.trim="detail.regnum1" maxlength="3" class="inputStyle maxWidth-max-content">
 						 <span style="margin:0 10px">-</span>
@@ -335,17 +335,23 @@
 	   },
 	   data() {
 		  return {
-			 detail: {},
-			   itemPop: null,
-			 otherCustType: null,
-			 regnumFile : null,  // 업로드한 파일
-			 regnumFileName : '',
-			 regnumFileCnt : 0,  // 업로드한 파일 수
-			 regnumFileSize : 0, // 파일크기
-			 bfile : null,       // 업로드한 파일
-			 bfileCnt : 0,       // 업로드한 파일 수
-			 bfileName : '',
-			 bfileSize : 0       // 파일크기
+			detail: {
+				regnum1 : '',
+				regnum2 : '',
+				regnum3 : '',
+				presJuminNo1 : '',
+				presJuminNo2 : ''
+			},
+			itemPop: null,
+			otherCustType: null,
+			regnumFile : null,  // 업로드한 파일
+			regnumFileName : '',
+			regnumFileCnt : 0,  // 업로드한 파일 수
+			regnumFileSize : 0, // 파일크기
+			bfile : null,       // 업로드한 파일
+			bfileCnt : 0,       // 업로드한 파일 수
+			bfileName : '',
+			bfileSize : 0       // 파일크기
 		  };
 	   },
 	   watch :{
@@ -403,15 +409,25 @@
 				this.$store.commit('loading');
 				var url = '/api/v1/cust/management/' + this.$route.params.id;
 				if (custCode) {
-				   url = '/api/v1/cust/approval/' + custCode;
+				   url = '/api/v1/cust/management/' + custCode;
 				}
 				const response = await this.$http.post(url);
-				this.detail = response.data;
+				var result = response.data;
+				if(result.code == 'OK') {
+					this.detail = result.data;
 	
-				this.bfile = this.detail.bfile;
-				this.bfileName = this.detail.bfile;
-				this.regnumFile = this.detail.regnumFile;
-				this.regnumFileName = this.detail.regnumFile;
+					this.bfile = this.detail.bfile;
+					this.bfileName = this.detail.bfile;
+					this.regnumFile = this.detail.regnumFile;
+					this.regnumFileName = this.detail.regnumFile;
+
+					this.detail.regnum1 = this.detail.regnum.substring(0, 3);
+					this.detail.regnum2 = this.detail.regnum.substring(3, 5);
+					this.detail.regnum3 = this.detail.regnum.substring(5, 10);
+
+					this.detail.presJuminNo1 = this.detail.presJuminNo.substring(0, 5);
+					this.detail.presJuminNo2 = this.detail.presJuminNo.substring(5, 10);
+				}
 	
 				this.$store.commit('finish');
 			 } catch(err) {
@@ -457,7 +473,9 @@
 			 const regnum1 = this.detail.regnum1 == null ? '' : this.detail.regnum1;
 			 const regnum2 = this.detail.regnum2 == null ? '' : this.detail.regnum2;
 			 const regnum3 = this.detail.regnum3 == null ? '' : this.detail.regnum3;
-			 if (regnum1 == '' && regnum2 == '' && regnum2 == '') {
+			 if (regnum1 == '' && regnum2 == '' && regnum3 == '') {
+				this.$swal({type: "warning",text: "사업자등록번호를 입력해주세요."});
+				return;
 			 } else {
 				if (regnum1.length != 3 || regnum2.length != 2 || regnum3.length != 5) {
 				   this.$swal({type: "warning",text: "사업자등록번호를 정확히 입력해주세요."});

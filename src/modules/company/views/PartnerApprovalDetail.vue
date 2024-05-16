@@ -182,7 +182,7 @@ export default {
 		async retrieve() {
 			try {
 				this.$store.commit('loading');
-				const response = await this.$http.post('/api/v1/cust/approval/'+this.$route.params.id);
+				const response = await this.$http.post('/api/v1/cust/management/'+this.$route.params.id);
 				if(response.data.code == 'OK') {
 					this.detail = response.data.data;
 					this.detail.fomCapital = this.formatComma(this.detail.capital);

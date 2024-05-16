@@ -196,12 +196,16 @@ export default {
 			try {
 				this.$store.commit('loading');
 				const response = await this.$http.post('/api/v1/cust/management/'+this.$route.params.id);
-				this.detail = response.data;
-				this.detail.fomCapital = this.formatComma(this.detail.capital);
-				this.detail.fomTel = this.phoneNumAddDash(this.detail.tel);
-				this.detail.fomFax = this.phoneNumAddDash(this.detail.fax);
-				this.detail.fomUserTel = this.phoneNumAddDash(this.detail.userTel);
-				this.detail.fomUserHp = this.hpNumberAddDash(this.detail.userHp);
+				if(response.data.code == 'OK') {
+					this.detail = response.data.data;
+					this.detail.fomCapital = this.formatComma(this.detail.capital);
+					this.detail.fomTel = this.phoneNumAddDash(this.detail.tel);
+					this.detail.fomFax = this.phoneNumAddDash(this.detail.fax);
+					this.detail.fomUserTel = this.phoneNumAddDash(this.detail.userTel);
+					this.detail.fomUserHp = this.hpNumberAddDash(this.detail.userHp);
+				} else {
+					this.$swal({type: "warning",text: response.data.msg });
+				}
 				this.$store.commit('finish');
 			} catch(err) {
 				console.log(err)
