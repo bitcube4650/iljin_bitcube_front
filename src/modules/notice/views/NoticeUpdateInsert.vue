@@ -166,6 +166,8 @@
 
 			//각사 관리자가 속한 계열사를 계열사 선택 모달창에 반영
 			this.detailData.bco = 'CUST';//각사 관리자는 계열사 공지만 가능함
+			this.detailData.interrelatedCustCodeArr.push(this.custCode);
+			this.detailData.interrelatedNms = this.custName
 		}else{//권한이 없는 사용자의 경우
 
 			this.$router.push({name:"notice"});//목록으로 이동
@@ -221,7 +223,8 @@
 				btitle: '',
 				buserName: this.$store.state.loginInfo.userName,
 				buserid: this.$store.state.loginInfo.userId,
-				interrelatedCustCodeArr : []
+				interrelatedCustCodeArr : [],
+				interrelatedNms : ''
 			};
 		},
 		openConfirm(){//validation check 및 confirm창 띄우기
@@ -239,6 +242,7 @@
 
 				if(this.detailData.bco == 'ALL'){//공통으로 수정하는 경우 선택했던 계열사 초기화
 					this.detailData.interrelatedCustCodeArr = [];
+					this.detailData.interrelatedNms = ''
 				}
 
 				this.updateNotice();
