@@ -213,7 +213,7 @@ import cmmn from "../../public/js/common.js";
                 this.$store.commit('loading');
                 this.$store.commit('searchParams', this.searchParams);
                 const response = await this.$http.post('/api/v1/main/selectPartnerBidCnt', this.searchParams);
-                this.bidInfo = response.data;
+                this.bidInfo = response.data.data;
                 this.$store.commit('finish');
             } catch(err) {
                 console.log(err)
