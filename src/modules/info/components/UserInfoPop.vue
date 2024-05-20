@@ -76,17 +76,17 @@
 									<tr><!-- 퍼블리싱이 loop를 돌아 처리하겠금 되어 있지 않아 이렇게 복잫하게 구현됨. -->
 										<td>
 											<template v-for="(val, idx) in userInterrelatedList">
-											<input type="checkbox" v-if="idx%3 == 0" v-model="val.check" :id="'c'+val.key" class="checkStyle"><label v-if="idx%3 == 0" :for="'c'+val.key" class="mr20">{{ val.value }}</label>
+											<input type="checkbox" v-if="idx%3 == 0" v-model="val.check" :id="'c'+val.interrelatedCustCode" class="checkStyle"><label v-if="idx%3 == 0" :for="'c'+val.interrelatedCustCode" class="mr20">{{ val.interrelatedNm }}</label>
 											</template>
 										</td>
 										<td>
 											<template v-for="(val, idx) in userInterrelatedList">
-											<input type="checkbox" v-if="idx%3 == 1" v-model="val.check" :id="'c'+val.key" class="checkStyle"><label v-if="idx%3 == 1" :for="'c'+val.key" class="mr20">{{ val.value }}</label>
+											<input type="checkbox" v-if="idx%3 == 1" v-model="val.check" :id="'c'+val.interrelatedCustCode" class="checkStyle"><label v-if="idx%3 == 1" :for="'c'+val.interrelatedCustCode" class="mr20">{{ val.interrelatedNm }}</label>
 											</template>
 										</td>
 										<td>
 											<template v-for="(val, idx) in userInterrelatedList">
-											<input type="checkbox" v-if="idx%3 == 2" v-model="val.check" :id="'c'+val.key" class="checkStyle"><label v-if="idx%3 == 2" :for="'c'+val.key" class="mr20">{{ val.value }}</label>
+											<input type="checkbox" v-if="idx%3 == 2" v-model="val.check" :id="'c'+val.interrelatedCustCode" class="checkStyle"><label v-if="idx%3 == 2" :for="'c'+val.interrelatedCustCode" class="mr20">{{ val.interrelatedNm }}</label>
 											</template>
 										</td>
 									</tr>
@@ -248,8 +248,9 @@ export default {
 		// 사용자 상세 조회
 		async retrieve(id) {
 			try {
-				const response = await this.$http.post('/api/v1/couser/'+id, this.searchParams);
-				this.detail = response.data;
+				const params = {userId : id};
+				const response = await this.$http.post('/api/v1/couser/userDetail', params);
+				this.detail = response.data.data;
 				
 				this.detail.isCreate = false;
 				if (this.detail.openauth == null) this.detail.openauth = ''; // null이라 선택이 안되어서 강제로 ''로 변경
@@ -257,10 +258,10 @@ export default {
 				if (this.detail.userAuth == '4') {
 					var userInterrelated = {};
 					this.detail.userInterrelated.map((val, idx) => {
-						userInterrelated[val.key] = val.value;
+						userInterrelated[val.interrelatedCustCode] = val.interrelatedNm;
 					})
 					this.userInterrelatedList.map((val, idx) => {
-						if (userInterrelated[val.key]) {
+						if (userInterrelated[val.interrelatedCustCode]) {
 							val.check = true;
 						}
 					})

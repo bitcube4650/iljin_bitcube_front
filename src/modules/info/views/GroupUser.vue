@@ -89,11 +89,11 @@
 					<td class="text-left"><a href="#" @click.prevent="fnUserDetail(val.userId);" class="textUnderline notiTitle">{{ val.userId }}</a></td>
 					<td>{{ val.userPosition }}</td>
 					<td>{{ val.deptName }}</td>
-					<td>{{ val.userTel }}</td>
-					<td>{{ val.userHp }}</td>
+					<td>{{ val.userTel | hpNumberAddDash }}</td>
+					<td>{{ val.userHp | hpNumberAddDash }}</td>
 					<td>{{ val.userAuth == '1' ? '시스템관리자' : (val.userAuth == '2' ? '각사관리자' : (val.userAuth == '3' ? '일반사용자' : '감사사용자')) }}</td>
 					<td :class="val.useYn == 'Y' ? '' : 'textHighlight'">{{ val.useYn == 'Y' ? '사용' : '미사용' }}</td>
-					<td class="end">{{ val.interrelatedCustNm }}</td>
+					<td class="end">{{ val.interrelatedNm }}</td>
 				</tr>
 				<tr v-show="listPage.content.length == 0 ">
 					<td colspan="9">조회된 데이터가 없습니다.</td>
@@ -138,7 +138,7 @@
 	</div>
 	<!-- 사용자수정 비밀번호 확인 -->
 
-	<!-- 품목 등록/수정 팝업 -->
+	<!-- 사용자 등록/수정 팝업 -->
 	<user-info-pop ref="userInfoPop" :interrelatedList="interrelatedList" @searchFunc="search"/>
 </div>
 <!-- //본문 -->
@@ -172,6 +172,58 @@ export default {
 		this.init();
 		this.retrieve();
 	},
+	filters: {
+        hpNumberAddDash(val) {
+			if (!val) return '';
+			val = val.toString();
+			val = val.replace(/[^0-9]/g, '')
+			
+			let tmp = ''
+			if( val.length < 4){
+				return val;
+			} else if(val.length <= 7) {
+				tmp += val.substr(0, 3);
+				tmp += '-';
+				tmp += val.substr(3);
+				return tmp;
+			} else if(val.length == 8) {
+				tmp += val.substr(0, 4);
+				tmp += '-';
+				tmp += val.substr(4);
+				return tmp;
+			} else if(val.length < 10) {
+				tmp += val.substr(0, 2);
+				tmp += '-';
+				tmp += val.substr(2, 3);
+				tmp += '-';
+				tmp += val.substr(5);
+				return tmp;
+			} else if(val.length < 11) {
+				if(val.substr(0, 2) =='02') { //02-1234-5678
+				tmp += val.substr(0, 2);
+				tmp += '-';
+				tmp += val.substr(2, 4);
+				tmp += '-';
+				tmp += val.substr(6);
+				return tmp;
+				} else { //010-123-4567
+				tmp += val.substr(0, 3);
+				tmp += '-';
+				tmp += val.substr(3, 3);
+				tmp += '-';
+				tmp += val.substr(6);
+				return tmp;
+				}
+			} else { //010-1234-5678
+				tmp += val.substr(0, 3);
+				tmp += '-';
+				tmp += val.substr(3, 4);
+				tmp += '-';
+				tmp += val.substr(7);
+				return tmp;
+			}
+        }
+    },
 	methods: {
 		search(page) {
 			if (page >= 0) this.searchParams.page = page;
@@ -181,7 +233,7 @@ export default {
 			try {
 				this.$store.commit('loading');
 				const response = await this.$http.post('/api/v1/couser/interrelatedList');
-				this.interrelatedList = response.data;
+				this.interrelatedList = response.data.data;
 				this.$store.commit('finish');
 			} catch(err) {
 				console.log(err)
@@ -189,16 +241,18 @@ export default {
 			}
 		},
 		async retrieve() {
-			try {
-				this.$store.commit('loading');
-        		this.$store.commit('searchParams', this.searchParams);
-				const response = await this.$http.post('/api/v1/couser/userList', this.searchParams);
-				this.listPage = response.data;
-				this.$store.commit('finish');
-			} catch(err) {
-				console.log(err)
-				this.$store.commit('finish');
-			}
+            await this.$http.post('/api/v1/couser/userList', this.searchParams).then((response) => {
+                if(response.data.code == 'OK'){
+                    this.listPage = response.data.data;
+                }else{
+                    this.$swal({
+						type: "warning",
+						text: response.data.msg,
+					});
+                }
+            }).finally(() => {
+                this.$store.commit("finish");
+            });
 		},
 		callbackItem(data) {
 			this.searchParams.custTypeCode1 = data.itemCode;
