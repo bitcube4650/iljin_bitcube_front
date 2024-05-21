@@ -40,10 +40,10 @@
 						<div class="width100" v-if="detail.isCreate" >
 							<select v-model="detail.interrelatedCustCode" class="selectStyle">
 								<option value="">선택</option>
-								<option :value="val.key" v-for="(val, idx) in interrelatedList">{{ val.value }}</option>
+								<option :value="val.interrelatedCustCode" v-for="(val, idx) in interrelatedList">{{ val.interrelatedNm }}</option>
 							</select>
 						</div>
-						<div v-else class="width100">{{ detail.interrelatedCustNm }}</div>
+						<div v-else class="width100">{{ detail.interrelatedNm }}</div>
 					</div>
 					<div class="flex align-items-center mt10">
 						<div class="formTit flex-shrink0 width120px">사용권한 <span class="star">*</span></div>
@@ -381,7 +381,7 @@ export default {
 			this.detail.userInterrelatedList = this.userInterrelatedList;
 			this.$store.commit("loading");
 			this.$http
-			.post('/api/v1/couser/save', this.detail)
+			.post('/api/v1/couser/userSave', this.detail)
 			.then((response) => {
 				if (response.data.code == 'OK') {
 					$("#commonAlertMsg").html('저장되었습니다.');
