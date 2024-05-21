@@ -108,7 +108,8 @@ export default {
     methods: {
         //개찰처리
         async fnOpenBid(){
-
+            /* tradeSign 라이센스 문제로 암호화 복호화 부분 주석처리 하여 비밀번호 입력 불필요
+            =====================================================================
             if(cmmn.isEmpty(this.certPwd)){
                 this.$swal({
                     type: "warning",
@@ -117,6 +118,8 @@ export default {
 
                 return false;
             }
+            =====================================================================
+            */
             $("#certPwd").modal("hide");
 
             let params = {
@@ -178,7 +181,16 @@ export default {
                 cancelButtonText: '취소',
             }).then((result) => {
                 if(result.value){
-                    this.fnOpenCert();
+                    
+                    /*tradeSign 라이센스 문제로 암호화 복호화 부분 주석처리 하여 비밀번호 입력 불필요
+                    ===============================================================================
+                    //this.fnOpenCert();
+                    ===============================================================================
+                    */
+
+                    //비밀번호 입력하지 않고 바로 개찰 처리
+                    this.fnOpenBid();
+
                 }
             });
 

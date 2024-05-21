@@ -510,6 +510,8 @@ export default {
                 totalPrice = this.amt.replace(/[^-0-9]/g, '');
             }
 
+            /* TradeSign 라이센스 문제로 데이터 서명 부분 주석
+            =====================================주석처리 시작======================================
             nxTSPKI.signData(totalPrice, //암호화 하는 데이터
               {ssn:true}, //인증서 정보 포함 여부
               async function(res){//인증후 콜백
@@ -550,6 +552,24 @@ export default {
                     });
               }}
             )
+            =====================================주석처리 끝======================================
+            */
+
+            //==============================위에 주석처리 된 부분 대체되는 소스=========================
+            let params = {
+                biNo : vm.biNo
+            ,   submitData : vm.submitData
+            ,   amt : totalPrice
+            ,   certInfo : ''
+            ,   esmtCurr : vm.esmtCurr 
+            ,   insModeCode : vm.data.insMode
+            }
+
+            formData.append('data', JSON.stringify(params));
+            formData.append('detailFile', vm.detailFile);
+            formData.append('etcFile', vm.etcFile);
+            vm.bidSubmitting(formData);
+            //==============================위에 주석처리 된 부분 대체되는 소스/=========================
         },
         fnAlert(){
             this.$swal({
