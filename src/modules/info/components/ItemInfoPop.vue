@@ -52,8 +52,9 @@ export default {
   props: [ 'searchFunc', 'itemGrpList' ],
   data() {
     return {
+		searchParams: {},
 		isCreate: true,
-		detail: { itemGrp:{ itemGrpCd: '' }, useYn: 'Y' }
+		detail: { itemCode:'',  itemGrp:{ itemGrpCd: '' }, itemName:'', useYn: 'Y' }
     }
   },
   watch : {
@@ -73,17 +74,42 @@ export default {
 			this.detail = { itemGrp:{ itemGrpCd: '' }, useYn: 'Y' }
 		}
     },
-    retrieve(id) {
-      try {
-        this.$store.commit('loading');
-		this.$http.post('/api/v1/item/'+id, this.searchParams) .then((response) => {
-			this.detail = response.data;
-		});
-        this.$store.commit('finish');
-      } catch(err) {
-        console.log(err)
-        this.$store.commit('finish');
-      }
+    async retrieve(id) {
+
+		this.detail = { itemCode:'',  itemGrp:{ itemGrpCd: '' }, itemName:'', useYn: 'Y' };
+		this.searchParams = { itemCodeDetail : id, nonPopYn :'Y' };
+		
+		try {
+			this.$store.commit('loading');
+			this.$store.commit('searchParams', this.searchParams);
+			const response = await this.$http.post('/api/v1/item/itemList', this.searchParams);
+			var result = Object.assign({}, response.data.content[0]);
+
+			this.detail.itemCode = result.itemCode;
+			this.detail.itemGrp.itemGrpCd = result.itemGrpCd;
+			this.detail.itemName = result.itemName;
+			this.detail.useYn = result.useYn;
+
+			this.$store.commit('finish');
+		} catch(err) {
+			console.log(err)
+			this.$store.commit('finish');
+		}
+
+
+	/*	기존 소스
+		try {
+			this.$store.commit('loading');
+			this.$http.post('/api/v1/item/'+id, this.searchParams) .then((response) => {
+				console.log('result', response);
+				this.detail = response.data;
+			});
+			this.$store.commit('finish');
+		} catch(err) {
+			console.log(err)
+			this.$store.commit('finish');
+		}
+	*/
     },
 	save() {  
 		if (this.detail.itemCode == null || this.detail.itemCode == '') {
