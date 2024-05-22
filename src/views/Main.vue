@@ -156,7 +156,7 @@ export default {
             this.$store.commit('loading');
             this.$store.commit('searchParams', this.searchParams);
             const response = await this.$http.post('/api/v1/main/selectBidCnt', this.searchParams);
-            this.bidInfo = response.data;
+            this.bidInfo = response.data.data;
             this.$store.commit('finish');
         } catch(err) {
             console.log(err)
@@ -170,7 +170,7 @@ export default {
             this.$store.commit('loading');
             this.$store.commit('searchParams', this.searchParams);
             const response = await this.$http.post('/api/v1/main/selectPartnerCnt', this.searchParams);
-            this.partnerInfo = response.data;
+            this.partnerInfo = response.data.data;
             this.$store.commit('finish');
         } catch(err) {
             console.log(err)

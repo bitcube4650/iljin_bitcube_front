@@ -103,9 +103,9 @@
     <!-- //conLeft -->
   
     <!--*참고* :   작업 편의성을 위해 권한! 주석처리-->
-  </template>
+</template>
   
-  <script>
+<script>
 import CheckPwd from "@/components/CheckPwd.vue";
 import cmmn from "../../public/js/common.js";
 
@@ -199,7 +199,7 @@ import cmmn from "../../public/js/common.js";
                 this.$store.commit('loading');
                 this.$store.commit('searchParams', this.searchParams);
                 const response = await this.$http.post('/api/v1/main/selectBidCnt', this.searchParams);
-                this.bidInfo = response.data;
+                this.bidInfo = response.data.data;
                 this.$store.commit('finish');
             } catch(err) {
                 console.log(err)
