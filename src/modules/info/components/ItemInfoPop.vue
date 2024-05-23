@@ -14,7 +14,7 @@
 					<div class="flex align-items-center mt20">
 						<div class="formTit flex-shrink0 width120px">품목그룹</div>
 						<div class="width100">
-							<select v-model="detail.itemGrp.itemGrpCd" class="selectStyle">
+							<select v-model="detail.itemGrpCd" class="selectStyle">
 								<option value="">선택</option>
 								<option :value="val.itemGrpCd" v-for="(val, idx) in itemGrpList">{{ val.grpNm }}</option>
 							</select>
@@ -71,12 +71,12 @@ export default {
 			this.retrieve(id);
 		} else {
 			this.isCreate = true;
-			this.detail = { itemGrp:{ itemGrpCd: '' }, useYn: 'Y' }
+			this.detail = { itemCode:'',  itemGrpCd: '', itemName:'', useYn: 'Y' }
 		}
     },
     async retrieve(id) {
 
-		this.detail = { itemCode:'',  itemGrp:{ itemGrpCd: '' }, itemName:'', useYn: 'Y' };
+		this.detail = { itemCode:'',  itemGrpCd: '', itemName:'', useYn: 'Y' };
 		this.searchParams = { itemCodeDetail : id, nonPopYn :'Y' };
 		
 		try {
@@ -86,7 +86,7 @@ export default {
 			var result = Object.assign({}, response.data.content[0]);
 
 			this.detail.itemCode = result.itemCode;
-			this.detail.itemGrp.itemGrpCd = result.itemGrpCd;
+			this.detail.itemGrpCd = result.itemGrpCd;
 			this.detail.itemName = result.itemName;
 			this.detail.useYn = result.useYn;
 
@@ -116,7 +116,7 @@ export default {
 			this.$swal({type: "warning",text: "품목코드를 입력해주세요."});
 			return;
 		}
-		if (this.detail.itemGrp.itemGrpCd == '') {
+		if (this.detail.itemGrpCd == '') {
 			this.$swal({type: "warning",text: "품목그룹을 선택해주세요."});
 			return;
 		}
